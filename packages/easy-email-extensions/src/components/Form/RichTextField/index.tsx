@@ -4,10 +4,10 @@ import {
   DATA_CONTENT_EDITABLE_IDX,
   DATA_CONTENT_EDITABLE_TYPE,
   FIXED_CONTAINER_ID,
+  getIframeDocument,
   MergeTagBadge,
   RICH_TEXT_BAR_ID,
   useEditorProps,
-  getIframeDocument
 } from 'easy-email-editor';
 import React, { useCallback, useEffect, useState } from 'react';
 import { InlineText, InlineTextProps } from '../InlineTextField';

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import {
   ContentEditableType,
-  getIframeDocument,
   DATA_CONTENT_EDITABLE_TYPE,
+  getIframeDocument,
 } from 'easy-email-editor';
 import { useField, useForm } from 'react-final-form';
 

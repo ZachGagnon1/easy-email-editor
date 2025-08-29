@@ -105,7 +105,7 @@ export function useDropBlock() {
           const directionPosition = getDirectionPosition(ev);
           const idx = getNodeIdxFromClassName(blockNode.classList)!;
           const positionData = getInsertPosition({
-            context: cacheValues.current as IEmailTemplate,
+            context: cacheValues.current ,
             idx,
             directionPosition,
             dragType: cacheDataTransfer.current.type,

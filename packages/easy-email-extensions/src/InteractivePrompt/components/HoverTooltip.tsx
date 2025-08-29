@@ -3,11 +3,11 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { BlockManager, getNodeTypeFromClassName } from 'easy-email-core';
 import { createPortal } from 'react-dom';
 import {
+  getIframeDocument,
   useEditorContext,
   useFocusIdx,
   useHoverIdx,
   useLazyState,
-  getIframeDocument
 } from 'easy-email-editor';
 import { awaitForElement } from '@extensions/utils/awaitForElement';
 
