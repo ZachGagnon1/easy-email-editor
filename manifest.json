@@ -1,19 +1,19 @@
 {
   "index.html": {
-    "file": "assets/index.dcd52389.js",
+    "file": "assets/index.bd2dc6a5.js",
     "src": "index.html",
     "isEntry": true,
     "imports": [
-      "_lodash.f9911214.js",
-      "_mjml-browser.8ad70baa.js",
+      "_lodash.27e82c2e.js",
+      "_mjml-browser.736505c1.js",
       "index.html"
     ],
     "dynamicImports": [
-      "_mjml-browser.8ad70baa.js",
+      "_mjml-browser.736505c1.js",
       "node_modules/.pnpm/html2canvas@1.4.1/node_modules/html2canvas/dist/html2canvas.esm.js"
     ],
     "css": [
-      "assets/index.d0fbd9dc.css"
+      "assets/index.667e53c8.css"
     ],
     "assets": [
       "assets/iphone.339c33c4.png",
@@ -27,14 +27,14 @@
     "src": "node_modules/.pnpm/html2canvas@1.4.1/node_modules/html2canvas/dist/html2canvas.esm.js",
     "isDynamicEntry": true
   },
-  "_lodash.f9911214.js": {
-    "file": "assets/lodash.f9911214.js",
+  "_lodash.27e82c2e.js": {
+    "file": "assets/lodash.27e82c2e.js",
     "imports": [
       "index.html"
     ]
   },
-  "_mjml-browser.8ad70baa.js": {
-    "file": "assets/mjml-browser.8ad70baa.js",
+  "_mjml-browser.736505c1.js": {
+    "file": "assets/mjml-browser.736505c1.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html"
