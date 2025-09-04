@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Router, Switch, Route } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Page from '@demo/components/Page';
 import store from '@demo/store';
@@ -25,9 +25,9 @@ function App() {
               }}
             >
               <img
-                width='200px'
-                src='/loading'
-                alt=''
+                width="200px"
+                src="/loading"
+                alt=""
               />
               <p
                 style={{
@@ -40,19 +40,19 @@ function App() {
             </div>
           }
         >
-          <Router history={history}>
+          <HashRouter history={history}>
             <Switch>
               <Route
-                path='/'
+                path="/"
                 exact
                 component={Home}
               />
               <Route
-                path='/editor'
+                path="/editor"
                 component={Editor}
               />
             </Switch>
-          </Router>
+          </HashRouter>
         </Suspense>
       </Page>
     </Provider>

@@ -14,11 +14,13 @@
   "files": [
     "lib"
   ],
+  "homepage": "https://zachgagnon1.github.io/easy-email-editor/",
   "main": "./lib/index.js",
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
-    "build": "vite build --config vite.production.config.ts",
+    "build": "vite build --config vite.config.ts",
+    "deploy": "gh-pages -d dist",
     "template": "ts-node scripts/makeTemplates.js"
   },
   "husky": {

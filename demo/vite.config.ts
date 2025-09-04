@@ -83,4 +83,6 @@ export default defineConfig({
       },
     }),
   ].filter(Boolean),
+  base: '/easy-email-editor/',
+
 });
