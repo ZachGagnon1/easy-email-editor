@@ -1,15 +1,15 @@
 {
   "index.html": {
-    "file": "assets/index.d175a4db.js",
+    "file": "assets/index.5f98e98b.js",
     "src": "index.html",
     "isEntry": true,
     "imports": [
-      "_lodash.cfaff981.js",
-      "_mjml-browser.eb32b976.js",
+      "_lodash.aee3fe9a.js",
+      "_mjml-browser.01833fb7.js",
       "index.html"
     ],
     "dynamicImports": [
-      "_mjml-browser.eb32b976.js",
+      "_mjml-browser.01833fb7.js",
       "node_modules/.pnpm/html2canvas@1.4.1/node_modules/html2canvas/dist/html2canvas.esm.js"
     ],
     "css": [
@@ -27,14 +27,14 @@
     "src": "node_modules/.pnpm/html2canvas@1.4.1/node_modules/html2canvas/dist/html2canvas.esm.js",
     "isDynamicEntry": true
   },
-  "_lodash.cfaff981.js": {
-    "file": "assets/lodash.cfaff981.js",
+  "_lodash.aee3fe9a.js": {
+    "file": "assets/lodash.aee3fe9a.js",
     "imports": [
       "index.html"
     ]
   },
-  "_mjml-browser.eb32b976.js": {
-    "file": "assets/mjml-browser.eb32b976.js",
+  "_mjml-browser.01833fb7.js": {
+    "file": "assets/mjml-browser.01833fb7.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html"
