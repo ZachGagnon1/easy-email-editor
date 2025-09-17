@@ -1,4 +1,4 @@
-import React, { Children, isValidElement } from 'react';
+import React, { Children, isValidElement, ReactElement } from 'react';
 
 // Wraps `element` in `Component`, if it is not already an instance of
 // `Component`. If `props` is passed, those will be added as props on the
@@ -26,9 +26,9 @@ const isComponent =
   process.env.NODE_ENV === 'development'
     ? hotReloadComponentCheck
     : (
-        AComponent: React.ComponentType<any>,
-        AnotherComponent: React.ComponentType<any>,
-      ) => AComponent === AnotherComponent;
+      AComponent: React.ComponentType<any>,
+      AnotherComponent: React.ComponentType<any>,
+    ) => AComponent === AnotherComponent;
 
 // Checks whether `element` is a React element of type `Component` (or one of
 // the passed components, if `Component` is an array of React components).
@@ -70,10 +70,10 @@ interface ConditionalWrapperProps {
 }
 
 export function ConditionalWrapper({
-  condition,
-  wrapper,
-  children,
-}: ConditionalWrapperProps): JSX.Element {
+                                     condition,
+                                     wrapper,
+                                     children,
+                                   }: ConditionalWrapperProps): ReactElement {
   return condition ? wrapper(children) : children;
 }
 
@@ -83,9 +83,9 @@ interface ConditionalRenderProps {
 }
 
 export function ConditionalRender({
-  condition,
-  children,
-}: ConditionalRenderProps): JSX.Element {
+                                    condition,
+                                    children,
+                                  }: ConditionalRenderProps): ReactElement {
   return condition ? children : null;
 }
 

@@ -1,7 +1,6 @@
 import { Input } from '@arco-design/web-react';
-import React, { useEffect } from 'react';
-import { render } from 'react-dom';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createRoot } from 'react-dom/client';
 
 interface CellBackgroundSelectorProps {
   bgColorHandler: (color: string) => void;
@@ -9,9 +8,9 @@ interface CellBackgroundSelectorProps {
 }
 
 const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
-  bgColorHandler,
-  rootDom,
-}) => {
+                                                                         bgColorHandler,
+                                                                         rootDom,
+                                                                       }) => {
   const [color, setColor] = useState('#ffffff');
 
   useEffect(() => {
@@ -30,21 +29,21 @@ const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
   return (
     <div
       onClick={e => e.stopPropagation()}
-      className='easy-email-table-operation-menu-bg-item'
+      className="easy-email-table-operation-menu-bg-item"
     >
       <div>Set Background Color</div>
       <div>
-        <div className='easy-email-table-operation-menu-bg-item-color'>
-          <div style={{ backgroundColor: color }}></div>
+        <div className="easy-email-table-operation-menu-bg-item-color">
+          <div style={{ backgroundColor: color }} />
           <input
-            type='color'
+            type="color"
             value={color}
             onChange={e => setColor(e.target.value)}
           />
         </div>
         <Input.Search
           height={28}
-          searchButton='Set'
+          searchButton="Set"
           onSearch={() => bgColorHandler(color)}
           value={color}
           onKeyDown={e => e.stopPropagation()}
@@ -60,13 +59,13 @@ const getCellBackgroundSelectorRoot = (
   rootDom: any,
 ) => {
   const node = document.createElement('div');
+  const root = createRoot(node);
 
-  render(
+  root.render(
     <CellBackgroundSelector
       bgColorHandler={bgColorHandler}
       rootDom={rootDom}
     />,
-    node,
   );
   return node;
 };

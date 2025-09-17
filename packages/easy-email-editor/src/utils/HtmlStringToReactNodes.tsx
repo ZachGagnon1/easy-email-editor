@@ -5,7 +5,7 @@ import {
   MERGE_TAG_CLASS_NAME,
 } from 'easy-email-core';
 import { camelCase } from 'lodash';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { isTextBlock } from './isTextBlock';
 import { MergeTagBadge } from './MergeTagBadge';
 import {
@@ -60,11 +60,11 @@ export function HtmlStringToReactNodes(
   return reactNode;
 }
 
-const RenderReactNode = React.memo(function ({
-  node,
-  index,
-  selector,
-}: {
+const RenderReactNode = React.memo(function({
+                                              node,
+                                              index,
+                                              selector,
+                                            }: {
   node: HTMLElement;
   index: number;
   selector: string;
@@ -123,13 +123,13 @@ const RenderReactNode = React.memo(function ({
         node.childNodes.length === 0
           ? null
           : [...node.childNodes].map((n, i) => (
-              <RenderReactNode
-                selector={getChildSelector(selector, i)}
-                key={i}
-                node={n as any}
-                index={i}
-              />
-            )),
+            <RenderReactNode
+              selector={getChildSelector(selector, i)}
+              key={i}
+              node={n as any}
+              index={i}
+            />
+          )),
     });
 
     return <>{reactNode}</>;
@@ -152,7 +152,7 @@ function createElement(
   type: string,
   props?: React.ClassAttributes<Element> & {
     style?: {} | undefined;
-    children?: JSX.Element[] | null;
+    children?: ReactElement[] | null;
     key: string | number;
     tabIndex?: string;
     class?: string;
