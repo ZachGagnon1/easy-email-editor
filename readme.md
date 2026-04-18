@@ -7,7 +7,7 @@ TODO Fill this out when done with all the changes and react 19 update
 ## Development
 
 ```sh
-$ git clone git@github.com:zalify/easy-email.git
+$ git clone git@github.com:ZachGagnon1/Lattice.git
 $ cd easy-email
 
 
