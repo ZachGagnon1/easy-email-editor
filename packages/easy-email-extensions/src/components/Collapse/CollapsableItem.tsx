@@ -1,11 +1,4 @@
-import {
-  Box,
-  Collapse,
-  IconButton,
-  Stack,
-  SxProps,
-  Typography,
-} from "@mui/material";
+import { Box, Collapse, IconButton, Stack, SxProps, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { PropsWithChildren, useState } from "react";
@@ -13,18 +6,19 @@ import { PropsWithChildren, useState } from "react";
 interface CollapsableItemProps {
   title: string;
   headerStyle?: SxProps;
+  defaultExpanded?: boolean;
 }
 
 export function CollapsableItem(
   props: PropsWithChildren<CollapsableItemProps>
 ) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(props.defaultExpanded ?? true);
 
   return (
     <>
       <Box
         sx={
-          props.headerStyle || {
+          props.headerStyle ?? {
             borderBottom: "1px solid #ccc",
             mb: 2,
           }
