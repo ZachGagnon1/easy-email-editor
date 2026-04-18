@@ -1,85 +1,83 @@
-import { Collapse, Grid, Space, Typography } from '@arco-design/web-react';
+import { Box, Grid, Typography } from '@mui/material';
 import { AdvancedType, BlockManager, IBlockData } from 'easy-email-core';
 import { BlockAvatarWrapper, IconFont } from 'easy-email-editor';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { IconCaretRight, IconCaretUp } from '@arco-design/web-react/icon';
 import { getIconNameByBlockType } from '@extensions/utils/getIconNameByBlockType';
 import styles from './index.module.scss';
 import { useExtensionProps } from '@extensions/components/Providers/ExtensionProvider';
+import { CollapsableItem } from '@extensions/components/Collapse/CollapsableItem';
 
 export function Blocks() {
   const { categories } = useExtensionProps();
 
-  const defaultActiveKey = useMemo(
-    () => [
-      ...categories.filter((item) => item.active).map((item) => item.label),
-    ],
-    [categories]
-  );
   return (
-    <Collapse
-      defaultActiveKey={defaultActiveKey}
-      style={{ paddingBottom: 30, minHeight: '100%' }}
-    >
+    <Box sx={{ paddingBottom: 30, minHeight: '100%' }}>
       {categories.map((cat, index) => {
         if (cat.displayType === 'column') {
           return (
-            <Collapse.Item
+            <CollapsableItem
               key={index}
-              contentStyle={{ padding: '0px 20px' }}
-              name={cat.label}
-              header={cat.label}
+              title={cat.label}
             >
-              <Space direction='vertical'>
-                <div />
-              </Space>
-              {cat.blocks.map((item) => (
-                <LayoutItem
-                  key={item.title}
-                  title={item.title || ''}
-                  columns={item.payload}
-                />
-              ))}
-
-              <Space direction='vertical'>
-                <div />
-              </Space>
-            </Collapse.Item>
+              <>
+                {cat.blocks.map(item => (
+                  <LayoutItem
+                    key={item.title}
+                    title={item.title || ''}
+                    columns={item.payload}
+                  />
+                ))}
+                <Box sx={{ mb: 2 }} />
+              </>
+            </CollapsableItem>
           );
         }
 
         if (cat.displayType === 'custom') {
           return (
-            <Collapse.Item
+            <CollapsableItem
               key={index}
-              contentStyle={{ padding: 0, paddingBottom: 0, paddingTop: 20 }}
-              name={cat.label}
-              header={cat.label}
+              title={cat.label}
             >
-              <Grid.Row>
+              <Grid
+                container
+                spacing={2}
+              >
                 {cat.blocks.map((item, index) => {
                   return <React.Fragment key={index}>{item}</React.Fragment>;
                 })}
-              </Grid.Row>
-            </Collapse.Item>
+              </Grid>
+            </CollapsableItem>
           );
         }
         return (
-          <Collapse.Item
+          <CollapsableItem
             key={index}
-            contentStyle={{ padding: 0, paddingBottom: 0, paddingTop: 20 }}
-            name={cat.label}
-            header={cat.label}
+            title={cat.label}
           >
-            <Grid.Row>
+            <Grid
+              container
+              sx={{ ml: 1 }}
+            >
               {cat.blocks.map((item, index) => {
-                return <BlockItem key={index} {...(item as any)} />;
+                return (
+                  <Grid
+                    key={item}
+                    size={4}
+                  >
+                    <BlockItem
+                      key={index}
+                      {...item}
+                    />
+                  </Grid>
+                );
               })}
-            </Grid.Row>
-          </Collapse.Item>
+            </Grid>
+          </CollapsableItem>
         );
       })}
-    </Collapse>
+    </Box>
   );
 }
 
@@ -98,108 +96,133 @@ function BlockItem({
 
   return (
     <div className={styles.blockItem}>
-      <BlockAvatarWrapper type={type} payload={payload}>
-        <div className={styles.blockItemContainer}>
+      <BlockAvatarWrapper
+        type={type}
+        payload={payload}
+      >
+        <Box
+          className={styles.blockItemContainer}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           <IconFont
             style={{ fontSize: 20 }}
             iconName={getIconNameByBlockType(type)}
           />
-          <Typography.Text style={{ marginTop: 10 }}>
+          <Typography
+            variant='body2'
+            sx={{ marginTop: 1 }}
+          >
             {title || block?.name}
-          </Typography.Text>
-        </div>
+          </Typography>
+        </Box>
       </BlockAvatarWrapper>
     </div>
   );
 }
 
-function LayoutItem({
-  columns,
-  title,
-}: {
-  columns: string[][];
-  title: string;
-}) {
+function LayoutItem({ columns, title }: { columns: string[][]; title: string }) {
   const [visible, setVisible] = useState(false);
 
   return (
-    <div>
-      <p
-        onClick={() => setVisible((v) => !v)}
-        style={{
+    <Box>
+      <Box
+        onClick={() => setVisible(v => !v)}
+        sx={{
           display: 'flex',
           justifyContent: 'space-between',
           cursor: 'pointer',
+          '&:hover': {
+            backgroundColor: 'action.hover',
+          },
+          px: 1,
+          py: 1,
+          borderRadius: 1,
         }}
       >
-        <span>{title}</span>
+        <Typography variant='body2'>{title}</Typography>
         {columns.length > 1 && (
-          <span>{!visible ? <IconCaretRight /> : <IconCaretUp />}</span>
+          <Typography>{!visible ? <IconCaretRight /> : <IconCaretUp />}</Typography>
         )}
-      </p>
-      {columns.map((item, index) => {
-        const hide = !visible && index !== 0;
-        const payload = {
-          type: AdvancedType.SECTION,
-          attributes: {},
-          children: item.map((col) => ({
-            type: AdvancedType.COLUMN,
-            attributes: {
-              width: col,
-            },
-            data: {
-              value: {},
-            },
-            children: [],
-          })),
-        };
+      </Box>
+      <Box
+        sx={{
+          height: visible ? 'auto' : 0,
+          overflow: 'hidden',
+          opacity: visible ? 1 : 0,
+          transition: 'opacity 0.2s ease-in-out',
+        }}
+      >
+        {columns.map((item, index) => {
+          const hide = !visible && index !== 0;
+          const payload = {
+            type: AdvancedType.SECTION,
+            attributes: {},
+            children: item.map(col => ({
+              type: AdvancedType.COLUMN,
+              attributes: {
+                width: col,
+              },
+              data: {
+                value: {},
+              },
+              children: [],
+            })),
+          };
 
-        return (
-          <div
-            key={index}
-            style={{
-              height: hide ? 0 : undefined,
-              overflow: 'hidden',
-              marginBottom: hide ? 0 : 20,
-            }}
-          >
-            <BlockAvatarWrapper type={AdvancedType.SECTION} payload={payload}>
-              <div
-                style={{
-                  border: '1px solid rgb(229, 229, 229)',
-                  width: '100%',
-                  padding: 10,
-                }}
+          return (
+            <Box
+              key={index}
+              sx={{
+                marginBottom: hide ? 0 : 2,
+                opacity: hide ? 0 : 1,
+                transition: 'opacity 0.2s ease-in-out',
+              }}
+            >
+              <BlockAvatarWrapper
+                type={AdvancedType.SECTION}
+                payload={payload}
               >
-                <div
-                  style={{
-                    height: 16,
-                    border: '1px solid rgb(85, 85, 85)',
-                    borderRadius: 3,
-                    display: 'flex',
+                <Box
+                  sx={{
+                    border: '1px solid #e0e0e0',
+                    width: '100%',
+                    padding: 1,
+                    borderRadius: 1,
                   }}
                 >
-                  {item.map((column, index) => {
-                    return (
-                      <div
-                        key={index}
-                        style={{
-                          borderRight:
-                            index === item.length - 1
-                              ? undefined
-                              : '1px solid rgb(85, 85, 85)',
-                          height: '100%',
-                          width: column,
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-            </BlockAvatarWrapper>
-          </div>
-        );
-      })}
-    </div>
+                  <Box
+                    sx={{
+                      height: 16,
+                      border: '1px solid #555',
+                      borderRadius: 3,
+                      display: 'flex',
+                    }}
+                  >
+                    {item.map((column, index) => {
+                      return (
+                        <Box
+                          key={index}
+                          sx={{
+                            borderRight:
+                              index === item.length - 1 ? undefined : '1px solid #555',
+                            height: '100%',
+                            width: column,
+                          }}
+                        />
+                      );
+                    })}
+                  </Box>
+                </Box>
+              </BlockAvatarWrapper>
+            </Box>
+          );
+        })}
+      </Box>
+    </Box>
   );
 }

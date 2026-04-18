@@ -1,69 +1,56 @@
-import { Layout, Tabs } from '@arco-design/web-react';
+import { Box, Tab, Tabs } from '@mui/material';
 import { useEditorProps } from 'easy-email-editor';
 import React from 'react';
 import { Blocks } from './Blocks';
 import { BlockLayer } from '@extensions/BlockLayer';
 import { FullHeightOverlayScrollbars } from '@extensions/components/FullHeightOverlayScrollbars';
-import styles from './index.module.scss';
 import { ConfigurationDrawer } from './ConfigurationDrawer';
 import { useExtensionProps } from '@extensions/components/Providers/ExtensionProvider';
 
-const TabPane = Tabs.TabPane;
-
-export function EditPanel({
-  showSourceCode,
-  jsonReadOnly,
-  mjmlReadOnly,
-}: {
+interface EditPanelProps {
   showSourceCode: boolean;
   jsonReadOnly: boolean;
   mjmlReadOnly: boolean;
-}) {
+}
+
+export function EditPanel(props: Readonly<EditPanelProps>) {
+  const { showSourceCode, jsonReadOnly, mjmlReadOnly } = props;
+
   const { height } = useEditorProps();
   const { compact = true, showBlockLayer = true } = useExtensionProps();
+  const [value, setValue] = React.useState('block');
 
   return (
-    <Layout.Sider
-      className={styles.blocksPanel}
-      style={{ paddingRight: 0, minWidth: 360 }}
-      // collapsed={collapsed}
-      collapsible
-      trigger={null}
-      breakpoint='xl'
-      collapsedWidth={60}
-      width={360}
+    <Box
+      sx={{ padding: 0, maxWidth: 360, display: 'flex', flexDirection: 'column' }}
     >
       <Tabs
-        defaultActiveTab='2'
-        style={{ width: '100%', padding: 0 }}
-        renderTabHeader={(_, DefaultHeader) => (
-          <div className={styles.largeTabsHeader}>
-            <DefaultHeader />
-          </div>
-        )}
+        value={value}
+        onChange={(_, newValue: string) => setValue(newValue)}
+        sx={{ borderBottom: 1, borderColor: 'divider', px: 2 }}
+        textColor="inherit"
+        indicatorColor="primary"
       >
-        <TabPane
-          key='2'
-          title={t('Block')}
-        >
+        <Tab label={t('Block')} value="block" />
+        {showBlockLayer && (
+          <Tab label={t('Layer')} value="layer" />
+        )}
+      </Tabs>
+
+      <Box sx={{ flex: 1, overflow: 'hidden', minHeight: 0 }}>
+        {value === 'block' && (
           <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
             <Blocks />
           </FullHeightOverlayScrollbars>
-        </TabPane>
-
-        {showBlockLayer && (
-          <TabPane
-            key='1'
-            title={t('Layer')}
-          >
-            <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
-              <div style={{ padding: 20 }}>
-                <BlockLayer />
-              </div>
-            </FullHeightOverlayScrollbars>
-          </TabPane>
         )}
-      </Tabs>
+        {showBlockLayer && value === 'layer' && (
+          <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
+            <div style={{ padding: 20 }}>
+              <BlockLayer />
+            </div>
+          </FullHeightOverlayScrollbars>
+        )}
+      </Box>
       {!compact && (
         <ConfigurationDrawer
           height={height}
@@ -73,6 +60,6 @@ export function EditPanel({
           mjmlReadOnly={mjmlReadOnly}
         />
       )}
-    </Layout.Sider>
+    </Box>
   );
 }

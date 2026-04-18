@@ -12,7 +12,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  extends: ['plugin:@typescript-eslint/recommended-requiring-type-checking'],
+  extends: ['plugin:@typescript-eslint/recommended-requiring-type-checking', 'plugin:storybook/recommended'],
   plugins: ['react', 'react-hooks', '@typescript-eslint'],
   rules: {
     '@typescript-eslint/no-unsafe-assignment': 0,

@@ -13,3 +13,7 @@ stats.html
 
 # webstorm
 .idea
+.continue
+
+*storybook.log
+storybook-static
