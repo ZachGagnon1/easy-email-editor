@@ -1,11 +1,11 @@
-import { Column, Section } from '@core/components';
-import { BasicType, AdvancedType } from '@core/constants';
-import { BlockManager, getParentByIdx } from '@core/utils';
-import { classnames } from '@core/utils/classnames';
-import React from 'react';
-import { generateAdvancedBlock } from './generateAdvancedBlock';
-import { getPreviewClassName } from '@core/utils/getPreviewClassName';
-import { IBlockData } from '@core';
+import { Column, Section } from "@core/components";
+import { BasicType, AdvancedType } from "@core/constants";
+import { BlockManager, getParentByIdx } from "@core/utils";
+import { classnames } from "@core/utils/classnames";
+import React from "react";
+import { generateAdvancedBlock } from "./generateAdvancedBlock";
+import { getPreviewClassName } from "@core/utils/getPreviewClassName";
+import { IBlockData } from "@core";
 
 export function generateAdvancedContentBlock<T extends IBlockData>(option: {
   type: string;
@@ -30,19 +30,19 @@ export function generateAdvancedContentBlock<T extends IBlockData>(option: {
       const { data, idx, mode, context, index } = params;
 
       const previewClassName =
-        mode === 'testing'
+        mode === "testing"
           ? classnames(
               index === 0 && idx && getPreviewClassName(idx, data.type)
             )
-          : '';
+          : "";
 
       const blockData = {
         ...data,
         type: option.baseType,
         attributes: {
           ...data.attributes,
-          'css-class': classnames(
-            data.attributes['css-class'],
+          "css-class": classnames(
+            data.attributes["css-class"],
             previewClassName
           ),
         },
@@ -66,7 +66,7 @@ export function generateAdvancedContentBlock<T extends IBlockData>(option: {
         parentBlockData.type === AdvancedType.WRAPPER
       ) {
         return (
-          <Section padding='0px' text-align='left'>
+          <Section padding="0px" text-align="left">
             <Column>{children}</Column>
           </Section>
         );

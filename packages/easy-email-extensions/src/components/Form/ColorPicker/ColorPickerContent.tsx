@@ -1,18 +1,18 @@
-import { Button, Space } from '@arco-design/web-react';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Button, Space } from "@arco-design/web-react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
-import styles from '../index.module.scss';
+import styles from "../index.module.scss";
 
-import Color from 'color';
+import Color from "color";
 
-import { PresetColorsContext } from '@extensions/AttributePanel/components/provider/PresetColorsProvider';
+import { PresetColorsContext } from "@extensions/AttributePanel/components/provider/PresetColorsProvider";
 
 export interface ColorPickerContentProps {
   onChange: (val: string) => void;
   value: string;
 }
 
-const transparentColor = 'rgba(0,0,0,0)';
+const transparentColor = "rgba(0,0,0,0)";
 
 export function ColorPickerContent(props: ColorPickerContentProps) {
   const { colors: presetColors } = useContext(PresetColorsContext);
@@ -25,7 +25,9 @@ export function ColorPickerContent(props: ColorPickerContentProps) {
   }, [props.value]);
 
   const presetColorList = useMemo(() => {
-    return [...presetColors.filter(item => item !== transparentColor).slice(-14)];
+    return [
+      ...presetColors.filter((item) => item !== transparentColor).slice(-14),
+    ];
   }, [presetColors]);
 
   let adapterColor = color;
@@ -41,28 +43,26 @@ export function ColorPickerContent(props: ColorPickerContentProps) {
       className={styles.colorPicker}
       style={{ width: 202, paddingTop: 12, paddingBottom: 12 }}
     >
-      <div style={{ padding: '0px 16px' }}>
-        <Space
-          wrap
-          size='mini'
-        >
-          {presetColorList.map(item => {
+      <div style={{ padding: "0px 16px" }}>
+        <Space wrap size="mini">
+          {presetColorList.map((item) => {
             return (
               <div
                 title={item}
                 onClick={() => onChange(item)}
                 key={item}
                 style={{
-                  border: '1px solid var(--color-neutral-3, rgb(229, 230, 235))',
-                  display: 'inline-block',
+                  border:
+                    "1px solid var(--color-neutral-3, rgb(229, 230, 235))",
+                  display: "inline-block",
                   height: 20,
                   width: 20,
-                  boxSizing: 'border-box',
+                  boxSizing: "border-box",
                   padding: 4,
                   borderRadius: 3,
                   backgroundColor: item,
-                  position: 'relative',
-                  cursor: 'pointer',
+                  position: "relative",
+                  cursor: "pointer",
                 }}
               />
             );
@@ -71,35 +71,35 @@ export function ColorPickerContent(props: ColorPickerContentProps) {
       </div>
       <div
         style={{
-          padding: '6px 6px 0px 6px',
+          padding: "6px 6px 0px 6px",
         }}
       >
         <Button
-          type='text'
-          size='small'
+          type="text"
+          size="small"
           style={{
-            color: '#333',
+            color: "#333",
             fontSize: 12,
-            width: '100%',
-            textAlign: 'left',
+            width: "100%",
+            textAlign: "left",
             paddingLeft: 10,
-            position: 'relative',
+            position: "relative",
           }}
         >
-          <span>{t('Picker...')}</span>
+          <span>{t("Picker...")}</span>
           <input
             style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
+              position: "absolute",
+              width: "100%",
+              height: "100%",
               zIndex: 1,
               left: 0,
               top: 0,
               opacity: 0,
             }}
-            type='color'
+            type="color"
             value={adapterColor}
-            onChange={e => onChange(e.target.value)}
+            onChange={(e) => onChange(e.target.value)}
           />
         </Button>
       </div>

@@ -1,29 +1,29 @@
-import { useEffect } from 'react';
-import isHotkey from 'is-hotkey';
-import { useBlock } from './useBlock';
-import { getIframeDocument } from '@/utils';
-import { useFocusIdx } from './useFocusIdx';
-import { useEditorContext } from './useEditorContext';
-import { getNodeIdxFromClassName } from 'easy-email-core';
-import { getBlockNodeByChildEle } from '@/utils/getBlockNodeByChildEle';
-import { getEditorRoot } from '@/utils/getEditorRoot';
+import { useEffect } from "react";
+import isHotkey from "is-hotkey";
+import { useBlock } from "./useBlock";
+import { getIframeDocument } from "@/utils";
+import { useFocusIdx } from "./useFocusIdx";
+import { useEditorContext } from "./useEditorContext";
+import { getNodeIdxFromClassName } from "easy-email-core";
+import { getBlockNodeByChildEle } from "@/utils/getBlockNodeByChildEle";
+import { getEditorRoot } from "@/utils/getEditorRoot";
 
 function isContentEditFocus() {
   const isIframeFocused = document.activeElement === getEditorRoot();
 
   if (isIframeFocused) {
     if (
-      getIframeDocument()?.activeElement?.getAttribute(
-        'contenteditable',
-      ) === 'true'
+      getIframeDocument()?.activeElement?.getAttribute("contenteditable") ===
+      "true"
     ) {
       return true;
     }
   } else if (
-    ['input', 'textarea'].includes(
-      getIframeDocument()?.activeElement?.tagName.toLocaleLowerCase() || '',
+    ["input", "textarea"].includes(
+      getIframeDocument()?.activeElement?.tagName.toLocaleLowerCase() || ""
     ) ||
-    getIframeDocument()?.activeElement?.getAttribute('contenteditable') === 'true'
+    getIframeDocument()?.activeElement?.getAttribute("contenteditable") ===
+      "true"
   ) {
     return true;
   }
@@ -41,19 +41,19 @@ export function useHotKeys() {
   useEffect(() => {
     const onKeyDown = (ev: KeyboardEvent) => {
       if (isContentEditFocus()) return;
-      if (isHotkey('mod+z', ev)) {
+      if (isHotkey("mod+z", ev)) {
         ev.preventDefault();
         undo();
       }
-      if (isHotkey('mod+y', ev) || isHotkey('mod+shift+z', ev)) {
+      if (isHotkey("mod+y", ev) || isHotkey("mod+shift+z", ev)) {
         ev.preventDefault();
         redo();
       }
     };
-    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener("keydown", onKeyDown);
     };
   }, [redo, undo]);
 
@@ -68,10 +68,10 @@ export function useHotKeys() {
       //   removeBlock(focusIdx);
       // }
     };
-    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener("keydown", onKeyDown);
     };
   }, [focusIdx, removeBlock]);
 
@@ -81,7 +81,7 @@ export function useHotKeys() {
       const isIframedFocused = document.activeElement === getEditorRoot();
 
       if (!isIframedFocused) return;
-      if (isHotkey('tab', ev) || isHotkey('shift+tab', ev)) {
+      if (isHotkey("tab", ev) || isHotkey("shift+tab", ev)) {
         setTimeout(() => {
           const activeElement = getIframeDocument()?.activeElement;
           if (activeElement) {
@@ -94,10 +94,10 @@ export function useHotKeys() {
         }, 0);
       }
     };
-    getEditorRoot()?.contentWindow?.addEventListener('keydown', onKeyDown);
+    getEditorRoot()?.contentWindow?.addEventListener("keydown", onKeyDown);
 
     return () => {
-      getEditorRoot()?.contentWindow?.removeEventListener('keydown', onKeyDown);
+      getEditorRoot()?.contentWindow?.removeEventListener("keydown", onKeyDown);
     };
   }, [focusIdx, removeBlock, setFocusIdx, values]);
 }

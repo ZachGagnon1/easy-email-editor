@@ -1,8 +1,8 @@
-import { Field, UseFieldConfig } from 'react-final-form';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRefState } from 'easy-email-editor';
-import { debounce } from 'lodash';
-import { Form, FormItemProps } from '@arco-design/web-react';
+import { Field, UseFieldConfig } from "react-final-form";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useRefState } from "easy-email-editor";
+import { debounce } from "lodash";
+import { Form, FormItemProps } from "@arco-design/web-react";
 
 export interface EnhancerProps {
   name: string;
@@ -11,11 +11,11 @@ export interface EnhancerProps {
   config?: UseFieldConfig<any, any>;
   changeOnBlur?: boolean;
   formItem?: FormItemProps;
-  label?: FormItemProps['label'];
+  label?: FormItemProps["label"];
   inline?: boolean;
   equalSpacing?: boolean;
   required?: boolean;
-  autoComplete?: 'on' | 'off';
+  autoComplete?: "on" | "off";
   style?: React.CSSProperties;
   helpText?: React.ReactNode;
   debounceTime?: number;
@@ -23,12 +23,16 @@ export interface EnhancerProps {
 }
 
 const parse = (v: any) => v;
-export default function enhancer<P extends { onChange?: (...rest: any) => any }>(
+export default function enhancer<
+  P extends { onChange?: (...rest: any) => any }
+>(
   Component: React.FC<any>,
-  changeAdapter: (args: Parameters<NonNullable<P['onChange']>>) => any,
-  option?: { debounceTime: number },
+  changeAdapter: (args: Parameters<NonNullable<P["onChange"]>>) => any,
+  option?: { debounceTime: number }
 ) {
-  return (props: EnhancerProps & Omit<P, 'value' | 'onChange' | 'mutators'>) => {
+  return (
+    props: EnhancerProps & Omit<P, "value" | "onChange" | "mutators">
+  ) => {
     const {
       name,
       validate,
@@ -56,7 +60,7 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
       };
     }, [props.config, validate]);
 
-    const [currentValue, setCurrentValue] = useState('');
+    const [currentValue, setCurrentValue] = useState("");
     const currentValueRef = useRefState(currentValue);
 
     const layoutStyle = useMemo((): FormItemProps => {
@@ -65,7 +69,7 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
           labelCol: {
             span: 11,
             style: {
-              textAlign: 'left',
+              textAlign: "left",
               paddingRight: 0,
             },
           },
@@ -73,7 +77,7 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
             span: 11,
             offset: 1,
             style: {
-              textAlign: 'right',
+              textAlign: "right",
             },
           },
         };
@@ -83,7 +87,7 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
           labelCol: {
             span: 7,
             style: {
-              textAlign: 'right',
+              textAlign: "right",
               paddingRight: 0,
             },
           },
@@ -110,28 +114,25 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
 
     return useMemo(() => {
       return (
-        <Field
-          name={name}
-          {...config}
-        >
+        <Field name={name} {...config}>
           {({ input: { onBlur, onChange, value }, meta }) => {
             // eslint-disable-next-line react-hooks/exhaustive-deps
 
             const debounceCallbackChange = useCallback(
               debounce(
-                val => {
+                (val) => {
                   onChange(val);
                   onBlur();
                 },
                 debounceTime,
                 {
                   // maxWait: 500,
-                },
+                }
               ),
-              [onChange, onBlur],
+              [onChange, onBlur]
             );
 
-            const onFieldChange: P['onChange'] = useCallback(
+            const onFieldChange: P["onChange"] = useCallback(
               (e: any) => {
                 const newVal = onChangeAdapter
                   ? onChangeAdapter(changeAdapter(e))
@@ -142,7 +143,7 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
                   debounceCallbackChange(newVal);
                 }
               },
-              [debounceCallbackChange],
+              [debounceCallbackChange]
             );
 
             const onFieldBlur = useCallback(() => {
@@ -160,14 +161,16 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
               <Form.Item
                 style={{
                   ...style,
-                  margin: '0px',
+                  margin: "0px",
                 }}
                 rules={required ? [{ required: true }] : undefined}
                 {...layoutStyle}
                 {...formItem}
                 label={labelHidden ? undefined : label || formItem?.label}
-                labelAlign='left'
-                validateStatus={meta.touched && meta.error ? 'error' : undefined}
+                labelAlign="left"
+                validateStatus={
+                  meta.touched && meta.error ? "error" : undefined
+                }
                 help={meta.touched && meta.error ? meta.error : helpText}
               >
                 <Component

@@ -1,12 +1,11 @@
-
-type ObjectString = { [key: string]: string; };
+type ObjectString = { [key: string]: string };
 
 export class ImageManager {
   private static map: ObjectString = {};
-  private static overrideMap: { [key: string]: boolean; } = {};
+  private static overrideMap: { [key: string]: boolean } = {};
 
   public static add(imgMap: ObjectString) {
-    Object.keys(imgMap).forEach(name => {
+    Object.keys(imgMap).forEach((name) => {
       if (this.map[name]) {
         this.overrideMap[name] = true;
       }
@@ -21,6 +20,4 @@ export class ImageManager {
   public static getOverrideMap() {
     return this.overrideMap;
   }
-
 }
-

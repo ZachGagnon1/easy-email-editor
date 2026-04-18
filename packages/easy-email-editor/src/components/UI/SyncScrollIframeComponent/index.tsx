@@ -1,8 +1,8 @@
-import { SYNC_SCROLL_ELEMENT_CLASS_NAME } from '@/constants';
-import { useDomScrollHeight } from '@/hooks/useDomScrollHeight';
-import { debounce } from 'lodash';
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { createPortal } from 'react-dom';
+import { SYNC_SCROLL_ELEMENT_CLASS_NAME } from "@/constants";
+import { useDomScrollHeight } from "@/hooks/useDomScrollHeight";
+import { debounce } from "lodash";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
+import { createPortal } from "react-dom";
 
 interface Props {
   children: React.ReactNode;
@@ -32,7 +32,7 @@ export const SyncScrollIframeComponent = ({
       const ele = root.elementFromPoint(0, 10);
 
       const findSelectorNode = (ele: Element): Element | null => {
-        if (ele.getAttribute('data-selector')) {
+        if (ele.getAttribute("data-selector")) {
           return ele;
         }
         if (ele.parentNode instanceof Element) {
@@ -46,30 +46,30 @@ export const SyncScrollIframeComponent = ({
         const { top: selectorEleTop } = selectorNode.getBoundingClientRect();
         let selectorDiffTop = selectorEleTop - containerTop;
 
-        const selector = selectorNode.getAttribute('data-selector');
+        const selector = selectorNode.getAttribute("data-selector");
 
         if (selector) {
           viewElementRef.current = {
-            selector: selector || '',
+            selector: selector || "",
             top: selectorDiffTop,
           };
         }
       }
     }, 200),
-    [viewElementRef, ref],
+    [viewElementRef, ref]
   );
 
   const onLoad: React.ReactEventHandler<HTMLIFrameElement> = useCallback(
-    evt => {
+    (evt) => {
       const contentWindow = (evt.target as any)?.contentWindow;
       if (!contentWindow) return;
       windowRef?.(contentWindow);
       const innerBody = contentWindow.document.body;
-      innerBody.style.backgroundColor = 'transparent';
+      innerBody.style.backgroundColor = "transparent";
       setMountNode(innerBody);
       setContentWindow(contentWindow);
     },
-    [windowRef],
+    [windowRef]
   );
 
   useEffect(() => {
@@ -77,12 +77,14 @@ export const SyncScrollIframeComponent = ({
 
     const viewElement = viewElementRef.current;
 
-    const scrollEle = mountNode.querySelector(`.${SYNC_SCROLL_ELEMENT_CLASS_NAME}`);
+    const scrollEle = mountNode.querySelector(
+      `.${SYNC_SCROLL_ELEMENT_CLASS_NAME}`
+    );
     if (!scrollEle) return;
 
     if (viewElement) {
       const viewElementNode = mountNode.querySelector(
-        `[data-selector="${viewElement?.selector}"]`,
+        `[data-selector="${viewElement?.selector}"]`
       );
 
       if (viewElementNode && scrollEle) {
@@ -101,9 +103,9 @@ export const SyncScrollIframeComponent = ({
       if (!isActive) return;
       setFirstVisibleEle(contentWindow.document);
     };
-    contentWindow.addEventListener('scroll', onScroll, true);
+    contentWindow.addEventListener("scroll", onScroll, true);
     return () => {
-      contentWindow?.removeEventListener('scroll', onScroll, true);
+      contentWindow?.removeEventListener("scroll", onScroll, true);
     };
   }, [contentWindow, isActive, setFirstVisibleEle]);
 

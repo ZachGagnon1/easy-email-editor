@@ -3,12 +3,12 @@ import {
   useBlock,
   useEditorProps,
   useFocusIdx,
-  getIframeDocument
-} from 'easy-email-editor';
-import { useAddToCollection } from '@extensions/hooks/useAddToCollection';
-import { getParentIdx } from 'easy-email-core';
-import React from 'react';
-import { ToolItem } from './ToolItem';
+  getIframeDocument,
+} from "easy-email-editor";
+import { useAddToCollection } from "@extensions/hooks/useAddToCollection";
+import { getParentIdx } from "easy-email-core";
+import React from "react";
+import { ToolItem } from "./ToolItem";
 
 export function BasicTools() {
   const { copyBlock, removeBlock } = useBlock();
@@ -46,36 +46,37 @@ export function BasicTools() {
 
   return (
     <div style={{ marginRight: 40 }}>
-      <span style={{
-        position: 'relative',
-        marginRight: 10,
-        color: '#fff',
-        fontFamily: '-apple-system, BlinkMacSystemFont, San Francisco, Segoe UI',
-      }}
-      >Text
+      <span
+        style={{
+          position: "relative",
+          marginRight: 10,
+          color: "#fff",
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, San Francisco, Segoe UI",
+        }}
+      >
+        Text
       </span>
       <ToolItem
         onClick={handleSelectParent}
-        title={t('Select parent block')}
+        title={t("Select parent block")}
         icon={<IconFont iconName="icon-back-parent" />}
       />
       <ToolItem
         onClick={handleCopy}
-        title={t('Copy')}
+        title={t("Copy")}
         icon={<IconFont iconName="icon-copy" />}
       />
-      {
-        onAddCollection && (
-          <ToolItem
-            onClick={handleAddToCollection}
-            title={t('Add to collection')}
-            icon={<IconFont iconName="icon-collection" />}
-          />
-        )
-      }
+      {onAddCollection && (
+        <ToolItem
+          onClick={handleAddToCollection}
+          title={t("Add to collection")}
+          icon={<IconFont iconName="icon-collection" />}
+        />
+      )}
       <ToolItem
         onClick={handleDelete}
-        title={t('Delete')}
+        title={t("Delete")}
         icon={<IconFont iconName="icon-delete" />}
       />
       {modal}

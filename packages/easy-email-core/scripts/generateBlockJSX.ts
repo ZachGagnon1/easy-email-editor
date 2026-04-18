@@ -1,7 +1,7 @@
-import * as fs from 'fs';
-import * as jsdom from 'jsdom';
-import { camelCase } from 'lodash';
-import { BlockManager } from '../src/utils/BlockManager';
+import * as fs from "fs";
+import * as jsdom from "jsdom";
+import { camelCase } from "lodash";
+import { BlockManager } from "../src/utils/BlockManager";
 
 const { JSDOM } = jsdom;
 const dom = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`);
@@ -38,7 +38,7 @@ BlockManager.getBlocks().forEach((item) => {
       <MjmlBlock
         attributes={omit(props, ['data', 'children'])}
         value={props.value}
-        type={BasicType.${item.type.toUpperCase().replace('-', '_')}}
+        type={BasicType.${item.type.toUpperCase().replace("-", "_")}}
       >
         {props.children}
       </MjmlBlock>
@@ -46,9 +46,9 @@ BlockManager.getBlocks().forEach((item) => {
   }
   `;
   try {
-    fs.mkdirSync(cwd + '/src/components');
-  } catch (error) { }
-  fs.writeFileSync(cwd + '/src/components/' + fileName + '.tsx', code);
+    fs.mkdirSync(cwd + "/src/components");
+  } catch (error) {}
+  fs.writeFileSync(cwd + "/src/components/" + fileName + ".tsx", code);
   indexFileContent += `export {${fileName}} from './${fileName}'\n`;
 });
 

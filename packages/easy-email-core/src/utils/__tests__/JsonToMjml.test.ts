@@ -1,7 +1,7 @@
-import { BasicType } from './../../constants';
-import { BlockManager } from './../BlockManager';
+import { BasicType } from "./../../constants";
+import { BlockManager } from "./../BlockManager";
 
-import { JsonToMjml } from '../JsonToMjml';
+import { JsonToMjml } from "../JsonToMjml";
 
 const Page = BlockManager.getBlockByType(BasicType.PAGE)!;
 const Section = BlockManager.getBlockByType(BasicType.SECTION)!;
@@ -27,7 +27,7 @@ describe('Test JsonToMjml when responsive is "false"', () => {
 
   const parseHtml = JsonToMjml({
     data: content,
-    mode: 'production',
+    mode: "production",
     context: content,
   });
 
@@ -56,7 +56,7 @@ describe('Test JsonToMjml when responsive is "true"', () => {
 
   const parseHtml = JsonToMjml({
     data: content,
-    mode: 'production',
+    mode: "production",
     context: content,
   });
 
@@ -82,16 +82,16 @@ describe('Test JsonToMjml when mode is "testing"', () => {
 
   const parseHtml = JsonToMjml({
     data: content,
-    mode: 'testing',
+    mode: "testing",
     context: content,
-    idx: 'content',
+    idx: "content",
   });
 
-  it('should contains node-type-page', () => {
-    expect(parseHtml).toContain('node-type-page');
+  it("should contains node-type-page", () => {
+    expect(parseHtml).toContain("node-type-page");
   });
 
-  it('should render as expected', () => {
+  it("should render as expected", () => {
     expect(parseHtml).toMatchSnapshot();
   });
 });
@@ -111,27 +111,34 @@ describe('Test JsonToMjml when mode is "production"', () => {
 
   const parseHtml = JsonToMjml({
     data: content,
-    mode: 'production',
+    mode: "production",
     context: content,
   });
 
-  it('should not contains node-type-page', () => {
-    expect(parseHtml.includes('node-type-page')).toBeFalsy();
+  it("should not contains node-type-page", () => {
+    expect(parseHtml.includes("node-type-page")).toBeFalsy();
   });
 
-  it('should render as expected', () => {
+  it("should render as expected", () => {
     expect(parseHtml).toMatchSnapshot();
   });
 });
 
-describe('json with manual variables added to content', () => {
+describe("json with manual variables added to content", () => {
   const content = Page.create({
     children: [
       Section.create({
         children: [
           Column.create({
-            children: [Text.create({data:{value:{content: `<div>{% assign iteration_example = "First,Second,Third,Fourth,Fifth" | split: ',' %}</div>`
-            }}})],
+            children: [
+              Text.create({
+                data: {
+                  value: {
+                    content: `<div>{% assign iteration_example = "First,Second,Third,Fourth,Fifth" | split: ',' %}</div>`,
+                  },
+                },
+              }),
+            ],
           }),
         ],
       }),
@@ -140,13 +147,13 @@ describe('json with manual variables added to content', () => {
 
   const parseHtml = JsonToMjml({
     data: content,
-    mode: 'testing',
+    mode: "testing",
     context: content,
-    idx: 'content',
+    idx: "content",
   });
 
-  it('should render without any escaped HTML characters', () => {
-    console.log('parseHtml', parseHtml);
+  it("should render without any escaped HTML characters", () => {
+    console.log("parseHtml", parseHtml);
     expect(parseHtml).toMatchSnapshot();
   });
-})
+});

@@ -1,9 +1,9 @@
-import { Modal } from '@arco-design/web-react';
-import { Stack, useBlock, useEditorProps } from 'easy-email-editor';
-import React from 'react';
-import { Form } from 'react-final-form';
-import { v4 as uuidv4 } from 'uuid';
-import { ImageUploaderField, TextAreaField, TextField } from '../Form';
+import { Modal } from "@arco-design/web-react";
+import { Stack, useBlock, useEditorProps } from "easy-email-editor";
+import React from "react";
+import { Form } from "react-final-form";
+import { v4 as uuidv4 } from "uuid";
+import { ImageUploaderField, TextAreaField, TextField } from "../Form";
 
 export const AddToCollection: React.FC<{
   visible: boolean;
@@ -31,7 +31,7 @@ export const AddToCollection: React.FC<{
 
   return (
     <Form
-      initialValues={{ label: '', helpText: '', thumbnail: '' }}
+      initialValues={{ label: "", helpText: "", thumbnail: "" }}
       onSubmit={onSubmit}
     >
       {({ handleSubmit }) => (
@@ -39,27 +39,27 @@ export const AddToCollection: React.FC<{
           maskClosable={false}
           style={{ zIndex: 2000 }}
           visible={visible}
-          title={t('Add to collection')}
+          title={t("Add to collection")}
           onOk={() => handleSubmit()}
           onCancel={() => setVisible(false)}
         >
           <Stack vertical>
             <Stack.Item />
             <TextField
-              label={t('Title')}
-              name='label'
+              label={t("Title")}
+              name="label"
               validate={(val: string) => {
-                if (!val) return t('Title required!');
+                if (!val) return t("Title required!");
                 return undefined;
               }}
             />
-            <TextAreaField label={t('Description')} name='helpText' />
+            <TextAreaField label={t("Description")} name="helpText" />
             <ImageUploaderField
-              label={t('Thumbnail')}
-              name={'thumbnail'}
+              label={t("Thumbnail")}
+              name={"thumbnail"}
               uploadHandler={onUploadImage}
               validate={(val: string) => {
-                if (!val) return t('Thumbnail required!');
+                if (!val) return t("Thumbnail required!");
                 return undefined;
               }}
             />

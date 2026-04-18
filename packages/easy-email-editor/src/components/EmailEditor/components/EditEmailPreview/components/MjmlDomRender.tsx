@@ -1,14 +1,14 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import mjml from 'mjml-browser';
-import { getPageIdx, IPage, JsonToMjml } from 'easy-email-core';
-import { cloneDeep, isEqual } from 'lodash';
-import { useEditorContext } from '@/hooks/useEditorContext';
-import { useEditorProps } from '@/hooks/useEditorProps';
-import { getIframeDocument } from '@/utils';
-import { DATA_RENDER_COUNT, FIXED_CONTAINER_ID } from '@/constants';
-import { HtmlStringToReactNodes } from '@/utils/HtmlStringToReactNodes';
-import { createPortal } from 'react-dom';
-import blueTheme from '@arco-themes/react-easy-email-theme/css/arco.css?inline';
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import mjml from "mjml-browser";
+import { getPageIdx, IPage, JsonToMjml } from "easy-email-core";
+import { cloneDeep, isEqual } from "lodash";
+import { useEditorContext } from "@/hooks/useEditorContext";
+import { useEditorProps } from "@/hooks/useEditorProps";
+import { getIframeDocument } from "@/utils";
+import { DATA_RENDER_COUNT, FIXED_CONTAINER_ID } from "@/constants";
+import { HtmlStringToReactNodes } from "@/utils/HtmlStringToReactNodes";
+import { createPortal } from "react-dom";
+import blueTheme from "@arco-themes/react-easy-email-theme/css/arco.css?inline";
 
 let count = 0;
 
@@ -21,14 +21,15 @@ export function MjmlDomRender() {
   const { dashed, mergeTags, enabledMergeTagsBadge } = useEditorProps();
 
   const isTextFocusing =
-    getIframeDocument()?.activeElement?.getAttribute('contenteditable') === 'true';
+    getIframeDocument()?.activeElement?.getAttribute("contenteditable") ===
+    "true";
 
   useEffect(() => {
     if (!initialized) return;
 
     // Since the Iframe does not inherit the styles from the parent document,
     // we need to manually add the blue theme to the iframe.
-    const style = getIframeDocument()?.createElement('style');
+    const style = getIframeDocument()?.createElement("style");
 
     if (style) {
       style.textContent = blueTheme;
@@ -52,16 +53,17 @@ export function MjmlDomRender() {
       if (getIframeDocument()?.contains(e.target as Node)) {
         return;
       }
-      const fixedContainer = getIframeDocument()?.getElementById(FIXED_CONTAINER_ID);
+      const fixedContainer =
+        getIframeDocument()?.getElementById(FIXED_CONTAINER_ID);
       if (fixedContainer?.contains(e.target as Node)) {
         return;
       }
       setIsTextFocus(false);
     };
 
-    getIframeDocument()?.addEventListener('click', onClick);
+    getIframeDocument()?.addEventListener("click", onClick);
     return () => {
-      getIframeDocument()?.removeEventListener('click', onClick);
+      getIframeDocument()?.removeEventListener("click", onClick);
     };
   }, []);
 
@@ -70,29 +72,30 @@ export function MjmlDomRender() {
     if (!root) return;
     const onClick = (e: Event) => {
       const isFocusing =
-        getIframeDocument()?.activeElement?.getAttribute('contenteditable') === 'true';
+        getIframeDocument()?.activeElement?.getAttribute("contenteditable") ===
+        "true";
       if (isFocusing) {
         setIsTextFocus(true);
       }
     };
 
-    root.addEventListener('click', onClick);
+    root.addEventListener("click", onClick);
     return () => {
-      root.removeEventListener('click', onClick);
+      root.removeEventListener("click", onClick);
     };
   }, []);
 
   const html = useMemo(() => {
-    if (!pageData) return '';
+    if (!pageData) return "";
 
     return mjml(
       JsonToMjml({
         data: pageData,
         idx: getPageIdx(),
         context: pageData,
-        mode: 'testing',
+        mode: "testing",
         dataSource: cloneDeep(mergeTags),
-      }),
+      })
     ).html;
   }, [mergeTags, pageData]);
 
@@ -105,8 +108,8 @@ export function MjmlDomRender() {
         data-dashed={dashed}
         ref={ref}
         style={{
-          outline: 'none',
-          position: 'relative',
+          outline: "none",
+          position: "relative",
         }}
         role="tabpanel"
         tabIndex={0}
@@ -116,7 +119,7 @@ export function MjmlDomRender() {
             HtmlStringToReactNodes(html, {
               enabledMergeTagsBadge: Boolean(enabledMergeTagsBadge),
             }),
-            ref.current,
+            ref.current
           )}
       </div>
     );

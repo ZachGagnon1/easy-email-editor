@@ -15,12 +15,12 @@ $ yarn add easy-email-core
 ## transform json to mjml
 
 ```ts
-import { JsonToMjml } from 'easy-email-core';
+import { JsonToMjml } from "easy-email-core";
 
 const xml = JsonToMjml({
   data: json,
   context: null,
-  mode: 'production',
+  mode: "production",
 });
 
 console.log(xml);
@@ -72,11 +72,7 @@ console.log(xml);
       <mj-text line-height="1.7" />
     </mj-attributes>
   </mj-head>
-  <mj-body
-    background-color="#efeeea"
-    width="600px"
-    css-class="mjml-body"
-  >
+  <mj-body background-color="#efeeea" width="600px" css-class="mjml-body">
     <mj-hero
       padding="100px 0px 100px 0px"
       border="none"
@@ -129,8 +125,8 @@ console.log(xml);
 console.log(
   JsonToMjml({
     data: blockData,
-    mode: 'production',
-  }),
+    mode: "production",
+  })
 );
 ```
 
@@ -180,11 +176,7 @@ console.log(
       <mj-text line-height="1.7" />
     </mj-attributes>
   </mj-head>
-  <mj-body
-    background-color="#efeeea"
-    width="600px"
-    css-class="mjml-body"
-  >
+  <mj-body background-color="#efeeea" width="600px" css-class="mjml-body">
     <mj-section
       padding="20px 0px 20px 0px"
       border="none"
@@ -194,11 +186,7 @@ console.log(
       background-size="auto"
       background-position="top center"
     >
-      <mj-column
-        padding="0px 0px 0px 0px"
-        border="none"
-        vertical-align="top"
-      >
+      <mj-column padding="0px 0px 0px 0px" border="none" vertical-align="top">
         <mj-text
           padding="20px"
           align="center"
@@ -237,7 +225,7 @@ console.log(
 ## Customize your block
 
 ```tsx
-import { merge } from 'lodash';
+import { merge } from "lodash";
 import {
   createCustomBlock,
   IBlockData,
@@ -246,13 +234,13 @@ import {
   JsonToMjml,
   BasicType,
   BlockManager,
-} from 'easy-email-core';
+} from "easy-email-core";
 const { Section, Column, Image, Button } = components;
 
 type IMyFirstBlock = IBlockData<
   {
-    'background-color': string;
-    'text-color': string;
+    "background-color": string;
+    "text-color": string;
   },
   {
     buttonText: string;
@@ -261,21 +249,21 @@ type IMyFirstBlock = IBlockData<
 >;
 
 const myFirstBlock = createCustomBlock({
-  name: 'My first block',
-  type: 'MY_FIRST_BLOCK',
+  name: "My first block",
+  type: "MY_FIRST_BLOCK",
   create(payload) {
     const defaultData: IMyFirstBlock = {
-      type: 'MY_FIRST_BLOCK',
+      type: "MY_FIRST_BLOCK",
       data: {
         value: {
-          buttonText: 'Got it',
+          buttonText: "Got it",
           imageUrl:
-            'http://res.cloudinary.com/dwkp0e1yo/image/upload/v1665841616/pn7npfspxaqfzxiensue.png',
+            "http://res.cloudinary.com/dwkp0e1yo/image/upload/v1665841616/pn7npfspxaqfzxiensue.png",
         },
       },
       attributes: {
-        'background-color': '#4A90E2',
-        'text-color': '#ffffff',
+        "background-color": "#4A90E2",
+        "text-color": "#ffffff",
       },
       children: [],
     };
@@ -285,25 +273,21 @@ const myFirstBlock = createCustomBlock({
   render(
     data: IMyFirstBlock,
     idx: string | null,
-    mode: 'testing' | 'production',
+    mode: "testing" | "production",
     context?: IPage,
-    dataSource?: { [key: string]: any },
+    dataSource?: { [key: string]: any }
   ) {
     const { imageUrl, buttonText } = data.data.value;
     const attributes = data.attributes;
 
     const instance = (
-      <Section padding='20px'>
+      <Section padding="20px">
         <Column>
-          <Image
-            padding='0px 0px 0px 0px'
-            width='100px'
-            src={imageUrl}
-          />
+          <Image padding="0px 0px 0px 0px" width="100px" src={imageUrl} />
           <Button
-            background-color={attributes['background-color']}
-            color={attributes['text-color']}
-            href='#'
+            background-color={attributes["background-color"]}
+            color={attributes["text-color"]}
+            href="#"
           >
             {buttonText}
           </Button>
@@ -323,8 +307,8 @@ console.log(
     data: pageBlock.create({
       children: [myFirstBlock.create()],
     }),
-    mode: 'production',
-  }),
+    mode: "production",
+  })
 );
 ```
 
@@ -374,11 +358,7 @@ console.log(
       <mj-text line-height="1.7" />
     </mj-attributes>
   </mj-head>
-  <mj-body
-    background-color="#efeeea"
-    width="600px"
-    css-class="mjml-body"
-  >
+  <mj-body background-color="#efeeea" width="600px" css-class="mjml-body">
     <mj-section
       padding="20px"
       background-repeat="repeat"
@@ -388,11 +368,7 @@ console.log(
       direction="ltr"
       text-align="center"
     >
-      <mj-column
-        padding="0px 0px 0px 0px"
-        border="none"
-        vertical-align="top"
-      >
+      <mj-column padding="0px 0px 0px 0px" border="none" vertical-align="top">
         <mj-image
           align="center"
           height="auto"

@@ -3,7 +3,7 @@ export const getBlockNodeByChildEle = (
 ): HTMLElement | null => {
   if (!target) return null;
 
-  if (target.classList?.contains('email-block')) {
+  if (target.classList?.contains("email-block")) {
     return target as HTMLElement;
   }
   if (target.parentNode) {

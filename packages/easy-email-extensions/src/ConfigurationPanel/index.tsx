@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Tabs } from '@arco-design/web-react';
-import { AttributePanel } from '@extensions/AttributePanel';
-import { SourceCodePanel } from '@extensions/SourceCodePanel';
-import { FullHeightOverlayScrollbars } from '@extensions/components/FullHeightOverlayScrollbars';
-import { IconLeft } from '@arco-design/web-react/icon';
-import styles from './index.module.scss';
+import React, { useEffect, useState } from "react";
+import { Tabs } from "@arco-design/web-react";
+import { AttributePanel } from "@extensions/AttributePanel";
+import { SourceCodePanel } from "@extensions/SourceCodePanel";
+import { FullHeightOverlayScrollbars } from "@extensions/components/FullHeightOverlayScrollbars";
+import { IconLeft } from "@arco-design/web-react/icon";
+import styles from "./index.module.scss";
 
 export interface ConfigurationPanelProps {
   showSourceCode: boolean;
@@ -46,10 +46,10 @@ export function ConfigurationPanel({
             !compact ? (
               <div
                 className={styles.largeTabsHeader}
-                style={{ display: 'flex', alignItems: 'center' }}
+                style={{ display: "flex", alignItems: "center" }}
               >
                 <div
-                  style={{ padding: 10, cursor: 'pointer' }}
+                  style={{ padding: 10, cursor: "pointer" }}
                   onClick={onBack}
                 >
                   <IconLeft fontSize={16} />
@@ -60,7 +60,7 @@ export function ConfigurationPanel({
             ) : (
               <div
                 className={styles.largeTabsHeader}
-                style={{ display: 'flex', alignItems: 'center' }}
+                style={{ display: "flex", alignItems: "center" }}
               >
                 <DefaultHeader style={{ flex: 1 }} />
               </div>
@@ -69,7 +69,9 @@ export function ConfigurationPanel({
         >
           <Tabs.TabPane
             title={
-              <div style={{ height: 40, lineHeight: '40px' }}>{t('Configuration')}</div>
+              <div style={{ height: 40, lineHeight: "40px" }}>
+                {t("Configuration")}
+              </div>
             }
           >
             <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
@@ -79,13 +81,18 @@ export function ConfigurationPanel({
 
           <Tabs.TabPane
             destroyOnHide
-            key='Source code'
+            key="Source code"
             title={
-              <div style={{ height: 40, lineHeight: '40px' }}>{t('Source code')}</div>
+              <div style={{ height: 40, lineHeight: "40px" }}>
+                {t("Source code")}
+              </div>
             }
           >
             <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
-              <SourceCodePanel jsonReadOnly={jsonReadOnly} mjmlReadOnly={mjmlReadOnly} />
+              <SourceCodePanel
+                jsonReadOnly={jsonReadOnly}
+                mjmlReadOnly={mjmlReadOnly}
+              />
             </FullHeightOverlayScrollbars>
           </Tabs.TabPane>
         </Tabs>

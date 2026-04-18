@@ -1,21 +1,23 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { BlockType, getChildIdx } from 'easy-email-core';
-import { useHoverIdx } from '@/hooks/useHoverIdx';
-import { useDataTransfer } from '@/hooks/useDataTransfer';
-import { isUndefined } from 'lodash';
-import { useBlock } from '@/hooks/useBlock';
+import React, { useCallback, useEffect, useRef } from "react";
+import { BlockType, getChildIdx } from "easy-email-core";
+import { useHoverIdx } from "@/hooks/useHoverIdx";
+import { useDataTransfer } from "@/hooks/useDataTransfer";
+import { isUndefined } from "lodash";
+import { useBlock } from "@/hooks/useBlock";
 
 export type BlockAvatarWrapperProps = {
   children?: React.ReactNode;
   type: BlockType | string;
   payload?: any;
-  action?: 'add' | 'move';
+  action?: "add" | "move";
   hideIcon?: boolean;
   idx?: string;
 };
 
-export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = props => {
-  const { type, children, payload, action = 'add', idx } = props;
+export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = (
+  props
+) => {
+  const { type, children, payload, action = "add", idx } = props;
   const { addBlock, moveBlock, values } = useBlock();
   const { setIsDragging, setHoverIdx } = useHoverIdx();
   const { setDataTransfer, dataTransfer } = useDataTransfer();
@@ -23,7 +25,7 @@ export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = props => {
 
   const onDragStart = useCallback(
     (ev: React.DragEvent) => {
-      if (action === 'add') {
+      if (action === "add") {
         setDataTransfer({
           type: type,
           action,
@@ -39,14 +41,14 @@ export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = props => {
 
       setIsDragging(true);
     },
-    [action, idx, payload, setDataTransfer, setIsDragging, type],
+    [action, idx, payload, setDataTransfer, setIsDragging, type]
   );
 
   const onDragEnd = useCallback(() => {
     setIsDragging(false);
-    setHoverIdx('');
+    setHoverIdx("");
     if (!dataTransfer) return;
-    if (action === 'add' && !isUndefined(dataTransfer.parentIdx)) {
+    if (action === "add" && !isUndefined(dataTransfer.parentIdx)) {
       addBlock({
         type,
         parentIdx: dataTransfer.parentIdx,
@@ -62,7 +64,7 @@ export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = props => {
       ) {
         moveBlock(
           dataTransfer.sourceIdx,
-          getChildIdx(dataTransfer.parentIdx, dataTransfer.positionIndex),
+          getChildIdx(dataTransfer.parentIdx, dataTransfer.positionIndex)
         );
       }
     }
@@ -82,15 +84,15 @@ export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = props => {
     const ele = ref.current;
     if (!ele) return;
 
-    ele.addEventListener('dragend', onDragEnd);
+    ele.addEventListener("dragend", onDragEnd);
     return () => {
-      ele.removeEventListener('dragend', onDragEnd);
+      ele.removeEventListener("dragend", onDragEnd);
     };
   }, [onDragEnd]);
 
   return (
     <div
-      style={{ cursor: 'grab' }}
+      style={{ cursor: "grab" }}
       ref={ref}
       onMouseDown={() => {
         window.getSelection()?.removeAllRanges();

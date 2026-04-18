@@ -1,5 +1,5 @@
-import { IBlockData } from 'easy-email-core';
-import React, { useMemo } from 'react';
+import { IBlockData } from "easy-email-core";
+import React, { useMemo } from "react";
 
 export interface CollectedBlock {
   label: string;
@@ -15,20 +15,20 @@ export interface BlockGroup {
 }
 
 export enum AvailableTools {
-  MergeTags = 'mergeTags',
-  FontFamily = 'fontFamily',
-  FontSize = 'fontSize',
-  Bold = 'bold',
-  Italic = 'italic',
-  StrikeThrough = 'strikeThrough',
-  Underline = 'underline',
-  IconFontColor = 'iconFontColor',
-  IconBgColor = 'iconBgColor',
-  Link = 'link',
-  Justify = 'justify',
-  Lists = 'lists',
-  HorizontalRule = 'horizontalRule',
-  RemoveFormat = 'removeFormat',
+  MergeTags = "mergeTags",
+  FontFamily = "fontFamily",
+  FontSize = "fontSize",
+  Bold = "bold",
+  Italic = "italic",
+  StrikeThrough = "strikeThrough",
+  Underline = "underline",
+  IconFontColor = "iconFontColor",
+  IconBgColor = "iconBgColor",
+  Link = "link",
+  Justify = "justify",
+  Lists = "lists",
+  HorizontalRule = "horizontalRule",
+  RemoveFormat = "removeFormat",
 }
 
 export interface PropsProviderProps {
@@ -60,14 +60,18 @@ export interface PropsProviderProps {
   previewInjectData?: Record<string, any>;
   onBeforePreview?: (
     html: string,
-    mergeTags: PropsProviderProps['previewInjectData'] | PropsProviderProps['mergeTags'],
+    mergeTags:
+      | PropsProviderProps["previewInjectData"]
+      | PropsProviderProps["mergeTags"]
   ) => string | Promise<string>;
   enabledLogic?: boolean;
   locale?: Record<string, string>;
 
   toolbar?: {
     tools?: AvailableTools[];
-    suffix?: (execCommand: (cmd: string, value?: any) => void) => React.ReactNode;
+    suffix?: (
+      execCommand: (cmd: string, value?: any) => void
+    ) => React.ReactNode;
   };
 }
 
@@ -75,11 +79,11 @@ const defaultMergeTagGenerate = (m: string) => `{{${m}}}`;
 
 export const EditorPropsContext = React.createContext<
   PropsProviderProps & {
-    mergeTagGenerate: Required<PropsProviderProps['mergeTagGenerate']>;
+    mergeTagGenerate: Required<PropsProviderProps["mergeTagGenerate"]>;
   }
 >({
   children: null,
-  height: '100vh',
+  height: "100vh",
   fontList: [],
   onAddCollection: undefined,
   onRemoveCollection: undefined,
@@ -90,7 +94,7 @@ export const EditorPropsContext = React.createContext<
   enabledLogic: false,
 });
 
-export const PropsProvider: React.FC<PropsProviderProps> = props => {
+export const PropsProvider: React.FC<PropsProviderProps> = (props) => {
   const { dashed = true, mergeTagGenerate = defaultMergeTagGenerate } = props;
   const formatProps = useMemo(() => {
     return {

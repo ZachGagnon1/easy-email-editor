@@ -1,5 +1,6 @@
 export const getEditorRoot = () =>
-  <HTMLIFrameElement>document.getElementById('VisualEditorEditMode');
+  <HTMLIFrameElement>document.getElementById("VisualEditorEditMode");
 
-export const getIframeDocument = () => (<HTMLIFrameElement>document.getElementById('VisualEditorEditMode'))?.contentDocument;
-
+export const getIframeDocument = () =>
+  (<HTMLIFrameElement>document.getElementById("VisualEditorEditMode"))
+    ?.contentDocument;

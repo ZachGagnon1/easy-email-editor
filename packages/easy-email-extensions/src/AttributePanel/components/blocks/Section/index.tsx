@@ -1,14 +1,14 @@
-import React, { useCallback } from 'react';
-import { Padding } from '@extensions/AttributePanel/components/attributes/Padding';
-import { Background } from '@extensions/AttributePanel/components/attributes/Background';
-import { Border } from '@extensions/AttributePanel/components/attributes/Border';
-import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
-import { Collapse, Grid, Space, Switch } from '@arco-design/web-react';
-import { Stack, useBlock, useFocusIdx } from 'easy-email-editor';
-import { BasicType, BlockManager } from 'easy-email-core';
-import { ClassName } from '../../attributes/ClassName';
-import { CollapseWrapper } from '../../attributes/CollapseWrapper';
-import { TextField } from '@extensions/components/Form';
+import React, { useCallback } from "react";
+import { Padding } from "@extensions/AttributePanel/components/attributes/Padding";
+import { Background } from "@extensions/AttributePanel/components/attributes/Background";
+import { Border } from "@extensions/AttributePanel/components/attributes/Border";
+import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
+import { Collapse, Grid, Space, Switch } from "@arco-design/web-react";
+import { Stack, useBlock, useFocusIdx } from "easy-email-editor";
+import { BasicType, BlockManager } from "easy-email-core";
+import { ClassName } from "../../attributes/ClassName";
+import { CollapseWrapper } from "../../attributes/CollapseWrapper";
+import { TextField } from "@extensions/components/Form";
 
 export function Section() {
   const { focusBlock, setFocusBlock } = useBlock();
@@ -16,7 +16,7 @@ export function Section() {
   const noWrap = focusBlock?.data.value.noWrap;
 
   const onChange = useCallback(
-    checked => {
+    (checked) => {
       if (!focusBlock) return;
       focusBlock.data.value.noWrap = checked;
       if (checked) {
@@ -43,26 +43,23 @@ export function Section() {
       }
       setFocusBlock({ ...focusBlock });
     },
-    [focusBlock, setFocusBlock],
+    [focusBlock, setFocusBlock]
   );
 
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={['0', '1', '2']}>
-        <Collapse.Item
-          name='0'
-          header={t('Dimension')}
-        >
-          <Space direction='vertical'>
+      <CollapseWrapper defaultActiveKey={["0", "1", "2"]}>
+        <Collapse.Item name="0" header={t("Dimension")}>
+          <Space direction="vertical">
             <Grid.Row>
               <Grid.Col span={12}>
-                <label style={{ width: '100%', display: 'flex' }}>
-                  <div style={{ flex: 1 }}>{t('Group')}</div>
+                <label style={{ width: "100%", display: "flex" }}>
+                  <div style={{ flex: 1 }}>{t("Group")}</div>
                 </label>
                 <Switch
                   checked={noWrap}
-                  checkedText={t('True')}
-                  uncheckedText={t('False')}
+                  checkedText={t("True")}
+                  uncheckedText={t("False")}
                   onChange={onChange}
                 />
               </Grid.Col>
@@ -70,8 +67,8 @@ export function Section() {
             </Grid.Row>
             <Grid.Row>
               <Grid.Col span={12}>
-                <label style={{ width: '100%', display: 'flex' }}>
-                  <div style={{ flex: 1 }}>{t('Full Width')}</div>
+                <label style={{ width: "100%", display: "flex" }}>
+                  <div style={{ flex: 1 }}>{t("Full Width")}</div>
                 </label>
                 <TextField name={`${focusIdx}.attributes.full-width`} />
               </Grid.Col>
@@ -81,27 +78,15 @@ export function Section() {
             <Padding />
           </Space>
         </Collapse.Item>
-        <Collapse.Item
-          name='1'
-          header={t('Background')}
-        >
-          <Stack
-            vertical
-            spacing='tight'
-          >
+        <Collapse.Item name="1" header={t("Background")}>
+          <Stack vertical spacing="tight">
             <Background />
           </Stack>
         </Collapse.Item>
-        <Collapse.Item
-          name='2'
-          header={t('Border')}
-        >
+        <Collapse.Item name="2" header={t("Border")}>
           <Border />
         </Collapse.Item>
-        <Collapse.Item
-          name='4'
-          header={t('Extra')}
-        >
+        <Collapse.Item name="4" header={t("Extra")}>
           <Grid.Col span={24}>
             <ClassName />
           </Grid.Col>

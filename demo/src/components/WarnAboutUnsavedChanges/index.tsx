@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Prompt } from 'react-router-dom';
-import { useFormState } from 'react-final-form';
-import { getIsFormTouched } from '@demo/utils/getIsFormTouched';
-import { ConfirmBeforeLeavePage } from '@demo/utils/ConfirmBeforeLeavePage';
-import { Modal } from '@arco-design/web-react';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Prompt } from "react-router-dom";
+import { useFormState } from "react-final-form";
+import { getIsFormTouched } from "@demo/utils/getIsFormTouched";
+import { ConfirmBeforeLeavePage } from "@demo/utils/ConfirmBeforeLeavePage";
+import { Modal } from "@arco-design/web-react";
 
 interface WarnAboutUnsavedChangesProps {
   dirty?: boolean;
@@ -43,14 +43,14 @@ export function WarnAboutUnsavedChanges(props: WarnAboutUnsavedChangesProps) {
 
           event.preventDefault();
           (event.returnValue as any) =
-            'Changes that you made may not be saved.';
+            "Changes that you made may not be saved.";
         }
       };
 
-      window.addEventListener('beforeunload', onCheckUnsaved);
+      window.addEventListener("beforeunload", onCheckUnsaved);
 
       return () => {
-        window.removeEventListener('beforeunload', onCheckUnsaved);
+        window.removeEventListener("beforeunload", onCheckUnsaved);
       };
     }
   }, [dirty, pageUnload, props]);
@@ -68,17 +68,17 @@ export function WarnAboutUnsavedChanges(props: WarnAboutUnsavedChangesProps) {
   return (
     <>
       <Modal
-        title='Discard changes?'
+        title="Discard changes?"
         visible={visible}
         onCancel={onCancel}
         onOk={onOk}
-        okText='Discard'
-        cancelText='Cancel'
+        okText="Discard"
+        cancelText="Cancel"
         style={{ zIndex: 10000 }}
       >
         <p>Are you sure you want to discard all unsaved changes?</p>
       </Modal>
-      {dirty && <Prompt when message='' />}
+      {dirty && <Prompt when message="" />}
     </>
   );
 }

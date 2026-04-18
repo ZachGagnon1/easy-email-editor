@@ -1,5 +1,5 @@
-import { IBlockData, RecursivePartial } from '@core/typings';
-import { BlockManager } from './BlockManager';
+import { IBlockData, RecursivePartial } from "@core/typings";
+import { BlockManager } from "./BlockManager";
 
 export function createBlockDataByType<T extends IBlockData>(
   type: string,

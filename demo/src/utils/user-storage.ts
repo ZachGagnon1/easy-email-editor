@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { IUser } from '@demo/services/user';
-import { USER } from '@demo/constants';
+import axios from "axios";
+import { IUser } from "@demo/services/user";
+import { USER } from "@demo/constants";
 
-const sessionKey = 'session-key';
-const tokenKey = 'token-key';
+const sessionKey = "session-key";
+const tokenKey = "token-key";
 export class UserStorage {
   static async getAccount(): Promise<IUser> {
     const token = window.localStorage.getItem(tokenKey);
@@ -14,11 +14,11 @@ export class UserStorage {
         account = JSON.parse(sesseionAccout);
       } else {
         try {
-          const { data } = await axios.get<IUser>('/user/user/info', {
+          const { data } = await axios.get<IUser>("/user/user/info", {
             headers: {
               authorization: token,
             },
-            baseURL: 'https://www.maocanhua.cn',
+            baseURL: "https://www.maocanhua.cn",
           });
           account = data;
         } catch (error) {
@@ -28,13 +28,13 @@ export class UserStorage {
       }
     } else {
       const { data } = await axios.post<IUser>(
-        '/user/visitor/login',
+        "/user/visitor/login",
         {
           phone: USER.phone,
           password: USER.password,
         },
         {
-          baseURL: 'https://www.maocanhua.cn',
+          baseURL: "https://www.maocanhua.cn",
         }
       );
 
@@ -47,7 +47,7 @@ export class UserStorage {
 
   static async getToken() {
     const account = await this.getAccount();
-    return account ? account.token : '';
+    return account ? account.token : "";
   }
 
   static setToken(token: string) {
@@ -55,7 +55,7 @@ export class UserStorage {
   }
 
   static logout() {
-    window.localStorage.setItem(tokenKey, '');
-    window.sessionStorage.setItem(sessionKey, '');
+    window.localStorage.setItem(tokenKey, "");
+    window.sessionStorage.setItem(sessionKey, "");
   }
 }

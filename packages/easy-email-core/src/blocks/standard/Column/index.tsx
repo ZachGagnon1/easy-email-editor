@@ -1,21 +1,21 @@
-import React from 'react';
-import { IBlockData } from '@core/typings';
-import { BasicType } from '@core/constants';
-import { createBlock } from '@core/utils/createBlock';
-import { merge } from 'lodash';
-import { t } from '@core/utils';
-import { BasicBlock } from '@core/components/BasicBlock';
+import React from "react";
+import { IBlockData } from "@core/typings";
+import { BasicType } from "@core/constants";
+import { createBlock } from "@core/utils/createBlock";
+import { merge } from "lodash";
+import { t } from "@core/utils";
+import { BasicBlock } from "@core/components/BasicBlock";
 
 export type IColumn = IBlockData<
   {
-    'background-color'?: string;
+    "background-color"?: string;
     border?: string;
-    'border-radius'?: string;
-    'inner-border'?: string;
-    'inner-border-radius'?: string;
+    "border-radius"?: string;
+    "inner-border"?: string;
+    "inner-border-radius"?: string;
     padding?: string;
-    'text-align'?: string;
-    'vertical-align'?: string;
+    "text-align"?: string;
+    "vertical-align"?: string;
     width?: string;
   },
   {}
@@ -23,19 +23,19 @@ export type IColumn = IBlockData<
 
 export const Column = createBlock<IColumn>({
   get name() {
-    return t('Column');
+    return t("Column");
   },
   type: BasicType.COLUMN,
-  create: payload => {
+  create: (payload) => {
     const defaultData: IColumn = {
       type: BasicType.COLUMN,
       data: {
         value: {},
       },
       attributes: {
-        padding: '0px 0px 0px 0px',
-        border: 'none',
-        'vertical-align': 'top',
+        padding: "0px 0px 0px 0px",
+        border: "none",
+        "vertical-align": "top",
       },
       children: [],
     };
@@ -44,11 +44,6 @@ export const Column = createBlock<IColumn>({
   validParentType: [BasicType.SECTION, BasicType.GROUP],
 
   render(params) {
-    return (
-      <BasicBlock
-        params={params}
-        tag='mj-column'
-      />
-    );
+    return <BasicBlock params={params} tag="mj-column" />;
   },
 });

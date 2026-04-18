@@ -7,7 +7,7 @@ export function getIsFormTouched(touchedObj: TouchedObj) {
   const getIsTouch = (o: TouchedObj) => {
     for (const key in o) {
       const val = o[key];
-      if (typeof val === 'object') {
+      if (typeof val === "object") {
         getIsTouch(val);
       } else if (val) {
         hasTouched = true;

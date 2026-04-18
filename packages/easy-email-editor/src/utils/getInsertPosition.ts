@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from "lodash";
 import {
   getChildIdx,
   getIndexByIdx,
@@ -9,8 +9,8 @@ import {
   getParentByIdx,
   BasicType,
   AdvancedType,
-} from 'easy-email-core';
-import { DirectionPosition } from './getDirectionPosition';
+} from "easy-email-core";
+import { DirectionPosition } from "./getDirectionPosition";
 
 interface Params {
   context: { content: IPage };
@@ -42,10 +42,10 @@ export function getInsertPosition(params: Params) {
   if (directlyParent) {
     if (directionPosition.vertical.isEdge) {
       const isTop =
-        directionPosition.vertical.direction === 'top' &&
+        directionPosition.vertical.direction === "top" &&
         getIndexByIdx(idx) === 0;
       const isBottom =
-        directionPosition.vertical.direction === 'bottom' &&
+        directionPosition.vertical.direction === "bottom" &&
         getIndexByIdx(idx) === directlyParent.children.length - 1;
       // 只有第一个和最后一个才能插入
       if (isTop || isBottom) {
@@ -72,8 +72,8 @@ export function getInsertPosition(params: Params) {
       if (isColumnBlock(parentData.parent.type)) {
         const prevParent = getParentByIdx(context, parentData.parentIdx);
         if (prevParent) {
-          const isLeft = directionPosition.horizontal.direction === 'left';
-          console.log('idx', parentData.parentIdx);
+          const isLeft = directionPosition.horizontal.direction === "left";
+          console.log("idx", parentData.parentIdx);
           return {
             parentIdx: getParentIdx(parentData.parentIdx)!,
             insertIndex: isLeft
@@ -109,7 +109,7 @@ function getInsetParentAndIndex(
   hoverIdx: string;
 } | null {
   let hoverIdx = idx;
-  let prevIdx = '';
+  let prevIdx = "";
   let parentIdx: string | undefined = idx;
   while (parentIdx) {
     const parent = get(context, parentIdx) as IBlockData;
@@ -123,7 +123,7 @@ function getInsetParentAndIndex(
 
       const isVertical = verticalBlocks.includes(parent.type);
       if (isVertical && parent.children.length > 0) {
-        const isTop = directionPosition.vertical.direction === 'top';
+        const isTop = directionPosition.vertical.direction === "top";
         return {
           insertIndex: isTop
             ? getIndexByIdx(parentIdx)
@@ -153,36 +153,36 @@ function getInsetParentAndIndex(
       } else {
         // Section/Group block 只能插入column，只有左右方向
         if (parent.children.length === 0) {
-          endDirection = ''; // 认为是直接插入就行了
+          endDirection = ""; // 认为是直接插入就行了
         }
 
         if (isVertical) {
-          if (direction === 'left') {
+          if (direction === "left") {
             insertIndex = 0;
             // 如果有children，则让children高亮
             if (parent.children.length > 0) {
               hoverIdx = getChildIdx(parentIdx, 0);
-              endDirection = 'left';
+              endDirection = "left";
             }
           } else {
             insertIndex = parent.children.length;
             if (parent.children.length > 0) {
               hoverIdx = getChildIdx(parentIdx, insertIndex - 1);
-              endDirection = 'right';
+              endDirection = "right";
             }
           }
         } else {
-          if (direction === 'top') {
+          if (direction === "top") {
             insertIndex = 0;
             if (parent.children.length > 0) {
               hoverIdx = getChildIdx(parentIdx, 0);
-              endDirection = 'top';
+              endDirection = "top";
             }
           } else {
             insertIndex = parent.children.length;
             if (parent.children.length > 0) {
               hoverIdx = getChildIdx(parentIdx, insertIndex - 1);
-              endDirection = 'bottom';
+              endDirection = "bottom";
             }
           }
         }

@@ -1,11 +1,11 @@
-import { BlockType } from './../constants';
-import { IBlock, IBlockData } from '@core/typings';
-import { get, isString } from 'lodash';
-import { ancestorOf } from './ancestorOf';
-import { BlockManager } from './BlockManager';
+import { BlockType } from "./../constants";
+import { IBlock, IBlockData } from "@core/typings";
+import { get, isString } from "lodash";
+import { ancestorOf } from "./ancestorOf";
+import { BlockManager } from "./BlockManager";
 
 export function getPageIdx() {
-  return 'content';
+  return "content";
 }
 
 export function getChildIdx(idx: string, index: number) {
@@ -22,16 +22,16 @@ export function getNodeTypeClassName(type: string) {
 
 export function getNodeIdxFromClassName(classList: DOMTokenList) {
   return Array.from(classList)
-    .find((item) => item.includes('node-idx-'))
-    ?.replace('node-idx-', '');
+    .find((item) => item.includes("node-idx-"))
+    ?.replace("node-idx-", "");
 }
 
 export function getNodeTypeFromClassName(
   classList: DOMTokenList | string
 ): BlockType | null {
-  return Array.from(isString(classList) ? classList.split(' ') : classList)
-    .find((item) => item.includes('node-type-'))
-    ?.replace('node-type-', '') as BlockType;
+  return Array.from(isString(classList) ? classList.split(" ") : classList)
+    .find((item) => item.includes("node-type-"))
+    ?.replace("node-type-", "") as BlockType;
 }
 
 export const getIndexByIdx = (idx: string) => {
@@ -54,12 +54,12 @@ export const getParentByIdx = <T extends IBlockData = IBlockData>(
   values: { content: IBlockData },
   idx: string
 ): T | null => {
-  return get(values, getParentIdx(idx) || '');
+  return get(values, getParentIdx(idx) || "");
 };
 
 export const getSiblingIdx = (sourceIndex: string, num: number) => {
   return sourceIndex.replace(/\[(\d+)\]$/, (_, index) => {
-    if (Number(index) + num < 0) return '[0]';
+    if (Number(index) + num < 0) return "[0]";
     return `[${Number(index) + num}]`;
   });
 };
@@ -112,7 +112,7 @@ export const getParenRelativeByType = <T extends IBlockData>(
   idx: string,
   type: BlockType
 ): { parentIdx: string; insertIndex: number; parent: IBlockData } | null => {
-  let prevIdx = '';
+  let prevIdx = "";
   let parentIdx: string | undefined = idx;
   while (parentIdx) {
     const parent = get(context, parentIdx) as T;

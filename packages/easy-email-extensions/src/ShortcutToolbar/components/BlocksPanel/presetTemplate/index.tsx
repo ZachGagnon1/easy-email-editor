@@ -1,53 +1,50 @@
-import React from 'react';
-import { AdvancedType } from 'easy-email-core';
-import { Stack, TextStyle } from 'easy-email-editor';
+import React from "react";
+import { AdvancedType } from "easy-email-core";
+import { Stack, TextStyle } from "easy-email-editor";
 
-import { TextBlockItem } from './TextBlockItem';
-import { ImageBlockItem } from './ImageBlockItem';
-import { SpacerBlockItem } from './SpacerBlockItem';
-import { DividerBlockItem } from './DividerBlockItem';
-import { HeroBlockItem } from './HeroBlockItem';
-import { ButtonBlockItem } from './ButtonBlockItem';
-import { AccordionBlockItem } from './AccordionBlockItem';
-import { CarouselBlockItem } from './CarouselBlockItem';
-import { NavbarBlockItem } from './NavbarBlockItem';
-import { SocialBlockItem } from './SocialBlockItem';
-import { WrapperBlockItem } from './WrapperBlockItem';
-import { SectionBlockItem } from './SectionBlockItem';
-import { GroupBlockItem } from './GroupBlockItem';
-import { ColumnBlockItem } from './ColumnBlockItem';
+import { TextBlockItem } from "./TextBlockItem";
+import { ImageBlockItem } from "./ImageBlockItem";
+import { SpacerBlockItem } from "./SpacerBlockItem";
+import { DividerBlockItem } from "./DividerBlockItem";
+import { HeroBlockItem } from "./HeroBlockItem";
+import { ButtonBlockItem } from "./ButtonBlockItem";
+import { AccordionBlockItem } from "./AccordionBlockItem";
+import { CarouselBlockItem } from "./CarouselBlockItem";
+import { NavbarBlockItem } from "./NavbarBlockItem";
+import { SocialBlockItem } from "./SocialBlockItem";
+import { WrapperBlockItem } from "./WrapperBlockItem";
+import { SectionBlockItem } from "./SectionBlockItem";
+import { GroupBlockItem } from "./GroupBlockItem";
+import { ColumnBlockItem } from "./ColumnBlockItem";
 
 export const defaultCategories = [
   {
     get title() {
-      return t('Content');
+      return t("Content");
     },
-    name: 'CONTENT',
+    name: "CONTENT",
     blocks: [
       {
         type: AdvancedType.TEXT,
         get title() {
-          return t('Text');
+          return t("Text");
         },
         get description() {
-          return t('This block allows you to display text in your email');
+          return t("This block allows you to display text in your email");
         },
         component: TextBlockItem,
       },
       {
         type: AdvancedType.IMAGE,
         get title() {
-          return t('Image');
+          return t("Image");
         },
         get description() {
           return (
-            <Stack
-              vertical
-              spacing='none'
-            >
+            <Stack vertical spacing="none">
               <TextStyle>
                 {t(
-                  'Displays a responsive image in your email. It is similar to the HTML \'&lt;img/&gt;\' tag. Note that if no width is provided, the image will use the parent column width.',
+                  "Displays a responsive image in your email. It is similar to the HTML '&lt;img/&gt;' tag. Note that if no width is provided, the image will use the parent column width."
                 )}
               </TextStyle>
             </Stack>
@@ -58,21 +55,21 @@ export const defaultCategories = [
       {
         type: AdvancedType.BUTTON,
         get title() {
-          return t('Button');
+          return t("Button");
         },
         get description() {
-          return t('Displays a customizable button.');
+          return t("Displays a customizable button.");
         },
         component: ButtonBlockItem,
       },
       {
         type: AdvancedType.HERO,
         get title() {
-          return t('Hero');
+          return t("Hero");
         },
         get description() {
           return t(
-            'This block displays a hero image. It behaves like an \'section\' with a single \'column\'.',
+            "This block displays a hero image. It behaves like an 'section' with a single 'column'."
           );
         },
         component: HeroBlockItem,
@@ -80,11 +77,11 @@ export const defaultCategories = [
       {
         type: AdvancedType.NAVBAR,
         get title() {
-          return t('Navbar');
+          return t("Navbar");
         },
         get description() {
           return t(
-            'Displays a menu for navigation with an optional hamburger mode for mobile devices.',
+            "Displays a menu for navigation with an optional hamburger mode for mobile devices."
           );
         },
         component: NavbarBlockItem,
@@ -92,21 +89,21 @@ export const defaultCategories = [
       {
         type: AdvancedType.SPACER,
         get title() {
-          return t('Spacer');
+          return t("Spacer");
         },
         get description() {
-          return t('Displays a blank space.');
+          return t("Displays a blank space.");
         },
         component: SpacerBlockItem,
       },
       {
         type: AdvancedType.DIVIDER,
         get title() {
-          return t('Divider');
+          return t("Divider");
         },
         get description() {
           return t(
-            'Displays a horizontal divider that can be customized like a HTML border.',
+            "Displays a horizontal divider that can be customized like a HTML border."
           );
         },
         component: DividerBlockItem,
@@ -114,11 +111,11 @@ export const defaultCategories = [
       {
         type: AdvancedType.ACCORDION,
         get title() {
-          return t('Accordion');
+          return t("Accordion");
         },
         get description() {
           return t(
-            'Accordion is an interactive component to stack content in tabs, so the information is collapsed and only the titles are visible. Readers can interact by clicking on the tabs to reveal the content, providing a great experience on mobile devices where space is scarce.',
+            "Accordion is an interactive component to stack content in tabs, so the information is collapsed and only the titles are visible. Readers can interact by clicking on the tabs to reveal the content, providing a great experience on mobile devices where space is scarce."
           );
         },
         component: AccordionBlockItem,
@@ -126,11 +123,11 @@ export const defaultCategories = [
       {
         type: AdvancedType.CAROUSEL,
         get title() {
-          return t('Carousel');
+          return t("Carousel");
         },
         get description() {
           return t(
-            'This block displays a gallery of images or \'carousel\'. Readers can interact by hovering and clicking on thumbnails depending on the email client they use.',
+            "This block displays a gallery of images or 'carousel'. Readers can interact by hovering and clicking on thumbnails depending on the email client they use."
           );
         },
         component: CarouselBlockItem,
@@ -138,11 +135,11 @@ export const defaultCategories = [
       {
         type: AdvancedType.SOCIAL,
         get title() {
-          return t('Social');
+          return t("Social");
         },
         get description() {
           return t(
-            'Displays calls-to-action for various social networks with their associated logo.',
+            "Displays calls-to-action for various social networks with their associated logo."
           );
         },
         component: SocialBlockItem,
@@ -151,18 +148,18 @@ export const defaultCategories = [
   },
   {
     get title() {
-      return t('Layout');
+      return t("Layout");
     },
-    name: 'LAYOUT',
+    name: "LAYOUT",
     blocks: [
       {
         type: AdvancedType.WRAPPER,
         get title() {
-          return t('Wrapper');
+          return t("Wrapper");
         },
         get description() {
           return t(
-            'Wrapper enables to wrap multiple sections together. It"s especially useful to achieve nested layouts with shared border or background images across sections.',
+            'Wrapper enables to wrap multiple sections together. It"s especially useful to achieve nested layouts with shared border or background images across sections.'
           );
         },
         component: WrapperBlockItem,
@@ -170,22 +167,19 @@ export const defaultCategories = [
       {
         type: AdvancedType.SECTION,
         get title() {
-          return t('Section');
+          return t("Section");
         },
         get description() {
           return (
-            <Stack
-              vertical
-              spacing='none'
-            >
+            <Stack vertical spacing="none">
               <TextStyle>
                 {t(
-                  'Sections are intended to be used as rows within your email. They will be used to structure the layout.',
+                  "Sections are intended to be used as rows within your email. They will be used to structure the layout."
                 )}
               </TextStyle>
               <TextStyle>
                 {t(
-                  'Sections cannot nest in sections. Columns can nest in sections; all content must be in a column.',
+                  "Sections cannot nest in sections. Columns can nest in sections; all content must be in a column."
                 )}
               </TextStyle>
             </Stack>
@@ -196,11 +190,11 @@ export const defaultCategories = [
       {
         type: AdvancedType.GROUP,
         get title() {
-          return t('Group');
+          return t("Group");
         },
         get description() {
           return t(
-            'Group allows you to prevent columns from stacking on mobile. To do so, wrap the columns inside a group block, so they"ll stay side by side on mobile.',
+            'Group allows you to prevent columns from stacking on mobile. To do so, wrap the columns inside a group block, so they"ll stay side by side on mobile.'
           );
         },
         component: GroupBlockItem,
@@ -208,14 +202,11 @@ export const defaultCategories = [
       {
         type: AdvancedType.COLUMN,
         get title() {
-          return t('Column');
+          return t("Column");
         },
         get description() {
           return (
-            <Stack
-              vertical
-              spacing='none'
-            >
+            <Stack vertical spacing="none">
               <TextStyle>
                 {t(`Columns enable you to horizontally organize the content within
                 your sections. They must be located under "Section" block in order

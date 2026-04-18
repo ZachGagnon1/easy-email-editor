@@ -1,12 +1,12 @@
-import { BlockGroup, CollectedBlock } from 'easy-email-editor';
-import createSliceState from './common/createSliceState';
+import { BlockGroup, CollectedBlock } from "easy-email-editor";
+import createSliceState from "./common/createSliceState";
 
-export const COLLECTION_KEY = 'COLLECTION_KEY';
+export const COLLECTION_KEY = "COLLECTION_KEY";
 
 const defaultData = [
   {
-    title: 'Collection',
-    name: 'Collection',
+    title: "Collection",
+    name: "Collection",
     blocks: [] as {
       title: string;
       description?: React.ReactNode;
@@ -20,7 +20,7 @@ const extraBlocksData = JSON.parse(
 );
 
 export default createSliceState({
-  name: 'extraBlocks',
+  name: "extraBlocks",
   initialState: extraBlocksData as BlockGroup[],
   reducers: {
     set: (state, action) => state,

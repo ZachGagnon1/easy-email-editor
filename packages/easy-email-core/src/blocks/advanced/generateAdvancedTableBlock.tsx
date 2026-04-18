@@ -1,10 +1,10 @@
-import { AdvancedType, BasicType } from '@core/constants';
-import { IBlockData } from '@core/typings';
-import { createCustomBlock } from '@core/utils/createCustomBlock';
-import { t } from '@core/utils';
-import { merge } from 'lodash';
-import React from 'react';
-import { BasicBlock } from '@core/components/BasicBlock';
+import { AdvancedType, BasicType } from "@core/constants";
+import { IBlockData } from "@core/typings";
+import { createCustomBlock } from "@core/utils/createCustomBlock";
+import { t } from "@core/utils";
+import { merge } from "lodash";
+import React from "react";
+import { BasicBlock } from "@core/components/BasicBlock";
 
 export function generateAdvancedTableBlock(option: {
   type: string;
@@ -12,38 +12,48 @@ export function generateAdvancedTableBlock(option: {
 }) {
   return createCustomBlock<AdvancedTableBlock>({
     get name() {
-      return t('Table');
+      return t("Table");
     },
     type: option.type,
-    validParentType: [
-      BasicType.COLUMN,
-      AdvancedType.COLUMN,],
-    create: payload => {
+    validParentType: [BasicType.COLUMN, AdvancedType.COLUMN],
+    create: (payload) => {
       const defaultData: AdvancedTableBlock = {
         type: option.type,
         data: {
           value: {
             tableSource: [
-              [{ content: 'header1' }, { content: 'header2' }, { content: 'header3' }],
-              [{ content: 'body1-1' }, { content: 'body1-2' }, { content: 'body1-3' }],
-              [{ content: 'body2-1' }, { content: 'body2-2' }, { content: 'body2-3' }],
+              [
+                { content: "header1" },
+                { content: "header2" },
+                { content: "header3" },
+              ],
+              [
+                { content: "body1-1" },
+                { content: "body1-2" },
+                { content: "body1-3" },
+              ],
+              [
+                { content: "body2-1" },
+                { content: "body2-2" },
+                { content: "body2-3" },
+              ],
             ],
           },
         },
         attributes: {
-          cellBorderColor: '#000000',
-          cellPadding: '8px',
-          'text-align': 'center',
+          cellBorderColor: "#000000",
+          cellPadding: "8px",
+          "text-align": "center",
         },
         children: [],
       };
       return merge(defaultData, payload);
     },
-    render: params => {
+    render: (params) => {
       const { data } = params;
       const { cellPadding, cellBorderColor } = data.attributes;
-      const textAlign = data.attributes['text-align'];
-      const fontStyle = data.attributes['font-style'];
+      const textAlign = data.attributes["text-align"];
+      const fontStyle = data.attributes["font-style"];
 
       const content = data.data.value.tableSource
         .map((tr, index) => {
@@ -55,22 +65,21 @@ export function generateAdvancedTableBlock(option: {
             styles.push(`border: 1px solid ${cellBorderColor}`);
           }
           const _trString = tr.map(
-            e =>
+            (e) =>
               `<td rowspan="${e.rowSpan || 1}" colspan="${
                 e.colSpan || 1
-              }" style="${styles.join(';')}; background-color:${e.backgroundColor};">${e.content}</td>`,
+              }" style="${styles.join(";")}; background-color:${
+                e.backgroundColor
+              };">${e.content}</td>`
           );
           return `<tr style="text-align:${textAlign};font-style:${fontStyle};">${_trString.join(
-            '\n',
+            "\n"
           )}</tr>`;
         })
-        .join('\n');
+        .join("\n");
 
       return (
-        <BasicBlock
-          params={params}
-          tag='mj-table'
-        >
+        <BasicBlock params={params} tag="mj-table">
           {content}
         </BasicBlock>
       );
@@ -89,8 +98,8 @@ export type AdvancedTableBlock = IBlockData<
   {
     cellPadding?: string;
     cellBorderColor?: string;
-    'font-style'?: string;
-    'text-align'?: string;
+    "font-style"?: string;
+    "text-align"?: string;
   },
   {
     content?: string;

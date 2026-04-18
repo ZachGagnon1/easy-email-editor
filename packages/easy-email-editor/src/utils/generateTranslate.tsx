@@ -1,5 +1,5 @@
-import { get } from 'lodash';
-import React from 'react';
+import { get } from "lodash";
+import React from "react";
 
 export function generateTranslate(localeData: Record<string, string>): any {
   return (key: string, placeholder?: React.ReactNode) => {
@@ -7,7 +7,7 @@ export function generateTranslate(localeData: Record<string, string>): any {
     if (!placeholder) {
       return translationValue;
     }
-    const arr: React.ReactNode[] = translationValue.split('***');
+    const arr: React.ReactNode[] = translationValue.split("***");
     arr.splice(1, 0, placeholder);
 
     return (

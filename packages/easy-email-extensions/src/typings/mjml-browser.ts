@@ -1,11 +1,11 @@
-declare module 'mjml-browser' {
+declare module "mjml-browser" {
   const transform: (
     vml: string,
     options?: {
       beautify?: boolean;
       minify?: boolean;
       keepComments?: boolean;
-      validationLevel: 'strict' | 'soft' | 'skip';
+      validationLevel: "strict" | "soft" | "skip";
     }
   ) => {
     json: MjmlBlockItem;
@@ -34,7 +34,7 @@ interface IChildrenItem {
   children?: IChildrenItem[];
   attributes: IAttributes;
   content?: string;
-  inline?: 'inline';
+  inline?: "inline";
 }
 interface IAttributes {
   [key: string]: any;

@@ -1,8 +1,8 @@
-import { getCorrectTableIndexBoundary, getMaxTdCount, setStyle } from './util';
-import styleText from './menu.scss?inline';
-import { IBoundingPosition, IOperationData } from './type';
-import MENU_CONFIG from './tableMenuConfig';
-import { getIframeDocument } from 'easy-email-editor';
+import { getCorrectTableIndexBoundary, getMaxTdCount, setStyle } from "./util";
+import styleText from "./menu.scss?inline";
+import { IBoundingPosition, IOperationData } from "./type";
+import MENU_CONFIG from "./tableMenuConfig";
+import { getIframeDocument } from "easy-email-editor";
 
 const MENU_HEIGHT = 305;
 const MENU_WIDTH = 200;
@@ -29,7 +29,7 @@ export default class TableOperationMenu {
     if (this.domNode) {
       iframeDocument?.body.appendChild(this.domNode);
     }
-    iframeDocument?.body.addEventListener('click', this.hide.bind(this));
+    iframeDocument?.body.addEventListener("click", this.hide.bind(this));
   }
 
   destroy() {
@@ -39,7 +39,7 @@ export default class TableOperationMenu {
     if (this.styleDom) {
       iframeDocument?.head.removeChild(this.styleDom);
     }
-    iframeDocument?.body.removeEventListener('click', this.hide.bind(this));
+    iframeDocument?.body.removeEventListener("click", this.hide.bind(this));
   }
 
   hide() {
@@ -48,12 +48,14 @@ export default class TableOperationMenu {
     }
     this.visible = false;
     setStyle(this.domNode, {
-      display: 'none',
+      display: "none",
     });
   }
 
   addRow(insertIndex: number, colCount: number) {
-    const newRow = Array.from({ length: colCount }).map(() => ({ content: '-' }) as any);
+    const newRow = Array.from({ length: colCount }).map(
+      () => ({ content: "-" } as any)
+    );
     this.tableData.splice(insertIndex, 0, newRow);
     this.changeTableData?.(this.tableData);
   }
@@ -67,7 +69,7 @@ export default class TableOperationMenu {
     // get correct boundary index and set table-td boundary
     this.tableIndexBoundary = getCorrectTableIndexBoundary(
       tableIndexBoundary,
-      this.tableData,
+      this.tableData
     );
   }
 
@@ -83,11 +85,11 @@ export default class TableOperationMenu {
       y -= MENU_HEIGHT;
     }
     setStyle(this.domNode, {
-      display: 'block',
-      position: 'absolute',
+      display: "block",
+      position: "absolute",
       left: `${x}px`,
       top: `${y}px`,
-      'min-height': '150px',
+      "min-height": "150px",
       width: `${MENU_WIDTH}px`,
       Height: `${MENU_HEIGHT}px`,
     });
@@ -95,17 +97,17 @@ export default class TableOperationMenu {
 
   menuInitial() {
     const iframeDocument = getIframeDocument();
-    this.styleDom = iframeDocument?.createElement('style');
+    this.styleDom = iframeDocument?.createElement("style");
     if (this.styleDom) {
       this.styleDom.innerText = styleText;
       iframeDocument?.head.appendChild(this.styleDom);
     }
 
-    this.domNode = iframeDocument?.createElement('div');
+    this.domNode = iframeDocument?.createElement("div");
 
     if (this.domNode) {
-      this.domNode.classList.add('easy-email-table-operation-menu');
-      setStyle(this.domNode, { display: 'none' });
+      this.domNode.classList.add("easy-email-table-operation-menu");
+      setStyle(this.domNode, { display: "none" });
 
       for (let name in this.menuItems) {
         const itemOption = (this.menuItems as any)[name];
@@ -113,10 +115,10 @@ export default class TableOperationMenu {
           this.domNode.appendChild(
             itemOption.render
               ? itemOption.render(this)
-              : this.menuItemCreator(Object.assign({}, itemOption)),
+              : this.menuItemCreator(Object.assign({}, itemOption))
           );
 
-          if (['insertRowDown', 'deleteRow'].indexOf(name) > -1) {
+          if (["insertRowDown", "deleteRow"].indexOf(name) > -1) {
             this.domNode.appendChild(dividingCreator());
           }
         }
@@ -127,8 +129,8 @@ export default class TableOperationMenu {
     function dividingCreator() {
       const iframeDocument = getIframeDocument();
 
-      const dividing = iframeDocument?.createElement('div');
-      dividing?.classList.add('easy-email-table-operation-menu-dividing');
+      const dividing = iframeDocument?.createElement("div");
+      dividing?.classList.add("easy-email-table-operation-menu-dividing");
 
       return dividing as HTMLDivElement;
     }
@@ -137,17 +139,17 @@ export default class TableOperationMenu {
   menuItemCreator({ text, icon, handler }: any) {
     const iframeDocument = getIframeDocument();
 
-    const node = iframeDocument?.createElement('div');
-    node?.classList.add('easy-email-table-operation-menu-item');
+    const node = iframeDocument?.createElement("div");
+    node?.classList.add("easy-email-table-operation-menu-item");
 
-    const iconSpan = iframeDocument?.createElement('span');
-    iconSpan?.classList.add('easy-email-table-operation-menu-icon');
+    const iconSpan = iframeDocument?.createElement("span");
+    iconSpan?.classList.add("easy-email-table-operation-menu-icon");
     if (iconSpan) {
       iconSpan.innerHTML = icon;
     }
 
-    const textSpan = iframeDocument?.createElement('span');
-    textSpan?.classList.add('easy-email-table-operation-menu-text');
+    const textSpan = iframeDocument?.createElement("span");
+    textSpan?.classList.add("easy-email-table-operation-menu-text");
     if (textSpan) {
       textSpan.innerText = text;
     }
@@ -155,7 +157,7 @@ export default class TableOperationMenu {
     if (node && iconSpan && textSpan) {
       node.appendChild(iconSpan);
       node.appendChild(textSpan);
-      node.addEventListener('click', handler.bind(this), false);
+      node.addEventListener("click", handler.bind(this), false);
     }
     return node;
   }

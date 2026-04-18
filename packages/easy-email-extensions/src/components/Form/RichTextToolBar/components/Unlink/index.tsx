@@ -1,8 +1,8 @@
-import { PopoverProps } from '@arco-design/web-react';
-import React, { useCallback, useMemo } from 'react';
-import { IconFont } from 'easy-email-editor';
-import { ToolItem } from '../ToolItem';
-import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
+import { PopoverProps } from "@arco-design/web-react";
+import React, { useCallback, useMemo } from "react";
+import { IconFont } from "easy-email-editor";
+import { ToolItem } from "../ToolItem";
+import { EMAIL_BLOCK_CLASS_NAME } from "easy-email-core";
 
 export interface LinkParams {
   link: string;
@@ -16,12 +16,12 @@ export interface LinkProps extends PopoverProps {
   onChange: () => void;
 }
 
-function getAnchorElement(
-  node: Node | null,
-): HTMLAnchorElement | null {
+function getAnchorElement(node: Node | null): HTMLAnchorElement | null {
   if (!node) return null;
-  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME)) return null;
-  if ((node as Element).tagName?.toLocaleLowerCase() === 'a') return node as HTMLAnchorElement;
+  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME))
+    return null;
+  if ((node as Element).tagName?.toLocaleLowerCase() === "a")
+    return node as HTMLAnchorElement;
   return getAnchorElement(node.parentNode);
 }
 
@@ -38,7 +38,6 @@ export function Unlink(props: LinkProps) {
   const { onChange } = props;
   const linkNode = useMemo(() => {
     return getLinkNode(props.currentRange);
-
   }, [props.currentRange]);
 
   const onUnlink = useCallback(() => {
@@ -49,6 +48,10 @@ export function Unlink(props: LinkProps) {
   }, [linkNode, onChange]);
 
   return (
-      <ToolItem title={t('Unlink')} icon={<IconFont iconName='icon-unlink' />} onClick={onUnlink} />
+    <ToolItem
+      title={t("Unlink")}
+      icon={<IconFont iconName="icon-unlink" />}
+      onClick={onUnlink}
+    />
   );
 }

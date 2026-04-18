@@ -1,5 +1,10 @@
-import { getParentIdx, getIndexByIdx, BlockManager, getNodeIdxFromClassName } from 'easy-email-core';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  getParentIdx,
+  getIndexByIdx,
+  BlockManager,
+  getNodeIdxFromClassName,
+} from "easy-email-core";
+import { useCallback, useEffect, useState } from "react";
 import {
   getBlockNodeByChildEle,
   getDirectionPosition,
@@ -7,10 +12,10 @@ import {
   useDataTransfer,
   useHoverIdx,
   useRefState,
-} from 'easy-email-editor';
-import { debounce, get } from 'lodash';
-import { IBlockDataWithId } from '..';
-import { BlockTreeProps } from '../components/BlockTree';
+} from "easy-email-editor";
+import { debounce, get } from "lodash";
+import { IBlockDataWithId } from "..";
+import { BlockTreeProps } from "../components/BlockTree";
 
 export function useAvatarWrapperDrop() {
   const [blockLayerRef, setBlockLayerRef] = useState<HTMLElement | null>(null);
@@ -34,18 +39,18 @@ export function useAvatarWrapperDrop() {
     if (!blockLayerRef) return;
     blockLayerRef
       .querySelectorAll(
-        '.arco-tree-node-title-gap-top, .arco-tree-node-title-gap-bottom, .arco-tree-node-title-highlight'
+        ".arco-tree-node-title-gap-top, .arco-tree-node-title-gap-bottom, .arco-tree-node-title-highlight"
       )
       .forEach((item) => {
         item.classList.remove(
-          'arco-tree-node-title-gap-top',
-          'arco-tree-node-title-gap-bottom',
-          'arco-tree-node-title-highlight'
+          "arco-tree-node-title-gap-top",
+          "arco-tree-node-title-gap-bottom",
+          "arco-tree-node-title-highlight"
         );
       });
   }, [blockLayerRef]);
 
-  const allowDrop: BlockTreeProps<IBlockDataWithId>['allowDrop'] = useCallback(
+  const allowDrop: BlockTreeProps<IBlockDataWithId>["allowDrop"] = useCallback(
     (params) => {
       const { dragNode, dropNode, dropPosition } = params;
       let dragType;
@@ -92,8 +97,8 @@ export function useAvatarWrapperDrop() {
           };
         }
       }
-      setDirection('');
-      setHoverIdx('');
+      setDirection("");
+      setHoverIdx("");
       return false;
     },
     [setDirection, setHoverIdx, valuesRef]
@@ -126,12 +131,12 @@ export function useAvatarWrapperDrop() {
 
         let dropPosition = 0;
         if (
-          directionPosition.vertical.direction === 'top' &&
+          directionPosition.vertical.direction === "top" &&
           directionPosition.vertical.isEdge
         ) {
           dropPosition = -1;
         } else if (
-          directionPosition.vertical.direction === 'bottom' &&
+          directionPosition.vertical.direction === "bottom" &&
           directionPosition.vertical.isEdge
         ) {
           dropPosition = 1;
@@ -154,13 +159,13 @@ export function useAvatarWrapperDrop() {
         )?.parentNode?.parentNode;
         if (node instanceof HTMLElement) {
           removeHightLightClassName();
-          node.classList.add('arco-tree-node-title-gap-bottom');
+          node.classList.add("arco-tree-node-title-gap-bottom");
         }
         setDirection(getDirectionFormDropPosition(dropResult.position));
         setHoverIdx(dropResult.key);
 
         if (dropResult.position === -1) {
-          treeNodeEle.classList.add('arco-tree-node-title-gap-top');
+          treeNodeEle.classList.add("arco-tree-node-title-gap-top");
           setDataTransfer((dataTransfer: any) => {
             return {
               ...dataTransfer,
@@ -176,9 +181,9 @@ export function useAvatarWrapperDrop() {
               positionIndex: getIndexByIdx(dropIdx) + 1,
             };
           });
-          treeNodeEle.classList.add('arco-tree-node-title-gap-bottom');
+          treeNodeEle.classList.add("arco-tree-node-title-gap-bottom");
         } else {
-          treeNodeEle.classList.add('arco-tree-node-title-highlight');
+          treeNodeEle.classList.add("arco-tree-node-title-highlight");
           setDataTransfer((dataTransfer: any) => {
             return {
               ...dataTransfer,
@@ -199,14 +204,14 @@ export function useAvatarWrapperDrop() {
         }, 0);
       };
 
-      blockLayerRef.addEventListener('dragover', onDragOver);
-      blockLayerRef.addEventListener('drop', onDrop);
-      blockLayerRef.addEventListener('dragleave', onDragend);
+      blockLayerRef.addEventListener("dragover", onDragOver);
+      blockLayerRef.addEventListener("drop", onDrop);
+      blockLayerRef.addEventListener("dragleave", onDragend);
 
       return () => {
-        blockLayerRef.removeEventListener('dragover', onDragOver);
-        blockLayerRef.removeEventListener('drop', onDrop);
-        blockLayerRef.removeEventListener('dragleave', onDragend);
+        blockLayerRef.removeEventListener("dragover", onDragOver);
+        blockLayerRef.removeEventListener("drop", onDrop);
+        blockLayerRef.removeEventListener("dragleave", onDragend);
       };
     }
   }, [
@@ -229,7 +234,7 @@ export function useAvatarWrapperDrop() {
 }
 
 export function getDirectionFormDropPosition(position: number) {
-  if (position === -1) return 'top';
-  if (position === 1) return 'bottom';
-  return '';
+  if (position === -1) return "top";
+  if (position === 1) return "bottom";
+  return "";
 }

@@ -1,20 +1,31 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { InputWithUnitField } from '../../../components/Form';
-import { useFocusIdx, Stack, useBlock, TextStyle, IconFont } from 'easy-email-editor';
-import { createBlockDataByType } from 'easy-email-core';
-import { Form, useFormState } from 'react-final-form';
-import { Button, Grid, Space, Tooltip } from '@arco-design/web-react';
-import { get } from 'lodash';
-import { pixelAdapter } from '../adapter';
+import React, { useCallback, useEffect, useMemo } from "react";
+import { InputWithUnitField } from "../../../components/Form";
+import {
+  useFocusIdx,
+  Stack,
+  useBlock,
+  TextStyle,
+  IconFont,
+} from "easy-email-editor";
+import { createBlockDataByType } from "easy-email-core";
+import { Form, useFormState } from "react-final-form";
+import { Button, Grid, Space, Tooltip } from "@arco-design/web-react";
+import { get } from "lodash";
+import { pixelAdapter } from "../adapter";
 
 export interface PaddingProps {
   title?: string;
-  attributeName?: 'padding' | 'inner-padding' | 'text-padding';
+  attributeName?: "padding" | "inner-padding" | "text-padding";
   name?: string;
   showResetAll?: boolean;
 }
 export function Padding(props: PaddingProps = {}) {
-  const { title = t('Padding'), attributeName = 'padding', name, showResetAll } = props;
+  const {
+    title = t("Padding"),
+    attributeName = "padding",
+    name,
+    showResetAll,
+  } = props;
   const { focusBlock, change, values } = useBlock();
   const { focusIdx } = useFocusIdx();
 
@@ -22,7 +33,7 @@ export function Padding(props: PaddingProps = {}) {
 
   const defaultConfig = useMemo(
     () => (type ? createBlockDataByType(type) : undefined),
-    [type],
+    [type]
   );
 
   const paddingValue: string | undefined = useMemo(() => {
@@ -40,13 +51,13 @@ export function Padding(props: PaddingProps = {}) {
   }, [attributeName, defaultConfig?.attributes, name]);
 
   const paddingFormValues = useMemo(() => {
-    const paddingList = paddingValue?.split(' ');
-    const defaultPaddingList = defaultPaddingValue?.split(' ');
+    const paddingList = paddingValue?.split(" ");
+    const defaultPaddingList = defaultPaddingValue?.split(" ");
 
-    const top = paddingList ? paddingList[0] : defaultPaddingList?.[0] || '';
-    const right = paddingList ? paddingList[1] : defaultPaddingList?.[1] || '';
-    const bottom = paddingList ? paddingList[2] : defaultPaddingList?.[2] || '';
-    const left = paddingList ? paddingList[3] : defaultPaddingList?.[3] || '';
+    const top = paddingList ? paddingList[0] : defaultPaddingList?.[0] || "";
+    const right = paddingList ? paddingList[1] : defaultPaddingList?.[1] || "";
+    const bottom = paddingList ? paddingList[2] : defaultPaddingList?.[2] || "";
+    const left = paddingList ? paddingList[3] : defaultPaddingList?.[3] || "";
 
     return {
       top,
@@ -64,13 +75,13 @@ export function Padding(props: PaddingProps = {}) {
         change(focusIdx + `.attributes[${attributeName}]`, val);
       }
     },
-    [name, change, focusIdx, attributeName],
+    [name, change, focusIdx, attributeName]
   );
   const onResetPadding = useCallback(() => {
     if (name) {
-      change(name, '0px 0px 0px 0px');
+      change(name, "0px 0px 0px 0px");
     } else {
-      change(focusIdx + `.attributes[${attributeName}]`, '0px 0px 0px 0px');
+      change(focusIdx + `.attributes[${attributeName}]`, "0px 0px 0px 0px");
     }
   }, [name, change, focusIdx, attributeName]);
 
@@ -84,23 +95,15 @@ export function Padding(props: PaddingProps = {}) {
       {() => {
         return (
           <>
-            <Stack
-              vertical
-              spacing='extraTight'
-            >
-              <Space align='center'>
-                <TextStyle variation='strong'>{title}</TextStyle>
+            <Stack vertical spacing="extraTight">
+              <Space align="center">
+                <TextStyle variation="strong">{title}</TextStyle>
                 {showResetAll && (
-                  <Tooltip content='Remove all padding'>
+                  <Tooltip content="Remove all padding">
                     <Button
                       onClick={onResetPadding}
-                      size='mini'
-                      icon={(
-                        <IconFont
-                          iconName='icon-remove'
-                          size={12}
-                        />
-                      )}
+                      size="mini"
+                      icon={<IconFont iconName="icon-remove" size={12} />}
                     />
                   </Tooltip>
                 )}
@@ -109,20 +112,17 @@ export function Padding(props: PaddingProps = {}) {
               <Grid.Row>
                 <Grid.Col span={11}>
                   <InputWithUnitField
-                    label={t('Top (px)')}
-                    name='top'
-                    autoComplete='off'
+                    label={t("Top (px)")}
+                    name="top"
+                    autoComplete="off"
                     config={pixelAdapter}
                   />
                 </Grid.Col>
-                <Grid.Col
-                  offset={1}
-                  span={11}
-                >
+                <Grid.Col offset={1} span={11}>
                   <InputWithUnitField
-                    label={t('Left (px)')}
-                    name='left'
-                    autoComplete='off'
+                    label={t("Left (px)")}
+                    name="left"
+                    autoComplete="off"
                     config={pixelAdapter}
                   />
                 </Grid.Col>
@@ -131,20 +131,17 @@ export function Padding(props: PaddingProps = {}) {
               <Grid.Row>
                 <Grid.Col span={11}>
                   <InputWithUnitField
-                    label={t('Bottom (px)')}
-                    name='bottom'
+                    label={t("Bottom (px)")}
+                    name="bottom"
                     config={pixelAdapter}
-                    autoComplete='off'
+                    autoComplete="off"
                   />
                 </Grid.Col>
-                <Grid.Col
-                  offset={1}
-                  span={11}
-                >
+                <Grid.Col offset={1} span={11}>
                   <InputWithUnitField
-                    label={t('Right (px)')}
-                    name='right'
-                    autoComplete='off'
+                    label={t("Right (px)")}
+                    name="right"
+                    autoComplete="off"
                     config={pixelAdapter}
                   />
                 </Grid.Col>
@@ -158,14 +155,16 @@ export function Padding(props: PaddingProps = {}) {
   );
 }
 
-const PaddingChangeWrapper: React.FC<{ onChange: (val: string) => void }> = props => {
+const PaddingChangeWrapper: React.FC<{ onChange: (val: string) => void }> = (
+  props
+) => {
   const {
     values: { top, right, bottom, left },
   } = useFormState();
   const { onChange } = props;
 
   useEffect(() => {
-    onChange([top, right, bottom, left].join(' '));
+    onChange([top, right, bottom, left].join(" "));
   }, [top, right, bottom, left, onChange]);
 
   return <></>;

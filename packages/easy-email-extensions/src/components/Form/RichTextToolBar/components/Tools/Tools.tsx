@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
-import { ToolItem } from '../ToolItem';
-import { getLinkNode, Link, LinkParams } from '../Link';
+import React, { useCallback } from "react";
+import { ToolItem } from "../ToolItem";
+import { getLinkNode, Link, LinkParams } from "../Link";
 import {
   AvailableTools,
   getIframeDocument,
@@ -8,20 +8,20 @@ import {
   MergeTagBadge,
   useEditorProps,
   useFocusBlockLayout,
-} from 'easy-email-editor';
-import { FontFamily } from '../FontFamily';
-import { MergeTags } from '../MergeTags';
-import { useSelectionRange } from '@extensions/AttributePanel/hooks/useSelectionRange';
-import { IconBgColor } from './IconBgColor';
-import { IconFontColor } from './IconFontColor';
-import { BasicTools } from '../BasicTools';
-import { Unlink } from '../Unlink';
-import { StrikeThrough } from '../StrikeThrough';
-import { Underline } from '../Underline';
-import { Italic } from '../Italic';
-import { Bold } from '../Bold';
-import { FontSize } from '../FontSize';
-import { RICH_TEXT_TOOL_BAR } from '@extensions/constants';
+} from "easy-email-editor";
+import { FontFamily } from "../FontFamily";
+import { MergeTags } from "../MergeTags";
+import { useSelectionRange } from "@extensions/AttributePanel/hooks/useSelectionRange";
+import { IconBgColor } from "./IconBgColor";
+import { IconFontColor } from "./IconFontColor";
+import { BasicTools } from "../BasicTools";
+import { Unlink } from "../Unlink";
+import { StrikeThrough } from "../StrikeThrough";
+import { Underline } from "../Underline";
+import { Italic } from "../Italic";
+import { Bold } from "../Bold";
+import { FontSize } from "../FontSize";
+import { RICH_TEXT_TOOL_BAR } from "@extensions/constants";
 
 export interface ToolsProps {
   onChange: (content: string) => any;
@@ -30,24 +30,25 @@ export interface ToolsProps {
 export function Tools(props: ToolsProps) {
   const { mergeTags, enabledMergeTagsBadge, toolbar } = useEditorProps();
   const { focusBlockNode } = useFocusBlockLayout();
-  const { selectionRange, restoreRange, setRangeByElement } = useSelectionRange();
+  const { selectionRange, restoreRange, setRangeByElement } =
+    useSelectionRange();
 
   const execCommand = useCallback(
     (cmd: string, val?: any) => {
       if (!selectionRange) {
-        console.error(t('No selectionRange'));
+        console.error(t("No selectionRange"));
         return;
       }
       if (!focusBlockNode?.contains(selectionRange?.commonAncestorContainer)) {
-        console.error(t('Not commonAncestorContainer'));
+        console.error(t("Not commonAncestorContainer"));
         return;
       }
 
       restoreRange(selectionRange);
       const uuid = (+new Date()).toString();
-      if (cmd === 'createLink') {
+      if (cmd === "createLink") {
         const linkData = val as LinkParams;
-        const target = linkData.blank ? '_blank' : '';
+        const target = linkData.blank ? "_blank" : "";
         let link: HTMLAnchorElement;
         if (linkData.linkNode) {
           link = linkData.linkNode;
@@ -58,12 +59,12 @@ export function Tools(props: ToolsProps) {
         }
 
         if (target) {
-          link.setAttribute('target', target);
+          link.setAttribute("target", target);
         }
-        link.style.color = 'inherit';
-        link.style.textDecoration = linkData.underline ? 'underline' : 'none';
-        link.setAttribute('href', linkData.link.trim());
-      } else if (cmd === 'insertHTML') {
+        link.style.color = "inherit";
+        link.style.textDecoration = linkData.underline ? "underline" : "none";
+        link.setAttribute("href", linkData.link.trim());
+      } else if (cmd === "insertHTML") {
         let newContent = val;
         if (enabledMergeTagsBadge) {
           newContent = MergeTagBadge.transform(val, uuid);
@@ -75,19 +76,19 @@ export function Tools(props: ToolsProps) {
           insertMergeTagEle.focus();
           setRangeByElement(insertMergeTagEle);
         }
-      } else if (cmd === 'foreColor') {
+      } else if (cmd === "foreColor") {
         getIframeDocument()?.execCommand(cmd, false, val);
         let linkNode: HTMLAnchorElement | null = getLinkNode(selectionRange);
         if (linkNode) {
-          linkNode.style.color = 'inherit';
+          linkNode.style.color = "inherit";
         }
       } else {
         getIframeDocument()?.execCommand(cmd, false, val);
       }
 
       const contenteditableElement = getIframeDocument()?.activeElement;
-      if (contenteditableElement?.getAttribute('contenteditable') === 'true') {
-        const html = getIframeDocument()?.activeElement?.innerHTML || '';
+      if (contenteditableElement?.getAttribute("contenteditable") === "true") {
+        const html = getIframeDocument()?.activeElement?.innerHTML || "";
         props.onChange(html);
       }
     },
@@ -98,22 +99,27 @@ export function Tools(props: ToolsProps) {
       restoreRange,
       selectionRange,
       setRangeByElement,
-    ],
+    ]
   );
 
   const execCommandWithRange = useCallback(
     (cmd: string, val?: any) => {
       getIframeDocument()?.execCommand(cmd, false, val);
-      const contenteditableElement = getIframeDocument()?.getSelection()?.focusNode as HTMLElement | null;
-      if (contenteditableElement?.getAttribute && contenteditableElement?.getAttribute('contenteditable') === 'true') {
-        const html = contenteditableElement.innerHTML ?? '';
+      const contenteditableElement = getIframeDocument()?.getSelection()
+        ?.focusNode as HTMLElement | null;
+      if (
+        contenteditableElement?.getAttribute &&
+        contenteditableElement?.getAttribute("contenteditable") === "true"
+      ) {
+        const html = contenteditableElement.innerHTML ?? "";
         props.onChange(html);
       }
     },
-    [props.onChange],
+    [props.onChange]
   );
 
-  const getPopoverMountNode = () => getIframeDocument()?.getElementById(RICH_TEXT_TOOL_BAR)!;
+  const getPopoverMountNode = () =>
+    getIframeDocument()?.getElementById(RICH_TEXT_TOOL_BAR)!;
 
   const enabledTools = toolbar?.tools ?? [
     AvailableTools.MergeTags,
@@ -132,7 +138,7 @@ export function Tools(props: ToolsProps) {
     AvailableTools.RemoveFormat,
   ];
 
-  const tools = enabledTools.flatMap(tool => {
+  const tools = enabledTools.flatMap((tool) => {
     switch (tool) {
       case AvailableTools.MergeTags:
         if (!mergeTags) return [];
@@ -164,7 +170,7 @@ export function Tools(props: ToolsProps) {
           <Bold
             key={tool}
             currentRange={selectionRange}
-            onChange={() => execCommandWithRange('bold')}
+            onChange={() => execCommandWithRange("bold")}
           />,
         ];
       case AvailableTools.Italic:
@@ -172,7 +178,7 @@ export function Tools(props: ToolsProps) {
           <Italic
             key={tool}
             currentRange={selectionRange}
-            onChange={() => execCommandWithRange('italic')}
+            onChange={() => execCommandWithRange("italic")}
           />,
         ];
       case AvailableTools.StrikeThrough:
@@ -180,7 +186,7 @@ export function Tools(props: ToolsProps) {
           <StrikeThrough
             key={tool}
             currentRange={selectionRange}
-            onChange={() => execCommandWithRange('strikeThrough')}
+            onChange={() => execCommandWithRange("strikeThrough")}
           />,
         ];
       case AvailableTools.Underline:
@@ -188,7 +194,7 @@ export function Tools(props: ToolsProps) {
           <Underline
             key={tool}
             currentRange={selectionRange}
-            onChange={() => execCommandWithRange('underline')}
+            onChange={() => execCommandWithRange("underline")}
           />,
         ];
       case AvailableTools.IconFontColor:
@@ -214,71 +220,71 @@ export function Tools(props: ToolsProps) {
           <Link
             key={`${tool}-link`}
             currentRange={selectionRange}
-            onChange={values => execCommand('createLink', values)}
+            onChange={(values) => execCommand("createLink", values)}
             getPopupContainer={getPopoverMountNode}
           />,
           <Unlink
             key={`${tool}-unlink`}
             currentRange={selectionRange}
-            onChange={() => execCommand('')}
+            onChange={() => execCommand("")}
           />,
         ];
-      case 'justify':
+      case "justify":
         return [
           <ToolItem
             key={`${tool}-justify-left`}
-            onClick={() => execCommand('justifyLeft')}
+            onClick={() => execCommand("justifyLeft")}
             icon={<IconFont iconName="icon-align-left" />}
-            title={t('Align left')}
+            title={t("Align left")}
           />,
           <ToolItem
             key={`${tool}-justify-center`}
-            onClick={() => execCommand('justifyCenter')}
+            onClick={() => execCommand("justifyCenter")}
             icon={<IconFont iconName="icon-align-center" />}
-            title={t('Align center')}
+            title={t("Align center")}
           />,
           <ToolItem
             key={`${tool}-justify-right`}
-            onClick={() => execCommand('justifyRight')}
+            onClick={() => execCommand("justifyRight")}
             icon={<IconFont iconName="icon-align-right" />}
-            title={t('Align right')}
+            title={t("Align right")}
           />,
         ];
       case AvailableTools.Lists:
         return [
           <ToolItem
             key={`${tool}-ordered-list`}
-            onClick={() => execCommand('insertOrderedList')}
+            onClick={() => execCommand("insertOrderedList")}
             icon={<IconFont iconName="icon-list-ol" />}
-            title={t('Orderlist')}
+            title={t("Orderlist")}
           />,
           <ToolItem
             key={`${tool}-unordered-list`}
-            onClick={() => execCommand('insertUnorderedList')}
+            onClick={() => execCommand("insertUnorderedList")}
             icon={<IconFont iconName="icon-list-ul" />}
-            title={t('Unorderlist')}
+            title={t("Unorderlist")}
           />,
         ];
       case AvailableTools.HorizontalRule:
         return [
           <ToolItem
             key={tool}
-            onClick={() => execCommand('insertHorizontalRule')}
+            onClick={() => execCommand("insertHorizontalRule")}
             icon={<IconFont iconName="icon-line" />}
-            title={t('Line')}
+            title={t("Line")}
           />,
         ];
       case AvailableTools.RemoveFormat:
         return [
           <ToolItem
             key={tool}
-            onClick={() => execCommandWithRange('removeFormat')}
+            onClick={() => execCommandWithRange("removeFormat")}
             icon={<IconFont iconName="icon-close" />}
-            title={t('Remove format')}
+            title={t("Remove format")}
           />,
         ];
       default:
-        console.error('Not existing tool', tool);
+        console.error("Not existing tool", tool);
         throw new Error(`Not existing tool ${tool}`);
     }
   });
@@ -286,12 +292,12 @@ export function Tools(props: ToolsProps) {
   return (
     <div
       id={RICH_TEXT_TOOL_BAR}
-      style={{ display: 'flex', flexWrap: 'nowrap' }}
+      style={{ display: "flex", flexWrap: "nowrap" }}
     >
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
         }}
       >
         <BasicTools />

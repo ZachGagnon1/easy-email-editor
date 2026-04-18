@@ -1,6 +1,9 @@
-import { posthog } from './posthog';
+import { posthog } from "./posthog";
 
-export function pushEvent(params: { event: string; payload?: Record<string, any> }) {
+export function pushEvent(params: {
+  event: string;
+  payload?: Record<string, any>;
+}) {
   const dataLayer = (window as any).dataLayer as any[];
   if (!dataLayer) return;
 

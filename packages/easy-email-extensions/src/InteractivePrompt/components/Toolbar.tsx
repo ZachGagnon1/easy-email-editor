@@ -1,9 +1,14 @@
-import React from 'react';
-import { BasicType, getParentIdx, getSiblingIdx } from 'easy-email-core';
-import { useBlock, useFocusIdx, useEditorProps, isTextBlock } from 'easy-email-editor';
-import { classnames } from '@extensions/utils/classnames';
-import { useAddToCollection } from '@extensions/hooks/useAddToCollection';
-import { getBlockTitle } from '@extensions/utils/getBlockTitle';
+import React from "react";
+import { BasicType, getParentIdx, getSiblingIdx } from "easy-email-core";
+import {
+  useBlock,
+  useFocusIdx,
+  useEditorProps,
+  isTextBlock,
+} from "easy-email-editor";
+import { classnames } from "@extensions/utils/classnames";
+import { useAddToCollection } from "@extensions/hooks/useAddToCollection";
+import { getBlockTitle } from "@extensions/utils/getBlockTitle";
 
 export function Toolbar() {
   const { moveBlock, copyBlock, removeBlock, focusBlock } = useBlock();
@@ -54,7 +59,7 @@ export function Toolbar() {
   return (
     <>
       <div
-        id='easy-email-extensions-InteractivePrompt-Toolbar'
+        id="easy-email-extensions-InteractivePrompt-Toolbar"
         style={{
           height: 0,
 
@@ -64,26 +69,26 @@ export function Toolbar() {
         <div
           style={{
             fontSize: 14,
-            lineHeight: '22px',
-            pointerEvents: 'auto',
-            color: '#ffffff',
-            transform: 'translateY(-100%)',
-            display: 'inline-flex',
+            lineHeight: "22px",
+            pointerEvents: "auto",
+            color: "#ffffff",
+            transform: "translateY(-100%)",
+            display: "inline-flex",
             // justifyContent: 'space-between',
           }}
         >
           <div
             style={{
-              color: '#ffffff',
-              backgroundColor: 'var(--selected-color)',
-              height: '22px',
+              color: "#ffffff",
+              backgroundColor: "var(--selected-color)",
+              height: "22px",
 
-              display: 'inline-flex',
-              padding: '1px 5px',
-              boxSizing: 'border-box',
-              whiteSpace: 'nowrap',
+              display: "inline-flex",
+              padding: "1px 5px",
+              boxSizing: "border-box",
+              whiteSpace: "nowrap",
               maxWidth: 300,
-              overflow: 'hidden',
+              overflow: "hidden",
             }}
           >
             {focusBlock && getBlockTitle(focusBlock, false)}
@@ -96,25 +101,25 @@ export function Toolbar() {
               ev.preventDefault();
             }}
             style={{
-              display: isPage ? 'none' : 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              pointerEvents: 'auto',
+              display: isPage ? "none" : "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              pointerEvents: "auto",
             }}
           >
             <ToolItem
               width={12}
-              iconName='icon-back-parent'
+              iconName="icon-back-parent"
               onClick={handleSelectParent}
             />
-            <ToolItem iconName='icon-copy' onClick={handleCopy} />
+            <ToolItem iconName="icon-copy" onClick={handleCopy} />
             {props.onAddCollection && (
               <ToolItem
-                iconName='icon-collection'
+                iconName="icon-collection"
                 onClick={handleAddToCollection}
               />
             )}
-            <ToolItem iconName='icon-delete' onClick={handleDelete} />
+            <ToolItem iconName="icon-delete" onClick={handleDelete} />
           </div>
         </div>
       </div>
@@ -132,18 +137,18 @@ function ToolItem(props: {
     <div
       onClick={props.onClick}
       style={{
-        color: '#ffffff',
-        backgroundColor: 'var(--selected-color)',
+        color: "#ffffff",
+        backgroundColor: "var(--selected-color)",
         height: 22,
         fontSize: props.width || 14,
-        lineHeight: '22px',
+        lineHeight: "22px",
         width: 22,
-        display: 'flex',
-        pointerEvents: 'auto',
-        cursor: 'pointer',
-        justifyContent: 'center',
+        display: "flex",
+        pointerEvents: "auto",
+        cursor: "pointer",
+        justifyContent: "center",
       }}
-      className={classnames('iconfont', props.iconName)}
+      className={classnames("iconfont", props.iconName)}
     />
   );
 }

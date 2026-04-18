@@ -8,17 +8,17 @@ export function isIOS() {
 
 export function isAndroid() {
   return (
-    navigator.userAgent.indexOf('Android') > -1 ||
-    navigator.userAgent.indexOf('Adr') > -1
+    navigator.userAgent.indexOf("Android") > -1 ||
+    navigator.userAgent.indexOf("Adr") > -1
   );
 }
 
 export function getCookie(key: string) {
-  let value = '';
-  document.cookie.split(';').forEach((item) => {
-    const name = item.split('=')[0];
+  let value = "";
+  document.cookie.split(";").forEach((item) => {
+    const name = item.split("=")[0];
     if (name.trim() === key) {
-      value = item.replace(`${name}=`, '');
+      value = item.replace(`${name}=`, "");
     }
   });
   return value;
@@ -29,14 +29,14 @@ export function getCookie(key: string) {
  * @param num
  */
 export function isNumber(num: any): num is number {
-  if (typeof num !== 'string' && typeof num !== 'number') return false;
-  return new RegExp('^(\\-|\\+)?\\d+(\\.\\d+)?$').test(num.toString());
+  if (typeof num !== "string" && typeof num !== "number") return false;
+  return new RegExp("^(\\-|\\+)?\\d+(\\.\\d+)?$").test(num.toString());
 }
 
 export function previewLoadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve) => {
     const img = new Image();
-    img.setAttribute('crossOrigin', 'Anonymous');
+    img.setAttribute("crossOrigin", "Anonymous");
     img.src = url;
     img.onload = () => resolve(img);
     img.onerror = () => resolve(img);
@@ -45,11 +45,11 @@ export function previewLoadImage(url: string): Promise<HTMLImageElement> {
 
 export async function getImageFile(url: string) {
   const pic = await previewLoadImage(url);
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   document.body.appendChild(canvas);
-  const ctx = canvas.getContext('2d')!;
-  canvas.style.width = '0px';
-  canvas.style.height = '0px';
+  const ctx = canvas.getContext("2d")!;
+  canvas.style.width = "0px";
+  canvas.style.height = "0px";
   ctx.drawImage(pic, 0, 0);
   const blob = await new Promise<Blob>((resolve) =>
     canvas.toBlob((blob) => resolve(blob!))
@@ -65,7 +65,7 @@ export function previewLoadImageList(
     list.map((item) => {
       return new Promise<HTMLImageElement>((resolve) => {
         const img = new Image();
-        img.setAttribute('crossOrigin', 'Anonymous');
+        img.setAttribute("crossOrigin", "Anonymous");
         img.src = item;
         img.onload = () => resolve(img);
         img.onerror = () => resolve(img);
@@ -83,11 +83,11 @@ export function randomRange(min: number, max: number, isInt = true) {
 
 export const isMouseEvent = (
   event: MouseEvent | TouchEvent
-): event is MouseEvent => !!(event.type.indexOf('mouse') !== -1);
+): event is MouseEvent => !!(event.type.indexOf("mouse") !== -1);
 
 export const isReactMouseEvent = (
   event: React.TouchEvent | React.MouseEvent
-): event is React.MouseEvent => !!(event.type.indexOf('mouse') !== -1);
+): event is React.MouseEvent => !!(event.type.indexOf("mouse") !== -1);
 
 export const isElement = (
   event: HTMLElement | ChildNode
@@ -98,5 +98,5 @@ export type FilterType<T, K> = {
 }[keyof T];
 
 export function getPublishPath() {
-  return window.location.origin + '/';
+  return window.location.origin + "/";
 }

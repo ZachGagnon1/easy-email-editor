@@ -1,13 +1,11 @@
-import { Input, Popover, PopoverProps } from '@arco-design/web-react';
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import { Input, Popover, PopoverProps } from "@arco-design/web-react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 
-import { getImg } from '@extensions/AttributePanel/utils/getImg';
-import Color from 'color';
-import {
-  PresetColorsContext,
-} from '@extensions/AttributePanel/components/provider/PresetColorsProvider';
-import { ColorPickerContent } from './ColorPickerContent';
-import { getIframeDocument } from 'easy-email-editor';
+import { getImg } from "@extensions/AttributePanel/utils/getImg";
+import Color from "color";
+import { PresetColorsContext } from "@extensions/AttributePanel/components/provider/PresetColorsProvider";
+import { ColorPickerContent } from "./ColorPickerContent";
+import { getIframeDocument } from "easy-email-editor";
 
 export interface ColorPickerProps extends PopoverProps {
   onChange?: (val: string) => void;
@@ -20,25 +18,25 @@ export interface ColorPickerProps extends PopoverProps {
 
 const getCollapseItemEle = (node: HTMLElement | null): HTMLElement => {
   if (!node) return document.body;
-  if (node.classList.contains('arco-collapse-item')) {
+  if (node.classList.contains("arco-collapse-item")) {
     return node;
   }
   return getCollapseItemEle(node.parentElement);
 };
-const transparentColor = 'rgba(0,0,0,0)';
+const transparentColor = "rgba(0,0,0,0)";
 
 export function ColorPicker(props: ColorPickerProps) {
   const { addCurrentColor } = useContext(PresetColorsContext);
   const [refEle, setRefEle] = useState<HTMLElement | null>(null);
 
-  const { value = '', onChange, children, showInput = true } = props;
+  const { value = "", onChange, children, showInput = true } = props;
 
   const onInputChange = useCallback(
     (value: string) => {
       onChange?.(value);
       addCurrentColor(value);
     },
-    [addCurrentColor, onChange],
+    [addCurrentColor, onChange]
   );
 
   const getPopupContainer = useCallback(() => {
@@ -46,8 +44,8 @@ export function ColorPicker(props: ColorPickerProps) {
   }, [refEle]);
 
   const inputColor = useMemo(() => {
-    if (props.value?.startsWith('#') && props.value?.length === 7)
-      return props.value?.replace('#', '');
+    if (props.value?.startsWith("#") && props.value?.length === 7)
+      return props.value?.replace("#", "");
     return props.value;
   }, [props.value]);
 
@@ -55,23 +53,20 @@ export function ColorPicker(props: ColorPickerProps) {
     try {
       if (value.length === 6 && Color(`#${value}`).hex()) return `#${value}`;
     } catch (error) {
-      console.log('err', value);
+      console.log("err", value);
     }
     return value;
   }, [value]);
 
   return (
-    <div style={{ flex: 1, display: 'flex' }}>
+    <div style={{ flex: 1, display: "flex" }}>
       <Popover
         title={props.label}
         trigger="click"
         className="color-picker-popup"
-        content={(
-          <ColorPickerContent
-            value={adapterColor}
-            onChange={onInputChange}
-          />
-        )}
+        content={
+          <ColorPickerContent value={adapterColor} onChange={onInputChange} />
+        }
         triggerProps={{
           // @ts-ignore I am ignoring this type error here since this is expecting an
           // element but the function returns a document. This works fine and isn't an issue.
@@ -84,41 +79,43 @@ export function ColorPicker(props: ColorPickerProps) {
           <div
             ref={setRefEle}
             style={{
-              display: 'inline-block',
+              display: "inline-block",
               height: 32,
               width: 32,
-              boxSizing: 'border-box',
+              boxSizing: "border-box",
               padding: 4,
-              border: '1px solid var(--color-neutral-3, rgb(229, 230, 235))',
+              border: "1px solid var(--color-neutral-3, rgb(229, 230, 235))",
               borderRadius: showInput ? undefined : 4,
               fontSize: 0,
-              borderRight: showInput ? 'none' : undefined,
-              position: 'relative',
-              cursor: 'pointer',
+              borderRight: showInput ? "none" : undefined,
+              position: "relative",
+              cursor: "pointer",
             }}
           >
             {props.value ? (
               <span
                 style={{
-                  position: 'relative',
-                  display: 'block',
-                  border: '1px solid var(--color-neutral-3, rgb(229, 230, 235))',
+                  position: "relative",
+                  display: "block",
+                  border:
+                    "1px solid var(--color-neutral-3, rgb(229, 230, 235))",
 
                   borderRadius: 2,
-                  width: '100%',
-                  height: '100%',
-                  textAlign: 'center',
+                  width: "100%",
+                  height: "100%",
+                  textAlign: "center",
                   backgroundColor: adapterColor,
                 }}
               />
             ) : (
               <img
                 style={{
-                  maxWidth: '100%',
-                  maxHeight: '100%',
-                  filter: 'invert(  0.78  )  drop-shadow(0 0px 0 rgb(0 0 0 / 45%))',
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  filter:
+                    "invert(  0.78  )  drop-shadow(0 0px 0 rgb(0 0 0 / 45%))",
                 }}
-                src={getImg('AttributePanel_02')}
+                src={getImg("AttributePanel_02")}
               />
             )}
             <style>
@@ -135,7 +132,7 @@ export function ColorPicker(props: ColorPickerProps) {
       {showInput && (
         <Input
           value={inputColor}
-          style={{ outline: 'none', flex: 1 }}
+          style={{ outline: "none", flex: 1 }}
           onChange={onInputChange}
         />
       )}

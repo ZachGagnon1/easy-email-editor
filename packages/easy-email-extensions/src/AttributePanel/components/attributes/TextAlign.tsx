@@ -1,24 +1,24 @@
-import React, { useMemo } from 'react';
-import { useFocusIdx, Stack } from 'easy-email-editor';
-import { RadioGroupField } from '../../../components/Form';
+import React, { useMemo } from "react";
+import { useFocusIdx, Stack } from "easy-email-editor";
+import { RadioGroupField } from "../../../components/Form";
 
 const options = [
   {
-    value: 'left',
+    value: "left",
     get label() {
-      return t('Left');
+      return t("Left");
     },
   },
   {
-    value: 'center',
+    value: "center",
     get label() {
-      return t('Center');
+      return t("Center");
     },
   },
   {
-    value: 'right',
+    value: "right",
     get label() {
-      return t('Right');
+      return t("Right");
     },
   },
 ];
@@ -30,7 +30,7 @@ export function TextAlign({ name }: { name?: string }) {
     return (
       <Stack>
         <RadioGroupField
-          label={t('Text align')}
+          label={t("Text align")}
           name={name || `${focusIdx}.attributes.text-align`}
           options={options}
         />

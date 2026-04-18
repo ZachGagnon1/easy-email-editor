@@ -1,7 +1,7 @@
-import { Uploader } from '@extensions/AttributePanel/utils/Uploader';
-import { Input } from '@arco-design/web-react';
-import React, { useEffect, useRef, useState } from 'react';
-import { IconUpload, IconLoading } from '@arco-design/web-react/icon';
+import { Uploader } from "@extensions/AttributePanel/utils/Uploader";
+import { Input } from "@arco-design/web-react";
+import React, { useEffect, useRef, useState } from "react";
+import { IconUpload, IconLoading } from "@arco-design/web-react/icon";
 
 export interface UploadFieldProps {
   onChange: (val: string) => void;
@@ -22,14 +22,14 @@ export function UploadField(props: UploadFieldProps) {
   );
 
   useEffect(() => {
-    uploader.on('start', () => {
+    uploader.on("start", () => {
       setLoading(true);
-      uploader.on('end', (photos) => {
+      uploader.on("end", (photos) => {
         setLoading(false);
         onChange(
           photos
-            .filter((item) => item.status === 'done')
-            .map((item) => item.url)[0] || ''
+            .filter((item) => item.status === "done")
+            .map((item) => item.url)[0] || ""
         );
       });
     });

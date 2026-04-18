@@ -7,9 +7,9 @@ import {
   Draft,
   CreateSliceOptions,
   createAsyncThunk,
-} from '@reduxjs/toolkit';
-import toast from './toast';
-import loading from './loading';
+} from "@reduxjs/toolkit";
+import toast from "./toast";
+import loading from "./loading";
 
 export type SliceCaseEffects<State> = {
   [K: string]: (
@@ -50,12 +50,12 @@ export default function createSliceState<
   const loadings: Partial<{ [K in keyof CaseEffects]: string }> = {};
   if (options.effects) {
     Object.keys(options.effects).forEach((prefix: keyof CaseEffects) => {
-      const type = options.name + '/' + prefix;
+      const type = options.name + "/" + prefix;
       loadings[prefix] = type;
       const asyncThunk = createAsyncThunk(type, async (payload: any, store) => {
         const loadingType = payload?._actionKey
-          ? options.name + '/' + prefix + '/' + payload._actionKey
-          : options.name + '/' + prefix;
+          ? options.name + "/" + prefix + "/" + payload._actionKey
+          : options.name + "/" + prefix;
         store.dispatch(loading.actions.startLoading(loadingType));
         try {
           const data = await options.effects[prefix](
@@ -68,7 +68,7 @@ export default function createSliceState<
             toast.actions.add({
               message: error.message || error,
               duration: 1.5,
-              type: 'error',
+              type: "error",
             })
           );
         } finally {

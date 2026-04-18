@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import { BlockManager, getNodeTypeFromClassName } from 'easy-email-core';
-import { createPortal } from 'react-dom';
+import { BlockManager, getNodeTypeFromClassName } from "easy-email-core";
+import { createPortal } from "react-dom";
 import {
   getIframeDocument,
   useEditorContext,
   useFocusIdx,
   useHoverIdx,
   useLazyState,
-} from 'easy-email-editor';
-import { awaitForElement } from '@extensions/utils/awaitForElement';
+} from "easy-email-editor";
+import { awaitForElement } from "@extensions/utils/awaitForElement";
 
 export function HoverTooltip() {
   const { hoverIdx, direction, isDragging } = useHoverIdx();
@@ -35,7 +35,7 @@ export function HoverTooltip() {
 
     if (lazyHoverIdx) {
       const promiseObj = awaitForElement<HTMLDivElement>(lazyHoverIdx);
-      promiseObj.promise.then(blockNode => {
+      promiseObj.promise.then((blockNode) => {
         if (rootBounds) {
           const { top } = blockNode.getBoundingClientRect();
           setIsTop(rootBounds.top === top);
@@ -54,7 +54,9 @@ export function HoverTooltip() {
 
   const block = useMemo(() => {
     return blockNode
-      ? BlockManager.getBlockByType(getNodeTypeFromClassName(blockNode.classList)!)
+      ? BlockManager.getBlockByType(
+          getNodeTypeFromClassName(blockNode.classList)!
+        )
       : null;
   }, [blockNode]);
 
@@ -67,24 +69,24 @@ export function HoverTooltip() {
         <div
           id="easy-email-extensions-InteractivePrompt-HoverTooltip"
           style={{
-            position: 'absolute',
-            height: '100%',
-            width: '100%',
+            position: "absolute",
+            height: "100%",
+            width: "100%",
             top: 0,
             left: 0,
             zIndex: 2,
-            pointerEvents: 'none',
+            pointerEvents: "none",
           }}
         >
           <TipNode
-            type={isDragging ? 'drag' : 'hover'}
+            type={isDragging ? "drag" : "hover"}
             lineWidth={1}
             title={block.name}
-            direction={isTop && direction === 'top' ? 'noEnoughTop' : direction}
+            direction={isTop && direction === "top" ? "noEnoughTop" : direction}
             isDragging={isDragging}
           />
         </div>,
-        blockNode,
+        blockNode
       )}
     </>
   );
@@ -95,35 +97,35 @@ interface TipNodeProps {
   direction?: string;
   isDragging?: boolean;
   lineWidth: number;
-  type: 'drag' | 'hover';
+  type: "drag" | "hover";
 }
 
 function TipNode(props: TipNodeProps) {
   const { direction, title, lineWidth, type } = props;
   const dragTitle = useMemo(() => {
-    if (direction === 'top' || direction === 'noEnoughTop') {
-      return `${t('Insert before')} ${title}`;
-    } else if (direction === 'bottom') {
-      return `${t('Insert after')} ${title}`;
-    } else if (direction === 'right' || direction === 'left') {
-      return t('Drag here');
+    if (direction === "top" || direction === "noEnoughTop") {
+      return `${t("Insert before")} ${title}`;
+    } else if (direction === "bottom") {
+      return `${t("Insert after")} ${title}`;
+    } else if (direction === "right" || direction === "left") {
+      return t("Drag here");
     }
-    return `${t('Drag to')} ${title}`;
+    return `${t("Drag to")} ${title}`;
   }, [direction, title]);
 
   return (
     <div
       style={{
-        position: 'absolute',
+        position: "absolute",
         left: 0,
         top: 0,
         fontSize: 14,
         zIndex: 1,
-        color: '#000',
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        textAlign: 'left',
+        color: "#000",
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        textAlign: "left",
       }}
     >
       <style>
@@ -137,35 +139,35 @@ function TipNode(props: TipNodeProps) {
       {/* outline */}
       <div
         style={{
-          position: 'absolute',
+          position: "absolute",
           left: 0,
           top: 0,
-          width: '100%',
-          height: '100%',
+          width: "100%",
+          height: "100%",
           outlineOffset: `-${lineWidth}px`,
           outline: `${lineWidth}px solid var(--hover-color)`,
         }}
       >
-        {type === 'hover' && (
+        {type === "hover" && (
           <div
             style={{
-              position: 'absolute',
+              position: "absolute",
               left: 0,
               top: 0,
             }}
           >
             <div
               style={{
-                backgroundColor: 'var(--hover-color)',
-                color: '#ffffff',
-                height: '22px',
-                lineHeight: '22px',
-                display: 'inline-flex',
-                padding: '1px 5px',
-                boxSizing: 'border-box',
-                whiteSpace: 'nowrap',
-                fontFamily: 'sans-serif',
-                transform: 'translateY(-100%)',
+                backgroundColor: "var(--hover-color)",
+                color: "#ffffff",
+                height: "22px",
+                lineHeight: "22px",
+                display: "inline-flex",
+                padding: "1px 5px",
+                boxSizing: "border-box",
+                whiteSpace: "nowrap",
+                fontFamily: "sans-serif",
+                transform: "translateY(-100%)",
               }}
             >
               {title}
@@ -178,27 +180,27 @@ function TipNode(props: TipNodeProps) {
       {props.isDragging && (
         <div
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
-            ...directionImage[props.direction || 'none'],
+            width: "100%",
+            height: "100%",
+            ...directionImage[props.direction || "none"],
           }}
         >
           <div
             style={{
-              position: 'absolute',
-              color: '#ffffff',
-              backgroundColor: 'var(--hover-color)',
-              lineHeight: '22px',
-              display: 'inline-flex',
-              maxWidth: '100%',
-              textAlign: 'center',
-              whiteSpace: 'nowrap',
-              padding: '1px 5px',
+              position: "absolute",
+              color: "#ffffff",
+              backgroundColor: "var(--hover-color)",
+              lineHeight: "22px",
+              display: "inline-flex",
+              maxWidth: "100%",
+              textAlign: "center",
+              whiteSpace: "nowrap",
+              padding: "1px 5px",
 
-              ...positionStyleMap[props.direction || 'none'],
+              ...positionStyleMap[props.direction || "none"],
             }}
           >
             {dragTitle}
@@ -211,41 +213,41 @@ function TipNode(props: TipNodeProps) {
 
 const positionStyleMap: Record<string, any> = {
   noEnoughTop: {
-    top: '0%',
-    left: '50%',
-    padding: '1px 5px',
-    transform: 'translate(-50%, 0%)',
+    top: "0%",
+    left: "50%",
+    padding: "1px 5px",
+    transform: "translate(-50%, 0%)",
   },
   top: {
-    top: '0%',
-    left: '50%',
-    padding: '1px 5px',
-    transform: 'translate(-50%, -50%)',
+    top: "0%",
+    left: "50%",
+    padding: "1px 5px",
+    transform: "translate(-50%, -50%)",
   },
   bottom: {
-    top: '100%',
-    left: '50%',
-    padding: '1px 5px',
-    transform: 'translate(-50%, -50%)',
+    top: "100%",
+    left: "50%",
+    padding: "1px 5px",
+    transform: "translate(-50%, -50%)",
   },
   left: {
-    top: '50%',
-    left: '0%',
-    padding: '5px 1px',
-    writingMode: 'vertical-lr',
-    transform: 'translate(0, -50%)',
+    top: "50%",
+    left: "0%",
+    padding: "5px 1px",
+    writingMode: "vertical-lr",
+    transform: "translate(0, -50%)",
   },
   right: {
-    top: '50%',
-    right: '0%',
-    padding: '5px 1px',
-    writingMode: 'vertical-lr',
-    transform: 'translate(0, -50%)',
+    top: "50%",
+    right: "0%",
+    padding: "5px 1px",
+    writingMode: "vertical-lr",
+    transform: "translate(0, -50%)",
   },
   none: {
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
   },
 };
 

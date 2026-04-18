@@ -1,10 +1,10 @@
-import { BasicType } from '@core/constants';
-import { IBlock, IBlockData } from '@core/typings';
-import { createCustomBlock } from '@core/utils/createCustomBlock';
-import { TemplateEngineManager } from '@core/utils';
-import { merge } from 'lodash';
-import React from 'react';
-import { IPage, standardBlocks } from '../standard';
+import { BasicType } from "@core/constants";
+import { IBlock, IBlockData } from "@core/typings";
+import { createCustomBlock } from "@core/utils/createCustomBlock";
+import { TemplateEngineManager } from "@core/utils";
+import { merge } from "lodash";
+import React from "react";
+import { IPage, standardBlocks } from "../standard";
 
 export function generateAdvancedBlock<T extends AdvancedBlock>(option: {
   type: string;
@@ -13,14 +13,14 @@ export function generateAdvancedBlock<T extends AdvancedBlock>(option: {
     index: number;
     data: T;
     idx: string | null | undefined;
-    mode: 'testing' | 'production';
+    mode: "testing" | "production";
     context?: IPage;
     dataSource?: { [key: string]: any };
-  }) => ReturnType<NonNullable<IBlock['render']>>;
+  }) => ReturnType<NonNullable<IBlock["render"]>>;
   validParentType: string[];
 }) {
   const baseBlock = Object.values(standardBlocks).find(
-    b => b.type === (option.baseType as any as keyof typeof standardBlocks),
+    (b) => b.type === (option.baseType as any as keyof typeof standardBlocks)
   );
   if (!baseBlock) {
     throw new Error(`Can not find ${option.baseType}`);
@@ -32,14 +32,14 @@ export function generateAdvancedBlock<T extends AdvancedBlock>(option: {
     },
     type: option.type,
     validParentType: option.validParentType,
-    create: payload => {
+    create: (payload) => {
       const defaultData = {
         ...baseBlock.create(),
         type: option.type,
       } as any;
       return merge(defaultData, payload);
     },
-    render: params => {
+    render: (params) => {
       const { data, idx, mode, context, dataSource } = params;
       const { iteration, condition } = data.data.value;
 
@@ -55,31 +55,33 @@ export function generateAdvancedBlock<T extends AdvancedBlock>(option: {
 
       let children = getBaseContent(idx, 0);
 
-      if (mode === 'testing') {
+      if (mode === "testing") {
         return (
           <>
-            <React.Fragment key='children'>{children}</React.Fragment>
+            <React.Fragment key="children">{children}</React.Fragment>
 
-            {new Array((iteration?.mockQuantity || 1) - 1).fill(true).map((_, index) => (
-              <React.Fragment key={index}>
-                {getBaseContent(idx, index + 1)}
-              </React.Fragment>
-            ))}
+            {new Array((iteration?.mockQuantity || 1) - 1)
+              .fill(true)
+              .map((_, index) => (
+                <React.Fragment key={index}>
+                  {getBaseContent(idx, index + 1)}
+                </React.Fragment>
+              ))}
           </>
         );
       }
 
       if (condition && condition.enabled) {
-        children = TemplateEngineManager.generateTagTemplate('condition')(
+        children = TemplateEngineManager.generateTagTemplate("condition")(
           condition,
-          children,
+          children
         );
       }
 
       if (iteration && iteration.enabled) {
-        children = TemplateEngineManager.generateTagTemplate('iteration')(
+        children = TemplateEngineManager.generateTagTemplate("iteration")(
           iteration,
-          children,
+          children
         );
       }
 
@@ -125,17 +127,17 @@ export interface IConditionGroupItem {
 }
 
 export enum Operator {
-  TRUTHY = 'truthy',
-  FALSY = 'falsy',
-  EQUAL = '==',
-  NOT_EQUAL = '!=',
-  GREATER = '>',
-  GREATER_OR_EQUAL = '>=',
-  LESS = '<',
-  LESS_OR_EQUAL = '<=',
+  TRUTHY = "truthy",
+  FALSY = "falsy",
+  EQUAL = "==",
+  NOT_EQUAL = "!=",
+  GREATER = ">",
+  GREATER_OR_EQUAL = ">=",
+  LESS = "<",
+  LESS_OR_EQUAL = "<=",
 }
 
 export enum OperatorSymbol {
-  AND = 'and',
-  OR = 'or',
+  AND = "and",
+  OR = "or",
 }

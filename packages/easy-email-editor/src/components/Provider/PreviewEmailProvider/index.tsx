@@ -1,11 +1,11 @@
-import { useEditorContext } from '@/hooks/useEditorContext';
-import { useEditorProps } from '@/hooks/useEditorProps';
-import { useLazyState } from '@/hooks/useLazyState';
-import { HtmlStringToPreviewReactNodes } from '@/utils/HtmlStringToPreviewReactNodes';
-import { JsonToMjml } from 'easy-email-core';
-import { cloneDeep, isString } from 'lodash';
-import mjml from 'mjml-browser';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEditorContext } from "@/hooks/useEditorContext";
+import { useEditorProps } from "@/hooks/useEditorProps";
+import { useLazyState } from "@/hooks/useLazyState";
+import { HtmlStringToPreviewReactNodes } from "@/utils/HtmlStringToPreviewReactNodes";
+import { JsonToMjml } from "easy-email-core";
+import { cloneDeep, isString } from "lodash";
+import mjml from "mjml-browser";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 export const MOBILE_WIDTH = 320;
 
@@ -15,22 +15,24 @@ export const PreviewEmailContext = React.createContext<{
   errMsg: React.ReactNode;
   mobileWidth: number;
 }>({
-  html: '',
+  html: "",
   reactNode: null,
-  errMsg: '',
+  errMsg: "",
   mobileWidth: 320,
 });
 
-export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = props => {
-  const { current: iframe } = useRef(document.createElement('iframe'));
+export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = (
+  props
+) => {
+  const { current: iframe } = useRef(document.createElement("iframe"));
   const contentWindowRef = useRef<Window | null>(null);
 
   const [mobileWidth, setMobileWidth] = useState(MOBILE_WIDTH);
 
   const { pageData } = useEditorContext();
   const { onBeforePreview, mergeTags, previewInjectData } = useEditorProps();
-  const [errMsg, setErrMsg] = useState<React.ReactNode>('');
-  const [html, setHtml] = useState('');
+  const [errMsg, setErrMsg] = useState<React.ReactNode>("");
+  const [html, setHtml] = useState("");
   const lazyPageData = useLazyState(pageData, 0);
 
   const injectData = useMemo(() => {
@@ -42,7 +44,7 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
   }, [mergeTags, previewInjectData]);
 
   useEffect(() => {
-    const breakpoint = parseInt(lazyPageData.data.value.breakpoint || '0');
+    const breakpoint = parseInt(lazyPageData.data.value.breakpoint || "0");
     let adjustBreakPoint = breakpoint;
     if (breakpoint > 360) {
       adjustBreakPoint = Math.max(mobileWidth + 1, breakpoint);
@@ -53,18 +55,18 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
         ...lazyPageData.data,
         value: {
           ...lazyPageData.data.value,
-          breakpoint: adjustBreakPoint + 'px',
+          breakpoint: adjustBreakPoint + "px",
         },
       },
     };
     let parseHtml = mjml(
       JsonToMjml({
         data: cloneData,
-        mode: 'production',
+        mode: "production",
         context: cloneData,
         dataSource: cloneDeep(injectData),
         keepClassName: true,
-      }),
+      })
     ).html;
     if (onBeforePreview) {
       try {
@@ -73,13 +75,13 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
           parseHtml = result;
           setHtml(parseHtml);
         } else {
-          result.then(resHtml => {
+          result.then((resHtml) => {
             parseHtml = resHtml;
             setHtml(parseHtml);
           });
         }
 
-        setErrMsg('');
+        setErrMsg("");
       } catch (error: any) {
         setErrMsg(error?.message || error);
       }
@@ -88,7 +90,7 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
     }
 
     return () => {
-      setHtml('');
+      setHtml("");
     };
   }, [injectData, onBeforePreview, lazyPageData, mobileWidth]);
 
@@ -97,10 +99,10 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
   useEffect(() => {
     if (errMsg) return;
 
-    iframe.width = '400px';
-    iframe.style.position = 'fixed';
-    iframe.style.left = '-9999px';
-    iframe.onload = evt => {
+    iframe.width = "400px";
+    iframe.style.position = "fixed";
+    iframe.style.left = "-9999px";
+    iframe.onload = (evt) => {
       contentWindowRef.current = (evt.target as any)?.contentWindow;
     };
 
@@ -115,13 +117,13 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
     if (!contentWindowRef.current) return;
     const innerBody = contentWindowRef.current.document.body;
     innerBody.innerHTML = html;
-    const a = innerBody.querySelector('.mjml-body') as HTMLElement;
+    const a = innerBody.querySelector(".mjml-body") as HTMLElement;
     if (a) {
-      a.style.display = 'inline-block';
+      a.style.display = "inline-block";
       setMobileWidth(Math.max(a.clientWidth, MOBILE_WIDTH));
     }
     return () => {
-      innerBody.innerHTML = '';
+      innerBody.innerHTML = "";
     };
   }, [html]);
 

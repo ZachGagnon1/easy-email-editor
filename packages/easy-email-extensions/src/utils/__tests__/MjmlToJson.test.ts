@@ -1,6 +1,6 @@
-import { MjmlToJson } from '../MjmlToJson';
+import { MjmlToJson } from "../MjmlToJson";
 
-import mjml from 'mjml-browser';
+import mjml from "mjml-browser";
 
 const mjmlText = `
 
@@ -86,12 +86,12 @@ const mjmlText = `
 
 `;
 
-describe('Test parseXml', () => {
+describe("Test parseXml", () => {
   const instance = MjmlToJson(
-    mjml(mjmlText as any, { validationLevel: 'strict' }).json
+    mjml(mjmlText as any, { validationLevel: "strict" }).json
   );
 
-  it('should render  as expected', () => {
+  it("should render  as expected", () => {
     expect(instance).toMatchSnapshot();
   });
 });

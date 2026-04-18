@@ -1,6 +1,6 @@
-import { DATA_CONTENT_EDITABLE_IDX } from 'easy-email-editor';
-import { IBoundaryRect, IBoundingPosition, IOperationData } from './type';
-import { AdvancedTableBlock } from 'easy-email-core';
+import { DATA_CONTENT_EDITABLE_IDX } from "easy-email-editor";
+import { IBoundaryRect, IBoundingPosition, IOperationData } from "./type";
+import { AdvancedTableBlock } from "easy-email-core";
 
 const getEditorElementClientRect = (target: any) => {
   let left = target.offsetLeft;
@@ -9,7 +9,7 @@ const getEditorElementClientRect = (target: any) => {
   const height = target.clientHeight;
   let parentNode = target.offsetParent;
   while (parentNode && parentNode.offsetParent) {
-    if (parentNode.classList.contains('shadow-container')) {
+    if (parentNode.classList.contains("shadow-container")) {
       return { left, top, height, width };
     }
     left += parentNode.offsetLeft;
@@ -25,28 +25,28 @@ const getBoundaryFromRects = (startRect: any, endRect: any) => {
     startRect.left,
     endRect.left,
     startRect.left + startRect.width,
-    endRect.left + endRect.width,
+    endRect.left + endRect.width
   );
 
   let right = Math.max(
     startRect.left,
     endRect.left,
     startRect.left + startRect.width,
-    endRect.left + endRect.width,
+    endRect.left + endRect.width
   );
 
   let top = Math.min(
     startRect.top,
     endRect.top,
     startRect.top + startRect.height,
-    endRect.top + endRect.height,
+    endRect.top + endRect.height
   );
 
   let bottom = Math.max(
     startRect.top,
     endRect.top,
     startRect.top + startRect.height,
-    endRect.top + endRect.height,
+    endRect.top + endRect.height
   );
 
   let width = right - left;
@@ -67,9 +67,9 @@ const getCorrectBoundary = (el: Element, currentBoundary: IBoundaryRect) => {
   let leftTopRect = getEditorElementClientRect(el);
   let bottomRightRect = leftTopRect;
 
-  const tableCells = tableEl.querySelectorAll('td');
+  const tableCells = tableEl.querySelectorAll("td");
   const tableCellRects = [] as any[];
-  tableCells.forEach(tableCell => {
+  tableCells.forEach((tableCell) => {
     // TODO: reduce  calculation: cache table rect, use table rect diff all td rect boundary
     const { left, top, height, width } = getEditorElementClientRect(tableCell);
     tableCellRects.push({ left, top, height, width });
@@ -119,7 +119,8 @@ const getCorrectBoundary = (el: Element, currentBoundary: IBoundaryRect) => {
       leftTopCell = tableCell;
     }
     if (
-      top + height > bottomRightRect.top + bottomRightRect.height + ERROR_LIMIT ||
+      top + height >
+        bottomRightRect.top + bottomRightRect.height + ERROR_LIMIT ||
       (top + height === bottomRightRect.top + bottomRightRect.height &&
         left + width >= bottomRightRect.left + bottomRightRect.width)
     ) {
@@ -142,7 +143,7 @@ export const getBoundaryRectAndElement = (el1: Element, el2: Element) => {
 };
 
 export function setStyle(domNode: any, rules: any) {
-  if (typeof rules === 'object') {
+  if (typeof rules === "object") {
     for (let prop in rules) {
       domNode.style[prop] = rules[prop];
     }
@@ -152,7 +153,7 @@ export function setStyle(domNode: any, rules: any) {
 export const getCurrentTable = (target: Element) => {
   let parentNode = target.parentNode;
   while (parentNode) {
-    if (parentNode.nodeName === 'TABLE') {
+    if (parentNode.nodeName === "TABLE") {
       return parentNode;
     }
     parentNode = parentNode.parentNode;
@@ -160,7 +161,10 @@ export const getCurrentTable = (target: Element) => {
   return parentNode;
 };
 
-export const getElementsBoundary = (el1: Element, el2: Element): IBoundingPosition => {
+export const getElementsBoundary = (
+  el1: Element,
+  el2: Element
+): IBoundingPosition => {
   const rect1 = el1.getBoundingClientRect();
   const rect2 = el2.getBoundingClientRect();
 
@@ -174,7 +178,7 @@ export const getElementsBoundary = (el1: Element, el2: Element): IBoundingPositi
 
 export const checkEventInBoundingRect = (
   rect: IBoundingPosition,
-  { x, y }: { x: number; y: number },
+  { x, y }: { x: number; y: number }
 ) => {
   return x >= rect.left && x <= rect.right && y <= rect.bottom && y >= rect.top;
 };
@@ -187,12 +191,15 @@ export const getCellAttr = (el: Element, attrName: string) => {
 
 const getCellIndex = (cellElement: Element) => {
   let idxName = cellElement.getAttribute(DATA_CONTENT_EDITABLE_IDX) as string;
-  idxName = idxName.split('data.value.tableSource.')[1].split('.content')[0];
+  idxName = idxName.split("data.value.tableSource.")[1].split(".content")[0];
 
-  return idxName.split('.').map(e => Number(e));
+  return idxName.split(".").map((e) => Number(e));
 };
 
-export const getTdBoundaryIndex = (leftTopCell: Element, bottomRightCell: Element) => {
+export const getTdBoundaryIndex = (
+  leftTopCell: Element,
+  bottomRightCell: Element
+) => {
   const idx1 = getCellIndex(leftTopCell);
   const idx2 = getCellIndex(bottomRightCell);
 
@@ -206,12 +213,12 @@ export const getTdBoundaryIndex = (leftTopCell: Element, bottomRightCell: Elemen
 
 export const getCorrectTableIndexBoundary = (
   tableIndexBoundary: IBoundingPosition,
-  tableData: IOperationData[][],
+  tableData: IOperationData[][]
 ) => {
   let { left, right, top, bottom } = tableIndexBoundary;
   // set top, bottom index
   tableData.forEach((tr, trIndex) => {
-    tr.forEach(td => {
+    tr.forEach((td) => {
       td.top = trIndex;
       td.bottom = trIndex + (td.rowSpan || 1) - 1;
     });
@@ -221,15 +228,19 @@ export const getCorrectTableIndexBoundary = (
   const mergedCells = [] as [number, number][]; // [trIndex, tdIndex]
   Array.from({ length: maxTdCount }).forEach((_, tdIndex) => {
     tableData.forEach((tr, trIndex) => {
-      const mergedCell = mergedCells.find(e => e[0] === trIndex && e[1] === tdIndex);
+      const mergedCell = mergedCells.find(
+        (e) => e[0] === trIndex && e[1] === tdIndex
+      );
       if (mergedCell) {
         return;
       }
-      const mergedTds = mergedCells.filter(e => e[0] === trIndex && e[1] < tdIndex);
+      const mergedTds = mergedCells.filter(
+        (e) => e[0] === trIndex && e[1] < tdIndex
+      );
       const _tdIndex = tdIndex - mergedTds.length;
       const td = tr[_tdIndex];
       if (!td) {
-        console.log('error case, should fix this error.');
+        console.log("error case, should fix this error.");
         return;
       }
       const rowSpan = td.rowSpan || 1;
@@ -259,10 +270,10 @@ export const getCorrectTableIndexBoundary = (
 };
 
 export const getMaxTdCount = (
-  tableData: AdvancedTableBlock['data']['value']['tableSource'],
+  tableData: AdvancedTableBlock["data"]["value"]["tableSource"]
 ) => {
   let tdCount = 1;
-  tableData.forEach(tr => {
+  tableData.forEach((tr) => {
     let _tdCount = tr.reduce((count, td) => count + (td.colSpan || 1), 0);
     if (_tdCount > tdCount) {
       tdCount = _tdCount;

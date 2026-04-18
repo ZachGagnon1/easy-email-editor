@@ -1,10 +1,15 @@
-import { Grid, PopoverProps, Space, Tooltip } from '@arco-design/web-react';
-import React, { useCallback, useMemo } from 'react';
-import { Form } from 'react-final-form';
-import { getIframeDocument, IconFont, Stack, TextStyle } from 'easy-email-editor';
-import { SearchField, SwitchField } from '@extensions/components/Form';
-import { ToolItem } from '../ToolItem';
-import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
+import { Grid, PopoverProps, Space, Tooltip } from "@arco-design/web-react";
+import React, { useCallback, useMemo } from "react";
+import { Form } from "react-final-form";
+import {
+  getIframeDocument,
+  IconFont,
+  Stack,
+  TextStyle,
+} from "easy-email-editor";
+import { SearchField, SwitchField } from "@extensions/components/Form";
+import { ToolItem } from "../ToolItem";
+import { EMAIL_BLOCK_CLASS_NAME } from "easy-email-core";
 
 export interface LinkParams {
   link: string;
@@ -18,17 +23,17 @@ export interface LinkProps extends PopoverProps {
   onChange: (val: LinkParams) => void;
 }
 
-function getAnchorElement(
-  node: Node | null,
-): HTMLAnchorElement | null {
+function getAnchorElement(node: Node | null): HTMLAnchorElement | null {
   if (!node) return null;
-  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME)) return null;
-  if ((node as Element).tagName?.toLocaleLowerCase() === 'a') return node as HTMLAnchorElement;
+  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME))
+    return null;
+  if ((node as Element).tagName?.toLocaleLowerCase() === "a")
+    return node as HTMLAnchorElement;
   return getAnchorElement(node.parentNode);
 }
 
 export function getLinkNode(
-  currentRange: Range | null | undefined,
+  currentRange: Range | null | undefined
 ): HTMLAnchorElement | null {
   let linkNode: HTMLAnchorElement | null = null;
   if (!currentRange) return null;
@@ -37,16 +42,15 @@ export function getLinkNode(
 }
 
 export function Link(props: LinkProps) {
-
   const initialValues = useMemo((): LinkParams => {
-    let link = '';
+    let link = "";
     let blank = true;
     let underline = true;
     let linkNode: HTMLAnchorElement | null = getLinkNode(props.currentRange);
     if (linkNode) {
-      link = linkNode.getAttribute('href') || '';
-      blank = linkNode.getAttribute('target') === '_blank';
-      underline = linkNode.style.textDecoration === 'underline';
+      link = linkNode.getAttribute("href") || "";
+      blank = linkNode.getAttribute("target") === "_blank";
+      underline = linkNode.style.textDecoration === "underline";
     }
     return {
       link,
@@ -60,7 +64,7 @@ export function Link(props: LinkProps) {
     (values: LinkParams) => {
       props.onChange(values);
     },
-    [props],
+    [props]
   );
 
   return (
@@ -82,54 +86,56 @@ export function Link(props: LinkProps) {
             trigger="click"
             color="#fff"
             position="tl"
-            content={(
-              <div style={{ color: '#333' }}>
+            content={
+              <div style={{ color: "#333" }}>
                 <Stack vertical spacing="none">
                   <SearchField
                     size="small"
                     name="link"
-                    label={t('Link')}
+                    label={t("Link")}
                     labelHidden
-                    searchButton={t('Apply')}
-                    placeholder={t('https://www.example.com')}
+                    searchButton={t("Apply")}
+                    placeholder={t("https://www.example.com")}
                     onSearch={() => handleSubmit()}
                   />
                 </Stack>
                 <Grid.Row>
                   <Grid.Col span={12}>
                     <Space align="center" size="mini">
-                      <TextStyle size="smallest">{t('Target')}</TextStyle>
+                      <TextStyle size="smallest">{t("Target")}</TextStyle>
                       <SwitchField
                         size="small"
-                        label={t('Target')}
+                        label={t("Target")}
                         labelHidden
                         name="blank"
-                        checkedText={t('blank')}
-                        uncheckedText={t('self')}
+                        checkedText={t("blank")}
+                        uncheckedText={t("self")}
                         inline
                       />
                     </Space>
                   </Grid.Col>
                   <Grid.Col span={12}>
                     <Space align="center" size="mini">
-                      <TextStyle size="smallest">{t('Underline')}</TextStyle>
+                      <TextStyle size="smallest">{t("Underline")}</TextStyle>
                       <SwitchField
                         size="small"
-                        label={t('Underline')}
+                        label={t("Underline")}
                         labelHidden
                         name="underline"
-                        checkedText={t('off')}
-                        uncheckedText={t('on')}
+                        checkedText={t("off")}
+                        uncheckedText={t("on")}
                         inline
                       />
                     </Space>
                   </Grid.Col>
                 </Grid.Row>
               </div>
-            )}
+            }
           >
-            <ToolItem isActive={Boolean(initialValues.link)} title={t('Link')}
-                      icon={<IconFont iconName="icon-link" />}
+            <ToolItem
+              isActive={Boolean(initialValues.link)}
+              title={t("Link")}
+              icon={<IconFont iconName="icon-link" />}
             />
           </Tooltip>
         );

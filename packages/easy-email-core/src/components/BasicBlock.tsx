@@ -1,13 +1,13 @@
-import { IBlock } from '@core/typings';
-import { getAdapterAttributesString, getChildIdx } from '@core/utils';
-import { getImg } from '@core/utils/getImg';
-import { getPlaceholder } from '@core/utils/getPlaceholder';
-import { omit } from 'lodash';
-import React from 'react';
-import { BlockRenderer } from './BlockRenderer';
+import { IBlock } from "@core/typings";
+import { getAdapterAttributesString, getChildIdx } from "@core/utils";
+import { getImg } from "@core/utils/getImg";
+import { getPlaceholder } from "@core/utils/getPlaceholder";
+import { omit } from "lodash";
+import React from "react";
+import { BlockRenderer } from "./BlockRenderer";
 
 export function BasicBlock(props: {
-  params: Parameters<IBlock['render']>[0];
+  params: Parameters<IBlock["render"]>[0];
   tag: string;
   children?: React.ReactNode;
 }) {
@@ -28,20 +28,20 @@ export function BasicBlock(props: {
     content = placeholder;
   }
 
-  if (mode === 'testing' && tag === 'mj-image') {
+  if (mode === "testing" && tag === "mj-image") {
     let url = data.attributes.src;
 
     if (
-      url === '' ||
+      url === "" ||
       /{{([\s\S]+?)}}/g.test(url) ||
       /\*\|([^\|\*]+)\|\*/g.test(url)
     ) {
-      const adapterData = omit(params, 'data.attributes.src');
+      const adapterData = omit(params, "data.attributes.src");
 
       return (
         <>
           {`<${tag} ${getAdapterAttributesString(adapterData)} src="${getImg(
-            'IMAGE_59'
+            "IMAGE_59"
           )}">`}
 
           {`</${tag}>`}

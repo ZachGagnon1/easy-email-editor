@@ -1,5 +1,5 @@
-import { BlockManager } from './BlockManager';
-import { IBlockData } from '../typings';
+import { BlockManager } from "./BlockManager";
+import { IBlockData } from "../typings";
 
 export function isValidBlockData<T>(data: any): data is IBlockData {
   try {

@@ -1,7 +1,7 @@
-import './axios.config';
-import { common } from '@demo/services/common';
-import { article } from './article';
-import { user } from './user';
+import "./axios.config";
+import { common } from "@demo/services/common";
+import { article } from "./article";
+import { user } from "./user";
 
 const services = {
   common,

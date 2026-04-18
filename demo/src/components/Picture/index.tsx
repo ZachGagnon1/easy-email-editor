@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 interface IPictureProps
   extends React.DetailedHTMLProps<
@@ -22,18 +22,18 @@ export function Picture(props: IPictureProps) {
       {...{
         src: undefined,
         style: {
-          display: 'inline-block',
+          display: "inline-block",
           ...props.style,
         },
       }}
     >
       <img
         style={{
-          width: props.style?.width || '100%',
-          height: props.style?.height || '100%',
+          width: props.style?.width || "100%",
+          height: props.style?.height || "100%",
         }}
         src={url}
-        alt=''
+        alt=""
       />
     </picture>
   );

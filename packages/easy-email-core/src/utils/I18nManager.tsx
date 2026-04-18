@@ -1,5 +1,5 @@
-import { get } from 'lodash';
-import React from 'react';
+import { get } from "lodash";
+import React from "react";
 
 export class I18nManager {
   static localeData: Record<string, string> = {};
@@ -13,7 +13,7 @@ export class I18nManager {
     if (!placeholder) {
       return translationValue;
     }
-    const arr: React.ReactNode[] = translationValue.split('***');
+    const arr: React.ReactNode[] = translationValue.split("***");
     arr.splice(1, 0, placeholder);
 
     return (

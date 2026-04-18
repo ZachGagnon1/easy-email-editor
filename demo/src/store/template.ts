@@ -1,11 +1,16 @@
-import { article, IArticle } from '@demo/services/article';
-import createSliceState from './common/createSliceState';
-import { Message } from '@arco-design/web-react';
-import { history } from '@demo/utils/history';
-import { emailToImage } from '@demo/utils/emailToImage';
-import { IBlockData, BlockManager, BasicType, AdvancedType } from 'easy-email-core';
-import { IEmailTemplate } from 'easy-email-editor';
-import { getTemplate } from '@demo/config/getTemplate';
+import { article, IArticle } from "@demo/services/article";
+import createSliceState from "./common/createSliceState";
+import { Message } from "@arco-design/web-react";
+import { history } from "@demo/utils/history";
+import { emailToImage } from "@demo/utils/emailToImage";
+import {
+  IBlockData,
+  BlockManager,
+  BasicType,
+  AdvancedType,
+} from "easy-email-core";
+import { IEmailTemplate } from "easy-email-editor";
+import { getTemplate } from "@demo/config/getTemplate";
 
 export function getAdaptor(data: IArticle): IEmailTemplate {
   const content = JSON.parse(data.content.content) as IBlockData;
@@ -18,7 +23,7 @@ export function getAdaptor(data: IArticle): IEmailTemplate {
 }
 
 export default createSliceState({
-  name: 'template',
+  name: "template",
   initialState: null as IEmailTemplate | null,
   reducers: {
     set: (state, action) => {
@@ -34,7 +39,7 @@ export default createSliceState({
       }: {
         id: number;
         userId: number;
-      },
+      }
     ) => {
       try {
         let data = await getTemplate(id);
@@ -43,16 +48,18 @@ export default createSliceState({
         }
         return getAdaptor(data);
       } catch (error) {
-        history.replace('/');
+        history.replace("/");
         throw error;
       }
     },
-    fetchDefaultTemplate: async state => {
+    fetchDefaultTemplate: async (state) => {
       return {
-        subject: 'Welcome to Easy-email',
-        subTitle: 'Nice to meet you!',
+        subject: "Welcome to Easy-email",
+        subTitle: "Nice to meet you!",
         content: BlockManager.getBlockByType(BasicType.PAGE).create({
-          children: [BlockManager.getBlockByType(AdvancedType.WRAPPER).create()],
+          children: [
+            BlockManager.getBlockByType(AdvancedType.WRAPPER).create(),
+          ],
         }),
       } as IEmailTemplate;
     },
@@ -61,7 +68,7 @@ export default createSliceState({
       payload: {
         template: IEmailTemplate;
         success: (id: number, data: IEmailTemplate) => void;
-      },
+      }
     ) => {
       const picture = await emailToImage(payload.template.content);
       const data = await article.addArticle({
@@ -81,11 +88,11 @@ export default createSliceState({
           user_id: number;
         };
         success: (id: number) => void;
-      },
+      }
     ) => {
       const source = await article.getArticle(
         payload.article.article_id,
-        payload.article.user_id,
+        payload.article.user_id
       );
       const data = await article.addArticle({
         title: source.title,
@@ -101,12 +108,12 @@ export default createSliceState({
         id: number;
         template: IEmailTemplate;
         success: (templateId: number) => void;
-      },
+      }
     ) => {
       try {
         let isDefaultTemplate = await getTemplate(payload.id);
         if (isDefaultTemplate) {
-          Message.error('Cannot change the default template');
+          Message.error("Cannot change the default template");
           return;
         }
 
@@ -121,7 +128,7 @@ export default createSliceState({
       } catch (error: any) {
         if (error?.response?.status === 404) {
           throw {
-            message: 'Cannot change the default template',
+            message: "Cannot change the default template",
           };
         }
       }
@@ -130,11 +137,11 @@ export default createSliceState({
       try {
         await article.deleteArticle(payload.id);
         payload.success();
-        Message.success('Removed success.');
+        Message.success("Removed success.");
       } catch (error: any) {
         if (error?.response?.status === 404) {
           throw {
-            message: 'Cannot delete the default template',
+            message: "Cannot delete the default template",
           };
         }
       }

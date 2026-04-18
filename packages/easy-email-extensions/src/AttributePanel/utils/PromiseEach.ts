@@ -8,8 +8,7 @@ export function PromiseEach(promiseLikes: PromiseLike<any>[]) {
         datas.push(data);
       } catch (error) {
         datas.push(error);
-      }
-      finally {
+      } finally {
         count++;
         if (count === promiseLikes.length) {
           resolve(true);

@@ -1,8 +1,7 @@
-
 type Falsy = boolean | undefined | null | 0;
 
 export function classNames(...classes: (string | Falsy)[]) {
-  return classes.filter(item => !!item).join(' ');
+  return classes.filter((item) => !!item).join(" ");
 }
 
 export function variationName(name: string, value: string) {

@@ -1,8 +1,8 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { UserStorage } from '@demo/utils/user-storage';
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import { UserStorage } from "@demo/utils/user-storage";
 
 export const axiosInstance = axios.create({
-  baseURL: 'https://www.maocanhua.cn',
+  baseURL: "https://www.maocanhua.cn",
 });
 
 axiosInstance.interceptors.request.use(async function (config) {

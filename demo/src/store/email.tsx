@@ -1,8 +1,8 @@
-import services from '@demo/services';
-import createSliceState from './common/createSliceState';
+import services from "@demo/services";
+import createSliceState from "./common/createSliceState";
 
 export default createSliceState({
-  name: 'email',
+  name: "email",
   initialState: null,
   reducers: {
     set: (state, action) => state,

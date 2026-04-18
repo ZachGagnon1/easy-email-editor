@@ -1,30 +1,27 @@
-import { Box, Grid, Typography } from '@mui/material';
-import { AdvancedType, BlockManager, IBlockData } from 'easy-email-core';
-import { BlockAvatarWrapper, IconFont } from 'easy-email-editor';
-import React, { useState } from 'react';
-import { IconCaretRight, IconCaretUp } from '@arco-design/web-react/icon';
-import { getIconNameByBlockType } from '@extensions/utils/getIconNameByBlockType';
-import styles from './index.module.scss';
-import { useExtensionProps } from '@extensions/components/Providers/ExtensionProvider';
-import { CollapsableItem } from '@extensions/components/Collapse/CollapsableItem';
+import { Box, Grid, Typography } from "@mui/material";
+import { AdvancedType, BlockManager, IBlockData } from "easy-email-core";
+import { BlockAvatarWrapper, IconFont } from "easy-email-editor";
+import React, { useState } from "react";
+import { IconCaretRight, IconCaretUp } from "@arco-design/web-react/icon";
+import { getIconNameByBlockType } from "@extensions/utils/getIconNameByBlockType";
+import styles from "./index.module.scss";
+import { useExtensionProps } from "@extensions/components/Providers/ExtensionProvider";
+import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
 
 export function Blocks() {
   const { categories } = useExtensionProps();
 
   return (
-    <Box sx={{ paddingBottom: 30, minHeight: '100%' }}>
+    <Box sx={{ paddingBottom: 30, minHeight: "100%" }}>
       {categories.map((cat, index) => {
-        if (cat.displayType === 'column') {
+        if (cat.displayType === "column") {
           return (
-            <CollapsableItem
-              key={index}
-              title={cat.label}
-            >
+            <CollapsableItem key={index} title={cat.label}>
               <>
-                {cat.blocks.map(item => (
+                {cat.blocks.map((item) => (
                   <LayoutItem
                     key={item.title}
-                    title={item.title || ''}
+                    title={item.title || ""}
                     columns={item.payload}
                   />
                 ))}
@@ -34,16 +31,10 @@ export function Blocks() {
           );
         }
 
-        if (cat.displayType === 'custom') {
+        if (cat.displayType === "custom") {
           return (
-            <CollapsableItem
-              key={index}
-              title={cat.label}
-            >
-              <Grid
-                container
-                spacing={2}
-              >
+            <CollapsableItem key={index} title={cat.label}>
+              <Grid container spacing={2}>
                 {cat.blocks.map((item, index) => {
                   return <React.Fragment key={index}>{item}</React.Fragment>;
                 })}
@@ -52,24 +43,12 @@ export function Blocks() {
           );
         }
         return (
-          <CollapsableItem
-            key={index}
-            title={cat.label}
-          >
-            <Grid
-              container
-              sx={{ ml: 1 }}
-            >
+          <CollapsableItem key={index} title={cat.label}>
+            <Grid container sx={{ ml: 1 }}>
               {cat.blocks.map((item, index) => {
                 return (
-                  <Grid
-                    key={item}
-                    size={4}
-                  >
-                    <BlockItem
-                      key={index}
-                      {...item}
-                    />
+                  <Grid key={item} size={4}>
+                    <BlockItem key={index} {...item} />
                   </Grid>
                 );
               })}
@@ -96,27 +75,21 @@ function BlockItem({
 
   return (
     <div className={styles.blockItem}>
-      <BlockAvatarWrapper
-        type={type}
-        payload={payload}
-      >
+      <BlockAvatarWrapper type={type} payload={payload}>
         <Box
           className={styles.blockItemContainer}
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <IconFont
             style={{ fontSize: 20 }}
             iconName={getIconNameByBlockType(type)}
           />
-          <Typography
-            variant='body2'
-            sx={{ marginTop: 1 }}
-          >
+          <Typography variant="body2" sx={{ marginTop: 1 }}>
             {title || block?.name}
           </Typography>
         </Box>
@@ -125,36 +98,44 @@ function BlockItem({
   );
 }
 
-function LayoutItem({ columns, title }: { columns: string[][]; title: string }) {
+function LayoutItem({
+  columns,
+  title,
+}: {
+  columns: string[][];
+  title: string;
+}) {
   const [visible, setVisible] = useState(false);
 
   return (
     <Box>
       <Box
-        onClick={() => setVisible(v => !v)}
+        onClick={() => setVisible((v) => !v)}
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          cursor: 'pointer',
-          '&:hover': {
-            backgroundColor: 'action.hover',
+          display: "flex",
+          justifyContent: "space-between",
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: "action.hover",
           },
           px: 1,
           py: 1,
           borderRadius: 1,
         }}
       >
-        <Typography variant='body2'>{title}</Typography>
+        <Typography variant="body2">{title}</Typography>
         {columns.length > 1 && (
-          <Typography>{!visible ? <IconCaretRight /> : <IconCaretUp />}</Typography>
+          <Typography>
+            {!visible ? <IconCaretRight /> : <IconCaretUp />}
+          </Typography>
         )}
       </Box>
       <Box
         sx={{
-          height: visible ? 'auto' : 0,
-          overflow: 'hidden',
+          height: visible ? "auto" : 0,
+          overflow: "hidden",
           opacity: visible ? 1 : 0,
-          transition: 'opacity 0.2s ease-in-out',
+          transition: "opacity 0.2s ease-in-out",
         }}
       >
         {columns.map((item, index) => {
@@ -162,7 +143,7 @@ function LayoutItem({ columns, title }: { columns: string[][]; title: string }) 
           const payload = {
             type: AdvancedType.SECTION,
             attributes: {},
-            children: item.map(col => ({
+            children: item.map((col) => ({
               type: AdvancedType.COLUMN,
               attributes: {
                 width: col,
@@ -180,17 +161,14 @@ function LayoutItem({ columns, title }: { columns: string[][]; title: string }) 
               sx={{
                 marginBottom: hide ? 0 : 2,
                 opacity: hide ? 0 : 1,
-                transition: 'opacity 0.2s ease-in-out',
+                transition: "opacity 0.2s ease-in-out",
               }}
             >
-              <BlockAvatarWrapper
-                type={AdvancedType.SECTION}
-                payload={payload}
-              >
+              <BlockAvatarWrapper type={AdvancedType.SECTION} payload={payload}>
                 <Box
                   sx={{
-                    border: '1px solid #e0e0e0',
-                    width: '100%',
+                    border: "1px solid #e0e0e0",
+                    width: "100%",
                     padding: 1,
                     borderRadius: 1,
                   }}
@@ -198,9 +176,9 @@ function LayoutItem({ columns, title }: { columns: string[][]; title: string }) 
                   <Box
                     sx={{
                       height: 16,
-                      border: '1px solid #555',
+                      border: "1px solid #555",
                       borderRadius: 3,
-                      display: 'flex',
+                      display: "flex",
                     }}
                   >
                     {item.map((column, index) => {
@@ -209,8 +187,10 @@ function LayoutItem({ columns, title }: { columns: string[][]; title: string }) 
                           key={index}
                           sx={{
                             borderRight:
-                              index === item.length - 1 ? undefined : '1px solid #555',
-                            height: '100%',
+                              index === item.length - 1
+                                ? undefined
+                                : "1px solid #555",
+                            height: "100%",
                             width: column,
                           }}
                         />

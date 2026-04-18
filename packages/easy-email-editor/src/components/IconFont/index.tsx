@@ -1,5 +1,5 @@
-import { classnames } from '@/utils/classnames';
-import React from 'react';
+import { classnames } from "@/utils/classnames";
+import React from "react";
 
 export function IconFont(props: {
   iconName: string;
@@ -15,13 +15,13 @@ export function IconFont(props: {
       onClick={props.onClick}
       onClickCapture={props.onClickCapture}
       style={{
-        cursor: 'pointer',
-        pointerEvents: 'auto',
-        color: 'inherit',
+        cursor: "pointer",
+        pointerEvents: "auto",
+        color: "inherit",
         ...(props.style as any),
         fontSize: props.size || (props.style as any)?.fontSize,
       }}
-      className={classnames('iconfont', props.iconName)}
+      className={classnames("iconfont", props.iconName)}
     />
   );
 }

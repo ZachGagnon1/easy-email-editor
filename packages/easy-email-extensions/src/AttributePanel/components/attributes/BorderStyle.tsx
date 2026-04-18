@@ -1,54 +1,54 @@
-import React, { useMemo } from 'react';
-import { useFocusIdx } from 'easy-email-editor';
-import { SelectField } from '../../../components/Form';
+import React, { useMemo } from "react";
+import { useFocusIdx } from "easy-email-editor";
+import { SelectField } from "../../../components/Form";
 
 export const borderStyleOptions = [
   {
-    value: 'dashed',
+    value: "dashed",
     get label() {
-      return t('Dashed');
+      return t("Dashed");
     },
   },
   {
-    value: 'dotted',
+    value: "dotted",
     get label() {
-      return t('Dotted');
+      return t("Dotted");
     },
   },
   {
-    value: 'solid',
+    value: "solid",
     get label() {
-      return t('Solid');
+      return t("Solid");
     },
   },
   {
-    value: 'double',
+    value: "double",
     get label() {
-      return t('double');
+      return t("double");
     },
   },
   {
-    value: 'ridge',
+    value: "ridge",
     get label() {
-      return t('ridge');
+      return t("ridge");
     },
   },
   {
-    value: 'groove',
+    value: "groove",
     get label() {
-      return t('groove');
+      return t("groove");
     },
   },
   {
-    value: 'inset',
+    value: "inset",
     get label() {
-      return t('inset');
+      return t("inset");
     },
   },
   {
-    value: 'outset',
+    value: "outset",
     get label() {
-      return t('outset');
+      return t("outset");
     },
   },
 ];
@@ -59,7 +59,7 @@ export function BorderStyle() {
   return useMemo(() => {
     return (
       <SelectField
-        label={t('Style')}
+        label={t("Style")}
         name={`${focusIdx}.attributes.border-style`}
         options={borderStyleOptions}
       />

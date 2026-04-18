@@ -7,20 +7,20 @@ import {
   MergeTagBadge,
   RICH_TEXT_BAR_ID,
   useEditorProps,
-  getIframeDocument
-} from 'easy-email-editor';
-import React, { useCallback, useEffect, useState } from 'react';
-import { InlineText, InlineTextProps } from '../InlineTextField';
-import { RichTextToolBar } from '../RichTextToolBar';
-import { Field, FieldInputProps } from 'react-final-form';
-import { debounce } from 'lodash';
+  getIframeDocument,
+} from "easy-email-editor";
+import React, { useCallback, useEffect, useState } from "react";
+import { InlineText, InlineTextProps } from "../InlineTextField";
+import { RichTextToolBar } from "../RichTextToolBar";
+import { Field, FieldInputProps } from "react-final-form";
+import { debounce } from "lodash";
 
 export const RichTextField = (
-  props: Omit<InlineTextProps, 'onChange' | 'mutators'>,
+  props: Omit<InlineTextProps, "onChange" | "mutators">
 ) => {
-  const [contentEditableName, setContentEditableName] = useState('');
+  const [contentEditableName, setContentEditableName] = useState("");
   const [contentEditableType, setContentEditableType] = useState<string | null>(
-    CONTENT_EDITABLE_CLASS_NAME,
+    CONTENT_EDITABLE_CLASS_NAME
   );
 
   useEffect(() => {
@@ -32,12 +32,12 @@ export const RichTextField = (
       if (fixedContainer?.contains(e.target as Node)) {
         return;
       }
-      setContentEditableName('');
+      setContentEditableName("");
     };
 
-    getIframeDocument()?.addEventListener('click', onClick);
+    getIframeDocument()?.addEventListener("click", onClick);
     return () => {
-      getIframeDocument()?.removeEventListener('click', onClick);
+      getIframeDocument()?.removeEventListener("click", onClick);
     };
   }, []);
 
@@ -54,7 +54,7 @@ export const RichTextField = (
       }
       const activeElement = getIframeDocument()?.activeElement;
       if (!activeElement) {
-        setContentEditableName('');
+        setContentEditableName("");
       } else {
         const idxName = activeElement.getAttribute(DATA_CONTENT_EDITABLE_IDX);
         const type = activeElement.getAttribute(DATA_CONTENT_EDITABLE_TYPE);
@@ -62,14 +62,14 @@ export const RichTextField = (
         if (idxName) {
           setContentEditableName(idxName);
         } else {
-          setContentEditableName('');
+          setContentEditableName("");
         }
       }
     };
 
-    root.addEventListener('click', onClick);
+    root.addEventListener("click", onClick);
     return () => {
-      root.removeEventListener('click', onClick);
+      root.removeEventListener("click", onClick);
     };
   }, []);
 
@@ -89,10 +89,10 @@ export const RichTextField = (
 };
 
 function FieldWrapper(
-  props: Omit<InlineTextProps, 'onChange'> & {
+  props: Omit<InlineTextProps, "onChange"> & {
     input: FieldInputProps<any, HTMLElement>;
     contentEditableType: string | null;
-  },
+  }
 ) {
   const { input, contentEditableType, ...rest } = props;
   const { mergeTagGenerate, enabledMergeTagsBadge } = useEditorProps();
@@ -109,7 +109,7 @@ function FieldWrapper(
 
       input.onBlur();
     }, 200),
-    [input],
+    [input]
   );
 
   return (

@@ -1,18 +1,18 @@
-import React from 'react';
-import { useFocusIdx } from 'easy-email-editor';
-import { RadioGroupField } from '../../../components/Form';
+import React from "react";
+import { useFocusIdx } from "easy-email-editor";
+import { RadioGroupField } from "../../../components/Form";
 
 const options = [
   {
-    value: 'normal',
+    value: "normal",
     get label() {
-      return t('Normal');
+      return t("Normal");
     },
   },
   {
-    value: 'italic',
+    value: "italic",
     get label() {
-      return t('Italic');
+      return t("Italic");
     },
   },
 ];
@@ -22,7 +22,7 @@ export function FontStyle({ name }: { name?: string }) {
 
   return (
     <RadioGroupField
-      label={t('Font style')}
+      label={t("Font style")}
       name={name || `${focusIdx}.attributes.font-style`}
       options={options}
     />

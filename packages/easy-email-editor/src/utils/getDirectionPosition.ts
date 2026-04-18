@@ -1,4 +1,4 @@
-import { getBlockNodeByChildEle } from './getBlockNodeByChildEle';
+import { getBlockNodeByChildEle } from "./getBlockNodeByChildEle";
 
 export type DirectionPosition = {
   horizontal: {
@@ -23,11 +23,11 @@ export function getDirectionPosition(
   const blockNode = getBlockNodeByChildEle(target);
   const position = {
     horizontal: {
-      direction: '',
+      direction: "",
       isEdge: false,
     },
     vertical: {
-      direction: '',
+      direction: "",
       isEdge: false,
     },
   };
@@ -38,24 +38,24 @@ export function getDirectionPosition(
   const mouseX = ev.clientX;
 
   if (mouseY - top <= 0.5 * height) {
-    position.vertical.direction = 'top';
+    position.vertical.direction = "top";
     if (Math.abs(top - mouseY) <= deviation) {
       position.vertical.isEdge = true;
     }
   } else {
-    position.vertical.direction = 'bottom';
+    position.vertical.direction = "bottom";
     if (Math.abs(top + height - mouseY) <= deviation) {
       position.vertical.isEdge = true;
     }
   }
 
   if (mouseX - left <= 0.5 * width) {
-    position.horizontal.direction = 'left';
+    position.horizontal.direction = "left";
     if (Math.abs(left - mouseX) <= deviation) {
       position.horizontal.isEdge = true;
     }
   } else {
-    position.horizontal.direction = 'right';
+    position.horizontal.direction = "right";
 
     if (Math.abs(left + width - mouseX) <= deviation) {
       position.horizontal.isEdge = true;

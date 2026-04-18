@@ -1,19 +1,30 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
   resolve: {
     // Vite 8 built-in support for tsconfig path resolution
     tsconfigPaths: true,
     alias: {
-      '@demo': path.resolve(__dirname, './src'),
-      react: path.resolve('./node_modules/react'),
-      'react-final-form': path.resolve(__dirname, './node_modules/react-final-form'),
-      'easy-email-localization': path.resolve('../packages/easy-email-localization'),
-      'easy-email-core': path.resolve('../packages/easy-email-core/src/index.tsx'),
-      'easy-email-editor': path.resolve('../packages/easy-email-editor/src/index.tsx'),
-      'easy-email-extensions': path.resolve('../packages/easy-email-extensions/src/index.tsx'),
+      "@demo": path.resolve(__dirname, "./src"),
+      react: path.resolve("./node_modules/react"),
+      "react-final-form": path.resolve(
+        __dirname,
+        "./node_modules/react-final-form"
+      ),
+      "easy-email-localization": path.resolve(
+        "../packages/easy-email-localization"
+      ),
+      "easy-email-core": path.resolve(
+        "../packages/easy-email-core/src/index.tsx"
+      ),
+      "easy-email-editor": path.resolve(
+        "../packages/easy-email-editor/src/index.tsx"
+      ),
+      "easy-email-extensions": path.resolve(
+        "../packages/easy-email-extensions/src/index.tsx"
+      ),
     },
   },
   esbuild: {
@@ -21,31 +32,35 @@ export default defineConfig({
     jsxInject: 'import "@arco-design/web-react/dist/css/arco.css";',
   },
   build: {
-    minify: 'terser', // Vite 8 uses lightningcss by default, but terser is safer for complex monorepos
+    minify: "terser", // Vite 8 uses lightningcss by default, but terser is safer for complex monorepos
     manifest: true,
     sourcemap: false,
-    target: 'esnext', // Modernized build target for Vite 8
+    target: "esnext", // Modernized build target for Vite 8
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules/html2canvas')) return 'html2canvas';
-          if (id.includes('node_modules/lodash')) return 'lodash';
-          if (id.includes('node_modules/mjml-browser')) return 'mjml-browser';
-          if (id.includes('easy-email')) return 'easy-email-editor';
+          if (id.includes("node_modules/html2canvas")) return "html2canvas";
+          if (id.includes("node_modules/lodash")) return "lodash";
+          if (id.includes("node_modules/mjml-browser")) return "mjml-browser";
+          if (id.includes("easy-email")) return "easy-email-editor";
         },
         chunkFileNames(info) {
-          const legacyChunks = ['mjml-browser', 'html2canvas', 'browser-image-compression'];
-          if (legacyChunks.some(name => info.name?.includes(name))) {
-            return '[name].js';
+          const legacyChunks = [
+            "mjml-browser",
+            "html2canvas",
+            "browser-image-compression",
+          ];
+          if (legacyChunks.some((name) => info.name?.includes(name))) {
+            return "[name].js";
           }
-          return '[name]-[hash].js';
+          return "[name]-[hash].js";
         },
       },
     },
   },
   css: {
     modules: {
-      localsConvention: 'dashes',
+      localsConvention: "dashes",
     },
     preprocessorOptions: {
       scss: {},
@@ -58,11 +73,11 @@ export default defineConfig({
     react(),
     // Replaced vite-plugin-html with native transform hook
     {
-      name: 'html-transform',
+      name: "html-transform",
       transformIndexHtml(html) {
         return html.replace(
-          '</head>',
-          `<meta name="updated-time" content="${new Date().toUTCString()}" />\n</head>`,
+          "</head>",
+          `<meta name="updated-time" content="${new Date().toUTCString()}" />\n</head>`
         );
       },
     },

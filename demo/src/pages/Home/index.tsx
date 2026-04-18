@@ -1,18 +1,18 @@
-import { useAppSelector } from '@demo/hooks/useAppSelector';
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import Frame from '@demo/components/Frame';
-import templateList from '@demo/store/templateList';
-import { Button } from '@arco-design/web-react';
-import { CardItem } from './components/CardItem';
-import { Stack } from '@demo/components/Stack';
-import { history } from '@demo/utils/history';
-import { pushEvent } from '@demo/utils/pushEvent';
-import templates from '@demo/config/templates.json';
+import { useAppSelector } from "@demo/hooks/useAppSelector";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import Frame from "@demo/components/Frame";
+import templateList from "@demo/store/templateList";
+import { Button } from "@arco-design/web-react";
+import { CardItem } from "./components/CardItem";
+import { Stack } from "@demo/components/Stack";
+import { history } from "@demo/utils/history";
+import { pushEvent } from "@demo/utils/pushEvent";
+import templates from "@demo/config/templates.json";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const list = useAppSelector('templateList');
+  const list = useAppSelector("templateList");
 
   useEffect(() => {
     dispatch(templateList.actions.fetch(undefined));
@@ -20,12 +20,12 @@ export default function Home() {
 
   return (
     <Frame
-      title='Templates'
+      title="Templates"
       primaryAction={
         <Button
           onClick={() => {
-            pushEvent({ event: 'Create' });
-            history.push('/editor');
+            pushEvent({ event: "Create" });
+            history.push("/editor");
           }}
         >
           Add

@@ -8,16 +8,16 @@ import {
   getValueByIdx,
   BlockManager,
   createBlockDataByType,
-} from 'easy-email-core';
-import { cloneDeep, debounce, get } from 'lodash';
-import { useCallback, useContext } from 'react';
+} from "easy-email-core";
+import { cloneDeep, debounce, get } from "lodash";
+import { useCallback, useContext } from "react";
 
-import { useEditorContext } from './useEditorContext';
-import { RecordContext } from '@/components/Provider/RecordProvider';
-import { useFocusIdx } from './useFocusIdx';
-import { IEmailTemplate } from '@/typings';
-import { useEditorProps } from './useEditorProps';
-import { scrollBlockEleIntoView } from '@/utils';
+import { useEditorContext } from "./useEditorContext";
+import { RecordContext } from "@/components/Provider/RecordProvider";
+import { useFocusIdx } from "./useFocusIdx";
+import { IEmailTemplate } from "@/typings";
+import { useEditorProps } from "./useEditorProps";
+import { scrollBlockEleIntoView } from "@/utils";
 
 export function useBlock() {
   const {
@@ -54,7 +54,7 @@ export function useBlock() {
 
       let child = createBlockDataByType(type, payload);
 
-      if (typeof positionIndex === 'undefined') {
+      if (typeof positionIndex === "undefined") {
         positionIndex = parent.children.length;
       }
       nextFocusIdx = `${parentIdx}.children.[${positionIndex}]`;
@@ -75,7 +75,7 @@ export function useBlock() {
             child = createBlockDataByType(item, {
               children: [child],
             });
-            nextFocusIdx += '.children.[0]';
+            nextFocusIdx += ".children.[0]";
           });
         }
       }
@@ -96,7 +96,7 @@ export function useBlock() {
         console.error(
           `${block.type} cannot be used inside ${
             parentBlock.type
-          }, only inside: ${block.validParentType.join(', ')}`
+          }, only inside: ${block.validParentType.join(", ")}`
         );
         return;
       }
@@ -139,10 +139,10 @@ export function useBlock() {
             removed = createBlockDataByType(item, {
               children: [removed],
             });
-            nextFocusIdx += '.children.[0]';
+            nextFocusIdx += ".children.[0]";
           });
         } else {
-          console.error('Something when wrong');
+          console.error("Something when wrong");
         }
       }
 
@@ -180,9 +180,9 @@ export function useBlock() {
 
       const parentIdx = getParentIdx(idx);
       if (!parentIdx) return;
-      const parent = get(values, getParentIdx(idx) || '') as IBlockData | null;
+      const parent = get(values, getParentIdx(idx) || "") as IBlockData | null;
       if (!parent) {
-        console.error('Invalid block');
+        console.error("Invalid block");
         return;
       }
       const copyBlock = cloneDeep(get(values, idx));
@@ -204,18 +204,18 @@ export function useBlock() {
 
       const block = getValueByIdx(values, idx);
       if (!block) {
-        console.error('Invalid block');
+        console.error("Invalid block");
         return;
       }
       const parentIdx = getParentIdx(idx);
-      const parent = get(values, getParentIdx(idx) || '') as IBlockData | null;
+      const parent = get(values, getParentIdx(idx) || "") as IBlockData | null;
       const blockIndex = getIndexByIdx(idx);
       if (!parentIdx || !parent) {
         if (block.type === BasicType.PAGE) {
-          console.error('Page node can not remove');
+          console.error("Page node can not remove");
           return;
         }
-        console.error('Invalid block');
+        console.error("Invalid block");
         return;
       }
       nextFocusIdx = parentIdx;

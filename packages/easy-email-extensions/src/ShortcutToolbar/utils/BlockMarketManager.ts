@@ -1,4 +1,4 @@
-import { IBlockData } from 'easy-email-core';
+import { IBlockData } from "easy-email-core";
 
 export interface BlockMarketCategory {
   name: string;
@@ -15,18 +15,22 @@ export interface BlockMarketCategory {
 
 export class BlockMarketManager {
   private static category: BlockMarketCategory[] = [];
-  private static subscriptHandles: Array<(category: BlockMarketCategory[]) => void> = [];
+  private static subscriptHandles: Array<
+    (category: BlockMarketCategory[]) => void
+  > = [];
 
   public static subscribe(fn: (category: BlockMarketCategory[]) => void) {
     return this.subscriptHandles.push(fn);
   }
 
   public static unsubscribe(fn: (category: BlockMarketCategory[]) => void) {
-    return this.subscriptHandles = this.subscriptHandles.filter(item => item === fn);
+    return (this.subscriptHandles = this.subscriptHandles.filter(
+      (item) => item === fn
+    ));
   }
 
   public static notify() {
-    this.subscriptHandles.forEach(fn => fn(this.category));
+    this.subscriptHandles.forEach((fn) => fn(this.category));
   }
 
   public static getCategory(name: string) {
@@ -38,7 +42,7 @@ export class BlockMarketManager {
   }
 
   public static addCategories(list: BlockMarketCategory[]) {
-    list.forEach(item => {
+    list.forEach((item) => {
       const index = this.category.findIndex((c) => c.name === item.name);
       if (index !== -1) {
         this.category.splice(index, 1);
@@ -74,7 +78,7 @@ export class BlockMarketManager {
   }
 
   public static removeCategories(list: BlockMarketCategory[]) {
-    list.forEach(item => {
+    list.forEach((item) => {
       this.category = this.category.filter((c) => c.name !== item.name);
     });
     this.notify();

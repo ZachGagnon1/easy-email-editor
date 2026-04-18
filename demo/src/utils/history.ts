@@ -1,5 +1,5 @@
-import { createBrowserHistory } from 'history';
-import { ConfirmBeforeLeavePage } from './ConfirmBeforeLeavePage';
+import { createBrowserHistory } from "history";
+import { ConfirmBeforeLeavePage } from "./ConfirmBeforeLeavePage";
 
 export const history = createBrowserHistory({
   getUserConfirmation(message, callback) {

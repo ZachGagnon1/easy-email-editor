@@ -1,6 +1,6 @@
-import { BlockLayerProps } from '@extensions/BlockLayer';
-import { isEqual, omit } from 'lodash';
-import React, { useContext, useMemo, useRef } from 'react';
+import { BlockLayerProps } from "@extensions/BlockLayer";
+import { isEqual, omit } from "lodash";
+import React, { useContext, useMemo, useRef } from "react";
 
 export interface ExtensionProps extends BlockLayerProps {
   children?: React.ReactNode | React.ReactElement;
@@ -13,7 +13,7 @@ export interface ExtensionProps extends BlockLayerProps {
           payload?: any;
           title?: string | undefined;
         }>;
-        displayType?: 'grid';
+        displayType?: "grid";
       }
     | {
         label: string;
@@ -22,7 +22,7 @@ export interface ExtensionProps extends BlockLayerProps {
           payload?: any;
           title?: string | undefined;
         }>;
-        displayType: 'column';
+        displayType: "column";
       }
     | {
         label: string;
@@ -30,13 +30,13 @@ export interface ExtensionProps extends BlockLayerProps {
         blocks: Array<{
           payload?: any;
         }>;
-        displayType: 'widget';
+        displayType: "widget";
       }
     | {
         label: string;
         active?: boolean;
         blocks: Array<React.ReactNode>;
-        displayType: 'custom';
+        displayType: "custom";
       }
   >;
   showSourceCode?: boolean;
@@ -50,8 +50,8 @@ export const ExtensionContext = React.createContext<ExtensionProps>({
   categories: [],
 });
 
-export const ExtensionProvider: React.FC<ExtensionProps> = props => {
-  const value = omit(props, 'children');
+export const ExtensionProvider: React.FC<ExtensionProps> = (props) => {
+  const value = omit(props, "children");
   const valueRef = useRef(value);
 
   const cacheValue = useMemo(() => {

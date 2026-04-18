@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from "react";
 
-import { getNodeIdxFromClassName } from 'easy-email-core';
-import { getBlockNodeByChildEle } from '@/utils/getBlockNodeByChildEle';
-import { useBlock } from '@/hooks/useBlock';
-import { getDirectionPosition } from '@/utils/getDirectionPosition';
-import { useFocusIdx } from './useFocusIdx';
-import { useDataTransfer } from './useDataTransfer';
-import { useHoverIdx } from './useHoverIdx';
-import { getInsertPosition } from '@/utils/getInsertPosition';
-import { useEditorProps } from './useEditorProps';
-import { DATA_ATTRIBUTE_DROP_CONTAINER } from '@/constants';
+import { getNodeIdxFromClassName } from "easy-email-core";
+import { getBlockNodeByChildEle } from "@/utils/getBlockNodeByChildEle";
+import { useBlock } from "@/hooks/useBlock";
+import { getDirectionPosition } from "@/utils/getDirectionPosition";
+import { useFocusIdx } from "./useFocusIdx";
+import { useDataTransfer } from "./useDataTransfer";
+import { useHoverIdx } from "./useHoverIdx";
+import { getInsertPosition } from "@/utils/getInsertPosition";
+import { useEditorProps } from "./useEditorProps";
+import { DATA_ATTRIBUTE_DROP_CONTAINER } from "@/constants";
 
 export function useDropBlock() {
   const [ref, setRef] = useState<HTMLElement | null>(null);
@@ -48,11 +48,11 @@ export function useDropBlock() {
         // scrollBlockEleIntoView({ idx });
       };
 
-      ref.addEventListener('mousedown', onMouseDown);
-      ref.addEventListener('click', onClick);
+      ref.addEventListener("mousedown", onMouseDown);
+      ref.addEventListener("click", onClick);
       return () => {
-        ref.removeEventListener('mousedown', onMouseDown);
-        ref.removeEventListener('click', onClick);
+        ref.removeEventListener("mousedown", onMouseDown);
+        ref.removeEventListener("click", onClick);
       };
     }
   }, [ref, setFocusIdx]);
@@ -125,8 +125,8 @@ export function useDropBlock() {
           }
         }
         if (!lastDragover.valid) {
-          setDirection('');
-          setHoverIdx('');
+          setDirection("");
+          setHoverIdx("");
           setDataTransfer((dataTransfer: any) => {
             return {
               ...dataTransfer,
@@ -139,15 +139,15 @@ export function useDropBlock() {
       const onCheckDragLeave = (ev: DragEvent) => {
         const dropEleList = [
           ...document.querySelectorAll(
-            `[${DATA_ATTRIBUTE_DROP_CONTAINER}="true"]`,
+            `[${DATA_ATTRIBUTE_DROP_CONTAINER}="true"]`
           ),
         ];
         const target = ev.target as HTMLElement;
         const isDropContainer = dropEleList.some((ele) => ele.contains(target));
 
         if (!isDropContainer) {
-          setDirection('');
-          setHoverIdx('');
+          setDirection("");
+          setHoverIdx("");
           setDataTransfer((dataTransfer: any) => {
             return {
               ...dataTransfer,
@@ -157,18 +157,18 @@ export function useDropBlock() {
         }
       };
 
-      ref.addEventListener('mouseover', onMouseover);
+      ref.addEventListener("mouseover", onMouseover);
       // ref.addEventListener('mouseout', onMouseOut);
-      ref.addEventListener('drop', onDrop);
-      ref.addEventListener('dragover', onDragOver);
-      window.addEventListener('dragover', onCheckDragLeave);
+      ref.addEventListener("drop", onDrop);
+      ref.addEventListener("dragover", onDragOver);
+      window.addEventListener("dragover", onCheckDragLeave);
 
       return () => {
-        ref.removeEventListener('mouseover', onMouseover);
+        ref.removeEventListener("mouseover", onMouseover);
         // ref.removeEventListener('mouseout', onMouseOut);
-        ref.removeEventListener('drop', onDrop);
-        ref.removeEventListener('dragover', onDragOver);
-        window.removeEventListener('dragover', onCheckDragLeave);
+        ref.removeEventListener("drop", onDrop);
+        ref.removeEventListener("dragover", onDragOver);
+        window.removeEventListener("dragover", onCheckDragLeave);
       };
     }
   }, [
@@ -186,31 +186,31 @@ export function useDropBlock() {
     const onMouseOut = (ev: MouseEvent) => {
       if (!isDragging) {
         ev.stopPropagation();
-        setHoverIdx('');
+        setHoverIdx("");
       }
     };
-    ref.addEventListener('mouseout', onMouseOut);
+    ref.addEventListener("mouseout", onMouseOut);
     return () => {
-      ref.removeEventListener('mouseout', onMouseOut);
+      ref.removeEventListener("mouseout", onMouseOut);
     };
   }, [isDragging, ref, setHoverIdx]);
 
   useEffect(() => {
     if (ref) {
-      ref.setAttribute('data-dragging', String(isDragging));
-      ref.setAttribute('data-direction', direction || 'none');
+      ref.setAttribute("data-dragging", String(isDragging));
+      ref.setAttribute("data-direction", direction || "none");
     }
   }, [direction, isDragging, ref]);
 
   useEffect(() => {
     if (ref) {
-      ref.setAttribute('data-hoverIdx', hoverIdx);
+      ref.setAttribute("data-hoverIdx", hoverIdx);
     }
   }, [hoverIdx, ref]);
 
   useEffect(() => {
     if (ref) {
-      ref.setAttribute('data-focusIdx', focusIdx);
+      ref.setAttribute("data-focusIdx", focusIdx);
     }
   }, [focusIdx, ref]);
 
@@ -218,6 +218,6 @@ export function useDropBlock() {
     () => ({
       setRef,
     }),
-    [setRef],
+    [setRef]
   );
 }

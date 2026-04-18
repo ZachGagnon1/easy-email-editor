@@ -1,22 +1,22 @@
-import { Card, ConfigProvider, Layout } from '@arco-design/web-react';
-import { useEditorProps, useFocusIdx } from 'easy-email-editor';
-import React, { useEffect } from 'react';
-import { InteractivePrompt } from '../InteractivePrompt';
-import styles from './index.module.scss';
-import enUS from '@arco-design/web-react/es/locale/en-US';
-import { MergeTagBadgePrompt } from '@extensions/MergeTagBadgePrompt';
-import { EditPanel } from '../EditPanel';
-import { ConfigurationPanel } from '@extensions/ConfigurationPanel';
+import { Card, ConfigProvider, Layout } from "@arco-design/web-react";
+import { useEditorProps, useFocusIdx } from "easy-email-editor";
+import React, { useEffect } from "react";
+import { InteractivePrompt } from "../InteractivePrompt";
+import styles from "./index.module.scss";
+import enUS from "@arco-design/web-react/es/locale/en-US";
+import { MergeTagBadgePrompt } from "@extensions/MergeTagBadgePrompt";
+import { EditPanel } from "../EditPanel";
+import { ConfigurationPanel } from "@extensions/ConfigurationPanel";
 import {
   ExtensionProps,
   ExtensionProvider,
-} from '@extensions/components/Providers/ExtensionProvider';
-import { AdvancedType } from 'easy-email-core';
+} from "@extensions/components/Providers/ExtensionProvider";
+import { AdvancedType } from "easy-email-core";
 
-const defaultCategories: ExtensionProps['categories'] = [
+const defaultCategories: ExtensionProps["categories"] = [
   {
     get label() {
-      return t('Content');
+      return t("Content");
     },
     active: true,
     blocks: [
@@ -25,7 +25,7 @@ const defaultCategories: ExtensionProps['categories'] = [
       },
       {
         type: AdvancedType.IMAGE,
-        payload: { attributes: { padding: '0px 0px 0px 0px' } },
+        payload: { attributes: { padding: "0px 0px 0px 0px" } },
       },
       {
         type: AdvancedType.BUTTON,
@@ -49,44 +49,44 @@ const defaultCategories: ExtensionProps['categories'] = [
   },
   {
     get label() {
-      return t('Layout');
+      return t("Layout");
     },
     active: true,
-    displayType: 'column',
+    displayType: "column",
     blocks: [
       {
         get title() {
-          return t('2 columns');
+          return t("2 columns");
         },
         payload: [
-          ['50%', '50%'],
-          ['33%', '67%'],
-          ['67%', '33%'],
-          ['25%', '75%'],
-          ['75%', '25%'],
+          ["50%", "50%"],
+          ["33%", "67%"],
+          ["67%", "33%"],
+          ["25%", "75%"],
+          ["75%", "25%"],
         ],
       },
       {
         get title() {
-          return t('3 columns');
+          return t("3 columns");
         },
         payload: [
-          ['33.33%', '33.33%', '33.33%'],
-          ['25%', '25%', '50%'],
-          ['50%', '25%', '25%'],
+          ["33.33%", "33.33%", "33.33%"],
+          ["25%", "25%", "50%"],
+          ["50%", "25%", "25%"],
         ],
       },
       {
         get title() {
-          return t('4 columns');
+          return t("4 columns");
         },
-        payload: [['25%', '25%', '25%', '25%']],
+        payload: [["25%", "25%", "25%", "25%"]],
       },
     ],
   },
 ];
 
-export const StandardLayout: React.FC<ExtensionProps> = props => {
+export const StandardLayout: React.FC<ExtensionProps> = (props) => {
   const { height: containerHeight } = useEditorProps();
   const {
     showSourceCode = true,
@@ -100,30 +100,27 @@ export const StandardLayout: React.FC<ExtensionProps> = props => {
 
   useEffect(() => {
     if (!compact) {
-      setFocusIdx('');
+      setFocusIdx("");
     }
   }, [compact, setFocusIdx]);
 
   return (
-    <ExtensionProvider
-      {...props}
-      categories={categories}
-    >
+    <ExtensionProvider {...props} categories={categories}>
       <ConfigProvider locale={enUS}>
         <Card
           style={{ padding: 0 }}
           bodyStyle={{
             padding: 0,
             height: containerHeight,
-            overflow: 'hidden',
+            overflow: "hidden",
           }}
         >
           <Layout
             className={styles.StandardLayout}
             style={{
-              display: 'flex',
-              width: '100%',
-              overflow: 'hidden',
+              display: "flex",
+              width: "100%",
+              overflow: "hidden",
             }}
           >
             {compact && (
@@ -133,7 +130,9 @@ export const StandardLayout: React.FC<ExtensionProps> = props => {
                 mjmlReadOnly={mjmlReadOnly}
               />
             )}
-            <Layout style={{ height: containerHeight, flex: 1 }}>{props.children}</Layout>
+            <Layout style={{ height: containerHeight, flex: 1 }}>
+              {props.children}
+            </Layout>
             {!compact && (
               <EditPanel
                 showSourceCode={showSourceCode}
@@ -159,7 +158,7 @@ export const StandardLayout: React.FC<ExtensionProps> = props => {
                 />
               </Layout.Sider>
             ) : (
-              <Layout.Sider style={{ width: 0, overflow: 'hidden' }} />
+              <Layout.Sider style={{ width: 0, overflow: "hidden" }} />
             )}
           </Layout>
         </Card>

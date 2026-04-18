@@ -1,15 +1,20 @@
-import React, { useMemo } from 'react';
-import { getIframeDocument, IconFont, useFocusIdx } from 'easy-email-editor';
-import { IconLink } from '@arco-design/web-react/icon';
-import { SelectField, TextField } from '../../../components/Form';
-import { Button as ArcoButton, Grid, Popover, Space } from '@arco-design/web-react';
-import { MergeTags } from './MergeTags';
-import { useField } from 'react-final-form';
+import React, { useMemo } from "react";
+import { getIframeDocument, IconFont, useFocusIdx } from "easy-email-editor";
+import { IconLink } from "@arco-design/web-react/icon";
+import { SelectField, TextField } from "../../../components/Form";
+import {
+  Button as ArcoButton,
+  Grid,
+  Popover,
+  Space,
+} from "@arco-design/web-react";
+import { MergeTags } from "./MergeTags";
+import { useField } from "react-final-form";
 
 export function Link() {
   const { focusIdx } = useFocusIdx();
   const { input } = useField(`${focusIdx}.attributes.href`, {
-    parse: v => v,
+    parse: (v) => v,
   });
 
   return useMemo(() => {
@@ -18,9 +23,9 @@ export function Link() {
         <Grid.Col span={11}>
           <TextField
             prefix={<IconLink />}
-            label={(
+            label={
               <Space>
-                <span>{t('Href')}&nbsp;&nbsp;&nbsp;</span>
+                <span>{t("Href")}&nbsp;&nbsp;&nbsp;</span>
                 <Popover
                   triggerProps={{
                     // @ts-ignore I am ignoring this type error here since this is expecting an
@@ -28,12 +33,9 @@ export function Link() {
                     getDocument: getIframeDocument,
                   }}
                   trigger="click"
-                  content={(
-                    <MergeTags
-                      value={input.value}
-                      onChange={input.onChange}
-                    />
-                  )}
+                  content={
+                    <MergeTags value={input.value} onChange={input.onChange} />
+                  }
                 >
                   <ArcoButton
                     type="text"
@@ -41,25 +43,22 @@ export function Link() {
                   />
                 </Popover>
               </Space>
-            )}
+            }
             name={`${focusIdx}.attributes.href`}
           />
         </Grid.Col>
-        <Grid.Col
-          offset={1}
-          span={11}
-        >
+        <Grid.Col offset={1} span={11}>
           <SelectField
-            label={t('Target')}
+            label={t("Target")}
             name={`${focusIdx}.attributes.target`}
             options={[
               {
-                value: '',
-                label: t('_self'),
+                value: "",
+                label: t("_self"),
               },
               {
-                value: '_blank',
-                label: t('_blank'),
+                value: "_blank",
+                label: t("_blank"),
               },
             ]}
           />

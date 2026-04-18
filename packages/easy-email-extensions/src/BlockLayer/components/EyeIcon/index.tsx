@@ -1,7 +1,7 @@
-import { IconFont } from 'easy-email-editor';
-import { BasicType } from 'easy-email-core';
-import React from 'react';
-import { IBlockDataWithId } from '../..';
+import { IconFont } from "easy-email-editor";
+import { BasicType } from "easy-email-core";
+import React from "react";
+import { IBlockDataWithId } from "../..";
 
 export function EyeIcon({
   blockData,
@@ -14,8 +14,8 @@ export function EyeIcon({
 }) {
   if (hidden)
     return (
-      <div style={{ visibility: 'hidden' }}>
-        <IconFont iconName='icon-eye' />
+      <div style={{ visibility: "hidden" }}>
+        <IconFont iconName="icon-eye" />
       </div>
     );
   if (blockData.type === BasicType.PAGE) return null;
@@ -23,12 +23,12 @@ export function EyeIcon({
   return blockData.data.hidden ? (
     <IconFont
       onClick={(ev) => onToggleVisible(blockData, ev)}
-      iconName='icon-eye-invisible'
+      iconName="icon-eye-invisible"
     />
   ) : (
     <IconFont
       onClick={(ev) => onToggleVisible(blockData, ev)}
-      iconName='icon-eye'
+      iconName="icon-eye"
     />
   );
 }

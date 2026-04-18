@@ -1,17 +1,17 @@
-import { IPage } from '@core/blocks';
-import { isObject, isString } from 'lodash';
+import { IPage } from "@core/blocks";
+import { isObject, isString } from "lodash";
 
 export function generaMjmlMetaData(data: IPage) {
   const values = data.data.value;
   const attributes = [
-    'content-background-color',
-    'text-color',
-    'font-family',
-    'font-size',
-    'line-height',
-    'font-weight',
-    'user-style',
-    'responsive',
+    "content-background-color",
+    "text-color",
+    "font-family",
+    "font-size",
+    "line-height",
+    "font-weight",
+    "user-style",
+    "responsive",
   ];
 
   return `
@@ -28,15 +28,15 @@ export function generaMjmlMetaData(data: IPage) {
 
                   return `${childKey}="${
                     isString(childValue)
-                      ? childValue.replace(/"/gm, '')
+                      ? childValue.replace(/"/gm, "")
                       : childValue
                   }"`;
                 })
-                .join(' ')
+                .join(" ")
             : `${key}="${values[attKey]}"`;
           return `<mj-html-attribute class="easy-email" multiple-attributes="${isMultipleAttributes}" attribute-name="${key}" ${value}></mj-html-attribute>`;
         })
-        .join('\n')}
+        .join("\n")}
 
     </mj-html-attributes>
   `;

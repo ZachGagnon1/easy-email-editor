@@ -1,7 +1,7 @@
-import { useFocusIdx } from 'easy-email-editor';
-import { Drawer } from '@arco-design/web-react';
-import { ConfigurationPanel } from '@extensions/ConfigurationPanel';
-import React, { useCallback, useMemo, useRef } from 'react';
+import { useFocusIdx } from "easy-email-editor";
+import { Drawer } from "@arco-design/web-react";
+import { ConfigurationPanel } from "@extensions/ConfigurationPanel";
+import React, { useCallback, useMemo, useRef } from "react";
 
 export function ConfigurationDrawer({
   height,
@@ -20,7 +20,7 @@ export function ConfigurationDrawer({
   const { focusIdx, setFocusIdx } = useFocusIdx();
 
   const onClose = useCallback(() => {
-    setFocusIdx('');
+    setFocusIdx("");
   }, [setFocusIdx]);
 
   const visible = Boolean(focusIdx);
@@ -30,22 +30,22 @@ export function ConfigurationDrawer({
         <div
           ref={refWrapper}
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
+            width: "100%",
+            height: "100%",
             zIndex: visible ? 1 : -1,
-            pointerEvents: visible ? 'auto' : 'none',
+            pointerEvents: visible ? "auto" : "none",
           }}
         />
         {refWrapper.current && (
           <Drawer
-            width='100%'
+            width="100%"
             title={null}
             closable={false}
             focusLock={false}
-            placement='right'
+            placement="right"
             bodyStyle={{ padding: 0 }}
             visible
             getPopupContainer={() => refWrapper && (refWrapper.current as any)}

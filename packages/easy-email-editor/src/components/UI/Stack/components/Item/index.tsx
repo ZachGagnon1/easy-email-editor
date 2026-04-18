@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { classNames } from '../../utils/css';
-import styles from '../../Stack.module.scss';
+import { classNames } from "../../utils/css";
+import styles from "../../Stack.module.scss";
 
 export interface ItemProps {
   /** Elements to display inside item */
@@ -15,7 +15,7 @@ export interface ItemProps {
 }
 
 export function Item({ children, fill }: ItemProps) {
-  const className = classNames(styles.Item, fill && styles['Item-fill']);
+  const className = classNames(styles.Item, fill && styles["Item-fill"]);
 
   return <div className={className}>{children}</div>;
 }

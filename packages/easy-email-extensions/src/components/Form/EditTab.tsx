@@ -1,12 +1,12 @@
-import { Tabs, TabsProps } from '@arco-design/web-react';
-import { classnames } from '@extensions/utils/classnames';
-import React, { useState } from 'react';
-import styles from './index.module.scss';
+import { Tabs, TabsProps } from "@arco-design/web-react";
+import { classnames } from "@extensions/utils/classnames";
+import React, { useState } from "react";
+import styles from "./index.module.scss";
 
 const { TabPane } = Tabs;
 
 export interface EditTabProps<T extends any = any>
-  extends Omit<TabsProps, 'onChange'> {
+  extends Omit<TabsProps, "onChange"> {
   value: Array<T>;
   renderItem: (item: T, index: number) => React.ReactNode;
   onChange: (vals: Array<T>) => any;
@@ -15,10 +15,10 @@ export interface EditTabProps<T extends any = any>
 }
 export function EditTab<T extends any = any>(props: EditTabProps<T>) {
   const { value, additionItem } = props;
-  const [activeTab, setActiveTab] = useState('0');
+  const [activeTab, setActiveTab] = useState("0");
 
   const onAddTab = () => {
-    setActiveTab((value.length).toString());
+    setActiveTab(value.length.toString());
     props.onChange([...value, additionItem]);
   };
 
@@ -27,7 +27,7 @@ export function EditTab<T extends any = any>(props: EditTabProps<T>) {
       setActiveTab((Number(activeTab) - 1).toString());
     }
     if (index === activeTab) {
-      setActiveTab(Number(index) > 0 ? `${Number(index) - 1}` : '0');
+      setActiveTab(Number(index) > 0 ? `${Number(index) - 1}` : "0");
     }
     props.onChange(value.filter((_, vIndex) => Number(index) !== vIndex));
   };
@@ -36,8 +36,8 @@ export function EditTab<T extends any = any>(props: EditTabProps<T>) {
     <Tabs
       destroyOnHide
       className={classnames(styles.editTab)}
-      style={{ border: 'none' }}
-      type='card'
+      style={{ border: "none" }}
+      type="card"
       activeTab={activeTab}
       tabPosition={props.tabPosition}
       editable
@@ -48,7 +48,7 @@ export function EditTab<T extends any = any>(props: EditTabProps<T>) {
       {(Array.isArray(value) ? value : []).map((item, index) => (
         <TabPane
           style={{ paddingLeft: 12 }}
-          title={`${props.label || t('Tab')} ${index + 1}`}
+          title={`${props.label || t("Tab")} ${index + 1}`}
           key={index}
         >
           {props.renderItem(item, index)}

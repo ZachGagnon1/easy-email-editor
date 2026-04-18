@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 import {
   getIframeDocument,
   TextStyle,
   useBlock,
   useEditorContext,
   useFocusIdx,
-} from 'easy-email-editor';
-import { RichTextField } from '../components/Form/RichTextField';
-import { PresetColorsProvider } from './components/provider/PresetColorsProvider';
-import ReactDOM from 'react-dom';
-import { BlockAttributeConfigurationManager } from './utils/BlockAttributeConfigurationManager';
-import { SelectionRangeProvider } from './components/provider/SelectionRangeProvider';
-import { TableOperation } from './components/blocks/AdvancedTable/Operation';
+} from "easy-email-editor";
+import { RichTextField } from "../components/Form/RichTextField";
+import { PresetColorsProvider } from "./components/provider/PresetColorsProvider";
+import ReactDOM from "react-dom";
+import { BlockAttributeConfigurationManager } from "./utils/BlockAttributeConfigurationManager";
+import { SelectionRangeProvider } from "./components/provider/SelectionRangeProvider";
+import { TableOperation } from "./components/blocks/AdvancedTable/Operation";
 
 export interface AttributePanelProps {}
 
@@ -21,7 +21,8 @@ export function AttributePanel() {
 
   const { focusIdx } = useFocusIdx();
 
-  const Com = focusBlock && BlockAttributeConfigurationManager.get(focusBlock.type);
+  const Com =
+    focusBlock && BlockAttributeConfigurationManager.get(focusBlock.type);
 
   const iframeDocument = getIframeDocument();
 
@@ -33,12 +34,14 @@ export function AttributePanel() {
         {Com ? (
           <Com key={focusIdx} />
         ) : (
-          <div style={{ marginTop: 200, padding: '0 50px' }}>
-            <TextStyle size='extraLarge'>{t('No matching components')}</TextStyle>
+          <div style={{ marginTop: 200, padding: "0 50px" }}>
+            <TextStyle size="extraLarge">
+              {t("No matching components")}
+            </TextStyle>
           </div>
         )}
 
-        <div style={{ position: 'absolute' }}>
+        <div style={{ position: "absolute" }}>
           <RichTextField idx={focusIdx} />
         </div>
         <TableOperation />
@@ -54,7 +57,7 @@ export function AttributePanel() {
               }
               `}
               </style>,
-              iframeDocument?.body as any,
+              iframeDocument?.body as any
             )}
         </>
       </PresetColorsProvider>

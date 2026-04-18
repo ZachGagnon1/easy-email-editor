@@ -1,11 +1,11 @@
-import { isString } from 'lodash';
-import Color from 'color';
+import { isString } from "lodash";
+import Color from "color";
 
 export const colorAdapter = {
   format(val: string) {
-    if (!isString(val) && !val) return '';
+    if (!isString(val) && !val) return "";
     val = val.toString();
-    if (val.length === 7 && val.startsWith('#')) return val.replace('#', '');
+    if (val.length === 7 && val.startsWith("#")) return val.replace("#", "");
     return val;
   },
   parse(val: string) {
@@ -15,7 +15,7 @@ export const colorAdapter = {
     try {
       if (val.length === 6 && Color(`#${val}`).hex()) return `#${val}`;
     } catch (error) {
-      console.log('err', val);
+      console.log("err", val);
     }
     return val;
   },

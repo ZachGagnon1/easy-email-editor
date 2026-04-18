@@ -1,7 +1,7 @@
-import { BlockManager } from './../BlockManager';
+import { BlockManager } from "./../BlockManager";
 
-import { BasicType } from '@core/constants';
-import { ancestorOf } from '../ancestorOf';
+import { BasicType } from "@core/constants";
+import { ancestorOf } from "../ancestorOf";
 
 const allBlocks = BlockManager.getBlocks();
 
@@ -18,7 +18,7 @@ const ContentBlocks = [
   BasicType.SOCIAL,
 ];
 
-describe('Test content block', () => {
+describe("Test content block", () => {
   it.each(ContentBlocks)(
     'drop content block to "column" should return 1',
     (block) => {
@@ -48,7 +48,7 @@ describe('Test content block', () => {
   );
 
   it.each(ContentBlocks)(
-    'drop content block to content block should return -1',
+    "drop content block to content block should return -1",
     (block) => {
       ContentBlocks.forEach((item) => {
         expect(ancestorOf(block, item)).toBe(-1);
@@ -105,8 +105,8 @@ describe('Test "wrapper" block', () => {
   });
 });
 
-describe('Test all block', () => {
-  it.each(allBlocks)('drop a block to same block should return -1', (block) => {
+describe("Test all block", () => {
+  it.each(allBlocks)("drop a block to same block should return -1", (block) => {
     expect(ancestorOf(block.type, block.type)).toBe(-1);
   });
 });

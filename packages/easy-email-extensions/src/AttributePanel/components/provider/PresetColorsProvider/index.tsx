@@ -1,20 +1,20 @@
-import React, { useCallback, useMemo, useRef } from 'react';
-import { useLocalStorage } from 'react-use';
-import { debounce } from 'lodash';
-import { useRefState } from 'easy-email-editor';
+import React, { useCallback, useMemo, useRef } from "react";
+import { useLocalStorage } from "react-use";
+import { debounce } from "lodash";
+import { useRefState } from "easy-email-editor";
 
 const defaultPresetColor: string[] = [
-  '#000000',
-  '#FFFFFF',
-  '#9b9b9b',
-  '#d0021b',
-  '#4a90e2',
-  '#7ed321',
-  '#bd10e0',
-  '#f8e71c',
+  "#000000",
+  "#FFFFFF",
+  "#9b9b9b",
+  "#d0021b",
+  "#4a90e2",
+  "#7ed321",
+  "#bd10e0",
+  "#f8e71c",
 ];
 
-const CURRENT_COLORS_KEY = 'CURRENT_COLORS_KEY';
+const CURRENT_COLORS_KEY = "CURRENT_COLORS_KEY";
 const MAX_RECORD_SIZE = 20;
 
 export const PresetColorsContext = React.createContext<{
@@ -27,18 +27,18 @@ export const PresetColorsContext = React.createContext<{
 
 export const PresetColorsProvider: React.FC<{
   children: React.ReactNode | React.ReactElement;
-}> = props => {
+}> = (props) => {
   const [currentColors, setCurrentColors] = useLocalStorage<string[]>(
     CURRENT_COLORS_KEY,
-    defaultPresetColor,
+    defaultPresetColor
   );
   const currentColorsRef = useRefState(currentColors);
 
-  const colorDivRef = useRef(document.createElement('div'));
+  const colorDivRef = useRef(document.createElement("div"));
 
   const addCurrentColor = useCallback(
     debounce((newColor: string) => {
-      colorDivRef.current.style.color = '';
+      colorDivRef.current.style.color = "";
       colorDivRef.current.style.color = newColor;
       if (colorDivRef.current.style.color) {
         if (currentColorsRef.current!.includes(newColor)) return;
@@ -49,7 +49,7 @@ export const PresetColorsProvider: React.FC<{
         setCurrentColors(newColors);
       }
     }, 500),
-    [currentColorsRef, setCurrentColors],
+    [currentColorsRef, setCurrentColors]
   );
 
   const value = useMemo(() => {

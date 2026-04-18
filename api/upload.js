@@ -1,4 +1,4 @@
-import cloudinary from 'cloudinary';
+import cloudinary from "cloudinary";
 
 module.exports = async (request, response) => {
   const timestamp = Math.round(new Date().getTime() / 1000);
@@ -7,7 +7,7 @@ module.exports = async (request, response) => {
       timestamp: timestamp,
       folder: `easy-email-demo`,
     },
-    process.env.CLOUDINARY_API_SECRET,
+    process.env.CLOUDINARY_API_SECRET
   );
 
   response.status(200).send({

@@ -1,8 +1,8 @@
-import { IconFont, BlockAvatarWrapper } from 'easy-email-editor';
-import { Button } from '@arco-design/web-react';
-import { getIconNameByBlockType } from '@extensions';
-import React from 'react';
-import { BlockManager, IBlockData, RecursivePartial } from 'easy-email-core';
+import { IconFont, BlockAvatarWrapper } from "easy-email-editor";
+import { Button } from "@arco-design/web-react";
+import { getIconNameByBlockType } from "@extensions";
+import React from "react";
+import { BlockManager, IBlockData, RecursivePartial } from "easy-email-core";
 
 export interface DragIconProps<T extends IBlockData> {
   type: string;
@@ -15,19 +15,19 @@ export function DragIcon<T extends IBlockData = any>(props: DragIconProps<T>) {
   return (
     <BlockAvatarWrapper type={props.type} payload={props.payload}>
       <Button
-        type='text'
+        type="text"
         title={block?.name}
-        icon={(
+        icon={
           <IconFont
             iconName={getIconNameByBlockType(props.type)}
             style={{
               fontSize: 16,
-              textAlign: 'center',
-              cursor: 'move',
+              textAlign: "center",
+              cursor: "move",
               color: props.color,
             }}
           />
-        )}
+        }
       />
     </BlockAvatarWrapper>
   );

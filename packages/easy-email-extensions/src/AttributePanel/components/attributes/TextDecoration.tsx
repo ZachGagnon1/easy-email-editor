@@ -1,42 +1,42 @@
-import React, { useMemo } from 'react';
-import { useFocusIdx } from 'easy-email-editor';
-import { SelectField } from '../../../components/Form';
+import React, { useMemo } from "react";
+import { useFocusIdx } from "easy-email-editor";
+import { SelectField } from "../../../components/Form";
 
 const options = [
   {
-    value: '',
+    value: "",
     get label() {
-      return t('None');
+      return t("None");
     },
   },
   {
-    value: 'underline',
+    value: "underline",
     get label() {
-      return t('Underline');
+      return t("Underline");
     },
   },
   {
-    value: 'overline',
+    value: "overline",
     get label() {
-      return t('Overline');
+      return t("Overline");
     },
   },
   {
-    value: 'line-through',
+    value: "line-through",
     get label() {
-      return t('Line through');
+      return t("Line through");
     },
   },
   {
-    value: 'blink',
+    value: "blink",
     get label() {
-      return t('Blink');
+      return t("Blink");
     },
   },
   {
-    value: 'inherit',
+    value: "inherit",
     get label() {
-      return t('Inherit');
+      return t("Inherit");
     },
   },
 ];
@@ -47,7 +47,7 @@ export function TextDecoration({ name }: { name?: string }) {
   return useMemo(() => {
     return (
       <SelectField
-        label={t('Text decoration')}
+        label={t("Text decoration")}
         name={name || `${focusIdx}.attributes.text-decoration`}
         options={options}
       />

@@ -1,10 +1,10 @@
-import { AdvancedType, BasicType } from '@core/constants';
-import React from 'react';
-import { AdvancedBlock, generateAdvancedBlock } from './generateAdvancedBlock';
-import { getPreviewClassName } from '@core/utils/getPreviewClassName';
-import { classnames } from '@core/utils/classnames';
-import { BlockRenderer } from '@core/components/BlockRenderer';
-import { getChildIdx } from '@core/utils';
+import { AdvancedType, BasicType } from "@core/constants";
+import React from "react";
+import { AdvancedBlock, generateAdvancedBlock } from "./generateAdvancedBlock";
+import { getPreviewClassName } from "@core/utils/getPreviewClassName";
+import { classnames } from "@core/utils/classnames";
+import { BlockRenderer } from "@core/components/BlockRenderer";
+import { getChildIdx } from "@core/utils";
 
 export function generateAdvancedLayoutBlock<T extends AdvancedBlock>(option: {
   type: string;
@@ -24,15 +24,15 @@ export function generateAdvancedLayoutBlock<T extends AdvancedBlock>(option: {
 
       // Column 必须设置宽度
       if (data.type === AdvancedType.COLUMN && iteration?.enabled) {
-        data.attributes.width = data.attributes.width || '100%';
+        data.attributes.width = data.attributes.width || "100%";
       }
 
       const previewClassName =
-        mode === 'testing'
+        mode === "testing"
           ? classnames(
-            index === 0 && idx && getPreviewClassName(idx, data.type)
-          )
-          : '';
+              index === 0 && idx && getPreviewClassName(idx, data.type)
+            )
+          : "";
 
       return (
         <BlockRenderer
@@ -41,11 +41,11 @@ export function generateAdvancedLayoutBlock<T extends AdvancedBlock>(option: {
             ...blockData,
             attributes: {
               ...blockData.attributes,
-              'css-class': classnames(
-                data.attributes['css-class'],
+              "css-class": classnames(
+                data.attributes["css-class"],
                 previewClassName
-              )
-            }
+              ),
+            },
           }}
         >
           {blockData.children.map((child, index) => {
@@ -60,7 +60,6 @@ export function generateAdvancedLayoutBlock<T extends AdvancedBlock>(option: {
           })}
         </BlockRenderer>
       );
-
     },
   });
 }

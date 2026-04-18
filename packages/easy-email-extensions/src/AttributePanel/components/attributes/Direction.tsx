@@ -1,18 +1,18 @@
-import React, { useMemo } from 'react';
-import { useFocusIdx, Stack } from 'easy-email-editor';
-import { RadioGroupField } from '../../../components/Form';
+import React, { useMemo } from "react";
+import { useFocusIdx, Stack } from "easy-email-editor";
+import { RadioGroupField } from "../../../components/Form";
 
 const options = [
   {
-    value: 'ltr',
+    value: "ltr",
     get label() {
-      return t('ltr');
+      return t("ltr");
     },
   },
   {
-    value: 'rtl',
+    value: "rtl",
     get label() {
-      return t('rtl');
+      return t("rtl");
     },
   },
 ];
@@ -24,7 +24,7 @@ export function Direction() {
     return (
       <Stack>
         <RadioGroupField
-          label={t('Direction')}
+          label={t("Direction")}
           name={`${focusIdx}.attributes.direction`}
           options={options}
           inline

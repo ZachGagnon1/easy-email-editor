@@ -1,4 +1,4 @@
-import TableOperationMenu from './tableOperationMenu';
+import TableOperationMenu from "./tableOperationMenu";
 import {
   checkEventInBoundingRect,
   getBoundaryRectAndElement,
@@ -6,9 +6,9 @@ import {
   getElementsBoundary,
   getTdBoundaryIndex,
   setStyle,
-} from './util';
-import { AdvancedTableBlock } from 'easy-email-core';
-import { getIframeDocument } from 'easy-email-editor';
+} from "./util";
+import { AdvancedTableBlock } from "easy-email-core";
+import { getIframeDocument } from "easy-email-editor";
 
 interface IBorderTool {
   top: Element;
@@ -37,8 +37,10 @@ class TableColumnTool {
   root: Element | undefined = undefined;
 
   tableMenu?: TableOperationMenu;
-  changeTableData?: (e: AdvancedTableBlock['data']['value']['tableSource']) => void;
-  tableData: AdvancedTableBlock['data']['value']['tableSource'] = [];
+  changeTableData?: (
+    e: AdvancedTableBlock["data"]["value"]["tableSource"]
+  ) => void;
+  tableData: AdvancedTableBlock["data"]["value"]["tableSource"] = [];
 
   constructor(borderTool: IBorderTool, root: Element) {
     if (!borderTool || !root) {
@@ -51,19 +53,29 @@ class TableColumnTool {
   }
 
   initTool() {
-    this.root?.addEventListener('contextmenu', this.handleContextmenu);
-    this.root?.addEventListener('mousedown', this.handleMousedown.bind(this));
-    getIframeDocument()?.body.addEventListener('click', this.hideBorder, false);
-    document.body.addEventListener('contextmenu', this.hideTableMenu, false);
-    getIframeDocument()?.addEventListener('keydown', this.hideBorderByKeyDown);
+    this.root?.addEventListener("contextmenu", this.handleContextmenu);
+    this.root?.addEventListener("mousedown", this.handleMousedown.bind(this));
+    getIframeDocument()?.body.addEventListener("click", this.hideBorder, false);
+    document.body.addEventListener("contextmenu", this.hideTableMenu, false);
+    getIframeDocument()?.addEventListener("keydown", this.hideBorderByKeyDown);
   }
 
   destroy() {
-    this.root?.removeEventListener('mousedown', this.handleMousedown.bind(this));
-    this.root?.removeEventListener('contextmenu', this.handleContextmenu);
-    getIframeDocument()?.body.removeEventListener('click', this.hideBorder, false);
-    document.body.removeEventListener('contextmenu', this.hideTableMenu, false);
-    getIframeDocument()?.removeEventListener('keydown', this.hideBorderByKeyDown);
+    this.root?.removeEventListener(
+      "mousedown",
+      this.handleMousedown.bind(this)
+    );
+    this.root?.removeEventListener("contextmenu", this.handleContextmenu);
+    getIframeDocument()?.body.removeEventListener(
+      "click",
+      this.hideBorder,
+      false
+    );
+    document.body.removeEventListener("contextmenu", this.hideTableMenu, false);
+    getIframeDocument()?.removeEventListener(
+      "keydown",
+      this.hideBorderByKeyDown
+    );
 
     this.tableMenu?.destroy();
   }
@@ -71,7 +83,7 @@ class TableColumnTool {
   hideBorder = (e: any) => {
     console.log(e.target.tag, e.target.tagName);
 
-    if (e.target.tagName === 'TD' || e.target.tagName === 'TH') {
+    if (e.target.tagName === "TD" || e.target.tagName === "TH") {
       return;
     }
     this.visibleBorder(false);
@@ -82,7 +94,7 @@ class TableColumnTool {
   };
 
   hideTableMenu = (e?: any) => {
-    if (e?.target.id === 'VisualEditorEditMode') {
+    if (e?.target.id === "VisualEditorEditMode") {
       return;
     }
     this.tableMenu?.hide();
@@ -93,9 +105,9 @@ class TableColumnTool {
       return;
     }
     if (show) {
-      setStyle(this.borderTool.top.parentElement, { display: 'block' });
+      setStyle(this.borderTool.top.parentElement, { display: "block" });
     } else {
-      setStyle(this.borderTool.top.parentElement, { display: 'none' });
+      setStyle(this.borderTool.top.parentElement, { display: "none" });
     }
     this.showBorderTool = show;
   };
@@ -104,7 +116,7 @@ class TableColumnTool {
     this.visibleBorder(true);
     const result = getBoundaryRectAndElement(
       this.startDom as Element,
-      this.endDom as Element,
+      this.endDom as Element
     );
     if (!result) {
       return;
@@ -114,40 +126,40 @@ class TableColumnTool {
     this.selectedBottomRightCell = result.bottomRightCell;
 
     setStyle(this.borderTool.top, {
-      'background-color': 'rgb(65, 68, 77)',
+      "background-color": "rgb(65, 68, 77)",
       left: `${left}px`,
       top: `${top}px`,
       width: `${Math.abs(width)}px`,
-      height: '2px',
-      position: 'absolute',
-      'z-index': 10,
+      height: "2px",
+      position: "absolute",
+      "z-index": 10,
     });
     setStyle(this.borderTool.bottom, {
-      'background-color': 'rgb(65, 68, 77)',
+      "background-color": "rgb(65, 68, 77)",
       left: `${left}px`,
       top: `${top + height}px`,
       width: `${Math.abs(width)}px`,
-      height: '2px',
-      position: 'absolute',
-      'z-index': 10,
+      height: "2px",
+      position: "absolute",
+      "z-index": 10,
     });
     setStyle(this.borderTool.left, {
-      'background-color': 'rgb(65, 68, 77)',
+      "background-color": "rgb(65, 68, 77)",
       left: `${left}px`,
       top: `${top}px`,
-      width: '2px',
+      width: "2px",
       height: `${Math.abs(height)}px`,
-      position: 'absolute',
-      'z-index': 10,
+      position: "absolute",
+      "z-index": 10,
     });
     setStyle(this.borderTool.right, {
-      'background-color': 'rgb(65, 68, 77)',
+      "background-color": "rgb(65, 68, 77)",
       left: `${left + width}px`,
       top: `${top}px`,
-      width: '2px',
+      width: "2px",
       height: `${Math.abs(height)}px`,
-      position: 'absolute',
-      'z-index': 10,
+      position: "absolute",
+      "z-index": 10,
     });
   };
 
@@ -155,7 +167,7 @@ class TableColumnTool {
     if (this.showBorderTool) {
       const selectedBoundary = getElementsBoundary(
         this.selectedLeftTopCell as Element,
-        this.selectedBottomRightCell as Element,
+        this.selectedBottomRightCell as Element
       );
       if (checkEventInBoundingRect(selectedBoundary, event)) {
         event.preventDefault();
@@ -171,11 +183,11 @@ class TableColumnTool {
       // left button click
       while (target && target.parentNode) {
         if (
-          target.nodeName === 'TD' &&
-          target.getAttribute('data-content_editable-type') === 'rich_text'
+          target.nodeName === "TD" &&
+          target.getAttribute("data-content_editable-type") === "rich_text"
         ) {
-          this.root?.addEventListener('mousemove', this.handleDrag);
-          this.root?.addEventListener('mouseup', this.handleMouseup);
+          this.root?.addEventListener("mousemove", this.handleDrag);
+          this.root?.addEventListener("mouseup", this.handleMouseup);
 
           this.dragging = true;
           this.startDom = target;
@@ -186,7 +198,7 @@ class TableColumnTool {
           return;
         }
         target = target.parentNode as Element;
-        if (['TR', 'TABLE', 'BODY'].includes(target.nodeName)) {
+        if (["TR", "TABLE", "BODY"].includes(target.nodeName)) {
           this.visibleBorder(false);
           return;
         }
@@ -195,7 +207,7 @@ class TableColumnTool {
       if (this.showBorderTool) {
         const selectedBoundary = getElementsBoundary(
           this.selectedLeftTopCell as Element,
-          this.selectedBottomRightCell as Element,
+          this.selectedBottomRightCell as Element
         );
         // check event position, then show table operation menu
         if (checkEventInBoundingRect(selectedBoundary, event)) {
@@ -209,8 +221,8 @@ class TableColumnTool {
           this.tableMenu.setTableIndexBoundary(
             getTdBoundaryIndex(
               this.selectedLeftTopCell as Element,
-              this.selectedBottomRightCell as Element,
-            ),
+              this.selectedBottomRightCell as Element
+            )
           );
           this.tableMenu.showMenu(event);
 
@@ -229,8 +241,8 @@ class TableColumnTool {
 
       while (target && target.parentNode) {
         if (
-          target.nodeName === 'TD' &&
-          target.getAttribute('data-content_editable-type') === 'rich_text'
+          target.nodeName === "TD" &&
+          target.getAttribute("data-content_editable-type") === "rich_text"
         ) {
           const hoveringTable = getCurrentTable(target);
           if (this.endDom === target || this.hoveringTable !== hoveringTable) {
@@ -250,8 +262,8 @@ class TableColumnTool {
 
     if (this.dragging) {
       this.dragging = false;
-      this.root?.removeEventListener('mousemove', this.handleDrag);
-      this.root?.removeEventListener('mouseup', this.handleMouseup);
+      this.root?.removeEventListener("mousemove", this.handleDrag);
+      this.root?.removeEventListener("mouseup", this.handleMouseup);
     }
   };
 }

@@ -1,12 +1,18 @@
-import { Button, Drawer } from '@arco-design/web-react';
-import React, { Suspense, useEffect, useMemo, useState } from 'react';
-import { Stack, TextStyle, useBlock, useEditorContext, useFocusIdx } from 'easy-email-editor';
-import { ShadowDom } from '@extensions/components/ShadowDom';
-import { BasicType, IText } from 'easy-email-core';
+import { Button, Drawer } from "@arco-design/web-react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
+import {
+  Stack,
+  TextStyle,
+  useBlock,
+  useEditorContext,
+  useFocusIdx,
+} from "easy-email-editor";
+import { ShadowDom } from "@extensions/components/ShadowDom";
+import { BasicType, IText } from "easy-email-core";
 
 const CodeMirrorEditorPromise = import(
-  '../../../components/Form/CodemirrorEditor'
-  );
+  "../../../components/Form/CodemirrorEditor"
+);
 const CodeMirrorEditor = React.lazy(() => CodeMirrorEditorPromise);
 
 export const HtmlEditor: React.FC<{
@@ -40,73 +46,73 @@ export const HtmlEditor: React.FC<{
   const styles = useMemo(() => {
     if (!focusBlock) return {};
 
-    const attributes = focusBlock.attributes as IText['attributes'];
+    const attributes = focusBlock.attributes as IText["attributes"];
     return {
-      color: attributes.color || pageData.data.value['text-color'],
-      fontSize: attributes['font-size'] || pageData.data.value['font-size'],
+      color: attributes.color || pageData.data.value["text-color"],
+      fontSize: attributes["font-size"] || pageData.data.value["font-size"],
       fontFamily:
-        attributes['font-family'] || pageData.data.value['font-family'],
+        attributes["font-family"] || pageData.data.value["font-family"],
       fontWeight:
-        attributes['font-weight'] || pageData.data.value['font-weight'],
-      backgroundColor: attributes['container-background-color'],
+        attributes["font-weight"] || pageData.data.value["font-weight"],
+      backgroundColor: attributes["container-background-color"],
       padding: attributes.padding,
     };
   }, [focusBlock, pageData.data.value]);
 
   return (
     <Drawer
-      placement='left'
-      headerStyle={{ display: 'block', lineHeight: '48px' }}
-      title={(
-        <Stack distribution='equalSpacing'>
-          <TextStyle variation='strong' size='large'>
-            {t('Html')}
+      placement="left"
+      headerStyle={{ display: "block", lineHeight: "48px" }}
+      title={
+        <Stack distribution="equalSpacing">
+          <TextStyle variation="strong" size="large">
+            {t("Html")}
           </TextStyle>
           <Stack>
-            <Button type='primary' onClick={onSave}>
-              {t('Save')}
+            <Button type="primary" onClick={onSave}>
+              {t("Save")}
             </Button>
           </Stack>
         </Stack>
-      )}
+      }
       closable={false}
       escToExit={false}
-      width='100vw'
+      width="100vw"
       visible={visible}
       footer={null}
-      bodyStyle={{ padding: 0, overflow: 'hidden' }}
+      bodyStyle={{ padding: 0, overflow: "hidden" }}
     >
-      <div style={{ display: 'flex', height: '100%' }}>
-        <div style={{ flex: 1, height: '100%' }}>
+      <div style={{ display: "flex", height: "100%" }}>
+        <div style={{ flex: 1, height: "100%" }}>
           <Suspense
-            fallback={(
+            fallback={
               <div
                 style={{
-                  height: '100%',
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  backgroundColor: '#263238',
-                  justifyContent: 'center',
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "#263238",
+                  justifyContent: "center",
                   fontSize: 24,
-                  color: '#fff',
+                  color: "#fff",
                 }}
               >
-                {t('Editor Loading...')}
+                {t("Editor Loading...")}
               </div>
-            )}
+            }
           >
             <CodeMirrorEditor value={content} onChange={setContent} />
           </Suspense>
         </div>
         <div
-          style={{ flex: 1, height: '100%', overflow: 'auto', marginRight: 10 }}
+          style={{ flex: 1, height: "100%", overflow: "auto", marginRight: 10 }}
         >
           <ShadowDom
             style={{
               ...styles,
-              width: pageData.attributes.width || '600px',
-              margin: 'auto',
+              width: pageData.attributes.width || "600px",
+              margin: "auto",
             }}
           >
             {isTable ? (

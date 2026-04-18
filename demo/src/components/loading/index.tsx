@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { IconLoading } from '@arco-design/web-react/icon';
+import React, { useRef, useEffect, useState } from "react";
+import { IconLoading } from "@arco-design/web-react/icon";
 
 type LoadingProps = {
   loading: boolean;
@@ -9,7 +9,7 @@ type LoadingProps = {
 export function Loading({
   loading,
   children,
-  color = '#1890ff',
+  color = "#1890ff",
 }: LoadingProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState({
@@ -41,9 +41,9 @@ export function Loading({
           style={{
             height: state.height,
             width: state.width,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <IconLoading style={{ fontSize: state.fontSize, color }} />

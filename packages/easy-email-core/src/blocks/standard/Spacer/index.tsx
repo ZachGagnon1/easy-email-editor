@@ -1,20 +1,20 @@
-import React from 'react';
-import { IBlock, IBlockData } from '@core/typings';
-import { BasicType } from '@core/constants';
-import { createBlock } from '@core/utils/createBlock';
-import { merge } from 'lodash';
-import { BasicBlock } from '@core/components/BasicBlock';
-import { t } from '@core/utils';
+import React from "react";
+import { IBlock, IBlockData } from "@core/typings";
+import { BasicType } from "@core/constants";
+import { createBlock } from "@core/utils/createBlock";
+import { merge } from "lodash";
+import { BasicBlock } from "@core/components/BasicBlock";
+import { t } from "@core/utils";
 
 export type ISpacer = IBlockData<{
-  'container-background-color'?: string;
+  "container-background-color"?: string;
   height?: string;
   padding?: string;
 }>;
 
 export const Spacer: IBlock<ISpacer> = createBlock({
   get name() {
-    return t('Spacer');
+    return t("Spacer");
   },
   type: BasicType.SPACER,
   create: (payload) => {
@@ -24,7 +24,7 @@ export const Spacer: IBlock<ISpacer> = createBlock({
         value: {},
       },
       attributes: {
-        height: '20px',
+        height: "20px",
       },
       children: [],
     };

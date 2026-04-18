@@ -1,24 +1,24 @@
-import React, { memo, NamedExoticComponent } from 'react';
+import React, { memo, NamedExoticComponent } from "react";
 
-import { classNames, variationName } from './utils/css';
-import { elementChildren, wrapWithComponent } from './utils/components';
+import { classNames, variationName } from "./utils/css";
+import { elementChildren, wrapWithComponent } from "./utils/components";
 
-import { Item, ItemProps } from './components/Item';
-import styles from './Stack.module.scss';
+import { Item, ItemProps } from "./components/Item";
+import styles from "./Stack.module.scss";
 
 // From polaris-react
 
-type Spacing = 'extraTight' | 'tight' | 'loose' | 'extraLoose' | 'none';
+type Spacing = "extraTight" | "tight" | "loose" | "extraLoose" | "none";
 
-type Alignment = 'leading' | 'trailing' | 'center' | 'fill' | 'baseline';
+type Alignment = "leading" | "trailing" | "center" | "fill" | "baseline";
 
 type Distribution =
-  | 'equalSpacing'
-  | 'leading'
-  | 'trailing'
-  | 'center'
-  | 'fill'
-  | 'fillEvenly';
+  | "equalSpacing"
+  | "leading"
+  | "trailing"
+  | "center"
+  | "fill"
+  | "fillEvenly";
 
 export interface StackProps {
   /** Elements to display inside stack */
@@ -36,20 +36,20 @@ export interface StackProps {
 }
 
 export const Stack = memo(function Stack({
-                                           children,
-                                           vertical,
-                                           spacing,
-                                           distribution,
-                                           alignment,
-                                           wrap,
-                                         }: StackProps) {
+  children,
+  vertical,
+  spacing,
+  distribution,
+  alignment,
+  wrap,
+}: StackProps) {
   const className = classNames(
     styles.Stack,
     vertical && styles.vertical,
-    spacing && styles[variationName('spacing', spacing)],
-    distribution && styles[variationName('distribution', distribution)],
-    alignment && styles[variationName('alignment', alignment)],
-    wrap === false && styles.noWrap,
+    spacing && styles[variationName("spacing", spacing)],
+    distribution && styles[variationName("distribution", distribution)],
+    alignment && styles[variationName("alignment", alignment)],
+    wrap === false && styles.noWrap
   );
   const itemMarkup = elementChildren(children).map((child, index) => {
     const props: ItemProps = { key: index };

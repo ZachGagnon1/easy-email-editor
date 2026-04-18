@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, useFormState } from 'react-final-form';
-import { useInterval, useLocalStorage } from 'react-use';
-import { WarnAboutUnsavedChanges } from './WarnAboutUnsavedChanges';
-import { IEmailTemplate } from 'easy-email-editor';
-import { Modal } from '@arco-design/web-react';
-import { getIsFormTouched } from '@demo/utils/getIsFormTouched';
-import { useQuery } from '@demo/hooks/useQuery';
+import React, { useEffect, useState } from "react";
+import { useForm, useFormState } from "react-final-form";
+import { useInterval, useLocalStorage } from "react-use";
+import { WarnAboutUnsavedChanges } from "./WarnAboutUnsavedChanges";
+import { IEmailTemplate } from "easy-email-editor";
+import { Modal } from "@arco-design/web-react";
+import { getIsFormTouched } from "@demo/utils/getIsFormTouched";
+import { useQuery } from "@demo/hooks/useQuery";
 
 export function AutoSaveAndRestoreEmail() {
   const formState = useFormState<any>();
   const { reset, mutators } = useForm();
-  const { id = 'new' } = useQuery<{ id: string }>();
+  const { id = "new" } = useQuery<{ id: string }>();
 
   const [currentEmail, setCurrentEmail] =
     useLocalStorage<IEmailTemplate | null>(id, null);
@@ -51,11 +51,11 @@ export function AutoSaveAndRestoreEmail() {
   return (
     <>
       <Modal
-        title='Restore email?'
+        title="Restore email?"
         visible={Boolean(visible && currentEmail)}
         onOk={onRestore}
-        okText='Restore'
-        cancelText='Discard'
+        okText="Restore"
+        cancelText="Discard"
         onCancel={onDiscard}
         style={{ zIndex: 10000 }}
       >

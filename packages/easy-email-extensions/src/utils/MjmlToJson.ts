@@ -1,6 +1,6 @@
-import { BlockManager,IPage, BasicType, IBlockData } from 'easy-email-core';
-import { identity, isString, pickBy } from 'lodash';
-import { parseXMLtoBlock } from './parseXMLtoBlock';
+import { BlockManager, IPage, BasicType, IBlockData } from "easy-email-core";
+import { identity, isString, pickBy } from "lodash";
+import { parseXMLtoBlock } from "./parseXMLtoBlock";
 
 export function MjmlToJson(data: MjmlBlockItem | string): IPage {
   if (isString(data)) return parseXMLtoBlock(data);
@@ -9,25 +9,25 @@ export function MjmlToJson(data: MjmlBlockItem | string): IPage {
     const attributes = item.attributes as any;
 
     switch (item.tagName) {
-      case 'mjml':
-        const body = item.children?.find((item) => item.tagName === 'mj-body')!;
-        const head = item.children?.find((item) => item.tagName === 'mj-head');
+      case "mjml":
+        const body = item.children?.find((item) => item.tagName === "mj-body")!;
+        const head = item.children?.find((item) => item.tagName === "mj-head");
         const metaData = getMetaDataFromMjml(head);
 
         const fonts =
           head?.children
-            ?.filter((child) => child.tagName === 'mj-font')
+            ?.filter((child) => child.tagName === "mj-font")
             .map((child) => ({
               name: child.attributes.name,
               href: child.attributes.href,
             })) || [];
 
         const mjAttributes =
-          head?.children?.find((item) => item.tagName === 'mj-attributes')
+          head?.children?.find((item) => item.tagName === "mj-attributes")
             ?.children || [];
 
         const headStyles = head?.children
-          ?.filter((item) => item.tagName === 'mj-style')
+          ?.filter((item) => item.tagName === "mj-style")
           .map((item) => ({ content: item.content, inline: item.inline }));
 
         const headAttributes = [
@@ -35,28 +35,28 @@ export function MjmlToJson(data: MjmlBlockItem | string): IPage {
             mjAttributes
               .filter((item) => {
                 const isFontFamily =
-                  item.tagName === 'mj-all' &&
-                  item.attributes['font-family'] === metaData['font-family'];
+                  item.tagName === "mj-all" &&
+                  item.attributes["font-family"] === metaData["font-family"];
                 const isTextColor =
-                  item.tagName === 'mj-text' &&
-                  item.attributes['color'] === metaData['text-color'];
+                  item.tagName === "mj-text" &&
+                  item.attributes["color"] === metaData["text-color"];
                 const isContentColor =
-                  ['mj-wrapper', 'mj-section'].includes(item.tagName) &&
-                  item.attributes['background-color'] ===
-                  metaData['content-background-color'];
+                  ["mj-wrapper", "mj-section"].includes(item.tagName) &&
+                  item.attributes["background-color"] ===
+                    metaData["content-background-color"];
                 return !isFontFamily && !isTextColor && !isContentColor;
               })
               .map(
                 (item) =>
                   `<${item.tagName} ${Object.keys(item.attributes)
                     .map((key) => `${key}="${item.attributes[key]}"`)
-                    .join(' ')} />`
+                    .join(" ")} />`
               )
           ),
-        ].join('\n');
+        ].join("\n");
 
         const breakpoint = head?.children?.find(
-          (item) => item.tagName === 'mj-breakpoint'
+          (item) => item.tagName === "mj-breakpoint"
         );
 
         return BlockManager.getBlockByType<IPage>(BasicType.PAGE)!.create({
@@ -74,7 +74,7 @@ export function MjmlToJson(data: MjmlBlockItem | string): IPage {
         });
 
       default:
-        const tag = item.tagName.replace('mj-', '').toLowerCase();
+        const tag = item.tagName.replace("mj-", "").toLowerCase();
 
         const block = BlockManager.getBlockByType(tag as any);
         if (!block) {
@@ -104,15 +104,15 @@ export function MjmlToJson(data: MjmlBlockItem | string): IPage {
             item.children?.map((child) => {
               const navbarLinkData = {
                 // default config
-                color: '#1890ff',
-                'font-size': '13px',
-                target: '_blank',
-                padding: '15px 10px',
+                color: "#1890ff",
+                "font-size": "13px",
+                target: "_blank",
+                padding: "15px 10px",
 
                 ...child.attributes,
                 content: child.content,
               };
-              formatPadding(navbarLinkData, 'padding');
+              formatPadding(navbarLinkData, "padding");
               return navbarLinkData;
             }) || [];
           payload.children = [];
@@ -132,8 +132,8 @@ export function MjmlToJson(data: MjmlBlockItem | string): IPage {
         const blockData = block.create(payload);
 
         // format padding
-        formatPadding(blockData.attributes, 'padding');
-        formatPadding(blockData.attributes, 'inner-padding');
+        formatPadding(blockData.attributes, "padding");
+        formatPadding(blockData.attributes, "inner-padding");
         return blockData;
     }
   };
@@ -145,26 +145,26 @@ export function getMetaDataFromMjml(data?: IChildrenItem): {
   [key: string]: any;
 } {
   const mjmlHtmlAttributes = data?.children
-    ?.filter((item) => item.tagName === 'mj-html-attributes')
+    ?.filter((item) => item.tagName === "mj-html-attributes")
     .map((item) => item.children)
     .flat()
-    .filter((item) => item && item.attributes.class === 'easy-email')
-    .reduce((obj: { [key: string]: any; }, item) => {
+    .filter((item) => item && item.attributes.class === "easy-email")
+    .reduce((obj: { [key: string]: any }, item) => {
       if (!item) return obj;
-      const name = item.attributes['attribute-name'];
+      const name = item.attributes["attribute-name"];
       const isMultipleAttributes = Boolean(
-        item.attributes['multiple-attributes']
+        item.attributes["multiple-attributes"]
       );
       obj[name] = isMultipleAttributes
         ? pickBy(
-          {
-            ...item.attributes,
-            'attribute-name': undefined,
-            'multiple-attributes': undefined,
-            class: undefined,
-          },
-          identity
-        )
+            {
+              ...item.attributes,
+              "attribute-name": undefined,
+              "multiple-attributes": undefined,
+              class: undefined,
+            },
+            identity
+          )
         : item.attributes[name];
       return obj;
     }, {});
@@ -173,10 +173,10 @@ export function getMetaDataFromMjml(data?: IChildrenItem): {
 }
 
 function formatPadding(
-  attributes: IBlockData['attributes'],
-  attributeName: 'padding' | 'inner-padding'
+  attributes: IBlockData["attributes"],
+  attributeName: "padding" | "inner-padding"
 ) {
-  const ele = document.createElement('div');
+  const ele = document.createElement("div");
   Object.keys(attributes).forEach((key: string) => {
     if (new RegExp(`^${attributeName}`).test(key)) {
       const formatKey = new RegExp(`^${attributeName}(.*)`).exec(key)?.[0];
@@ -194,7 +194,7 @@ function formatPadding(
     ele.style.paddingLeft,
   ]
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 
   if (newPadding) {
     attributes[attributeName] = newPadding;

@@ -1,9 +1,9 @@
 const transform = (text: string, id?: string) => {
   return text.replace(/{{([\s\S]+?)}}/g, (_, $1) => {
-    const input = document.createElement('input');
-    input.className = 'easy-email-merge-tag';
+    const input = document.createElement("input");
+    input.className = "easy-email-merge-tag";
     input.value = $1;
-    input.type = 'button';
+    input.type = "button";
     if (id) {
       input.id = id;
     }
@@ -22,14 +22,13 @@ export class MergeTagBadge {
         }
       } else {
         if (node.nodeType === 3 && node.textContent) {
-          const div = document.createElement('div');
+          const div = document.createElement("div");
           div.innerHTML = transform(node.textContent, id);
           node.replaceWith(...div.childNodes);
         }
       }
-
     };
-    const container = document.createElement('div');
+    const container = document.createElement("div");
     container.innerHTML = content;
 
     [...container.childNodes].forEach(loop);
@@ -37,9 +36,9 @@ export class MergeTagBadge {
   }
 
   static revert(content: string, generateMergeTag: (s: string) => string) {
-    const container = document.createElement('div');
+    const container = document.createElement("div");
     container.innerHTML = content;
-    container.querySelectorAll('.easy-email-merge-tag').forEach((item: any) => {
+    container.querySelectorAll(".easy-email-merge-tag").forEach((item: any) => {
       item.parentNode?.replaceChild(
         document.createTextNode(generateMergeTag(item.value)),
         item

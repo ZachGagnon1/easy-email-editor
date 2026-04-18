@@ -1,30 +1,30 @@
-import React, { useMemo } from 'react';
-import { useFocusIdx } from 'easy-email-editor';
-import { SelectField } from '../../../components/Form';
+import React, { useMemo } from "react";
+import { useFocusIdx } from "easy-email-editor";
+import { SelectField } from "../../../components/Form";
 
 const options = [
   {
-    value: 'initial',
+    value: "initial",
     get label() {
-      return t('None');
+      return t("None");
     },
   },
   {
-    value: 'uppercase',
+    value: "uppercase",
     get label() {
-      return t('uppercase');
+      return t("uppercase");
     },
   },
   {
-    value: 'lowercase',
+    value: "lowercase",
     get label() {
-      return t('lowercase');
+      return t("lowercase");
     },
   },
   {
-    value: 'capitalize',
+    value: "capitalize",
     get label() {
-      return t('capitalize');
+      return t("capitalize");
     },
   },
 ];
@@ -35,7 +35,7 @@ export function TextTransform({ name }: { name?: string }) {
   return useMemo(() => {
     return (
       <SelectField
-        label={t('Text transform')}
+        label={t("Text transform")}
         name={name || `${focusIdx}.attributes.text-transform`}
         options={options}
       />

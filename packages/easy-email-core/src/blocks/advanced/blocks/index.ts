@@ -14,11 +14,11 @@ import {
   IColumn,
   IHero,
   ITable,
-} from '../../standard';
-import { AdvancedType, BasicType } from '@core/constants';
-import { generateAdvancedContentBlock } from '../generateAdvancedContentBlock';
-import { generateAdvancedLayoutBlock } from '../generateAdvancedLayoutBlock';
-import { generateAdvancedTableBlock } from '../generateAdvancedTableBlock';
+} from "../../standard";
+import { AdvancedType, BasicType } from "@core/constants";
+import { generateAdvancedContentBlock } from "../generateAdvancedContentBlock";
+import { generateAdvancedLayoutBlock } from "../generateAdvancedLayoutBlock";
+import { generateAdvancedTableBlock } from "../generateAdvancedTableBlock";
 
 export const AdvancedText = generateAdvancedContentBlock<IText>({
   type: AdvancedType.TEXT,

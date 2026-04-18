@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export interface HoverIdxState {
   hoverIdx: string;
@@ -11,7 +11,7 @@ export interface DragPosition {
 export interface DataTransfer {
   type: string;
   payload?: any;
-  action: 'add' | 'move';
+  action: "add" | "move";
   positionIndex?: number;
   parentIdx?: string;
   sourceIdx?: string;
@@ -27,8 +27,8 @@ export const HoverIdxContext = React.createContext<{
   dataTransfer: DataTransfer | null;
   setDataTransfer: React.Dispatch<React.SetStateAction<DataTransfer | null>>;
 }>({
-  hoverIdx: '',
-  direction: '',
+  hoverIdx: "",
+  direction: "",
   isDragging: false,
   dataTransfer: null,
   setHoverIdx: () => {},
@@ -37,11 +37,13 @@ export const HoverIdxContext = React.createContext<{
   setDataTransfer: () => {},
 });
 
-export const HoverIdxProvider: React.FC<{ children?: React.ReactNode }> = props => {
-  const [hoverIdx, setHoverIdx] = useState('');
+export const HoverIdxProvider: React.FC<{ children?: React.ReactNode }> = (
+  props
+) => {
+  const [hoverIdx, setHoverIdx] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const [dataTransfer, setDataTransfer] = useState<DataTransfer | null>(null);
-  const [direction, setDirection] = useState<string>('');
+  const [direction, setDirection] = useState<string>("");
 
   return (
     <HoverIdxContext.Provider

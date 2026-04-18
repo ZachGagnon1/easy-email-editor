@@ -1,18 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Collapse, Space } from '@arco-design/web-react';
-import { useBlock, useEditorProps } from 'easy-email-editor';
-import { isAdvancedBlock } from 'easy-email-core';
-import { Iteration } from '../Iteration';
-import { Condition } from '../Condition';
+import React, { useCallback, useEffect, useState } from "react";
+import { Collapse, Space } from "@arco-design/web-react";
+import { useBlock, useEditorProps } from "easy-email-editor";
+import { isAdvancedBlock } from "easy-email-core";
+import { Iteration } from "../Iteration";
+import { Condition } from "../Condition";
 
 export interface CollapseWrapperProps {
   defaultActiveKey: string[];
   children: React.ReactNode | React.ReactElement;
 }
 
-export const CollapseWrapper: React.FC<CollapseWrapperProps> = props => {
+export const CollapseWrapper: React.FC<CollapseWrapperProps> = (props) => {
   const { enabledLogic } = useEditorProps();
-  const [activeKeys, setActiveKeys] = useState<string[]>(props.defaultActiveKey);
+  const [activeKeys, setActiveKeys] = useState<string[]>(
+    props.defaultActiveKey
+  );
 
   const { focusBlock } = useBlock();
   const value = focusBlock?.data.value;
@@ -20,10 +22,12 @@ export const CollapseWrapper: React.FC<CollapseWrapperProps> = props => {
   const isAdvancedBlockType = isAdvancedBlock(focusBlock?.type);
 
   const iterationEnabled =
-    isAdvancedBlockType && Boolean(value?.iteration && value?.iteration?.enabled);
+    isAdvancedBlockType &&
+    Boolean(value?.iteration && value?.iteration?.enabled);
 
   const conditionEnabled =
-    isAdvancedBlockType && Boolean(value?.condition && value?.condition?.enabled);
+    isAdvancedBlockType &&
+    Boolean(value?.condition && value?.condition?.enabled);
 
   const onChange = useCallback((key: string, keys: string[]) => {
     setActiveKeys(keys);
@@ -33,9 +37,9 @@ export const CollapseWrapper: React.FC<CollapseWrapperProps> = props => {
     if (!isAdvancedBlockType) return;
 
     if (iterationEnabled) {
-      setActiveKeys(keys => [...keys, 'Iteration']);
+      setActiveKeys((keys) => [...keys, "Iteration"]);
     } else {
-      setActiveKeys(keys => keys.filter(k => k !== 'Iteration'));
+      setActiveKeys((keys) => keys.filter((k) => k !== "Iteration"));
     }
   }, [iterationEnabled, isAdvancedBlockType]);
 
@@ -43,22 +47,15 @@ export const CollapseWrapper: React.FC<CollapseWrapperProps> = props => {
     if (!isAdvancedBlockType) return;
 
     if (conditionEnabled) {
-      setActiveKeys(keys => [...keys, 'Condition']);
+      setActiveKeys((keys) => [...keys, "Condition"]);
     } else {
-      setActiveKeys(keys => keys.filter(k => k !== 'Condition'));
+      setActiveKeys((keys) => keys.filter((k) => k !== "Condition"));
     }
   }, [conditionEnabled, isAdvancedBlockType]);
 
   return (
-    <Space
-      size='large'
-      direction='vertical'
-      style={{ width: '100%' }}
-    >
-      <Collapse
-        onChange={onChange}
-        activeKey={activeKeys}
-      >
+    <Space size="large" direction="vertical" style={{ width: "100%" }}>
+      <Collapse onChange={onChange} activeKey={activeKeys}>
         {props.children}
         {enabledLogic && (
           <>

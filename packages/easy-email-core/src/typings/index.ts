@@ -1,4 +1,4 @@
-import { IPage } from '@core/blocks';
+import { IPage } from "@core/blocks";
 
 export interface IBlock<T extends IBlockData = IBlockData> {
   name: string;
@@ -8,13 +8,13 @@ export interface IBlock<T extends IBlockData = IBlockData> {
   render: (params: {
     data: T;
     idx?: string | null;
-    mode: 'testing' | 'production';
+    mode: "testing" | "production";
     context?: IPage;
     dataSource?: { [key: string]: any };
     children?: React.ReactNode;
     keepClassName?: boolean;
     renderPortal?: (
-      props: Omit<Parameters<IBlock<T>['render']>[0], 'renderPortal'> & {
+      props: Omit<Parameters<IBlock<T>["render"]>[0], "renderPortal"> & {
         refEle: HTMLElement;
       }
     ) => React.ReactNode;
@@ -31,7 +31,7 @@ export interface IBlockData<
     value: Data;
     hidden?: boolean | string;
   };
-  attributes: Attr & { 'css-class'?: string };
+  attributes: Attr & { "css-class"?: string };
   children: IBlockData[];
 }
 

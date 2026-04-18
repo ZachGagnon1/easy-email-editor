@@ -1,7 +1,10 @@
-import { Input as ArcoInput, InputProps as ArcoInputProps } from '@arco-design/web-react';
-import React, { useCallback } from 'react';
+import {
+  Input as ArcoInput,
+  InputProps as ArcoInputProps,
+} from "@arco-design/web-react";
+import React, { useCallback } from "react";
 
-export interface InputProps extends Omit<ArcoInputProps, 'onChange'> {
+export interface InputProps extends Omit<ArcoInputProps, "onChange"> {
   quickchange?: boolean;
   value: string;
   onChange: (val: string) => void;
@@ -10,7 +13,7 @@ export interface InputProps extends Omit<ArcoInputProps, 'onChange'> {
 export function Input(props: InputProps) {
   const {
     quickchange,
-    value = '',
+    value = "",
     onKeyDown: onPropsKeyDown,
     onChange: propsOnChange,
   } = props;
@@ -30,10 +33,10 @@ export function Input(props: InputProps) {
 
       if (quickchange) {
         let step = 0;
-        if (ev.key === 'ArrowUp') {
+        if (ev.key === "ArrowUp") {
           step = 1;
         }
-        if (ev.key === 'ArrowDown') {
+        if (ev.key === "ArrowDown") {
           step = -1;
         }
 

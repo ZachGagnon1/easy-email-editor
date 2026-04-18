@@ -1,30 +1,30 @@
-import React, { useMemo } from 'react';
-import { useFocusIdx, Stack } from 'easy-email-editor';
-import { SelectField } from '../../../components/Form';
+import React, { useMemo } from "react";
+import { useFocusIdx, Stack } from "easy-email-editor";
+import { SelectField } from "../../../components/Form";
 
 const options = [
   {
-    value: 'top',
+    value: "top",
     get label() {
-      return t('top');
+      return t("top");
     },
   },
   {
-    value: 'middle',
+    value: "middle",
     get label() {
-      return t('middle');
+      return t("middle");
     },
   },
   {
-    value: 'bottom',
+    value: "bottom",
     get label() {
-      return t('bottom');
+      return t("bottom");
     },
   },
 ];
 
 export function VerticalAlign({
-  attributeName = 'vertical-align',
+  attributeName = "vertical-align",
 }: {
   attributeName?: string;
 }) {
@@ -35,7 +35,7 @@ export function VerticalAlign({
       <Stack>
         <SelectField
           style={{ width: 120 }}
-          label={t('Vertical align')}
+          label={t("Vertical align")}
           name={`${focusIdx}.attributes.${attributeName}`}
           options={options}
         />

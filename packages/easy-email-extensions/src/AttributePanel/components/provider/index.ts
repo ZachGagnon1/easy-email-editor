@@ -1,2 +1,2 @@
-export { SelectionRangeProvider } from './SelectionRangeProvider';
-export { PresetColorsProvider } from './PresetColorsProvider';
+export { SelectionRangeProvider } from "./SelectionRangeProvider";
+export { PresetColorsProvider } from "./PresetColorsProvider";

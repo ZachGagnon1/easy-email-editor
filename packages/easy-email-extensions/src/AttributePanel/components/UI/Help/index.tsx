@@ -1,6 +1,6 @@
-import React from 'react';
-import { Tooltip, TooltipProps } from '@arco-design/web-react';
-import { IconQuestionCircle } from '@arco-design/web-react/icon';
+import React from "react";
+import { Tooltip, TooltipProps } from "@arco-design/web-react";
+import { IconQuestionCircle } from "@arco-design/web-react/icon";
 
 export function Help(
   props: TooltipProps &
@@ -10,7 +10,7 @@ export function Help(
 ) {
   return (
     <Tooltip {...{ ...props, style: undefined }} content={props.title}>
-      <span style={{ cursor: 'pointer' }}>
+      <span style={{ cursor: "pointer" }}>
         <IconQuestionCircle style={props.style} />
       </span>
     </Tooltip>

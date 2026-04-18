@@ -1,7 +1,7 @@
-import { Input } from '@arco-design/web-react';
-import React, { useEffect } from 'react';
-import { render } from 'react-dom';
-import { useState } from 'react';
+import { Input } from "@arco-design/web-react";
+import React, { useEffect } from "react";
+import { render } from "react-dom";
+import { useState } from "react";
 
 interface CellBackgroundSelectorProps {
   bgColorHandler: (color: string) => void;
@@ -12,14 +12,14 @@ const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
   bgColorHandler,
   rootDom,
 }) => {
-  const [color, setColor] = useState('#ffffff');
+  const [color, setColor] = useState("#ffffff");
 
   useEffect(() => {
     if (!rootDom) {
       return;
     }
-    const observer = new ResizeObserver(e => {
-      setColor('#ffffff');
+    const observer = new ResizeObserver((e) => {
+      setColor("#ffffff");
     });
     observer.observe(rootDom);
     return () => {
@@ -29,26 +29,26 @@ const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
 
   return (
     <div
-      onClick={e => e.stopPropagation()}
-      className='easy-email-table-operation-menu-bg-item'
+      onClick={(e) => e.stopPropagation()}
+      className="easy-email-table-operation-menu-bg-item"
     >
       <div>Set Background Color</div>
       <div>
-        <div className='easy-email-table-operation-menu-bg-item-color'>
+        <div className="easy-email-table-operation-menu-bg-item-color">
           <div style={{ backgroundColor: color }}></div>
           <input
-            type='color'
+            type="color"
             value={color}
-            onChange={e => setColor(e.target.value)}
+            onChange={(e) => setColor(e.target.value)}
           />
         </div>
         <Input.Search
           height={28}
-          searchButton='Set'
+          searchButton="Set"
           onSearch={() => bgColorHandler(color)}
           value={color}
-          onKeyDown={e => e.stopPropagation()}
-          onChange={e => setColor(e)}
+          onKeyDown={(e) => e.stopPropagation()}
+          onChange={(e) => setColor(e)}
         />
       </div>
     </div>
@@ -56,17 +56,17 @@ const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
 };
 
 const getCellBackgroundSelectorRoot = (
-  bgColorHandler: CellBackgroundSelectorProps['bgColorHandler'],
-  rootDom: any,
+  bgColorHandler: CellBackgroundSelectorProps["bgColorHandler"],
+  rootDom: any
 ) => {
-  const node = document.createElement('div');
+  const node = document.createElement("div");
 
   render(
     <CellBackgroundSelector
       bgColorHandler={bgColorHandler}
       rootDom={rootDom}
     />,
-    node,
+    node
   );
   return node;
 };

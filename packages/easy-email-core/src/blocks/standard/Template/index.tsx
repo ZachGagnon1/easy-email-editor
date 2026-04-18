@@ -1,10 +1,10 @@
-import React from 'react';
-import { IBlockData } from '@core/typings';
-import { BasicType } from '@core/constants';
-import { createBlock } from '@core/utils/createBlock';
-import { merge } from 'lodash';
-import { BlockRenderer } from '@core/components/BlockRenderer';
-import { t } from '@core/utils';
+import React from "react";
+import { IBlockData } from "@core/typings";
+import { BasicType } from "@core/constants";
+import { createBlock } from "@core/utils/createBlock";
+import { merge } from "lodash";
+import { BlockRenderer } from "@core/components/BlockRenderer";
+import { t } from "@core/utils";
 
 export type ITemplate = IBlockData<
   {},
@@ -15,7 +15,7 @@ export type ITemplate = IBlockData<
 
 export const Template = createBlock<ITemplate>({
   get name() {
-    return t('Template');
+    return t("Template");
   },
   type: BasicType.TEMPLATE,
   create: (payload) => {
@@ -23,7 +23,7 @@ export const Template = createBlock<ITemplate>({
       type: BasicType.TEMPLATE,
       data: {
         value: {
-          idx: '',
+          idx: "",
         },
       },
       attributes: {},
@@ -38,8 +38,8 @@ export const Template = createBlock<ITemplate>({
       <>
         {`
           ${data.children.map((child) => (
-          <BlockRenderer {...params} data={child} />
-        ))}
+            <BlockRenderer {...params} data={child} />
+          ))}
         `}
       </>
     );

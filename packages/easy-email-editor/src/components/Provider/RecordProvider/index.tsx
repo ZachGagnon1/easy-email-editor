@@ -1,12 +1,12 @@
-import { IEmailTemplate } from '@/typings';
-import { useForm, useFormState } from 'react-final-form';
-import { cloneDeep, isEqual } from 'lodash';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useRefState } from '@/hooks/useRefState';
+import { IEmailTemplate } from "@/typings";
+import { useForm, useFormState } from "react-final-form";
+import { cloneDeep, isEqual } from "lodash";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useRefState } from "@/hooks/useRefState";
 
 const MAX_RECORD_SIZE = 50;
 
-export type RecordStatus = 'add' | 'redo' | 'undo' | undefined;
+export type RecordStatus = "add" | "redo" | "undo" | undefined;
 
 export const RecordContext = React.createContext<{
   records: Array<IEmailTemplate>;
@@ -24,7 +24,9 @@ export const RecordContext = React.createContext<{
   undoable: false,
 });
 
-export const RecordProvider: React.FC<{ children?: React.ReactNode }> = props => {
+export const RecordProvider: React.FC<{ children?: React.ReactNode }> = (
+  props
+) => {
   const formState = useFormState<IEmailTemplate>();
   const [data, setData] = useState<Array<IEmailTemplate>>([]);
   const [index, setIndex] = useState(-1);
@@ -43,14 +45,18 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = props =>
     return {
       records: data,
       redo: () => {
-        const nextIndex = Math.min(MAX_RECORD_SIZE - 1, index + 1, data.length - 1);
-        statusRef.current = 'redo';
+        const nextIndex = Math.min(
+          MAX_RECORD_SIZE - 1,
+          index + 1,
+          data.length - 1
+        );
+        statusRef.current = "redo";
         setIndex(nextIndex);
         form.reset(data[nextIndex]);
       },
       undo: () => {
         const prevIndex = Math.max(0, index - 1);
-        statusRef.current = 'undo';
+        statusRef.current = "undo";
         setIndex(prevIndex);
         form.reset(data[prevIndex]);
       },
@@ -63,7 +69,7 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = props =>
   }, [data, form, index]);
 
   useEffect(() => {
-    if (statusRef.current === 'redo' || statusRef.current === 'undo') {
+    if (statusRef.current === "redo" || statusRef.current === "undo") {
       statusRef.current = undefined;
       return;
     }
@@ -78,11 +84,13 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = props =>
 
     if (isChanged) {
       currentData.current = formState.values;
-      statusRef.current = 'add';
-      setData(oldData => {
+      statusRef.current = "add";
+      setData((oldData) => {
         const list = oldData.slice(0, indexRef.current + 1);
 
-        const newData = [...list, cloneDeep(formState.values)].slice(-MAX_RECORD_SIZE);
+        const newData = [...list, cloneDeep(formState.values)].slice(
+          -MAX_RECORD_SIZE
+        );
 
         return newData;
       });
@@ -90,5 +98,9 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = props =>
     }
   }, [formState, indexRef]);
 
-  return <RecordContext.Provider value={value}>{props.children}</RecordContext.Provider>;
+  return (
+    <RecordContext.Provider value={value}>
+      {props.children}
+    </RecordContext.Provider>
+  );
 };

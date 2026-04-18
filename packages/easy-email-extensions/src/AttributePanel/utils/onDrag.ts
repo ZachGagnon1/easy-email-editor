@@ -1,8 +1,8 @@
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
 
 export const isMouseEvent = (
   event: MouseEvent | TouchEvent
-): event is MouseEvent => !!(event.type.indexOf('mouse') !== -1);
+): event is MouseEvent => !!(event.type.indexOf("mouse") !== -1);
 
 /**
  *
@@ -48,15 +48,15 @@ export const onDrag = ({
 
   const onDragEnd = () => {
     onEnd && onEnd();
-    document.removeEventListener('touchmove', onDragMove);
-    document.removeEventListener('touchend', onDragEnd);
+    document.removeEventListener("touchmove", onDragMove);
+    document.removeEventListener("touchend", onDragEnd);
 
-    document.removeEventListener('mousemove', onDragMove);
-    document.removeEventListener('mousemove', onDragEnd);
+    document.removeEventListener("mousemove", onDragMove);
+    document.removeEventListener("mousemove", onDragEnd);
   };
 
-  document.addEventListener('touchmove', onDragMove);
-  document.addEventListener('touchend', onDragEnd);
-  document.addEventListener('mousemove', onDragMove);
-  document.addEventListener('mouseup', onDragEnd);
+  document.addEventListener("touchmove", onDragMove);
+  document.addEventListener("touchend", onDragEnd);
+  document.addEventListener("mousemove", onDragMove);
+  document.addEventListener("mouseup", onDragEnd);
 };

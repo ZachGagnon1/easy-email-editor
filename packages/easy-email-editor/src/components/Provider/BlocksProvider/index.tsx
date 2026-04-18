@@ -1,13 +1,13 @@
-import { EventManager } from '@';
-import { EventType } from '@/utils/EventManager';
-import { getPageIdx } from 'easy-email-core';
-import { isFunction } from 'lodash';
-import React, { useState, useCallback } from 'react';
+import { EventManager } from "@";
+import { EventType } from "@/utils/EventManager";
+import { getPageIdx } from "easy-email-core";
+import { isFunction } from "lodash";
+import React, { useState, useCallback } from "react";
 
 export enum ActiveTabKeys {
-  EDIT = 'EDIT',
-  MOBILE = 'MOBILE',
-  PC = 'PC',
+  EDIT = "EDIT",
+  MOBILE = "MOBILE",
+  PC = "PC",
 }
 
 export const BlocksContext = React.createContext<{
@@ -34,17 +34,19 @@ export const BlocksContext = React.createContext<{
   setActiveTab: () => {},
 });
 
-export const BlocksProvider: React.FC<{ children?: React.ReactNode }> = props => {
+export const BlocksProvider: React.FC<{ children?: React.ReactNode }> = (
+  props
+) => {
   const [focusIdx, setFocusIdx] = useState(getPageIdx());
   const [dragEnabled, setDragEnabled] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
   const [activeTab, setActiveTab] = useState(ActiveTabKeys.EDIT);
 
-  const onChangeTab: React.Dispatch<React.SetStateAction<ActiveTabKeys>> = useCallback(
-    handler => {
+  const onChangeTab: React.Dispatch<React.SetStateAction<ActiveTabKeys>> =
+    useCallback((handler) => {
       if (isFunction(handler)) {
-        setActiveTab(currentTab => {
+        setActiveTab((currentTab) => {
           const nextTab = handler(currentTab);
           const next = EventManager.exec(EventType.ACTIVE_TAB_CHANGE, {
             currentTab,
@@ -54,7 +56,7 @@ export const BlocksProvider: React.FC<{ children?: React.ReactNode }> = props =>
           return currentTab;
         });
       }
-      setActiveTab(currentTab => {
+      setActiveTab((currentTab) => {
         let nextTab = handler as ActiveTabKeys;
         const next = EventManager.exec(EventType.ACTIVE_TAB_CHANGE, {
           currentTab,
@@ -63,9 +65,7 @@ export const BlocksProvider: React.FC<{ children?: React.ReactNode }> = props =>
         if (next) return nextTab;
         return currentTab;
       });
-    },
-    [],
-  );
+    }, []);
 
   return (
     <BlocksContext.Provider

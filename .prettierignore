@@ -1,0 +1,7 @@
+node_modules/
+**/dist/
+**/lib/
+package.json
+
+*.yml
+pnpm-lock.yaml

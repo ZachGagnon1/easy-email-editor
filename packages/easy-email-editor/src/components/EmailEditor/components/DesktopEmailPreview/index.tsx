@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react';
-import { useActiveTab } from '@/hooks/useActiveTab';
-import { ActiveTabKeys } from '@/components/Provider/BlocksProvider';
-import { usePreviewEmail } from '@/hooks/usePreviewEmail';
-import { useEditorContext } from '@/hooks/useEditorContext';
-import { classnames } from '@/utils/classnames';
-import { SYNC_SCROLL_ELEMENT_CLASS_NAME } from '@/constants';
-import { createPortal } from 'react-dom';
-import { SyncScrollIframeDom } from '@/components/UI/SyncScrollIframeDom';
+import React, { useMemo } from "react";
+import { useActiveTab } from "@/hooks/useActiveTab";
+import { ActiveTabKeys } from "@/components/Provider/BlocksProvider";
+import { usePreviewEmail } from "@/hooks/usePreviewEmail";
+import { useEditorContext } from "@/hooks/useEditorContext";
+import { classnames } from "@/utils/classnames";
+import { SYNC_SCROLL_ELEMENT_CLASS_NAME } from "@/constants";
+import { createPortal } from "react-dom";
+import { SyncScrollIframeDom } from "@/components/UI/SyncScrollIframeDom";
 
 export function DesktopEmailPreview() {
   const { activeTab } = useActiveTab();
@@ -22,7 +22,7 @@ export function DesktopEmailPreview() {
 
   if (errMsg) {
     return (
-      <div style={{ textAlign: 'center', fontSize: 24, color: 'red' }}>
+      <div style={{ textAlign: "center", fontSize: 24, color: "red" }}>
         <>{errMsg}</>
       </div>
     );
@@ -31,15 +31,15 @@ export function DesktopEmailPreview() {
   return (
     <div
       style={{
-        height: '100%',
+        height: "100%",
       }}
     >
       <SyncScrollIframeDom
         isActive={isActive}
         style={{
-          border: 'none',
-          height: '100%',
-          width: '100%',
+          border: "none",
+          height: "100%",
+          width: "100%",
         }}
       >
         <>
@@ -60,35 +60,43 @@ export function DesktopEmailPreview() {
               `}
           </style>
           <div
-            className={classnames('preview-container', SYNC_SCROLL_ELEMENT_CLASS_NAME)}
+            className={classnames(
+              "preview-container",
+              SYNC_SCROLL_ELEMENT_CLASS_NAME
+            )}
             style={{
-              height: '100%',
-              overflow: 'auto',
-              margin: 'auto',
+              height: "100%",
+              overflow: "auto",
+              margin: "auto",
 
               paddingLeft: 10,
               paddingRight: 10,
               paddingTop: 40,
               paddingBottom: 140,
-              boxSizing: 'border-box',
+              boxSizing: "border-box",
             }}
           >
             <>{reactNode}</>
           </div>
           {createPortal(
             <>
-              {fonts.map((item: {
-                href: string;
-              }, index: number) => (
-                <link
-                  key={index}
-                  href={item.href}
-                  rel="stylesheet"
-                  type="text/css"
-                />
-              ))}
+              {fonts.map(
+                (
+                  item: {
+                    href: string;
+                  },
+                  index: number
+                ) => (
+                  <link
+                    key={index}
+                    href={item.href}
+                    rel="stylesheet"
+                    type="text/css"
+                  />
+                )
+              )}
             </>,
-            document.body,
+            document.body
           )}
         </>
       </SyncScrollIframeDom>

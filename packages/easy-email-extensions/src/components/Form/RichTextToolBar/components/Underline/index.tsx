@@ -1,21 +1,21 @@
-import { PopoverProps } from '@arco-design/web-react';
-import React, { useCallback, useMemo } from 'react';
-import { IconFont } from 'easy-email-editor';
-import { ToolItem } from '../ToolItem';
-import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
-import { useSelectionRange } from '@extensions/AttributePanel/hooks/useSelectionRange';
+import { PopoverProps } from "@arco-design/web-react";
+import React, { useCallback, useMemo } from "react";
+import { IconFont } from "easy-email-editor";
+import { ToolItem } from "../ToolItem";
+import { EMAIL_BLOCK_CLASS_NAME } from "easy-email-core";
+import { useSelectionRange } from "@extensions/AttributePanel/hooks/useSelectionRange";
 
 export interface LinkProps extends PopoverProps {
   currentRange: Range | null | undefined;
   onChange: () => void;
 }
 
-function getUnderlineNode(
-  node: Node | null | undefined,
-): Element | null {
+function getUnderlineNode(node: Node | null | undefined): Element | null {
   if (!node) return null;
-  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME)) return null;
-  if ((node as Element).tagName?.toLocaleLowerCase() === 'u') return node as Element;
+  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME))
+    return null;
+  if ((node as Element).tagName?.toLocaleLowerCase() === "u")
+    return node as Element;
   return getUnderlineNode(node.parentNode);
 }
 
@@ -24,7 +24,6 @@ export function Underline(props: LinkProps) {
   const { setRangeByElement } = useSelectionRange();
   const node = useMemo(() => {
     return getUnderlineNode(props.currentRange?.commonAncestorContainer);
-
   }, [props.currentRange]);
 
   const onClick = useCallback(() => {
@@ -35,6 +34,11 @@ export function Underline(props: LinkProps) {
   }, [node, onChange, setRangeByElement]);
 
   return (
-      <ToolItem title={t('Underline')} isActive={Boolean(node)} icon={<IconFont iconName='icon-underline' />} onClick={onClick} />
+    <ToolItem
+      title={t("Underline")}
+      isActive={Boolean(node)}
+      icon={<IconFont iconName="icon-underline" />}
+      onClick={onClick}
+    />
   );
 }

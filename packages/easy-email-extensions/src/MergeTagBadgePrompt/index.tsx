@@ -6,22 +6,23 @@ import {
   useEditorContext,
   useEditorProps,
   useRefState,
-} from 'easy-email-editor';
-import { get } from 'lodash';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import stylesText from './MergeTagBadge.scss?inline';
-import { classnames } from '@extensions/utils/classnames';
-import { useSelectionRange } from '@extensions/AttributePanel/hooks/useSelectionRange';
+} from "easy-email-editor";
+import { get } from "lodash";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import stylesText from "./MergeTagBadge.scss?inline";
+import { classnames } from "@extensions/utils/classnames";
+import { useSelectionRange } from "@extensions/AttributePanel/hooks/useSelectionRange";
 
 const removeAllActiveBadge = () => {
-  getIframeDocument()?.querySelectorAll('.easy-email-merge-tag')
-  .forEach((item) => {
-    item.classList.remove('easy-email-merge-tag-focus');
-  });
+  getIframeDocument()
+    ?.querySelectorAll(".easy-email-merge-tag")
+    .forEach((item) => {
+      item.classList.remove("easy-email-merge-tag-focus");
+    });
 
   const popoverNode = getIframeDocument()?.querySelectorAll(
-    '.easy-email-merge-tag-popover',
+    ".easy-email-merge-tag-popover"
   );
   if (popoverNode) {
   }
@@ -31,7 +32,7 @@ export function MergeTagBadgePrompt() {
   const { initialized } = useEditorContext();
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const { onChangeMergeTag, mergeTags } = useEditorProps();
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const { setRangeByElement } = useSelectionRange();
 
   const root = initialized && getIframeDocument();
@@ -40,23 +41,25 @@ export function MergeTagBadgePrompt() {
 
   const textContainer = getBlockNodeByChildEle(target);
 
-  const focusMergeTag = useCallback((ele: HTMLElement) => {
-    if (!ele) return;
+  const focusMergeTag = useCallback(
+    (ele: HTMLElement) => {
+      if (!ele) return;
 
-    setRangeByElement(ele);
-  }, [setRangeByElement]);
+      setRangeByElement(ele);
+    },
+    [setRangeByElement]
+  );
 
   useEffect(() => {
-
     const onBlur = (ev: MouseEvent) => {
       if (ev.target === getEditorRoot()) {
         return;
       }
       setTarget(null);
     };
-    window.addEventListener('click', onBlur);
+    window.addEventListener("click", onBlur);
     return () => {
-      window.removeEventListener('click', onBlur);
+      window.removeEventListener("click", onBlur);
     };
   }, [targetRef, popoverRef]);
 
@@ -78,33 +81,34 @@ export function MergeTagBadgePrompt() {
       const target = e.target;
       if (
         target instanceof HTMLInputElement &&
-        target.classList.contains('easy-email-merge-tag')
+        target.classList.contains("easy-email-merge-tag")
       ) {
-        target.classList.add('easy-email-merge-tag-focus');
+        target.classList.add("easy-email-merge-tag-focus");
         const namePath = target.value;
         if (!onChangeMergeTag) {
           focusMergeTag(target);
           return;
         }
-        setText(get(mergeTags, namePath, ''));
+        setText(get(mergeTags, namePath, ""));
         setTarget(target);
-
       } else {
         if (popoverRef.current?.contains(e.target as any)) return;
         setTarget(null);
-
       }
     };
 
-    root.body.addEventListener('click', onClick);
+    root.body.addEventListener("click", onClick);
     return () => {
-      root.body.removeEventListener('click', onClick);
+      root.body.removeEventListener("click", onClick);
     };
   }, [focusMergeTag, mergeTags, onChangeMergeTag, root]);
 
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = useCallback((ev) => {
-    setText(ev.target.value);
-  }, []);
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
+    (ev) => {
+      setText(ev.target.value);
+    },
+    []
+  );
 
   const onSave = useCallback(() => {
     if (!(target instanceof HTMLInputElement)) return;
@@ -118,55 +122,65 @@ export function MergeTagBadgePrompt() {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-
-      if (e.code?.toLocaleLowerCase() === 'escape') {
+      if (e.code?.toLocaleLowerCase() === "escape") {
         onClose();
       }
-
     };
-    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener("keydown", onKeyDown);
     };
   }, [onClose, onSave]);
 
   return (
     <>
-
-      {(root && root?.body) && createPortal(<style>{stylesText}</style>, root.body as any)}
-      {textContainer && createPortal(
-        <div ref={popoverRef} onClick={onClick}
-             className={classnames('easy-email-merge-tag-popover')}
-        >
-          <div className="easy-email-merge-tag-popover-container">
-            <h3>
-              <span>{t('Default value')}</span>
-              <IconFont style={{ color: 'rgb(92, 95, 98)' }} iconName="icon-close"
-                        onClick={onClose}
-              />
-            </h3>
-            <div className={'easy-email-merge-tag-popover-desc'}>
-              <p>
-                {t('If a personalized text value isn\"t available, then a default value is shown.')}
-              </p>
-              <div className="easy-email-merge-tag-popover-desc-label">
-                <input autoFocus value={text}
-                       onChange={onChange} type="text"
-                       autoComplete="off"
-                       maxLength={40}
+      {root &&
+        root?.body &&
+        createPortal(<style>{stylesText}</style>, root.body as any)}
+      {textContainer &&
+        createPortal(
+          <div
+            ref={popoverRef}
+            onClick={onClick}
+            className={classnames("easy-email-merge-tag-popover")}
+          >
+            <div className="easy-email-merge-tag-popover-container">
+              <h3>
+                <span>{t("Default value")}</span>
+                <IconFont
+                  style={{ color: "rgb(92, 95, 98)" }}
+                  iconName="icon-close"
+                  onClick={onClose}
                 />
-                <div className="easy-email-merge-tag-popover-desc-label-count">
-                  {text.length}/40
+              </h3>
+              <div className={"easy-email-merge-tag-popover-desc"}>
+                <p>
+                  {t(
+                    'If a personalized text value isn"t available, then a default value is shown.'
+                  )}
+                </p>
+                <div className="easy-email-merge-tag-popover-desc-label">
+                  <input
+                    autoFocus
+                    value={text}
+                    onChange={onChange}
+                    type="text"
+                    autoComplete="off"
+                    maxLength={40}
+                  />
+                  <div className="easy-email-merge-tag-popover-desc-label-count">
+                    {text.length}/40
+                  </div>
+                </div>
+                <div className="easy-email-merge-tag-popover-desc-label-button">
+                  <button onClick={onSave}>{t("Save")}</button>
                 </div>
               </div>
-              <div className="easy-email-merge-tag-popover-desc-label-button">
-                <button onClick={onSave}>{t('Save')}</button>
-              </div>
             </div>
-          </div>
-
-        </div>, textContainer)}
+          </div>,
+          textContainer
+        )}
     </>
   );
 }

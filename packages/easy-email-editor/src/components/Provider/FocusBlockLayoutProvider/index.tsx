@@ -1,9 +1,9 @@
-import { useFocusIdx } from '@/hooks/useFocusIdx';
-import React, { useEffect, useMemo, useState } from 'react';
-import { getBlockNodeByIdx, getIframeDocument } from '@/utils';
-import { DATA_RENDER_COUNT } from '@/constants';
-import { useEditorContext } from '@/hooks/useEditorContext';
-import { useRefState } from '@/hooks/useRefState';
+import { useFocusIdx } from "@/hooks/useFocusIdx";
+import React, { useEffect, useMemo, useState } from "react";
+import { getBlockNodeByIdx, getIframeDocument } from "@/utils";
+import { DATA_RENDER_COUNT } from "@/constants";
+import { useEditorContext } from "@/hooks/useEditorContext";
+import { useRefState } from "@/hooks/useRefState";
 
 export const FocusBlockLayoutContext = React.createContext<{
   focusBlockNode: HTMLElement | null;
@@ -13,19 +13,23 @@ export const FocusBlockLayoutContext = React.createContext<{
 
 export const FocusBlockLayoutProvider: React.FC<{
   children?: React.ReactNode;
-}> = props => {
-  const [focusBlockNode, setFocusBlockNode] = useState<HTMLElement | null>(null);
+}> = (props) => {
+  const [focusBlockNode, setFocusBlockNode] = useState<HTMLElement | null>(
+    null
+  );
   const { initialized } = useEditorContext();
   const { focusIdx } = useFocusIdx();
   const focusIdxRef = useRefState(focusIdx);
 
   const root = useMemo(() => {
-    return initialized ? getIframeDocument()?.querySelector(`[${DATA_RENDER_COUNT}]`) : null;
+    return initialized
+      ? getIframeDocument()?.querySelector(`[${DATA_RENDER_COUNT}]`)
+      : null;
   }, [initialized]);
 
   useEffect(() => {
     if (!root) return;
-    let lastCount: any = '0';
+    let lastCount: any = "0";
     const ms = new MutationObserver(() => {
       const currentCount = root.getAttribute(DATA_RENDER_COUNT);
       if (lastCount !== currentCount) {

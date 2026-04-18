@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback } from "react";
 
-import { Menu, Popover } from '@arco-design/web-react';
-import { ToolItem } from '../ToolItem';
-import { getIframeDocument, IconFont } from 'easy-email-editor';
-import { useFontFamily } from '@extensions/hooks/useFontFamily';
-import styleText from '../../styles/ToolsPopover.css?inline';
+import { Menu, Popover } from "@arco-design/web-react";
+import { ToolItem } from "../ToolItem";
+import { getIframeDocument, IconFont } from "easy-email-editor";
+import { useFontFamily } from "@extensions/hooks/useFontFamily";
+import styleText from "../../styles/ToolsPopover.css?inline";
 
 export interface FontFamilyProps {
   execCommand: (cmd: string, value: any) => void;
@@ -18,10 +18,10 @@ export function FontFamily(props: FontFamilyProps) {
 
   const onChange = useCallback(
     (val: string) => {
-      execCommand('fontName', val);
+      execCommand("fontName", val);
       setVisible(false);
     },
-    [execCommand],
+    [execCommand]
   );
 
   const onVisibleChange = useCallback((v: boolean) => {
@@ -43,25 +43,25 @@ export function FontFamily(props: FontFamilyProps) {
         getDocument: getIframeDocument,
       }}
       onVisibleChange={onVisibleChange}
-      content={(
+      content={
         <>
           <style>{styleText}</style>
           <div
             style={{
               maxWidth: 150,
               maxHeight: 350,
-              overflowY: 'auto',
-              overflowX: 'hidden',
+              overflowY: "auto",
+              overflowX: "hidden",
             }}
           >
             <Menu
               onClickMenuItem={onChange}
               selectedKeys={[]}
-              style={{ border: 'none', padding: 0 }}
+              style={{ border: "none", padding: 0 }}
             >
-              {fontList.map(item => (
+              {fontList.map((item) => (
                 <Menu.Item
-                  style={{ lineHeight: '30px', height: 30 }}
+                  style={{ lineHeight: "30px", height: 30 }}
                   key={item.value}
                 >
                   {item.label}
@@ -70,11 +70,11 @@ export function FontFamily(props: FontFamilyProps) {
             </Menu>
           </div>
         </>
-      )}
+      }
       getPopupContainer={props.getPopupContainer}
     >
       <ToolItem
-        title={t('Font family')}
+        title={t("Font family")}
         icon={<IconFont iconName="icon-font-family" />}
       />
     </Popover>

@@ -1,11 +1,11 @@
-import { IBlock } from '@core/typings';
-import { BlockManager } from '@core/utils';
-import { useEmailRenderContext } from '@core/utils/JsonToMjml';
-import React from 'react';
+import { IBlock } from "@core/typings";
+import { BlockManager } from "@core/utils";
+import { useEmailRenderContext } from "@core/utils/JsonToMjml";
+import React from "react";
 
 type BlockDataItem = Omit<
-  Parameters<IBlock['render']>[0],
-  'mode' | 'context' | 'dataSource'
+  Parameters<IBlock["render"]>[0],
+  "mode" | "context" | "dataSource"
 >;
 
 export const BlockRenderer = (props: BlockDataItem) => {

@@ -1,5 +1,5 @@
-import { UserStorage } from '@demo/utils/user-storage';
-import { USER } from '.';
+import { UserStorage } from "@demo/utils/user-storage";
+import { USER } from ".";
 
 type IConfigUser = {
   phone: string;
@@ -9,17 +9,17 @@ type IConfigUser = {
   provideCategoryId?: number;
 };
 
-const DEFAULT_USER_KEY = 'DEFAULT_USER_KEY';
+const DEFAULT_USER_KEY = "DEFAULT_USER_KEY";
 
 window.setUser = (user: IConfigUser) => {
   if (!user.phone) {
-    throw new Error('Need phone');
+    throw new Error("Need phone");
   }
   if (!user.password) {
-    throw new Error('Need password');
+    throw new Error("Need password");
   }
   if (!user.categoryId) {
-    throw new Error('Need categoryId');
+    throw new Error("Need categoryId");
   }
   localStorage.setItem(DEFAULT_USER_KEY, JSON.stringify(user));
   UserStorage.logout();
@@ -29,7 +29,7 @@ window.setUser = (user: IConfigUser) => {
 window.getUser = () => USER;
 
 window.removeUser = () => {
-  localStorage.setItem(DEFAULT_USER_KEY, '');
+  localStorage.setItem(DEFAULT_USER_KEY, "");
   window.location.reload();
 };
 

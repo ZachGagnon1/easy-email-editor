@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useState } from "react";
+import { createPortal } from "react-dom";
 
 interface Props
   extends React.DetailedHTMLProps<
-  React.IframeHTMLAttributes<HTMLIFrameElement>,
-  HTMLIFrameElement
+    React.IframeHTMLAttributes<HTMLIFrameElement>,
+    HTMLIFrameElement
   > {
   children: React.ReactNode;
   title?: string;
   windowRef?: (e: Window) => void;
 }
 
-export const IframeComponent = ({ children, title, windowRef, ...props }: Props) => {
+export const IframeComponent = ({
+  children,
+  title,
+  windowRef,
+  ...props
+}: Props) => {
   const [mountNode, setMountNode] = useState(null);
 
   const onLoad: React.ReactEventHandler<HTMLIFrameElement> = (evt) => {
@@ -19,7 +24,7 @@ export const IframeComponent = ({ children, title, windowRef, ...props }: Props)
     if (!contentWindow) return;
     windowRef?.(contentWindow);
     const innerBody = contentWindow.document.body;
-    innerBody.style.backgroundColor = 'transparent';
+    innerBody.style.backgroundColor = "transparent";
     setMountNode(innerBody);
   };
 

@@ -1,11 +1,14 @@
-import { AdvancedBlock, Operator } from '@core/blocks/advanced/generateAdvancedBlock';
-import { Raw } from '@core/components';
-import { isNumber } from 'lodash';
-import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  AdvancedBlock,
+  Operator,
+} from "@core/blocks/advanced/generateAdvancedBlock";
+import { Raw } from "@core/components";
+import { isNumber } from "lodash";
+import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 function generateIterationTemplate(
-  option: NonNullable<AdvancedBlock['data']['value']['iteration']>,
+  option: NonNullable<AdvancedBlock["data"]["value"]["iteration"]>,
   content: React.ReactElement
 ) {
   return (
@@ -13,21 +16,22 @@ function generateIterationTemplate(
       <Raw>
         {`
         <!-- htmlmin:ignore -->
-        {% for ${option.itemName} in ${option.dataSource} ${option.limit ? `limit:${option.limit}` : ''
-          } %}
+        {% for ${option.itemName} in ${option.dataSource} ${
+          option.limit ? `limit:${option.limit}` : ""
+        } %}
         <!-- htmlmin:ignore -->
         `}
       </Raw>
       {content}
       <Raw>
-        {' <!-- htmlmin:ignore -->{% endfor %}  <!-- htmlmin:ignore -->'}
+        {" <!-- htmlmin:ignore -->{% endfor %}  <!-- htmlmin:ignore -->"}
       </Raw>
     </>
   );
 }
 
 function generateConditionTemplate(
-  option: NonNullable<AdvancedBlock['data']['value']['condition']>,
+  option: NonNullable<AdvancedBlock["data"]["value"]["condition"]>,
   content: React.ReactElement
 ) {
   const { symbol, groups } = option;
@@ -45,9 +49,9 @@ function generateConditionTemplate(
     }
     return (
       condition.left +
-      ' ' +
+      " " +
       condition.operator +
-      ' ' +
+      " " +
       (isNumber(condition.right) ? condition.right : `"${condition.right}"`)
     );
   };
@@ -60,7 +64,7 @@ function generateConditionTemplate(
         .map(generateExpression)
         .join(` ${item.symbol} `)} %}`;
     })
-    .join('\n');
+    .join("\n");
   const conditionExpression = variables.join(` ${symbol} `);
 
   return (
@@ -86,12 +90,12 @@ function generateConditionTemplate(
 }
 
 interface IterationTemplate {
-  name: 'iteration';
+  name: "iteration";
   templateGenerateFn: typeof generateIterationTemplate;
 }
 
 interface ConditionTemplate {
-  name: 'condition';
+  name: "condition";
   templateGenerateFn: typeof generateConditionTemplate;
 }
 
@@ -106,8 +110,8 @@ export class TemplateEngineManager {
   }
 
   public static generateTagTemplate<
-    T extends keyof typeof TemplateEngineManager['tags']
-  >(name: T): typeof TemplateEngineManager['tags'][T] {
+    T extends keyof (typeof TemplateEngineManager)["tags"]
+  >(name: T): (typeof TemplateEngineManager)["tags"][T] {
     return this.tags[name];
   }
 }

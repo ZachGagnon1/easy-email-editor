@@ -5,8 +5,8 @@ import {
   IConditionGroupItem,
   Operator,
   OperatorSymbol,
-} from './generateAdvancedBlock';
-import { AdvancedType } from '@core/constants';
+} from "./generateAdvancedBlock";
+import { AdvancedType } from "@core/constants";
 import {
   AdvancedText,
   AdvancedButton,
@@ -23,8 +23,11 @@ import {
   AdvancedColumn,
   AdvancedHero,
   AdvancedTable,
-} from './blocks';
-import { IAdvancedTableData, AdvancedTableBlock } from './generateAdvancedTableBlock';
+} from "./blocks";
+import {
+  IAdvancedTableData,
+  AdvancedTableBlock,
+} from "./generateAdvancedTableBlock";
 
 export const advancedBlocks = {
   [AdvancedType.TEXT]: AdvancedText,

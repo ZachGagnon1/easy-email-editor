@@ -1,5 +1,5 @@
-import { IBlock, IBlockData } from '@core/typings';
-import { standardBlocks, advancedBlocks } from '@core/blocks';
+import { IBlock, IBlockData } from "@core/typings";
+import { standardBlocks, advancedBlocks } from "@core/blocks";
 
 export class BlockManager {
   private static blocksMap: Record<string, IBlock> = {

@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import { useFocusIdx } from 'easy-email-editor';
-import { TextField } from '../../../components/Form';
+import React, { useMemo } from "react";
+import { useFocusIdx } from "easy-email-editor";
+import { TextField } from "../../../components/Form";
 
 export function BorderWidth() {
   const { focusIdx } = useFocusIdx();
@@ -8,7 +8,7 @@ export function BorderWidth() {
   return useMemo(() => {
     return (
       <TextField
-        label={t('Width')}
+        label={t("Width")}
         quickchange
         name={`${focusIdx}.attributes.border-width`}
       />
