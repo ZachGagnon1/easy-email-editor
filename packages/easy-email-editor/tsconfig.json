@@ -31,6 +31,10 @@
     /* 3 & 4. Removed baseUrl, added rootDir explicitly */
     "rootDir": "./src",
     "outDir": "lib",
+    "declaration": true,
+    "declarationDir": "./lib",
+    "emitDeclarationOnly": true,
+    // Ensure only types are emitted by tsc
     "paths": {
       /* 5. Removed the cross-package aliases that caused the `..` error */
       "@": [

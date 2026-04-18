@@ -1,18 +1,22 @@
 import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react'; // Replaced deprecated @vitejs/plugin-react-refresh
 import path from 'path';
-import { injectHtml } from 'vite-plugin-html';
 
 export default defineConfig({
   server: {
     fs: {
       strict: false,
     },
+    // Vite 8 feature: optionally forward console logs to terminal
+    forwardConsole: true,
   },
   resolve: {
+    // Vite 8 built-in support for tsconfig path resolution
+    tsconfigPaths: true,
     alias: {
-      'easy-email-editor/lib/style.css': path.resolve(__dirname, 'package.json'), // 没有用的，只是防止css 404报错
-      'easy-email-extensions/lib/style.css': path.resolve(__dirname, 'package.json'), // 没有用的，只是防止css 404报错
+      // Maintaining your specific overrides for package boundaries
+      'easy-email-editor/lib/style.css': path.resolve(__dirname, 'package.json'),
+      'easy-email-extensions/lib/style.css': path.resolve(__dirname, 'package.json'),
       react: path.resolve('./node_modules/react'),
       'react-final-form': path.resolve(__dirname, './node_modules/react-final-form'),
       '@demo': path.resolve(__dirname, './src'),
@@ -34,31 +38,27 @@ export default defineConfig({
       ),
     },
   },
-
+  // Note: define: {} is standard, but Vite 8 handles env vars more robustly
   define: {},
   esbuild: {
+    // Arco design style injection
     jsxInject: 'import "@arco-design/web-react/dist/css/arco.css";',
   },
   build: {
+    // In Vite 8, lightningcss is the default for high-performance minification
+    // If you still want Terser, ensure 'terser' is installed in your devDependencies
     minify: 'terser',
     manifest: true,
     sourcemap: true,
-    target: 'es2015',
+    // Modernized build target; Vite 8 defaults to newer baselines
+    target: 'esnext',
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (/\/node_modules\/html2canvas\/.*/.test(id)) {
-            return 'html2canvas';
-          }
-          if (/\/node_modules\/lodash\/.*/.test(id)) {
-            return 'lodash';
-          }
-          if (/\/node_modules\/mjml-browser\/.*/.test(id)) {
-            return 'mjml-browser';
-          }
-          if (/easy-email.*/.test(id)) {
-            return 'easy-email-editor';
-          }
+          if (id.includes('node_modules/html2canvas')) return 'html2canvas';
+          if (id.includes('node_modules/lodash')) return 'lodash';
+          if (id.includes('node_modules/mjml-browser')) return 'mjml-browser';
+          if (id.includes('easy-email')) return 'easy-email-editor';
         },
       },
     },
@@ -75,12 +75,16 @@ export default defineConfig({
     },
   },
   plugins: [
-    reactRefresh(),
-
-    injectHtml({
-      data: {
-        buildTime: `<meta name="updated-time" content="${new Date().toUTCString()}" />`,
+    react(),
+    // Replaced vite-plugin-html with native transform hook
+    {
+      name: 'html-transform',
+      transformIndexHtml(html) {
+        return html.replace(
+          '</head>',
+          `<meta name="updated-time" content="${new Date().toUTCString()}" />\n</head>`,
+        );
       },
-    }),
-  ].filter(Boolean),
+    },
+  ],
 });

@@ -1,4 +1,4 @@
-import { getIframeDocument } from './getIframeDocument';
+import { getIframeDocument } from '@/utils/getEditorRoot';
 
 export const getBlockNodes = () =>
   Array.from(getIframeDocument()?.querySelectorAll('.email-block') || []);

@@ -1,46 +1,41 @@
 import { defineConfig } from 'vite';
-import styleImport from 'vite-plugin-style-import';
+import react from '@vitejs/plugin-react';
 import path from 'path';
-import { injectHtml } from 'vite-plugin-html';
 
 export default defineConfig({
   resolve: {
+    // Vite 8 built-in support for tsconfig path resolution
+    tsconfigPaths: true,
     alias: {
       '@demo': path.resolve(__dirname, './src'),
       react: path.resolve('./node_modules/react'),
       'react-final-form': path.resolve(__dirname, './node_modules/react-final-form'),
       'easy-email-localization': path.resolve('../packages/easy-email-localization'),
-      'easy-email-core': path.resolve('../packages/easy-email-core'),
-      'easy-email-editor': path.resolve('../packages/easy-email-editor'),
-      'easy-email-extensions': path.resolve('../packages/easy-email-extensions'),
+      'easy-email-core': path.resolve('../packages/easy-email-core/src/index.tsx'),
+      'easy-email-editor': path.resolve('../packages/easy-email-editor/src/index.tsx'),
+      'easy-email-extensions': path.resolve('../packages/easy-email-extensions/src/index.tsx'),
     },
   },
-  optimizeDeps: {},
-  define: {},
+  esbuild: {
+    // Maintains Arco Design style injection consistent with your base config
+    jsxInject: 'import "@arco-design/web-react/dist/css/arco.css";',
+  },
   build: {
-    minify: true,
+    minify: 'terser', // Vite 8 uses lightningcss by default, but terser is safer for complex monorepos
     manifest: true,
     sourcemap: false,
-    target: 'es2015',
+    target: 'esnext', // Modernized build target for Vite 8
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (/\/node_modules\/html2canvas\/.*/.test(id)) {
-            return 'html2canvas';
-          }
-          if (/\/node_modules\/lodash\/.*/.test(id)) {
-            return 'lodash';
-          }
-          if (/\/node_modules\/mjml-browser\/.*/.test(id)) {
-            return 'mjml-browser';
-          }
+          if (id.includes('node_modules/html2canvas')) return 'html2canvas';
+          if (id.includes('node_modules/lodash')) return 'lodash';
+          if (id.includes('node_modules/mjml-browser')) return 'mjml-browser';
+          if (id.includes('easy-email')) return 'easy-email-editor';
         },
         chunkFileNames(info) {
-          if (
-            ['mjml-browser', 'html2canvas', 'browser-image-compression'].some(name =>
-              info.name?.includes(name),
-            )
-          ) {
+          const legacyChunks = ['mjml-browser', 'html2canvas', 'browser-image-compression'];
+          if (legacyChunks.some(name => info.name?.includes(name))) {
             return '[name].js';
           }
           return '[name]-[hash].js';
@@ -60,27 +55,16 @@ export default defineConfig({
     },
   },
   plugins: [
-    styleImport({
-      libs: [
-        // Dynamic import @arco-design styles
-        {
-          libraryName: '@arco-design/web-react',
-          libraryNameChangeCase: 'pascalCase',
-          esModule: true,
-          resolveStyle: name => `@arco-design/web-react/es/${name}/style/index`,
-        },
-        {
-          libraryName: '@arco-design/web-react/icon',
-          libraryNameChangeCase: 'pascalCase',
-          resolveStyle: name => `@arco-design/web-react/icon/react-icon/${name}`,
-          resolveComponent: name => `@arco-design/web-react/icon/react-icon/${name}`,
-        },
-      ],
-    }),
-    injectHtml({
-      data: {
-        buildTime: `<meta name="updated-time" content="${new Date().toUTCString()}" />`,
+    react(),
+    // Replaced vite-plugin-html with native transform hook
+    {
+      name: 'html-transform',
+      transformIndexHtml(html) {
+        return html.replace(
+          '</head>',
+          `<meta name="updated-time" content="${new Date().toUTCString()}" />\n</head>`,
+        );
       },
-    }),
-  ].filter(Boolean),
+    },
+  ],
 });

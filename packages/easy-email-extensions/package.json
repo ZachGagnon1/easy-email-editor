@@ -57,6 +57,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^7.1.1",
+    "easy-email-editor": "workspace:*",
     "jest": "^27.0.6",
     "jsdom": "^29.0.2",
     "lerna": "^9.0.7",
