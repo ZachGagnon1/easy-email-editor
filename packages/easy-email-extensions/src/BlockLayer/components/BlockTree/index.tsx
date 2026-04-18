@@ -28,9 +28,9 @@ export interface BlockTreeProps<T extends TreeNode<T>> {
   }) =>
     | false
     | {
-        key: string;
-        position: number;
-      };
+    key: string;
+    position: number;
+  };
 
   onDrop: (o: {
     dragNode: { dataRef: T; parent: T; key: string; parentKey: string };
@@ -73,7 +73,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
     (keys: string[]) => {
       setExpandedKeys(keys);
     },
-    [setExpandedKeys]
+    [setExpandedKeys],
   );
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
 
   useEffect(() => {
     setExpandedKeys((keys) =>
-      props.expandedKeys ? [...keys, ...props.expandedKeys] : keys
+      props.expandedKeys ? [...keys, ...props.expandedKeys] : keys,
     );
   }, [props.expandedKeys]);
 
@@ -107,7 +107,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
       };
       propsDragStart?.();
     },
-    [propsDragStart]
+    [propsDragStart],
   );
 
   const onDragMove: AllowDrop = useCallback(
@@ -132,7 +132,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
 
       return false;
     },
-    [allowDrop]
+    [allowDrop],
   );
 
   const onDrop = useCallback(
@@ -159,7 +159,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
       };
       propsDrop(currentDropData);
     },
-    [propsDrop]
+    [propsDrop],
   );
 
   const renderTitle: TreeProps['renderTitle'] = useCallback(
@@ -167,13 +167,13 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
       return (
         <div
           style={{ display: 'inline-flex', width: '100%' }}
-          onContextMenu={(ev) => onContextMenu && onContextMenu(nodeData, ev)}
+          onContextMenu={(ev) => onContextMenu && onContextMenu(nodeData as any, ev)}
         >
-          {propsRenderTitle(nodeData)}
+          {propsRenderTitle(nodeData as any)}
         </div>
       );
     },
-    [onContextMenu, propsRenderTitle]
+    [onContextMenu, propsRenderTitle],
   );
 
   const onDragEnd = useCallback(() => {
@@ -185,7 +185,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
     (selectedKeys) => {
       propsSelect(selectedKeys[0]);
     },
-    [propsSelect]
+    [propsSelect],
   );
 
   useEffect(() => {
@@ -206,7 +206,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
           expandedKeys={expandedKeys}
           onExpand={onExpand}
           draggable
-          size='small'
+          size="small"
           treeData={treeData}
           blockNode
           fieldNames={fileNames}
@@ -231,7 +231,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
       onDragMove,
       onSelect,
       renderTitle,
-    ]
+    ],
   );
 }
 
@@ -239,7 +239,7 @@ const cacheTreeDebounceCallback = debounce(
   (data: TreeProps, setCacheProps: (s: TreeProps) => void) => {
     setCacheProps(data);
   },
-  300
+  300,
 );
 
 function CacheTree(props: TreeProps) {

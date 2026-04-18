@@ -1,11 +1,11 @@
 import {
   getBlockNodeByChildEle,
+  getEditorRoot,
+  getIframeDocument,
   IconFont,
   useEditorContext,
   useEditorProps,
   useRefState,
-  getIframeDocument,
-  getEditorRoot
 } from 'easy-email-editor';
 import { get } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';

@@ -23,7 +23,7 @@ export function Link() {
                 <span>{t('Href')}&nbsp;&nbsp;&nbsp;</span>
                 <Popover
                   triggerProps={{
-                    // @ts-expect-error I am ignoring this type error here since this is expecting an
+                    // @ts-ignore I am ignoring this type error here since this is expecting an
                     // element but the function returns a document. This works fine and isn't an issue.
                     getDocument: getIframeDocument,
                   }}

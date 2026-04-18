@@ -36,13 +36,13 @@ export interface StackProps {
 }
 
 export const Stack = memo(function Stack({
-  children,
-  vertical,
-  spacing,
-  distribution,
-  alignment,
-  wrap,
-}: StackProps) {
+                                           children,
+                                           vertical,
+                                           spacing,
+                                           distribution,
+                                           alignment,
+                                           wrap,
+                                         }: StackProps) {
   const className = classNames(
     styles.Stack,
     vertical && styles.vertical,
@@ -61,7 +61,7 @@ export const Stack = memo(function Stack({
       <>{itemMarkup}</>
     </div>
   );
-}) as NamedExoticComponent<StackProps> & {
+}) as unknown as NamedExoticComponent<StackProps> & {
   Item: typeof Item;
 };
 

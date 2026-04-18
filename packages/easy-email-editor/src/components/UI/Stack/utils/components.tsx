@@ -26,9 +26,9 @@ const isComponent =
   process.env.NODE_ENV === 'development'
     ? hotReloadComponentCheck
     : (
-        AComponent: React.ComponentType<any>,
-        AnotherComponent: React.ComponentType<any>,
-      ) => AComponent === AnotherComponent;
+      AComponent: React.ComponentType<any>,
+      AnotherComponent: React.ComponentType<any>,
+    ) => AComponent === AnotherComponent;
 
 // Checks whether `element` is a React element of type `Component` (or one of
 // the passed components, if `Component` is an array of React components).
@@ -70,23 +70,16 @@ interface ConditionalWrapperProps {
 }
 
 export function ConditionalWrapper({
-  condition,
-  wrapper,
-  children,
-}: ConditionalWrapperProps): JSX.Element {
+                                     condition,
+                                     wrapper,
+                                     children,
+                                   }: ConditionalWrapperProps): JSX.Element {
   return condition ? wrapper(children) : children;
 }
 
 interface ConditionalRenderProps {
   condition: boolean;
   children: any;
-}
-
-export function ConditionalRender({
-  condition,
-  children,
-}: ConditionalRenderProps): JSX.Element {
-  return condition ? children : null;
 }
 
 function hotReloadComponentCheck(

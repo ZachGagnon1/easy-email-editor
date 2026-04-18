@@ -1,30 +1,32 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 import path from 'path';
-import visualizer from 'rollup-plugin-visualizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
   plugins: [
+    // 1. Added the modern React plugin (required for React 19)
+    react(),
     process.env.ANALYZE === 'true' &&
-      visualizer({
-        open: true,
-        gzipSize: true,
-        brotliSize: true,
-      }),
-  ].filter(Boolean) as any,
+    visualizer({
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+    }),
+  ].filter(Boolean),
   resolve: {
     alias: {
-      '@extensions': path.resolve('./src'),
-      'easy-email-core': path.resolve('../easy-email-core/lib'),
-      'easy-email-editor': path.resolve('../easy-email-editor/lib'),
+      // 2. Added __dirname to ensure paths resolve perfectly across OS environments
+      '@extensions': path.resolve(__dirname, './src'),
+      'easy-email-core': path.resolve(__dirname, '../easy-email-core/lib'),
+      'easy-email-editor': path.resolve(__dirname, '../easy-email-editor/lib'),
     },
   },
-  define: {},
   build: {
     emptyOutDir: false,
-    minify: true,
-    manifest: false,
+    minify: true, // Vite 8 uses Rolldown for this, which is blazingly fast
     sourcemap: true,
-    target: 'es2015',
+    target: 'esnext', // 3. Bumped from es2015. Modern browsers and Node 20+ handle esnext natively.
     lib: {
       entry: path.resolve(__dirname, 'src/index.tsx'),
       name: 'easy-email-extension',
@@ -32,28 +34,28 @@ export default defineConfig({
       fileName: () => 'index.js',
     },
     rollupOptions: {
-      plugins: [],
       external: [
         'react',
         'react-dom',
-        'react-dom/server',
+        'react/jsx-runtime', // 4. CRITICAL: Prevents React 19's JSX runtime from being bundled into your library
         'mjml-browser',
-        'react-final-form',
+        'react-final-form', // <-- TODO: Remove this once you finish swapping to React Hook Form
         'easy-email-core',
         'easy-email-editor',
         'uuid',
       ],
-      output: {},
     },
     outDir: 'lib',
   },
-  optimizeDeps: {},
   css: {
     modules: {
       localsConvention: 'dashes',
     },
     preprocessorOptions: {
-      scss: {},
+      scss: {
+        // Mutes the legacy Dart Sass deprecation warnings from Arco Design's old stylesheets
+        silenceDeprecations: ['legacy-js-api', 'import', 'global-builtin'],
+      },
       less: {
         javascriptEnabled: true,
       },

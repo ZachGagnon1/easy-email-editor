@@ -1,34 +1,54 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client", "node"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "types": [
+      "vite/client",
+      "node"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
-    "esModuleInterop": false,
+    /* 1. Fixed Deprecation */
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "alwaysStrict": false,
+    /* 2. Removed alwaysStrict */
+
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": false,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "isolatedModules": true,
     "resolveJsonModule": true,
     "sourceMap": true,
-    "jsx": "react",
-    "baseUrl": ".",
+    /* 3 & 4. Removed baseUrl, added rootDir explicitly */
+    "rootDir": "./src",
     "outDir": "lib",
     "paths": {
-      "@": ["./src"],
-      "@/*": ["./src/*"],
-      "@core": ["../easy-email-core/src"],
-      "@core/*": ["../easy-email-core/src/*"],
-      "easy-email-core": ["../easy-email-core"],
-      "react": ["./node_modules/@types/react"]
+      /* 5. Removed the cross-package aliases that caused the `..` error */
+      "@": [
+        "./src"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+      "react": [
+        "./node_modules/@types/react"
+      ]
     }
   },
-  "include": ["./src"],
-  "exclude": ["node_modules", "src/utils/__tests__"]
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/utils/__tests__"
+  ]
 }

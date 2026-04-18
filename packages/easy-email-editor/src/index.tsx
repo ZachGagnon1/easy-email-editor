@@ -12,7 +12,7 @@ export { DesktopEmailPreview } from './components/EmailEditor/components/Desktop
 export { ToolsPanel } from './components/EmailEditor/components/ToolsPanel';
 
 // export utils
-export * from './utils/index';
+export * from './utils';
 
 // export hooks
 export { useActiveTab } from './hooks/useActiveTab';
