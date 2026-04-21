@@ -1,4 +1,4 @@
-import { Collapse, Input, Message } from "@arco-design/web-react";
+import { Input, Message } from "@arco-design/web-react";
 import {
   BasicType,
   BlockManager,
@@ -9,14 +9,15 @@ import {
 } from "easy-email-core";
 import {
   useBlock,
-  useFocusIdx,
   useEditorContext,
   useEditorProps,
+  useFocusIdx,
 } from "easy-email-editor";
 import { cloneDeep } from "lodash";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { MjmlToJson } from "@extensions/utils/MjmlToJson";
 import styles from "./index.module.scss";
+import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
 
 export function SourceCodePanel({
   jsonReadOnly,
@@ -33,7 +34,9 @@ export function SourceCodePanel({
   const { mergeTags } = useEditorProps();
 
   const code = useMemo(() => {
-    if (!focusBlock) return "";
+    if (!focusBlock) {
+      return "";
+    }
     return JSON.stringify(focusBlock, null, 2) || "";
   }, [focusBlock]);
 
@@ -108,15 +111,13 @@ export function SourceCodePanel({
       );
   }, [focusBlock, focusIdx, pageData, mergeTags]);
 
-  if (!focusBlock) return null;
+  if (!focusBlock) {
+    return null;
+  }
 
   return (
-    <Collapse>
-      <Collapse.Item
-        name="json"
-        header={t("Json source")}
-        contentStyle={{ padding: "8px 13px" }}
-      >
+    <>
+      <CollapsableItem title={t("Json source")}>
         <Input.TextArea
           key={code}
           defaultValue={code}
@@ -125,12 +126,8 @@ export function SourceCodePanel({
           readOnly={jsonReadOnly}
           className={styles.customTextArea}
         />
-      </Collapse.Item>
-      <Collapse.Item
-        name="mjml"
-        header={t("MJML source")}
-        contentStyle={{ padding: "8px 13px" }}
-      >
+      </CollapsableItem>
+      <CollapsableItem title={t("MJML source")}>
         <Input.TextArea
           key={code}
           value={mjmlText}
@@ -140,7 +137,7 @@ export function SourceCodePanel({
           readOnly={mjmlReadOnly}
           className={styles.customTextArea}
         />
-      </Collapse.Item>
-    </Collapse>
+      </CollapsableItem>
+    </>
   );
 }

@@ -3,17 +3,20 @@ import {
   ColorPickerField,
   EditTabField,
   SelectField,
-  TextField,
+  TextField
 } from "@extensions/components/Form";
 import { Align } from "@extensions/AttributePanel/components/attributes/Align";
-import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Collapse, Grid, Space } from "@arco-design/web-react";
+import {
+  AttributesPanelWrapper
+} from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
+import { Grid, Space } from "@arco-design/web-react";
 import { IconLink } from "@arco-design/web-react/icon";
-import { NavbarLinkPadding } from "@extensions/AttributePanel/components/attributes/NavbarLinkPadding";
-import { useFocusIdx, Stack } from "easy-email-editor";
+import {
+  NavbarLinkPadding
+} from "@extensions/AttributePanel/components/attributes/NavbarLinkPadding";
+import { Stack, useFocusIdx } from "easy-email-editor";
 import { INavbar } from "easy-email-core";
 import { ClassName } from "../../attributes/ClassName";
-import { CollapseWrapper } from "../../attributes/CollapseWrapper";
 import {
   FontFamily,
   FontStyle,
@@ -21,52 +24,47 @@ import {
   LetterSpacing,
   LineHeight,
   TextDecoration,
-  TextTransform,
+  TextTransform
 } from "../../attributes";
 import { pixelAdapter } from "../../adapter";
+import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
 
 export function Navbar() {
   const { focusIdx } = useFocusIdx();
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={["0", "1", "2"]}>
-        <Collapse.Item name="0" header={t("Layout")}>
-          <Stack vertical spacing="tight">
-            <Align />
-          </Stack>
-        </Collapse.Item>
+      <CollapsableItem title={t("Layout")}>
+        <Stack vertical spacing="tight">
+          <Align />
+        </Stack>
+      </CollapsableItem>
 
-        <Collapse.Item
-          contentStyle={{ padding: 0 }}
-          name="1"
-          header={t("Navbar links")}
-        >
-          <Space direction="vertical" style={{ width: "100%" }}>
-            <EditTabField
-              tabPosition="top"
-              name={`${focusIdx}.data.value.links`}
-              label={t("Links")}
-              labelHidden
-              renderItem={(item, index) => (
-                <NavbarLink item={item} index={index} />
-              )}
-              additionItem={{
-                src: "https://www.mailjet.com/wp-content/uploads/2016/11/ecommerce-guide.jpg",
-                target: "_blank",
-                content: "New link",
-                color: "#1890ff",
-                "font-size": "13px",
-              }}
-            />
-            <div />
-          </Space>
-        </Collapse.Item>
-        <Collapse.Item name="4" header={t("Extra")}>
-          <Grid.Col span={24}>
-            <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
-      </CollapseWrapper>
+      <CollapsableItem title={t("Navbar links")}>
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <EditTabField
+            tabPosition="top"
+            name={`${focusIdx}.data.value.links`}
+            label={t("Links")}
+            labelHidden
+            renderItem={(item, index) => (
+              <NavbarLink item={item} index={index} />
+            )}
+            additionItem={{
+              src: "https://www.mailjet.com/wp-content/uploads/2016/11/ecommerce-guide.jpg",
+              target: "_blank",
+              content: "New link",
+              color: "#1890ff",
+              "font-size": "13px",
+            }}
+          />
+          <div />
+        </Space>
+      </CollapsableItem>
+      <CollapsableItem title={t("Extra")}>
+        <Grid.Col span={24}>
+          <ClassName />
+        </Grid.Col>
+      </CollapsableItem>
     </AttributesPanelWrapper>
   );
 }

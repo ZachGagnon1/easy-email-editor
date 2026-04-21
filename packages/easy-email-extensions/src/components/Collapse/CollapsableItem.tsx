@@ -1,4 +1,11 @@
-import { Box, Collapse, IconButton, Stack, SxProps, Typography } from "@mui/material";
+import {
+  Box,
+  Collapse,
+  IconButton,
+  Stack,
+  SxProps,
+  Typography,
+} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { PropsWithChildren, useState } from "react";
@@ -15,7 +22,7 @@ export function CollapsableItem(
   const [expanded, setExpanded] = useState(props.defaultExpanded ?? true);
 
   return (
-    <>
+    <Box sx={{ mb: 2 }}>
       <Box
         sx={
           props.headerStyle ?? {
@@ -31,7 +38,9 @@ export function CollapsableItem(
           <Typography variant="body2">{props.title}</Typography>
         </Stack>
       </Box>
-      <Collapse in={expanded}>{props.children}</Collapse>
-    </>
+      <Collapse in={expanded}>
+        <Box sx={{ ml: 1 }}>{props.children}</Box>
+      </Collapse>
+    </Box>
   );
 }

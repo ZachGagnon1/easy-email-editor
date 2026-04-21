@@ -4,7 +4,6 @@ export { Height } from "./Height";
 export { TextAlign } from "./TextAlign";
 export { AttributesPanelWrapper } from "./AttributesPanelWrapper";
 export { CollapseWrapper } from "./CollapseWrapper";
-export { Condition } from "./Condition";
 export { ContainerBackgroundColor } from "./ContainerBackgroundColor";
 export { LetterSpacing } from "./LetterSpacing";
 export { TextDecoration } from "./TextDecoration";

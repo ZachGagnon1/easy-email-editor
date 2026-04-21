@@ -3,11 +3,11 @@ import { Padding } from "@extensions/AttributePanel/components/attributes/Paddin
 import { Background } from "@extensions/AttributePanel/components/attributes/Background";
 import { Border } from "@extensions/AttributePanel/components/attributes/Border";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Collapse, Grid, Space, Switch } from "@arco-design/web-react";
+import { Grid, Space, Switch } from "@arco-design/web-react";
 import { Stack, useBlock, useFocusIdx } from "easy-email-editor";
 import { BasicType, BlockManager } from "easy-email-core";
-import { ClassName } from "../../attributes/ClassName";
-import { CollapseWrapper } from "../../attributes/CollapseWrapper";
+import { ClassName } from "@extensions";
+import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
 import { TextField } from "@extensions/components/Form";
 
 export function Section() {
@@ -17,13 +17,17 @@ export function Section() {
 
   const onChange = useCallback(
     (checked) => {
-      if (!focusBlock) return;
+      if (!focusBlock) {
+        return;
+      }
       focusBlock.data.value.noWrap = checked;
       if (checked) {
         const children = [...focusBlock.children];
         for (let i = 0; i < children.length; i++) {
           const child = children[i];
-          if (!child) continue;
+          if (!child) {
+            continue;
+          }
           if (child.type === BasicType.GROUP) {
             children.splice(i, 1, ...child.children);
           }
@@ -48,50 +52,48 @@ export function Section() {
 
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={["0", "1", "2"]}>
-        <Collapse.Item name="0" header={t("Dimension")}>
-          <Space direction="vertical">
-            <Grid.Row>
-              <Grid.Col span={12}>
-                <label style={{ width: "100%", display: "flex" }}>
-                  <div style={{ flex: 1 }}>{t("Group")}</div>
-                </label>
-                <Switch
-                  checked={noWrap}
-                  checkedText={t("True")}
-                  uncheckedText={t("False")}
-                  onChange={onChange}
-                />
-              </Grid.Col>
-              <Grid.Col span={12} />
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Col span={12}>
-                <label style={{ width: "100%", display: "flex" }}>
-                  <div style={{ flex: 1 }}>{t("Full Width")}</div>
-                </label>
-                <TextField name={`${focusIdx}.attributes.full-width`} />
-              </Grid.Col>
-              <Grid.Col span={12} />
-            </Grid.Row>
+      <CollapsableItem title={t("Dimension")}>
+        <Space direction="vertical">
+          <Grid.Row>
+            <Grid.Col span={12}>
+              <label style={{ width: "100%", display: "flex" }}>
+                <div style={{ flex: 1 }}>{t("Group")}</div>
+              </label>
+              <Switch
+                checked={noWrap}
+                checkedText={t("True")}
+                uncheckedText={t("False")}
+                onChange={onChange}
+              />
+            </Grid.Col>
+            <Grid.Col span={12} />
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Col span={12}>
+              <label style={{ width: "100%", display: "flex" }}>
+                <div style={{ flex: 1 }}>{t("Full Width")}</div>
+              </label>
+              <TextField name={`${focusIdx}.attributes.full-width`} />
+            </Grid.Col>
+            <Grid.Col span={12} />
+          </Grid.Row>
 
-            <Padding />
-          </Space>
-        </Collapse.Item>
-        <Collapse.Item name="1" header={t("Background")}>
-          <Stack vertical spacing="tight">
-            <Background />
-          </Stack>
-        </Collapse.Item>
-        <Collapse.Item name="2" header={t("Border")}>
-          <Border />
-        </Collapse.Item>
-        <Collapse.Item name="4" header={t("Extra")}>
-          <Grid.Col span={24}>
-            <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
-      </CollapseWrapper>
+          <Padding />
+        </Space>
+      </CollapsableItem>
+      <CollapsableItem title={t("Background")}>
+        <Stack vertical spacing="tight">
+          <Background />
+        </Stack>
+      </CollapsableItem>
+      <CollapsableItem title={t("Border")}>
+        <Border />
+      </CollapsableItem>
+      <CollapsableItem title={t("Extra")} defaultExpanded={false}>
+        <Grid.Col span={24}>
+          <ClassName />
+        </Grid.Col>
+      </CollapsableItem>
     </AttributesPanelWrapper>
   );
 }

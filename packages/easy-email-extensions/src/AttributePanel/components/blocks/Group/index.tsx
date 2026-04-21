@@ -2,39 +2,37 @@ import React from "react";
 import { Width } from "@extensions/AttributePanel/components/attributes/Width";
 import { BackgroundColor } from "@extensions/AttributePanel/components/attributes/BackgroundColor";
 import { VerticalAlign } from "@extensions/AttributePanel/components/attributes/VerticalAlign";
-import { Collapse, Grid } from "@arco-design/web-react";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { ClassName } from "../../attributes/ClassName";
-import { CollapseWrapper } from "../../attributes/CollapseWrapper";
+import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Grid } from "@arco-design/web-react";
 
 export function Group() {
   return (
     <AttributesPanelWrapper>
-      <CollapseWrapper defaultActiveKey={["0", "1", "2"]}>
-        <Collapse.Item name="0" header={t("Dimension")}>
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <Width />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <VerticalAlign />
-            </Grid.Col>
-          </Grid.Row>
-        </Collapse.Item>
-        <Collapse.Item name="1" header={t("Background")}>
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <BackgroundColor />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11} />
-          </Grid.Row>
-        </Collapse.Item>
-        <Collapse.Item name="4" header={t("Extra")}>
-          <Grid.Col span={24}>
-            <ClassName />
+      <CollapsableItem title={t("Dimension")}>
+        <Grid.Row>
+          <Grid.Col span={11}>
+            <Width />
           </Grid.Col>
-        </Collapse.Item>
-      </CollapseWrapper>
+          <Grid.Col offset={1} span={11}>
+            <VerticalAlign />
+          </Grid.Col>
+        </Grid.Row>
+      </CollapsableItem>
+      <CollapsableItem title={t("Background")}>
+        <Grid.Row>
+          <Grid.Col span={11}>
+            <BackgroundColor />
+          </Grid.Col>
+          <Grid.Col offset={1} span={11} />
+        </Grid.Row>
+      </CollapsableItem>
+      <CollapsableItem title={t("Extra")} defaultExpanded={false}>
+        <Grid.Col span={24}>
+          <ClassName />
+        </Grid.Col>
+      </CollapsableItem>
     </AttributesPanelWrapper>
   );
 }

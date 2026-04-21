@@ -13,11 +13,11 @@ import { LineHeight } from "@extensions/AttributePanel/components/attributes/Lin
 import { LetterSpacing } from "@extensions/AttributePanel/components/attributes/LetterSpacing";
 
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Collapse, Grid, Space, Tooltip, Button } from "@arco-design/web-react";
+import { Button, Grid, Space, Tooltip } from "@arco-design/web-react";
 import { IconFont } from "easy-email-editor";
 import { HtmlEditor } from "../../UI/HtmlEditor";
-import { ClassName } from "../../attributes/ClassName";
-import { CollapseWrapper } from "../../attributes/CollapseWrapper";
+import { ClassName } from "@extensions";
+import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
 
 export function Text() {
   const [visible, setVisible] = useState(false);
@@ -33,68 +33,66 @@ export function Text() {
         </Tooltip>
       }
     >
-      <CollapseWrapper defaultActiveKey={["0", "1", "2"]}>
-        <Collapse.Item name="0" header={t("Dimension")}>
-          <Space direction="vertical">
-            <Height />
-            <Padding showResetAll />
-          </Space>
-        </Collapse.Item>
-        <Collapse.Item name="1" header={t("Color")}>
+      <CollapsableItem title={t("Dimension")}>
+        <Space direction="vertical">
+          <Height />
+          <Padding showResetAll />
+        </Space>
+      </CollapsableItem>
+      <CollapsableItem title={t("Color")}>
+        <Grid.Row>
+          <Grid.Col span={11}>
+            <Color />
+          </Grid.Col>
+          <Grid.Col offset={1} span={11}>
+            <ContainerBackgroundColor title={t("Background color")} />
+          </Grid.Col>
+        </Grid.Row>
+      </CollapsableItem>
+      <CollapsableItem title={t("Typography")}>
+        <Space direction="vertical">
           <Grid.Row>
             <Grid.Col span={11}>
-              <Color />
+              <FontFamily />
             </Grid.Col>
             <Grid.Col offset={1} span={11}>
-              <ContainerBackgroundColor title={t("Background color")} />
+              <FontSize />
             </Grid.Col>
           </Grid.Row>
-        </Collapse.Item>
-        <Collapse.Item name="2" header={t("Typography")}>
-          <Space direction="vertical">
-            <Grid.Row>
-              <Grid.Col span={11}>
-                <FontFamily />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
-                <FontSize />
-              </Grid.Col>
-            </Grid.Row>
 
-            <Grid.Row>
-              <Grid.Col span={11}>
-                <LineHeight />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
-                <LetterSpacing />
-              </Grid.Col>
-            </Grid.Row>
+          <Grid.Row>
+            <Grid.Col span={11}>
+              <LineHeight />
+            </Grid.Col>
+            <Grid.Col offset={1} span={11}>
+              <LetterSpacing />
+            </Grid.Col>
+          </Grid.Row>
 
-            <Grid.Row>
-              <Grid.Col span={11}>
-                <TextDecoration />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
-                <FontWeight />
-              </Grid.Col>
-            </Grid.Row>
+          <Grid.Row>
+            <Grid.Col span={11}>
+              <TextDecoration />
+            </Grid.Col>
+            <Grid.Col offset={1} span={11}>
+              <FontWeight />
+            </Grid.Col>
+          </Grid.Row>
 
-            <Align />
+          <Align />
 
-            <FontStyle />
+          <FontStyle />
 
-            <Grid.Row>
-              <Grid.Col span={11} />
-              <Grid.Col offset={1} span={11} />
-            </Grid.Row>
-          </Space>
-        </Collapse.Item>
-        <Collapse.Item name="4" header={t("Extra")}>
-          <Grid.Col span={24}>
-            <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
-      </CollapseWrapper>
+          <Grid.Row>
+            <Grid.Col span={11} />
+            <Grid.Col offset={1} span={11} />
+          </Grid.Row>
+        </Space>
+      </CollapsableItem>
+      <CollapsableItem title={t("Extra")} defaultExpanded={false}>
+        <Grid.Col span={24}>
+          <ClassName />
+        </Grid.Col>
+      </CollapsableItem>
       <HtmlEditor visible={visible} setVisible={setVisible} />
     </AttributesPanelWrapper>
   );

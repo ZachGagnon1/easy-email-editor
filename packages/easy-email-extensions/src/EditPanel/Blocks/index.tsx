@@ -16,7 +16,7 @@ export function Blocks() {
       {categories.map((cat, index) => {
         if (cat.displayType === "column") {
           return (
-            <CollapsableItem key={index} title={cat.label}>
+            <CollapsableItem key={cat.displayType + index} title={cat.label}>
               <>
                 {cat.blocks.map((item) => (
                   <LayoutItem
@@ -33,7 +33,7 @@ export function Blocks() {
 
         if (cat.displayType === "custom") {
           return (
-            <CollapsableItem key={index} title={cat.label}>
+            <CollapsableItem key={cat.displayType + index} title={cat.label}>
               <Grid container spacing={2}>
                 {cat.blocks.map((item, index) => {
                   return <React.Fragment key={index}>{item}</React.Fragment>;
@@ -43,11 +43,14 @@ export function Blocks() {
           );
         }
         return (
-          <CollapsableItem key={index} title={cat.label}>
+          <CollapsableItem
+            key={cat.displayType ?? "" + index}
+            title={cat.label}
+          >
             <Grid container sx={{ ml: 1 }}>
               {cat.blocks.map((item, index) => {
                 return (
-                  <Grid key={item} size={4}>
+                  <Grid key={index} size={4}>
                     <BlockItem key={index} {...item} />
                   </Grid>
                 );

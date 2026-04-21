@@ -17,13 +17,13 @@ import { FontStyle } from "@extensions/AttributePanel/components/attributes/Font
 import { FontWeight } from "@extensions/AttributePanel/components/attributes/FontWeight";
 
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Collapse, Grid, Space } from "@arco-design/web-react";
+import { Grid, Space } from "@arco-design/web-react";
 import { TextDecoration } from "@extensions/AttributePanel/components/attributes/TextDecoration";
 import { LineHeight } from "@extensions/AttributePanel/components/attributes/LineHeight";
 import { useBlock, useEditorProps, useFocusIdx } from "easy-email-editor";
 import { ISocial } from "easy-email-core";
-import { ClassName } from "../../attributes/ClassName";
-import { CollapseWrapper } from "../../attributes/CollapseWrapper";
+import { ClassName } from "@extensions";
+import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
 
 const options = [
   {
@@ -44,104 +44,100 @@ export function Social() {
   const { focusIdx } = useFocusIdx();
   const { focusBlock } = useBlock();
   const value = focusBlock?.data.value as ISocial["data"]["value"];
-  if (!value) return null;
+  if (!value) {
+    return null;
+  }
 
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={["0", "1", "2", "3"]}>
-        <Collapse.Item name="1" header={t("Setting")}>
-          <Space direction="vertical">
-            <RadioGroupField
-              label={t("Mode")}
-              name={`${focusIdx}.attributes.mode`}
-              options={options}
-            />
-
-            <Align />
-          </Space>
-        </Collapse.Item>
-
-        <Collapse.Item name="3" header={t("Typography")}>
-          <Space direction="vertical">
-            <Grid.Row>
-              <Grid.Col span={11}>
-                <FontFamily />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
-                <FontSize />
-              </Grid.Col>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Col span={11}>
-                <FontWeight />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
-                <LineHeight />
-              </Grid.Col>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Col span={11}>
-                <Color />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
-                <ContainerBackgroundColor title={t("Background color")} />
-              </Grid.Col>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Col span={11}>
-                <TextDecoration />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
-                <FontStyle />
-              </Grid.Col>
-            </Grid.Row>
-          </Space>
-        </Collapse.Item>
-
-        <Collapse.Item
-          name="2"
-          header={t("Social item")}
-          contentStyle={{ padding: 10 }}
-        >
-          <EditGridTabField
-            tabPosition="top"
-            name={`${focusIdx}.data.value.elements`}
-            label=""
-            labelHidden
-            renderItem={(item, index) => (
-              <SocialElement item={item} index={index} />
-            )}
+      <CollapsableItem title={t("Setting")}>
+        <Space direction="vertical">
+          <RadioGroupField
+            label={t("Mode")}
+            name={`${focusIdx}.attributes.mode`}
+            options={options}
           />
-        </Collapse.Item>
 
-        <Collapse.Item name="0" header={t("Dimension")}>
-          <Space direction="vertical" size="large">
-            <Grid.Row>
-              <Grid.Col span={11}>
-                <InputWithUnitField
-                  label={t("Icon width")}
-                  name={`${focusIdx}.attributes.icon-size`}
-                />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
-                <TextField
-                  label={t("Border radius")}
-                  name={`${focusIdx}.attributes.border-radius`}
-                />
-              </Grid.Col>
-            </Grid.Row>
+          <Align />
+        </Space>
+      </CollapsableItem>
 
-            <Padding />
-            <Padding attributeName="inner-padding" title={t("Icon padding")} />
-            <Padding attributeName="text-padding" title={t("Text padding")} />
-          </Space>
-        </Collapse.Item>
-        <Collapse.Item name="4" header={t("Extra")}>
-          <Grid.Col span={24}>
-            <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
-      </CollapseWrapper>
+      <CollapsableItem title={t("Typography")}>
+        <Space direction="vertical">
+          <Grid.Row>
+            <Grid.Col span={11}>
+              <FontFamily />
+            </Grid.Col>
+            <Grid.Col offset={1} span={11}>
+              <FontSize />
+            </Grid.Col>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Col span={11}>
+              <FontWeight />
+            </Grid.Col>
+            <Grid.Col offset={1} span={11}>
+              <LineHeight />
+            </Grid.Col>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Col span={11}>
+              <Color />
+            </Grid.Col>
+            <Grid.Col offset={1} span={11}>
+              <ContainerBackgroundColor title={t("Background color")} />
+            </Grid.Col>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Col span={11}>
+              <TextDecoration />
+            </Grid.Col>
+            <Grid.Col offset={1} span={11}>
+              <FontStyle />
+            </Grid.Col>
+          </Grid.Row>
+        </Space>
+      </CollapsableItem>
+
+      <CollapsableItem title={t("Social item")} defaultExpanded={false}>
+        <EditGridTabField
+          tabPosition="top"
+          name={`${focusIdx}.data.value.elements`}
+          label=""
+          labelHidden
+          renderItem={(item, index) => (
+            <SocialElement item={item} index={index} />
+          )}
+        />
+      </CollapsableItem>
+
+      <CollapsableItem title={t("Dimension")}>
+        <Space direction="vertical" size="large">
+          <Grid.Row>
+            <Grid.Col span={11}>
+              <InputWithUnitField
+                label={t("Icon width")}
+                name={`${focusIdx}.attributes.icon-size`}
+              />
+            </Grid.Col>
+            <Grid.Col offset={1} span={11}>
+              <TextField
+                label={t("Border radius")}
+                name={`${focusIdx}.attributes.border-radius`}
+              />
+            </Grid.Col>
+          </Grid.Row>
+
+          <Padding />
+          <Padding attributeName="inner-padding" title={t("Icon padding")} />
+          <Padding attributeName="text-padding" title={t("Text padding")} />
+        </Space>
+      </CollapsableItem>
+      <CollapsableItem title={t("Extra")}>
+        <Grid.Col span={24}>
+          <ClassName />
+        </Grid.Col>
+      </CollapsableItem>
     </AttributesPanelWrapper>
   );
 }
@@ -156,7 +152,10 @@ function SocialElement({
   const { onUploadImage, socialIcons } = useEditorProps();
 
   const autoCompleteOptions = useMemo(() => {
-    if (!socialIcons) return undefined;
+    if (!socialIcons) {
+      return undefined;
+    }
+
     return socialIcons.map((icon) => {
       return {
         label: icon.content,
@@ -172,7 +171,6 @@ function SocialElement({
         autoCompleteOptions={autoCompleteOptions}
         labelHidden
         name={`${focusIdx}.data.value.elements.[${index}].src`}
-        //helpText={t('The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.')}
         uploadHandler={onUploadImage}
       />
 
@@ -192,20 +190,6 @@ function SocialElement({
           />
         </Grid.Col>
       </Grid.Row>
-      {/* <Grid.Row>
-        <Grid.Col span={11}>
-          <InputWithUnitField
-            label={t('Icon width')}
-            name={`${focusIdx}.data.value.elements.[${index}].icon-size`}
-          />
-        </Grid.Col>
-        <Grid.Col offset={1} span={11}>
-          <InputWithUnitField
-            label={t('Icon height')}
-            name={`${focusIdx}.data.value.elements.[${index}].icon-height`}
-          />
-        </Grid.Col>
-      </Grid.Row> */}
     </Space>
   );
 }
