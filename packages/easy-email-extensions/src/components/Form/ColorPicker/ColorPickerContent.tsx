@@ -1,4 +1,4 @@
-import { Button, Space } from "@arco-design/web-react";
+import { Button } from "@arco-design/web-react";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 
 import styles from "../index.module.scss";
@@ -44,30 +44,27 @@ export function ColorPickerContent(props: ColorPickerContentProps) {
       style={{ width: 202, paddingTop: 12, paddingBottom: 12 }}
     >
       <div style={{ padding: "0px 16px" }}>
-        <Space wrap size="mini">
-          {presetColorList.map((item) => {
-            return (
-              <div
-                title={item}
-                onClick={() => onChange(item)}
-                key={item}
-                style={{
-                  border:
-                    "1px solid var(--color-neutral-3, rgb(229, 230, 235))",
-                  display: "inline-block",
-                  height: 20,
-                  width: 20,
-                  boxSizing: "border-box",
-                  padding: 4,
-                  borderRadius: 3,
-                  backgroundColor: item,
-                  position: "relative",
-                  cursor: "pointer",
-                }}
-              />
-            );
-          })}
-        </Space>
+        {presetColorList.map((item) => {
+          return (
+            <div
+              title={item}
+              onClick={() => onChange(item)}
+              key={item}
+              style={{
+                border: "1px solid var(--color-neutral-3, rgb(229, 230, 235))",
+                display: "inline-block",
+                height: 20,
+                width: 20,
+                boxSizing: "border-box",
+                padding: 4,
+                borderRadius: 3,
+                backgroundColor: item,
+                position: "relative",
+                cursor: "pointer",
+              }}
+            />
+          );
+        })}
       </div>
       <div
         style={{

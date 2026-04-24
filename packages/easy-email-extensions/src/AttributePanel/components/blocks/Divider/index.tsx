@@ -8,30 +8,24 @@ import { Width } from "@extensions/AttributePanel/components/attributes/Width";
 import { Align } from "@extensions/AttributePanel/components/attributes/Align";
 
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Grid, Space } from "@arco-design/web-react";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
-import { Stack } from "easy-email-editor";
+import { Stack } from "@mui/material";
 
 export function Divider() {
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Dimension")}>
-        <Space direction="vertical">
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <Width unitOptions="percent" />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11} />
-          </Grid.Row>
+        <Stack spacing={2}>
+          <Width unitOptions="percent" />
 
           <Align />
           <Padding />
-        </Space>
+        </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Border")}>
-        <Stack wrap={false} spacing="tight">
+        <Stack spacing={2}>
           <div style={{ width: 50 }}>
             <BorderWidth />
           </div>
@@ -45,18 +39,11 @@ export function Divider() {
       </CollapsableItem>
 
       <CollapsableItem title={t("Background")}>
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <ContainerBackgroundColor title={t("Background")} />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11} />
-        </Grid.Row>
+        <ContainerBackgroundColor title={t("Background")} />
       </CollapsableItem>
 
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

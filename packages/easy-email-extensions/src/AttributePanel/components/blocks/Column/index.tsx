@@ -1,28 +1,22 @@
 import React from "react";
-
-import { Grid } from "@arco-design/web-react";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { Padding } from "@extensions/AttributePanel/components/attributes/Padding";
 import { Width } from "@extensions/AttributePanel/components/attributes/Width";
 import { VerticalAlign } from "@extensions/AttributePanel/components/attributes/VerticalAlign";
 import { Border } from "@extensions/AttributePanel/components/attributes/Border";
-import { ClassName, BackgroundColor } from "@extensions";
+import { BackgroundColor, ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 export function Column() {
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Dimension")}>
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <Width />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <VerticalAlign />
-          </Grid.Col>
-        </Grid.Row>
-
-        <Padding />
+        <Stack spacing={2}>
+          <Width />
+          <VerticalAlign />
+          <Padding />
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Background")}>
         <BackgroundColor />
@@ -31,9 +25,7 @@ export function Column() {
         <Border />
       </CollapsableItem>
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

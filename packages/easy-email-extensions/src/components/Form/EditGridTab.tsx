@@ -1,7 +1,8 @@
-import { Card, Space, TabsProps, Typography } from "@arco-design/web-react";
+import { Card, TabsProps, Typography } from "@arco-design/web-react";
 import { IconClose, IconPlus } from "@arco-design/web-react/icon";
 import { cloneDeep } from "lodash";
 import React from "react";
+import { Stack } from "@mui/material";
 
 export interface EditGridTabProps<T extends any = any>
   extends Omit<TabsProps, "onChange"> {
@@ -15,7 +16,7 @@ export function EditGridTab<T extends any = any>(props: EditGridTabProps<T>) {
   const { value, additionItem } = props;
 
   const onAdd = (index: number) => {
-    let newItem = additionItem || cloneDeep(value[index]);
+    const newItem = additionItem || cloneDeep(value[index]);
     value.splice(index + 1, 0, newItem);
     props.onChange([...value]);
   };
@@ -29,14 +30,12 @@ export function EditGridTab<T extends any = any>(props: EditGridTabProps<T>) {
         <Card.Grid style={{ width: "100%" }} key={index}>
           <Card
             title={
-              <Space>
-                <Typography.Text>
-                  {t("Item")} {index + 1}
-                </Typography.Text>
-              </Space>
+              <Typography.Text>
+                {t("Item")} {index + 1}
+              </Typography.Text>
             }
             extra={
-              <Space size="large">
+              <Stack spacing={2}>
                 <IconPlus
                   style={{ color: "#000", cursor: "pointer" }}
                   onClick={() => onAdd(index)}
@@ -45,7 +44,7 @@ export function EditGridTab<T extends any = any>(props: EditGridTabProps<T>) {
                   style={{ color: "#000", cursor: "pointer" }}
                   onClick={() => onDelete(index)}
                 />
-              </Space>
+              </Stack>
             }
           >
             {props.renderItem(item, index)}

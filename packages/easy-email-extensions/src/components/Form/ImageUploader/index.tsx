@@ -1,20 +1,19 @@
-import React, { useState, useCallback, useRef, useMemo } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
+  Button as ArcoButton,
   Dropdown,
-  Grid,
   Input,
   Menu,
   Message,
   Modal,
   Popover,
   Spin,
-  Button as ArcoButton,
 } from "@arco-design/web-react";
 import {
-  IconPlus,
-  IconEye,
-  IconDelete,
   IconAt,
+  IconDelete,
+  IconEye,
+  IconPlus,
 } from "@arco-design/web-react/icon";
 import styles from "./index.module.scss";
 import {
@@ -25,6 +24,7 @@ import { classnames } from "@extensions/AttributePanel/utils/classnames";
 import { previewLoadImage } from "@extensions/AttributePanel/utils/previewLoadImage";
 import { MergeTags } from "@extensions";
 import { IconFont, useEditorProps } from "easy-email-editor";
+import { Stack } from "@mui/material";
 
 export interface ImageUploaderProps {
   onChange: (val: string) => void;
@@ -48,7 +48,9 @@ export function ImageUploader(props: ImageUploaderProps) {
     if (isUploading) {
       return Message.warning(t("Uploading..."));
     }
-    if (!uploadHandlerRef.current) return;
+    if (!uploadHandlerRef.current) {
+      return;
+    }
 
     const uploader = new Uploader(uploadHandlerRef.current, {
       limit: 1,
@@ -72,11 +74,13 @@ export function ImageUploader(props: ImageUploaderProps) {
 
   const onPaste = useCallback(
     async (e: React.ClipboardEvent<HTMLInputElement>) => {
-      if (!uploadHandlerRef.current) return;
+      if (!uploadHandlerRef.current) {
+        return;
+      }
       const clipboardData = e.clipboardData;
 
-      for (let i = 0; i < clipboardData.items.length; i++) {
-        const item = clipboardData.items[i];
+      for (const element of clipboardData.items) {
+        const item = element;
         if (item.kind == "file") {
           const blob = item.getAsFile();
 
@@ -149,7 +153,7 @@ export function ImageUploader(props: ImageUploaderProps) {
     <div className={styles.wrap}>
       <div className={styles["container"]}>
         {content}
-        <Grid.Row style={{ width: "100%" }}>
+        <Stack direction="row" style={{ width: "100%" }}>
           {mergeTags && (
             <Popover
               trigger="click"
@@ -171,7 +175,9 @@ export function ImageUploader(props: ImageUploaderProps) {
               droplist={
                 <Menu
                   onClickMenuItem={(indexStr) => {
-                    if (!props.autoCompleteOptions) return;
+                    if (!props.autoCompleteOptions) {
+                      return;
+                    }
                     onChange(props.autoCompleteOptions[+indexStr]?.value);
                   }}
                 >
@@ -195,7 +201,7 @@ export function ImageUploader(props: ImageUploaderProps) {
               <ArcoButton icon={<IconAt />} />
             </Dropdown>
           )}
-        </Grid.Row>
+        </Stack>
       </div>
       <Modal visible={preview} footer={null} onCancel={() => setPreview(false)}>
         <img alt={t("Preview")} style={{ width: "100%" }} src={props.value} />

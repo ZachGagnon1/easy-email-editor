@@ -3,12 +3,13 @@ import { Padding } from "@extensions/AttributePanel/components/attributes/Paddin
 import { Background } from "@extensions/AttributePanel/components/attributes/Background";
 import { Border } from "@extensions/AttributePanel/components/attributes/Border";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Grid, Space, Switch } from "@arco-design/web-react";
-import { Stack, useBlock, useFocusIdx } from "easy-email-editor";
+import { Switch } from "@arco-design/web-react";
+import { useBlock, useFocusIdx } from "easy-email-editor";
 import { BasicType, BlockManager } from "easy-email-core";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
 import { TextField } from "@extensions/components/Form";
+import { Stack } from "@mui/material";
 
 export function Section() {
   const { focusBlock, setFocusBlock } = useBlock();
@@ -53,46 +54,32 @@ export function Section() {
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapsableItem title={t("Dimension")}>
-        <Space direction="vertical">
-          <Grid.Row>
-            <Grid.Col span={12}>
-              <label style={{ width: "100%", display: "flex" }}>
-                <div style={{ flex: 1 }}>{t("Group")}</div>
-              </label>
-              <Switch
-                checked={noWrap}
-                checkedText={t("True")}
-                uncheckedText={t("False")}
-                onChange={onChange}
-              />
-            </Grid.Col>
-            <Grid.Col span={12} />
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Col span={12}>
-              <label style={{ width: "100%", display: "flex" }}>
-                <div style={{ flex: 1 }}>{t("Full Width")}</div>
-              </label>
-              <TextField name={`${focusIdx}.attributes.full-width`} />
-            </Grid.Col>
-            <Grid.Col span={12} />
-          </Grid.Row>
+        <Stack spacing={2}>
+          <label style={{ width: "100%", display: "flex" }}>
+            <div style={{ flex: 1 }}>{t("Group")}</div>
+          </label>
+          <Switch
+            checked={noWrap}
+            checkedText={t("True")}
+            uncheckedText={t("False")}
+            onChange={onChange}
+          />
+          <label style={{ width: "100%", display: "flex" }}>
+            <div style={{ flex: 1 }}>{t("Full Width")}</div>
+          </label>
+          <TextField name={`${focusIdx}.attributes.full-width`} />
 
           <Padding />
-        </Space>
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Background")}>
-        <Stack vertical spacing="tight">
-          <Background />
-        </Stack>
+        <Background />
       </CollapsableItem>
       <CollapsableItem title={t("Border")}>
         <Border />
       </CollapsableItem>
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

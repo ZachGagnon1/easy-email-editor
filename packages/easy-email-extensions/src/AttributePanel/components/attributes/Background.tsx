@@ -4,9 +4,9 @@ import {
   SelectField,
   TextField,
 } from "../../../components/Form";
-import { useFocusIdx, useEditorProps } from "easy-email-editor";
+import { useEditorProps, useFocusIdx } from "easy-email-editor";
 import { BackgroundColor } from "./BackgroundColor";
-import { Grid, Space } from "@arco-design/web-react";
+import { Stack } from "@mui/material";
 
 const backgroundRepeatOptions = [
   {
@@ -40,7 +40,7 @@ export function Background() {
   const { onUploadImage } = useEditorProps();
   return useMemo(() => {
     return (
-      <Space key={focusIdx} direction="vertical">
+      <Stack spacing={2}>
         <ImageUploaderField
           label={t("Background image")}
           name={`${focusIdx}.attributes.background-url`}
@@ -50,23 +50,20 @@ export function Background() {
           uploadHandler={onUploadImage}
         />
 
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <BackgroundColor />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <SelectField
-              label={t("Background repeat")}
-              name={`${focusIdx}.attributes.background-repeat`}
-              options={backgroundRepeatOptions}
-            />
-          </Grid.Col>
-        </Grid.Row>
+        <Stack spacing={1} direction="row">
+          <BackgroundColor />
+
+          <SelectField
+            label={t("Background repeat")}
+            name={`${focusIdx}.attributes.background-repeat`}
+            options={backgroundRepeatOptions}
+          />
+        </Stack>
         <TextField
           label={t("Background size")}
           name={`${focusIdx}.attributes.background-size`}
         />
-      </Space>
+      </Stack>
     );
   }, [focusIdx, onUploadImage]);
 }

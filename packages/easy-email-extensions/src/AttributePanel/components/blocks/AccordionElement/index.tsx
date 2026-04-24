@@ -1,22 +1,22 @@
 import React from "react";
 import {
-  Border,
-  BackgroundColor,
-  FontFamily,
   AttributesPanelWrapper,
+  BackgroundColor,
+  Border,
+  FontFamily,
 } from "@extensions";
-import { Space } from "@arco-design/web-react";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 export function AccordionElement() {
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Setting")}>
-        <Space direction="vertical">
+        <Stack spacing={2}>
           <Border />
           <BackgroundColor />
           <FontFamily />
-        </Space>
+        </Stack>
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

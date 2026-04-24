@@ -17,13 +17,13 @@ import { FontStyle } from "@extensions/AttributePanel/components/attributes/Font
 import { FontWeight } from "@extensions/AttributePanel/components/attributes/FontWeight";
 
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Grid, Space } from "@arco-design/web-react";
 import { TextDecoration } from "@extensions/AttributePanel/components/attributes/TextDecoration";
 import { LineHeight } from "@extensions/AttributePanel/components/attributes/LineHeight";
 import { useBlock, useEditorProps, useFocusIdx } from "easy-email-editor";
 import { ISocial } from "easy-email-core";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 const options = [
   {
@@ -51,52 +51,26 @@ export function Social() {
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapsableItem title={t("Setting")}>
-        <Space direction="vertical">
-          <RadioGroupField
-            label={t("Mode")}
-            name={`${focusIdx}.attributes.mode`}
-            options={options}
-          />
+        <RadioGroupField
+          label={t("Mode")}
+          name={`${focusIdx}.attributes.mode`}
+          options={options}
+        />
 
-          <Align />
-        </Space>
+        <Align />
       </CollapsableItem>
 
       <CollapsableItem title={t("Typography")}>
-        <Space direction="vertical">
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <FontFamily />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <FontSize />
-            </Grid.Col>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <FontWeight />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <LineHeight />
-            </Grid.Col>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <Color />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <ContainerBackgroundColor title={t("Background color")} />
-            </Grid.Col>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <TextDecoration />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <FontStyle />
-            </Grid.Col>
-          </Grid.Row>
-        </Space>
+        <Stack spacing={2}>
+          <FontFamily />
+          <FontSize />
+          <FontWeight />
+          <LineHeight />
+          <Color />
+          <ContainerBackgroundColor title={t("Background color")} />
+          <TextDecoration />
+          <FontStyle />
+        </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Social item")} defaultExpanded={false}>
@@ -112,31 +86,23 @@ export function Social() {
       </CollapsableItem>
 
       <CollapsableItem title={t("Dimension")}>
-        <Space direction="vertical" size="large">
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <InputWithUnitField
-                label={t("Icon width")}
-                name={`${focusIdx}.attributes.icon-size`}
-              />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <TextField
-                label={t("Border radius")}
-                name={`${focusIdx}.attributes.border-radius`}
-              />
-            </Grid.Col>
-          </Grid.Row>
+        <Stack spacing={2}>
+          <InputWithUnitField
+            label={t("Icon width")}
+            name={`${focusIdx}.attributes.icon-size`}
+          />
+          <TextField
+            label={t("Border radius")}
+            name={`${focusIdx}.attributes.border-radius`}
+          />
 
           <Padding />
           <Padding attributeName="inner-padding" title={t("Icon padding")} />
           <Padding attributeName="text-padding" title={t("Text padding")} />
-        </Space>
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Extra")}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );
@@ -165,7 +131,7 @@ function SocialElement({
   }, [socialIcons]);
 
   return (
-    <Space direction="vertical">
+    <Stack spacing={2}>
       <ImageUploaderField
         label={t("Image")}
         autoCompleteOptions={autoCompleteOptions}
@@ -173,23 +139,17 @@ function SocialElement({
         name={`${focusIdx}.data.value.elements.[${index}].src`}
         uploadHandler={onUploadImage}
       />
+      <TextField
+        label={t("Content")}
+        name={`${focusIdx}.data.value.elements.[${index}].content`}
+        quickchange
+      />
 
-      <Grid.Row>
-        <Grid.Col span={11}>
-          <TextField
-            label={t("Content")}
-            name={`${focusIdx}.data.value.elements.[${index}].content`}
-            quickchange
-          />
-        </Grid.Col>
-        <Grid.Col offset={1} span={11}>
-          <TextField
-            prefix={<IconLink />}
-            label={t("Link")}
-            name={`${focusIdx}.data.value.elements.[${index}].href`}
-          />
-        </Grid.Col>
-      </Grid.Row>
-    </Space>
+      <TextField
+        prefix={<IconLink />}
+        label={t("Link")}
+        name={`${focusIdx}.data.value.elements.[${index}].href`}
+      />
+    </Stack>
   );
 }

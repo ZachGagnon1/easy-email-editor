@@ -13,11 +13,12 @@ import { LineHeight } from "@extensions/AttributePanel/components/attributes/Lin
 import { LetterSpacing } from "@extensions/AttributePanel/components/attributes/LetterSpacing";
 
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Button, Grid, Space, Tooltip } from "@arco-design/web-react";
+import { Button, Tooltip } from "@arco-design/web-react";
 import { IconFont } from "easy-email-editor";
 import { HtmlEditor } from "../../UI/HtmlEditor";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 export function Text() {
   const [visible, setVisible] = useState(false);
@@ -34,64 +35,29 @@ export function Text() {
       }
     >
       <CollapsableItem title={t("Dimension")}>
-        <Space direction="vertical">
-          <Height />
-          <Padding showResetAll />
-        </Space>
+        <Height />
+        <Padding showResetAll />
       </CollapsableItem>
       <CollapsableItem title={t("Color")}>
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <Color />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <ContainerBackgroundColor title={t("Background color")} />
-          </Grid.Col>
-        </Grid.Row>
+        <Stack spacing={2}>
+          <Color />
+          <ContainerBackgroundColor title={t("Background color")} />
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Typography")}>
-        <Space direction="vertical">
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <FontFamily />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <FontSize />
-            </Grid.Col>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <LineHeight />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <LetterSpacing />
-            </Grid.Col>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <TextDecoration />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <FontWeight />
-            </Grid.Col>
-          </Grid.Row>
-
+        <Stack spacing={2}>
+          <FontFamily />
+          <FontSize />
+          <LineHeight />
+          <LetterSpacing />
+          <TextDecoration />
+          <FontWeight />
           <Align />
-
           <FontStyle />
-
-          <Grid.Row>
-            <Grid.Col span={11} />
-            <Grid.Col offset={1} span={11} />
-          </Grid.Row>
-        </Space>
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
       <HtmlEditor visible={visible} setVisible={setVisible} />
     </AttributesPanelWrapper>

@@ -10,11 +10,11 @@ import { Width } from "@extensions/AttributePanel/components/attributes/Width";
 import { Height } from "@extensions/AttributePanel/components/attributes/Height";
 import { VerticalAlign } from "@extensions/AttributePanel/components/attributes/VerticalAlign";
 import { Padding } from "@extensions/AttributePanel/components/attributes/Padding";
-import { Grid, Space } from "@arco-design/web-react";
 import { useEditorProps, useFocusIdx } from "easy-email-editor";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { ClassName } from "../../attributes/ClassName";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 const options = [
   {
@@ -38,27 +38,20 @@ export function Hero() {
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Dimension")}>
-        <Space direction="vertical">
+        <Stack spacing={2}>
           <RadioGroupField
             label={t("Mode")}
             name={`${focusIdx}.attributes.mode`}
             options={options}
           />
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <Width />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <Height />
-            </Grid.Col>
-          </Grid.Row>
-
+          <Width />
+          <Height />
           <Padding />
           <VerticalAlign />
-        </Space>
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Background")}>
-        <Space direction="vertical">
+        <Stack spacing={2}>
           <ImageUploaderField
             label={t("src")}
             name={`${focusIdx}.attributes.background-url`}
@@ -68,45 +61,28 @@ export function Hero() {
             uploadHandler={onUploadImage}
           />
 
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <InputWithUnitField
-                label={t("Background width")}
-                name={`${focusIdx}.attributes.background-width`}
-              />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <InputWithUnitField
-                label={t("Background height")}
-                name={`${focusIdx}.attributes.background-height`}
-              />
-            </Grid.Col>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <TextField
-                label={t("Background position")}
-                name={`${focusIdx}.attributes.background-position`}
-              />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <InputWithUnitField
-                label={t("Border radius")}
-                name={`${focusIdx}.attributes.border-radius`}
-                unitOptions="percent"
-              />
-            </Grid.Col>
-            <Grid.Col span={11}>
-              <BackgroundColor />
-            </Grid.Col>
-          </Grid.Row>
-        </Space>
+          <InputWithUnitField
+            label={t("Background width")}
+            name={`${focusIdx}.attributes.background-width`}
+          />
+          <InputWithUnitField
+            label={t("Background height")}
+            name={`${focusIdx}.attributes.background-height`}
+          />
+          <TextField
+            label={t("Background position")}
+            name={`${focusIdx}.attributes.background-position`}
+          />
+          <InputWithUnitField
+            label={t("Border radius")}
+            name={`${focusIdx}.attributes.border-radius`}
+            unitOptions="percent"
+          />
+          <BackgroundColor />
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

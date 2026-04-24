@@ -3,27 +3,23 @@ import { Padding } from "@extensions/AttributePanel/components/attributes/Paddin
 import { Background } from "@extensions/AttributePanel/components/attributes/Background";
 import { TextField } from "@extensions/components/Form";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Grid } from "@arco-design/web-react";
-import { Stack, useFocusIdx } from "easy-email-editor";
+import { useFocusIdx } from "easy-email-editor";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 export function Wrapper() {
   const { focusIdx } = useFocusIdx();
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapsableItem title={t("Dimension")}>
-        <Stack vertical spacing="tight">
-          <Padding />
-        </Stack>
+        <Padding />
       </CollapsableItem>
       <CollapsableItem title={t("Background")}>
-        <Stack vertical spacing="tight">
-          <Background />
-        </Stack>
+        <Background />
       </CollapsableItem>
       <CollapsableItem title={t("Border")}>
-        <Stack vertical spacing="tight">
+        <Stack spacing={2}>
           <TextField
             label={t("Border")}
             name={`${focusIdx}.attributes.border`}
@@ -37,9 +33,7 @@ export function Wrapper() {
         </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

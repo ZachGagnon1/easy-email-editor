@@ -2,6 +2,7 @@ import { IconEye, IconEyeInvisible } from "@arco-design/web-react/icon";
 import React, { useCallback } from "react";
 import { Stack, TextStyle, useBlock } from "easy-email-editor";
 import { BasicType, BlockManager } from "easy-email-core";
+import { Box } from "@mui/material";
 
 export interface AttributesPanelWrapper {
   style?: React.CSSProperties;
@@ -16,14 +17,18 @@ export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = (
 
   const onChangeHidden = useCallback(
     (val: string | boolean) => {
-      if (!focusBlock) return;
+      if (!focusBlock) {
+        return;
+      }
       focusBlock.data.hidden = val as any;
       setFocusBlock({ ...focusBlock });
     },
     [focusBlock, setFocusBlock]
   );
 
-  if (!focusBlock || !block) return null;
+  if (!focusBlock || !block) {
+    return null;
+  }
 
   return (
     <div>
@@ -49,7 +54,7 @@ export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = (
         </Stack>
       </div>
 
-      <div style={{ padding: "0px", ...props.style }}>{props.children}</div>
+      <Box sx={{ margin: 2, ...props.style }}>{props.children}</Box>
     </div>
   );
 };
@@ -59,7 +64,9 @@ function EyeIcon() {
 
   const onToggleVisible = useCallback(
     (e: React.MouseEvent) => {
-      if (!focusBlock) return null;
+      if (!focusBlock) {
+        return null;
+      }
       e.stopPropagation();
       setFocusBlock({
         ...focusBlock,
@@ -72,9 +79,13 @@ function EyeIcon() {
     [focusBlock, setFocusBlock]
   );
 
-  if (!focusBlock) return null;
+  if (!focusBlock) {
+    return null;
+  }
 
-  if (focusBlock.type === BasicType.PAGE) return null;
+  if (focusBlock.type === BasicType.PAGE) {
+    return null;
+  }
 
   return focusBlock.data.hidden ? (
     <IconEyeInvisible

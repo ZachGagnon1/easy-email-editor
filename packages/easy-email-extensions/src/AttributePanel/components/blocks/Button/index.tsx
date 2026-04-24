@@ -1,32 +1,30 @@
 import React from "react";
-import { Padding } from "../../attributes/Padding";
-import { Border } from "../../attributes/Border";
-import { BackgroundColor } from "../../attributes/BackgroundColor";
-import { Color } from "../../attributes/Color";
-import { Link } from "../../attributes/Link";
-import { Width } from "../../attributes/Width";
-import { ContainerBackgroundColor } from "../../attributes/ContainerBackgroundColor";
-import { Align } from "../../attributes/Align";
-import { FontSize } from "../../attributes/FontSize";
-import { FontStyle } from "../../attributes/FontStyle";
-import { FontWeight } from "../../attributes/FontWeight";
-import { FontFamily } from "../../attributes/FontFamily";
-import { TextDecoration } from "../../attributes/TextDecoration";
-import { LineHeight } from "../../attributes/LineHeight";
-import { LetterSpacing } from "../../attributes/LetterSpacing";
 import {
-  Button as ArcoButton,
-  Grid,
-  Popover,
-  Space,
-} from "@arco-design/web-react";
-import { TextField } from "../../../../components/Form";
+  Align,
+  AttributesPanelWrapper,
+  BackgroundColor,
+  Border,
+  ClassName,
+  Color,
+  ContainerBackgroundColor,
+  FontFamily,
+  FontSize,
+  FontStyle,
+  FontWeight,
+  LetterSpacing,
+  LineHeight,
+  Link,
+  MergeTags,
+  Padding,
+  TextDecoration,
+  TextField,
+  Width,
+} from "@extensions";
+import { Button as ArcoButton, Popover } from "@arco-design/web-react";
 import { IconFont, useEditorProps, useFocusIdx } from "easy-email-editor";
-import { AttributesPanelWrapper } from "../../attributes/AttributesPanelWrapper";
-import { MergeTags } from "../../attributes";
 import { useField } from "react-final-form";
-import { ClassName } from "../../attributes/ClassName";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 export function Button() {
   const { focusIdx } = useFocusIdx();
@@ -39,10 +37,10 @@ export function Button() {
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Setting")}>
-        <Space direction="vertical">
+        <Stack spacing={2}>
           <TextField
             label={
-              <Space>
+              <Stack spacing={2} direction={"row"}>
                 <span>{t("Content")}</span>
                 {mergeTags && (
                   <Popover
@@ -60,87 +58,50 @@ export function Button() {
                     />
                   </Popover>
                 )}
-              </Space>
+              </Stack>
             }
             name={`${focusIdx}.data.value.content`}
           />
           <Link />
-        </Space>
+        </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Dimension")}>
-        <Space direction="vertical">
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <Width />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <FontWeight />
-            </Grid.Col>
-          </Grid.Row>
+        <Stack spacing={2}>
+          <Width />
+          <FontWeight />
 
           <Padding title={t("Padding")} attributeName="padding" showResetAll />
           <Padding title={t("Inner padding")} attributeName="inner-padding" />
-        </Space>
+        </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Color")}>
-        <Space direction="vertical">
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <Color title={t("Text color")} />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <BackgroundColor title={t("Button color")} />
-            </Grid.Col>
-            <Grid.Col span={11}>
-              <ContainerBackgroundColor title={t("Background color")} />
-            </Grid.Col>
-          </Grid.Row>
-        </Space>
+        <Stack spacing={2}>
+          <Color title={t("Text color")} />
+          <BackgroundColor title={t("Button color")} />
+          <ContainerBackgroundColor title={t("Background color")} />
+        </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Typography")}>
-        <Space direction="vertical">
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <FontFamily />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <FontSize />
-            </Grid.Col>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <FontWeight />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <LineHeight />
-            </Grid.Col>
-          </Grid.Row>
-
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <TextDecoration />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <LetterSpacing />
-            </Grid.Col>
-          </Grid.Row>
+        <Stack spacing={2}>
+          <FontFamily />
+          <FontSize />
+          <FontWeight />
+          <LineHeight />
+          <TextDecoration />
+          <LetterSpacing />
           <Align />
-
           <FontStyle />
-        </Space>
+        </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Border")}>
         <Border />
       </CollapsableItem>
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

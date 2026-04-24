@@ -3,44 +3,38 @@ import {
   ColorPickerField,
   EditTabField,
   SelectField,
-  TextField
+  TextField,
 } from "@extensions/components/Form";
 import { Align } from "@extensions/AttributePanel/components/attributes/Align";
-import {
-  AttributesPanelWrapper
-} from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Grid, Space } from "@arco-design/web-react";
+import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { IconLink } from "@arco-design/web-react/icon";
-import {
-  NavbarLinkPadding
-} from "@extensions/AttributePanel/components/attributes/NavbarLinkPadding";
-import { Stack, useFocusIdx } from "easy-email-editor";
+import { NavbarLinkPadding } from "@extensions/AttributePanel/components/attributes/NavbarLinkPadding";
+import { useFocusIdx } from "easy-email-editor";
 import { INavbar } from "easy-email-core";
-import { ClassName } from "../../attributes/ClassName";
 import {
+  ClassName,
   FontFamily,
   FontStyle,
   FontWeight,
   LetterSpacing,
   LineHeight,
   TextDecoration,
-  TextTransform
-} from "../../attributes";
+  TextTransform,
+} from "@extensions";
 import { pixelAdapter } from "../../adapter";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 export function Navbar() {
   const { focusIdx } = useFocusIdx();
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapsableItem title={t("Layout")}>
-        <Stack vertical spacing="tight">
-          <Align />
-        </Stack>
+        <Align />
       </CollapsableItem>
 
       <CollapsableItem title={t("Navbar links")}>
-        <Space direction="vertical" style={{ width: "100%" }}>
+        <Stack spacing={2}>
           <EditTabField
             tabPosition="top"
             name={`${focusIdx}.data.value.links`}
@@ -58,12 +52,10 @@ export function Navbar() {
             }}
           />
           <div />
-        </Space>
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Extra")}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );
@@ -79,107 +71,80 @@ function NavbarLink({
   const { focusIdx } = useFocusIdx();
   return (
     <div className="NavbarLink">
-      <Space direction="vertical" style={{ width: "100%" }}>
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <TextField
-              label={t("Content")}
-              name={`${focusIdx}.data.value.links.[${index}].content`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <ColorPickerField
-              label={t("Color")}
-              name={`${focusIdx}.data.value.links.[${index}].color`}
-            />
-          </Grid.Col>
-        </Grid.Row>
+      <Stack spacing={2}>
+        <TextField
+          label={t("Content")}
+          name={`${focusIdx}.data.value.links.[${index}].content`}
+        />
 
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <FontFamily
-              name={`${focusIdx}.data.value.links.[${index}].font-family`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <TextField
-              label={t("Font size (px)")}
-              name={`${focusIdx}.data.value.links.[${index}].font-size`}
-              config={pixelAdapter}
-              autoComplete="off"
-            />
-          </Grid.Col>
-        </Grid.Row>
+        <ColorPickerField
+          label={t("Color")}
+          name={`${focusIdx}.data.value.links.[${index}].color`}
+        />
 
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <LineHeight
-              name={`${focusIdx}.data.value.links.[${index}].line-height`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <LetterSpacing
-              name={`${focusIdx}.data.value.links.[${index}].letter-spacing`}
-            />
-          </Grid.Col>
-        </Grid.Row>
+        <FontFamily
+          name={`${focusIdx}.data.value.links.[${index}].font-family`}
+        />
 
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <TextDecoration
-              name={`${focusIdx}.data.value.links.[${index}].text-decoration`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <FontWeight
-              name={`${focusIdx}.data.value.links.[${index}].font-weight`}
-            />
-          </Grid.Col>
-        </Grid.Row>
+        <TextField
+          label={t("Font size (px)")}
+          name={`${focusIdx}.data.value.links.[${index}].font-size`}
+          config={pixelAdapter}
+          autoComplete="off"
+        />
 
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <TextTransform
-              name={`${focusIdx}.data.value.links.[${index}].text-transform`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11} />
-        </Grid.Row>
+        <LineHeight
+          name={`${focusIdx}.data.value.links.[${index}].line-height`}
+        />
+
+        <LetterSpacing
+          name={`${focusIdx}.data.value.links.[${index}].letter-spacing`}
+        />
+
+        <TextDecoration
+          name={`${focusIdx}.data.value.links.[${index}].text-decoration`}
+        />
+
+        <FontWeight
+          name={`${focusIdx}.data.value.links.[${index}].font-weight`}
+        />
+
+        <TextTransform
+          name={`${focusIdx}.data.value.links.[${index}].text-transform`}
+        />
+
         <FontStyle
           name={`${focusIdx}.data.value.links.[${index}].font-style`}
         />
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <TextField
-              prefix={<IconLink />}
-              label={<span>{t("Url")}</span>}
-              name={`${focusIdx}.data.value.links.[${index}].href`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <SelectField
-              style={{ minWidth: 65 }}
-              label={t("Target")}
-              name={`${focusIdx}.data.value.links.[${index}].target`}
-              options={[
-                {
-                  value: "_blank",
-                  label: t("_blank"),
-                },
-                {
-                  value: "_self",
-                  label: t("_self"),
-                },
-              ]}
-            />
-          </Grid.Col>
-        </Grid.Row>
+
+        <TextField
+          prefix={<IconLink />}
+          label={<span>{t("Url")}</span>}
+          name={`${focusIdx}.data.value.links.[${index}].href`}
+        />
+
+        <SelectField
+          style={{ minWidth: 65 }}
+          label={t("Target")}
+          name={`${focusIdx}.data.value.links.[${index}].target`}
+          options={[
+            {
+              value: "_blank",
+              label: t("_blank"),
+            },
+            {
+              value: "_self",
+              label: t("_self"),
+            },
+          ]}
+        />
+
         <NavbarLinkPadding
           key={index}
           name={`${focusIdx}.data.value.links.[${index}].padding`}
         />
         <div />
-      </Space>
+      </Stack>
     </div>
   );
 }

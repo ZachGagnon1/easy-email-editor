@@ -11,9 +11,9 @@ import {
   SelectField,
   TextField,
 } from "@extensions/components/Form";
-import { Grid, Space } from "@arco-design/web-react";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 const positionOptions = [
   {
@@ -58,78 +58,52 @@ export function Accordion() {
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Setting")}>
-        <Space direction="vertical">
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <BackgroundColor />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <FontFamily />
-            </Grid.Col>
-          </Grid.Row>
+        <Stack spacing={2}>
+          <BackgroundColor />
+          <FontFamily />
 
           <Padding />
 
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <InputWithUnitField
-                label={t("Icon width")}
-                name={`${focusIdx}.attributes.icon-width`}
-              />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <InputWithUnitField
-                label={t("Icon height")}
-                name={`${focusIdx}.attributes.icon-height`}
-              />
-            </Grid.Col>
-          </Grid.Row>
+          <InputWithUnitField
+            label={t("Icon width")}
+            name={`${focusIdx}.attributes.icon-width`}
+          />
 
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <ImageUploaderField
-                label={t("Unwrapped icon")}
-                name={`${focusIdx}.attributes.icon-unwrapped-url`}
-                uploadHandler={onUploadImage}
-              />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <ImageUploaderField
-                label={t("Wrapped icon")}
-                name={`${focusIdx}.attributes.icon-wrapped-url`}
-                uploadHandler={onUploadImage}
-              />
-            </Grid.Col>
-          </Grid.Row>
+          <InputWithUnitField
+            label={t("Icon height")}
+            name={`${focusIdx}.attributes.icon-height`}
+          />
 
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <RadioGroupField
-                label={t("Icon position")}
-                name={`${focusIdx}.attributes.icon-position`}
-                options={positionOptions}
-              />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <SelectField
-                style={{ width: 120 }}
-                label={t("Icon align")}
-                name={`${focusIdx}.attributes.icon-align`}
-                options={alignOptions}
-              />
-            </Grid.Col>
-          </Grid.Row>
+          <ImageUploaderField
+            label={t("Unwrapped icon")}
+            name={`${focusIdx}.attributes.icon-unwrapped-url`}
+            uploadHandler={onUploadImage}
+          />
+          <ImageUploaderField
+            label={t("Wrapped icon")}
+            name={`${focusIdx}.attributes.icon-wrapped-url`}
+            uploadHandler={onUploadImage}
+          />
+          <RadioGroupField
+            label={t("Icon position")}
+            name={`${focusIdx}.attributes.icon-position`}
+            options={positionOptions}
+          />
+          <SelectField
+            style={{ width: 120 }}
+            label={t("Icon align")}
+            name={`${focusIdx}.attributes.icon-align`}
+            options={alignOptions}
+          />
 
           <TextField
             label={t("Border")}
             name={`${focusIdx}.attributes.border`}
           />
-        </Space>
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

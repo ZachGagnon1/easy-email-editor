@@ -1,17 +1,12 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { InputWithUnitField } from "../../../components/Form";
-import {
-  useFocusIdx,
-  Stack,
-  useBlock,
-  TextStyle,
-  IconFont,
-} from "easy-email-editor";
+import { IconFont, TextStyle, useBlock, useFocusIdx } from "easy-email-editor";
 import { createBlockDataByType } from "easy-email-core";
 import { Form, useFormState } from "react-final-form";
-import { Button, Grid, Space, Tooltip } from "@arco-design/web-react";
+import { Button, Tooltip } from "@arco-design/web-react";
 import { get } from "lodash";
 import { pixelAdapter } from "../adapter";
+import { Stack } from "@mui/material";
 
 export interface PaddingProps {
   title?: string;
@@ -95,8 +90,14 @@ export function Padding(props: PaddingProps = {}) {
       {() => {
         return (
           <>
-            <Stack vertical spacing="extraTight">
-              <Space align="center">
+            <Stack spacing={2}>
+              <Stack
+                direction="row"
+                sx={{
+                  alignItems: "center",
+                }}
+                spacing={2}
+              >
                 <TextStyle variation="strong">{title}</TextStyle>
                 {showResetAll && (
                   <Tooltip content="Remove all padding">
@@ -107,45 +108,49 @@ export function Padding(props: PaddingProps = {}) {
                     />
                   </Tooltip>
                 )}
-              </Space>
+              </Stack>
 
-              <Grid.Row>
-                <Grid.Col span={11}>
-                  <InputWithUnitField
-                    label={t("Top (px)")}
-                    name="top"
-                    autoComplete="off"
-                    config={pixelAdapter}
-                  />
-                </Grid.Col>
-                <Grid.Col offset={1} span={11}>
-                  <InputWithUnitField
-                    label={t("Left (px)")}
-                    name="left"
-                    autoComplete="off"
-                    config={pixelAdapter}
-                  />
-                </Grid.Col>
-              </Grid.Row>
+              <Stack
+                direction="row"
+                sx={{
+                  alignItems: "center",
+                }}
+                spacing={2}
+              >
+                <InputWithUnitField
+                  label={t("Top (px)")}
+                  name="top"
+                  autoComplete="off"
+                  config={pixelAdapter}
+                />
+                <InputWithUnitField
+                  label={t("Left (px)")}
+                  name="left"
+                  autoComplete="off"
+                  config={pixelAdapter}
+                />
+              </Stack>
 
-              <Grid.Row>
-                <Grid.Col span={11}>
-                  <InputWithUnitField
-                    label={t("Bottom (px)")}
-                    name="bottom"
-                    config={pixelAdapter}
-                    autoComplete="off"
-                  />
-                </Grid.Col>
-                <Grid.Col offset={1} span={11}>
-                  <InputWithUnitField
-                    label={t("Right (px)")}
-                    name="right"
-                    autoComplete="off"
-                    config={pixelAdapter}
-                  />
-                </Grid.Col>
-              </Grid.Row>
+              <Stack
+                direction="row"
+                sx={{
+                  alignItems: "center",
+                }}
+                spacing={2}
+              >
+                <InputWithUnitField
+                  label={t("Bottom (px)")}
+                  name="bottom"
+                  config={pixelAdapter}
+                  autoComplete="off"
+                />
+                <InputWithUnitField
+                  label={t("Right (px)")}
+                  name="right"
+                  autoComplete="off"
+                  config={pixelAdapter}
+                />
+              </Stack>
             </Stack>
             <PaddingChangeWrapper onChange={onChancePadding} />
           </>

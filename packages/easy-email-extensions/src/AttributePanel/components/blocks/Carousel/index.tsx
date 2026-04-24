@@ -9,13 +9,13 @@ import {
   TextField,
 } from "@extensions/components/Form";
 import { IconLink } from "@arco-design/web-react/icon";
-import { Grid, Space } from "@arco-design/web-react";
-import { Stack, useEditorProps, useFocusIdx } from "easy-email-editor";
+import { useEditorProps, useFocusIdx } from "easy-email-editor";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { Align } from "@extensions/AttributePanel/components/attributes/Align";
 import { ICarousel } from "easy-email-core";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 const options = [
   {
@@ -37,7 +37,7 @@ export function Carousel() {
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapsableItem title={t("Dimension")}>
-        <Space direction="vertical">
+        <Stack spacing={2}>
           <InputWithUnitField
             label={t("Thumbnail width")}
             name={`${focusIdx}.attributes.tb-width`}
@@ -52,86 +52,64 @@ export function Carousel() {
             inline
           />
           <Align inline />
-        </Space>
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Images")}>
-        <Stack vertical spacing="tight">
-          <EditTabField
-            tabPosition="top"
-            name={`${focusIdx}.data.value.images`}
-            label=""
-            labelHidden
-            renderItem={(item, index) => (
-              <CarouselImage item={item} index={index} />
-            )}
-            additionItem={{
-              src: "https://www.mailjet.com/wp-content/uploads/2016/11/ecommerce-guide.jpg",
-              target: "_blank",
-            }}
+        <EditTabField
+          tabPosition="top"
+          name={`${focusIdx}.data.value.images`}
+          label=""
+          labelHidden
+          renderItem={(item, index) => (
+            <CarouselImage item={item} index={index} />
+          )}
+          additionItem={{
+            src: "https://www.mailjet.com/wp-content/uploads/2016/11/ecommerce-guide.jpg",
+            target: "_blank",
+          }}
+        />
+      </CollapsableItem>
+      <CollapsableItem title={t("Icon")}>
+        <Stack spacing={2}>
+          <TextField
+            label={t("Left icon")}
+            name={`${focusIdx}.attributes.left-icon`}
+          />
+
+          <TextField
+            label={t("Right icon")}
+            name={`${focusIdx}.attributes.right-icon`}
+          />
+
+          <InputWithUnitField
+            label={t("Icon width")}
+            name={`${focusIdx}.attributes.icon-width`}
           />
         </Stack>
       </CollapsableItem>
-      <CollapsableItem title={t("Icon")}>
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <TextField
-              label={t("Left icon")}
-              name={`${focusIdx}.attributes.left-icon`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <TextField
-              label={t("Right icon")}
-              name={`${focusIdx}.attributes.right-icon`}
-            />
-          </Grid.Col>
-        </Grid.Row>
-
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <InputWithUnitField
-              label={t("Icon width")}
-              name={`${focusIdx}.attributes.icon-width`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11} />
-        </Grid.Row>
-      </CollapsableItem>
 
       <CollapsableItem title={t("Border")}>
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <ColorPickerField
-              label={t("Hovered border")}
-              name={`${focusIdx}.attributes.tb-hover-border-color`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <ColorPickerField
-              label={t("Selected Border")}
-              name={`${focusIdx}.attributes.tb-selected-border-color`}
-            />
-          </Grid.Col>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Col span={11}>
-            <TextField
-              label={t("Border of the thumbnails")}
-              name={`${focusIdx}.attributes.tb-border`}
-            />
-          </Grid.Col>
-          <Grid.Col offset={1} span={11}>
-            <TextField
-              label={t("Border radius of the thumbnails")}
-              name={`${focusIdx}.attributes.tb-border-radius`}
-            />
-          </Grid.Col>
-        </Grid.Row>
+        <Stack spacing={2}>
+          <ColorPickerField
+            label={t("Hovered border")}
+            name={`${focusIdx}.attributes.tb-hover-border-color`}
+          />
+          <ColorPickerField
+            label={t("Selected Border")}
+            name={`${focusIdx}.attributes.tb-selected-border-color`}
+          />
+          <TextField
+            label={t("Border of the thumbnails")}
+            name={`${focusIdx}.attributes.tb-border`}
+          />
+          <TextField
+            label={t("Border radius of the thumbnails")}
+            name={`${focusIdx}.attributes.tb-border-radius`}
+          />
+        </Stack>
       </CollapsableItem>
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );
@@ -147,7 +125,7 @@ function CarouselImage({
   const { focusIdx } = useFocusIdx();
   const { onUploadImage } = useEditorProps();
   return (
-    <Space direction="vertical">
+    <Stack spacing={2}>
       <ImageUploaderField
         label={t("Image")}
         labelHidden
@@ -157,36 +135,32 @@ function CarouselImage({
         )}
         uploadHandler={onUploadImage}
       />
-      <Grid.Row>
-        <Grid.Col span={11}>
-          <TextField
-            prefix={<IconLink />}
-            label={t("Url")}
-            name={`${focusIdx}.data.value.images.[${index}].href`}
-          />
-        </Grid.Col>
-        <Grid.Col offset={1} span={11}>
-          <SelectField
-            label={t("Target")}
-            name={`${focusIdx}.data.value.images.[${index}].target`}
-            options={[
-              {
-                value: "",
-                label: t("_self"),
-              },
-              {
-                value: "_blank",
-                label: t("_blank"),
-              },
-            ]}
-          />
-        </Grid.Col>
-      </Grid.Row>
+
+      <TextField
+        prefix={<IconLink />}
+        label={t("Url")}
+        name={`${focusIdx}.data.value.images.[${index}].href`}
+      />
+
+      <SelectField
+        label={t("Target")}
+        name={`${focusIdx}.data.value.images.[${index}].target`}
+        options={[
+          {
+            value: "",
+            label: t("_self"),
+          },
+          {
+            value: "_blank",
+            label: t("_blank"),
+          },
+        ]}
+      />
 
       <TextField
         label={t("Title")}
         name={`${focusIdx}.data.value.image.[${index}].title`}
       />
-    </Space>
+    </Stack>
   );
 }

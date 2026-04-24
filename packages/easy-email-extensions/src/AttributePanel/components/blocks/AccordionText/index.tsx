@@ -2,18 +2,18 @@ import React from "react";
 import { useFocusIdx } from "easy-email-editor";
 
 import {
-  Padding,
+  AttributesPanelWrapper,
   BackgroundColor,
   Color,
-  TextAreaField,
+  FontFamily,
   FontSize,
   FontWeight,
-  FontFamily,
   LineHeight,
-  AttributesPanelWrapper,
+  Padding,
+  TextAreaField,
 } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
-import { Grid, Space } from "@arco-design/web-react";
+import { Stack } from "@mui/material";
 
 export function AccordionText() {
   const { focusIdx } = useFocusIdx();
@@ -21,39 +21,27 @@ export function AccordionText() {
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Setting")}>
-        <Space direction="vertical">
+        <Stack spacing={2}>
           <TextAreaField
             label={t("Content")}
             name={`${focusIdx}.data.value.content`}
             autoSize={{ minRows: 5 }}
           />
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <Color />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <FontSize />
-            </Grid.Col>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <LineHeight />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <FontWeight />
-            </Grid.Col>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Col span={11}>
-              <FontFamily />
-            </Grid.Col>
-            <Grid.Col offset={1} span={11}>
-              <BackgroundColor />
-            </Grid.Col>
-          </Grid.Row>
+
+          <Color />
+
+          <FontSize />
+
+          <LineHeight />
+
+          <FontWeight />
+
+          <FontFamily />
+
+          <BackgroundColor />
 
           <Padding title={t("Padding")} attributeName="padding" />
-        </Space>
+        </Stack>
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

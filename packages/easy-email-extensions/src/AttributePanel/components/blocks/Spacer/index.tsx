@@ -3,18 +3,18 @@ import { Height } from "@extensions/AttributePanel/components/attributes/Height"
 import { ContainerBackgroundColor } from "@extensions/AttributePanel/components/attributes/ContainerBackgroundColor";
 import { Padding } from "@extensions/AttributePanel/components/attributes/Padding";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Grid, Space } from "@arco-design/web-react";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 export function Spacer() {
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Dimension")}>
-        <Space direction="vertical">
+        <Stack spacing={2}>
           <Height />
           <Padding />
-        </Space>
+        </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Background")}>
@@ -22,9 +22,7 @@ export function Spacer() {
       </CollapsableItem>
 
       <CollapsableItem title={t("Extra")} defaultExpanded={false}>
-        <Grid.Col span={24}>
-          <ClassName />
-        </Grid.Col>
+        <ClassName />
       </CollapsableItem>
     </AttributesPanelWrapper>
   );

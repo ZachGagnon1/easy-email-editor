@@ -21,7 +21,7 @@ import {
   IBlockData,
 } from "easy-email-core";
 import styles from "./index.module.scss";
-import { cloneDeep, get, isString, isEqual } from "lodash";
+import { cloneDeep, get, isEqual, isString } from "lodash";
 import { EyeIcon } from "./components/EyeIcon";
 import { BlockTree, BlockTreeProps } from "./components/BlockTree";
 import { ContextMenu } from "./components/ContextMenu";
@@ -31,8 +31,8 @@ import {
   useAvatarWrapperDrop,
 } from "./hooks/useAvatarWrapperDrop";
 import { getIconNameByBlockType } from "@extensions/utils/getIconNameByBlockType";
-import { Space } from "@arco-design/web-react";
 import { getBlockTitle } from "@extensions/utils/getBlockTitle";
+import { Stack } from "@mui/material";
 
 export interface IBlockDataWithId extends IBlockData {
   id: string;
@@ -92,7 +92,7 @@ export function BlockLayer(props: BlockLayerProps) {
             !isPage && "email-block"
           )}
         >
-          <Space align="center" size="mini">
+          <Stack spacing={2}>
             <IconFont
               iconName={getIconNameByBlockType(data.type)}
               style={{ fontSize: 12, color: "#999" }}
@@ -108,7 +108,7 @@ export function BlockLayer(props: BlockLayerProps) {
             >
               <TextStyle size="smallest">{title}</TextStyle>
             </div>
-          </Space>
+          </Stack>
           <div className={styles.eyeIcon}>
             <EyeIcon blockData={data} onToggleVisible={onToggleVisible} />
           </div>
@@ -182,7 +182,7 @@ export function BlockLayer(props: BlockLayerProps) {
     (params) => {
       const { dragNode, dropNode, dropPosition } = params;
       const dragBlock = BlockManager.getBlockByType(dragNode.dataRef.type);
-      if (!dragBlock) return false;
+      if (!dragBlock) {return false;}
       const dropIndex = getIndexByIdx(dropNode.key);
 
       if (dropPosition === 0) {
@@ -240,13 +240,13 @@ export function BlockLayer(props: BlockLayerProps) {
     );
 
   const selectedKeys = useMemo(() => {
-    if (!focusIdx) return [];
+    if (!focusIdx) {return [];}
 
     return [focusIdx];
   }, [focusIdx]);
 
   const expandedKeys = useMemo(() => {
-    if (!focusIdx) return [];
+    if (!focusIdx) {return [];}
     let currentIdx = getParentIdx(focusIdx);
     const keys: string[] = [];
     while (currentIdx) {
