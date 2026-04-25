@@ -39,7 +39,6 @@ export enum AdvancedType {
   ACCORDION = "advanced_accordion",
   CAROUSEL = "advanced_carousel",
   TABLE = "advanced_table",
-
   WRAPPER = "advanced_wrapper",
   SECTION = "advanced_section",
   COLUMN = "advanced_column",

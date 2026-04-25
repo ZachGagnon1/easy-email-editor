@@ -1,17 +1,15 @@
-import { Card, ConfigProvider, Layout } from "@arco-design/web-react";
 import { useEditorProps, useFocusIdx } from "easy-email-editor";
 import React, { useEffect } from "react";
 import { InteractivePrompt } from "../InteractivePrompt";
-import styles from "./index.module.scss";
-import enUS from "@arco-design/web-react/es/locale/en-US";
 import { MergeTagBadgePrompt } from "@extensions/MergeTagBadgePrompt";
 import { EditPanel } from "../EditPanel";
 import { ConfigurationPanel } from "@extensions/ConfigurationPanel";
 import {
   ExtensionProps,
-  ExtensionProvider,
+  ExtensionProvider
 } from "@extensions/components/Providers/ExtensionProvider";
 import { AdvancedType } from "easy-email-core";
+import { Grid, Paper, useMediaQuery, useTheme } from "@mui/material";
 
 const defaultCategories: ExtensionProps["categories"] = [
   {
@@ -86,85 +84,100 @@ const defaultCategories: ExtensionProps["categories"] = [
   },
 ];
 
-export const StandardLayout: React.FC<ExtensionProps> = (props) => {
+export const StandardLayout: React.FC<Omit<ExtensionProps, "compact">> = (
+  props
+) => {
   const { height: containerHeight } = useEditorProps();
   const {
     showSourceCode = true,
-    compact = true,
     categories = defaultCategories,
     jsonReadOnly = false,
     mjmlReadOnly = true,
   } = props;
 
+  const theme = useTheme();
   const { setFocusIdx } = useFocusIdx();
 
+  // Replaces the `compact` check: returns true on desktop (>=900px), false on mobile/tablet
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
   useEffect(() => {
-    if (!compact) {
+    // Replicates the exact behavior you had with !compact
+    if (!isDesktop) {
       setFocusIdx("");
     }
-  }, [compact, setFocusIdx]);
+  }, [isDesktop, setFocusIdx]);
 
   return (
     <ExtensionProvider {...props} categories={categories}>
-      <ConfigProvider locale={enUS}>
-        <Card
-          style={{ padding: 0 }}
-          bodyStyle={{
-            padding: 0,
-            height: containerHeight,
-            overflow: "hidden",
+      <Paper
+        sx={{
+          padding: 0,
+          height: containerHeight,
+          overflow: "hidden", // Keeps the layout contained
+        }}
+      >
+        <Grid
+          container
+          sx={{
+            height: "100%",
+            // Stacks items on mobile, forces them onto one row on desktop
+            flexWrap: { xs: "wrap", md: "nowrap" },
           }}
         >
-          <Layout
-            className={styles.StandardLayout}
-            style={{
-              display: "flex",
-              width: "100%",
-              overflow: "hidden",
+          {/* LEFT PANEL: Editor Tools */}
+          <Grid
+            component="aside"
+            aria-label="Editor Tools"
+            size={{ xs: 12, md: 2.5 }} // Explicit size ensures it doesn't get crushed
+            sx={{
+              display: { xs: "none", md: "block" }, // Hides completely on mobile
+              height: "100%",
+              overflowY: "auto", // Allows independent scrolling if panel content gets long
             }}
           >
-            {compact && (
-              <EditPanel
-                showSourceCode={showSourceCode}
-                jsonReadOnly={jsonReadOnly}
-                mjmlReadOnly={mjmlReadOnly}
-              />
-            )}
-            <Layout style={{ height: containerHeight, flex: 1 }}>
-              {props.children}
-            </Layout>
-            {!compact && (
-              <EditPanel
-                showSourceCode={showSourceCode}
-                jsonReadOnly={jsonReadOnly}
-                mjmlReadOnly={mjmlReadOnly}
-              />
-            )}
-            {compact ? (
-              <Layout.Sider
-                style={{
-                  height: containerHeight,
-                  minWidth: 300,
-                  maxWidth: 350,
-                  width: 350,
-                }}
-              >
-                <ConfigurationPanel
-                  compact={compact}
-                  height={containerHeight}
-                  showSourceCode={showSourceCode}
-                  jsonReadOnly={jsonReadOnly}
-                  mjmlReadOnly={mjmlReadOnly}
-                />
-              </Layout.Sider>
-            ) : (
-              <Layout.Sider style={{ width: 0, overflow: "hidden" }} />
-            )}
-          </Layout>
-        </Card>
-        <InteractivePrompt />
-        <MergeTagBadgePrompt />
-      </ConfigProvider>
+            <EditPanel
+              showSourceCode={showSourceCode}
+              jsonReadOnly={jsonReadOnly}
+              mjmlReadOnly={mjmlReadOnly}
+            />
+          </Grid>
+
+          {/* MIDDLE PANEL: Email Canvas */}
+          <Grid
+            component="main"
+            aria-label="Email Canvas"
+            size={{ xs: 12, md: 7 }} // 7/12 columns on desktop
+            sx={{
+              height: "100%",
+              overflowY: "auto",
+            }}
+          >
+            {props.children}
+          </Grid>
+
+          {/* RIGHT PANEL: Configuration Settings */}
+          <Grid
+            component="aside"
+            aria-label="Configuration Settings"
+            size={{ xs: 12, md: 2.5 }} // 3/12 columns on desktop (2 + 7 + 3 = 12 total columns)
+            sx={{
+              display: { xs: "none", md: "block" }, // Hides completely on mobile
+              height: "100%",
+              overflowY: "auto",
+            }}
+          >
+            <ConfigurationPanel
+              height={containerHeight}
+              showSourceCode={showSourceCode}
+              jsonReadOnly={jsonReadOnly}
+              mjmlReadOnly={mjmlReadOnly}
+            />
+          </Grid>
+        </Grid>
+      </Paper>
+      <InteractivePrompt />
+      <MergeTagBadgePrompt />
     </ExtensionProvider>
   );
 };
