@@ -5,15 +5,14 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Tree } from "@arco-design/web-react";
-import {
-  AllowDrop,
-  NodeInstance,
-  TreeProps,
-} from "@arco-design/web-react/es/Tree/interface";
-import { debounce } from "lodash";
-import { transparentImage } from "./transparentImage";
+import { DragDropProvider } from "@dnd-kit/react";
+import { useSortable } from "@dnd-kit/react/sortable";
+import { Box, IconButton } from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
+// --- Types ---
 interface TreeNode<T> {
   id: string;
   children?: T[];
@@ -31,60 +30,198 @@ export interface BlockTreeProps<T extends TreeNode<T>> {
   onMouseEnter?: (id: string) => void;
   renderTitle: (data: T) => React.ReactNode;
   defaultExpandAll?: boolean;
-  allowDrop: (o: {
-    dragNode: { type: string } | { key: string };
-    dropNode: { dataRef: T; parent: T; key: string };
-    dropPosition: number;
-  }) =>
-    | false
-    | {
-        key: string;
-        position: number;
-      };
 
+  allowDrop?: (o: any) => boolean | { key: string; position: number };
   onDrop: (o: {
-    dragNode: { dataRef: T; parent: T; key: string; parentKey: string };
-    dropNode: { dataRef: T; parent: T; key: string; parentKey: string };
+    dragNode: { dataRef: T; parent: T | null; key: string; parentKey: string };
+    dropNode: { dataRef: T; parent: T | null; key: string; parentKey: string };
     dropPosition: number;
   }) => void;
 }
 
-const img = new Image();
-img.width = 0;
-img.height = 0;
-img.src = transparentImage;
+interface FlattenedItem<T> {
+  id: string;
+  item: T;
+  depth: number;
+  parent: T | null;
+  parentKey: string;
+  isExpanded: boolean;
+  hasChildren: boolean;
+}
 
-const fileNames = {
-  key: "id",
+// --- Flatten Tree Helper ---
+function flattenTree<T extends TreeNode<T>>(
+  items: T[],
+  expandedKeys: string[],
+  depth = 0,
+  parent: T | null = null
+): FlattenedItem<T>[] {
+  return items.reduce<FlattenedItem<T>[]>((acc, item) => {
+    const isExpanded = expandedKeys.includes(item.id);
+    const hasChildren =
+      Array.isArray(item.children) && item.children.length > 0;
+
+    const flattenedNode: FlattenedItem<T> = {
+      id: item.id,
+      item,
+      depth,
+      parent,
+      parentKey: parent?.id || "",
+      isExpanded,
+      hasChildren,
+    };
+
+    acc.push(flattenedNode);
+
+    if (isExpanded && hasChildren) {
+      acc.push(...flattenTree(item.children!, expandedKeys, depth + 1, item));
+    }
+
+    return acc;
+  }, []);
+}
+
+// --- Polished Sortable Item Component ---
+const SortableTreeItem = <T extends TreeNode<T>>({
+  node,
+  index,
+  selectedKeys,
+  onSelect,
+  onToggleExpand,
+  onContextMenu,
+  onMouseEnter,
+  renderTitle,
+}: {
+  node: FlattenedItem<T>;
+  index: number;
+  selectedKeys: string[];
+  onSelect: (id: string) => void;
+  onToggleExpand: (id: string) => void;
+  onContextMenu?: (data: T, e: React.MouseEvent) => void;
+  onMouseEnter?: (id: string) => void;
+  renderTitle: (data: T) => React.ReactNode;
+}) => {
+  // Prevent dragging the root page block
+  const isPageBlock = (node.item as any).type === "page" || node.depth === 0;
+
+  const { ref, handleRef, isDragging } = useSortable({
+    id: node.id,
+    index,
+    disabled: isPageBlock,
+  });
+
+  const isSelected = selectedKeys.includes(node.id);
+
+  return (
+    <Box
+      ref={ref}
+      onMouseEnter={() => onMouseEnter?.(node.id)}
+      onContextMenu={(e) => onContextMenu?.(node.item, e)}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        minHeight: "32px",
+        mx: 1,
+        my: "2px",
+        pr: 1,
+        pl: `${node.depth * 16 + 8}px`, // Strict indentation
+        borderRadius: 1,
+        cursor: "pointer",
+        opacity: isDragging ? 0.4 : 1,
+        backgroundColor: isSelected ? "primary.50" : "transparent",
+        color: isSelected ? "primary.main" : "text.primary",
+        "&:hover": {
+          backgroundColor: isSelected ? "primary.100" : "action.hover",
+          "& .drag-handle": { opacity: 1 },
+        },
+        transition: "background-color 0.2s ease-in-out",
+      }}
+      onClick={() => onSelect(node.id)}
+    >
+      {/* Expand / Collapse Chevron */}
+      <Box
+        sx={{
+          width: 24,
+          height: 24,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexShrink: 0,
+          mr: 0.5,
+        }}
+      >
+        {node.hasChildren ? (
+          <IconButton
+            size="small"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleExpand(node.id);
+            }}
+            sx={{ p: 0, color: isSelected ? "primary.main" : "text.secondary" }}
+          >
+            {node.isExpanded ? (
+              <ExpandMoreIcon sx={{ fontSize: 18 }} />
+            ) : (
+              <ChevronRightIcon sx={{ fontSize: 18 }} />
+            )}
+          </IconButton>
+        ) : null}
+      </Box>
+
+      {/* Title / Content Area */}
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          fontSize: "13px",
+          "& > div": { display: "flex", alignItems: "center", gap: "8px" },
+        }}
+      >
+        {renderTitle(node.item)}
+      </Box>
+
+      {/* Drag Handle (Hidden on Page blocks!) */}
+      {!isPageBlock && (
+        <Box
+          className="drag-handle"
+          ref={handleRef}
+          onClick={(e) => e.stopPropagation()}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            cursor: "grab",
+            color: "text.disabled",
+            opacity: isSelected ? 1 : 0,
+            transition: "opacity 0.2s",
+            "&:active": { cursor: "grabbing" },
+          }}
+        >
+          <DragIndicatorIcon sx={{ fontSize: 16 }} />
+        </Box>
+      )}
+    </Box>
+  );
 };
 
+// --- Main Tree Component ---
 export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
-  const [blockTreeRef, setBlockTreeRef] = useState<HTMLElement | null>(null);
-  const dragNode = useRef<{
-    dataRef: T;
-    parent: T;
-    key: string;
-    parentKey: string;
-  } | null>(null);
-
-  const { treeData, allowDrop, onContextMenu, selectedKeys } = props;
-  const treeDataRef = useRef(treeData);
   const {
-    onDragStart: propsDragStart,
-    onDrop: propsDrop,
-    renderTitle: propsRenderTitle,
-    onDragEnd: propsDragEnd,
-    onSelect: propsSelect,
+    treeData,
+    selectedKeys = [],
+    onSelect,
+    onContextMenu,
+    onDragStart,
+    onDragEnd,
+    onMouseLeave,
+    onMouseEnter,
+    renderTitle,
+    onDrop,
   } = props;
 
   const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
-
-  const onExpand = useCallback(
-    (keys: string[]) => {
-      setExpandedKeys(keys);
-    },
-    [setExpandedKeys]
-  );
 
   useEffect(() => {
     if (props.defaultExpandAll) {
@@ -93,183 +230,149 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
         keys.push(data.id);
         data.children?.forEach(loop);
       };
-      treeDataRef.current.forEach(loop);
+      treeData.forEach(loop);
       setExpandedKeys(keys);
     }
-  }, [props.defaultExpandAll]);
+  }, [props.defaultExpandAll, treeData]);
 
   useEffect(() => {
-    setExpandedKeys((keys) =>
-      props.expandedKeys ? [...keys, ...props.expandedKeys] : keys
-    );
+    if (props.expandedKeys) {
+      setExpandedKeys((keys) =>
+        Array.from(new Set([...keys, ...props.expandedKeys!]))
+      );
+    }
   }, [props.expandedKeys]);
 
-  const onDragStart = useCallback(
-    (e: React.DragEvent<HTMLSpanElement>, node: NodeInstance) => {
-      e.dataTransfer.dropEffect = "none";
-      // e.dataTransfer.setDragImage(img, 0, 0);
-      const dragNodeData = (node.props as any).dataRef as T;
-      dragNode.current = {
-        dataRef: dragNodeData,
-        parent: (node.props as any).parent,
-        key: node.props._key as string,
-        parentKey: node.props.parentKey as string,
-      };
-      propsDragStart?.();
-    },
-    [propsDragStart]
+  const handleToggleExpand = useCallback((id: string) => {
+    setExpandedKeys((prev) =>
+      prev.includes(id) ? prev.filter((key) => key !== id) : [...prev, id]
+    );
+  }, []);
+
+  const flattenedItems = useMemo(
+    () => flattenTree(treeData, expandedKeys),
+    [treeData, expandedKeys]
   );
 
-  const onDragMove: AllowDrop = useCallback(
-    (option) => {
-      if (!dragNode.current) return false;
-      const dropData = (option.dropNode.props as any).dataRef as T;
-      const dropId = option.dropNode.props._key!;
-      const currentDropData: Parameters<BlockTreeProps<T>["allowDrop"]>[0] = {
-        dragNode: { key: dragNode.current.key },
-        dropNode: {
-          dataRef: dropData,
-          parent: (option.dropNode.props as any).parent,
-          key: dropId,
-        },
-        dropPosition: option.dropPosition,
-      };
-      const isAllowDrop = allowDrop(currentDropData);
-
-      if (isAllowDrop) {
-        return true;
-      }
-
-      return false;
-    },
-    [allowDrop]
-  );
-
-  const onDrop = useCallback(
-    (info: {
-      e: React.DragEvent<HTMLSpanElement>;
-      dragNode: NodeInstance | null;
-      dropNode: NodeInstance | null;
-      dropPosition: number;
-    }) => {
-      const { dropNode, dropPosition, e } = info;
-      e.dataTransfer.dropEffect = "move";
-      if (!dragNode.current || !dropNode) return;
-
-      const dropData = (dropNode.props as any).dataRef as T;
-      const currentDropData: Parameters<BlockTreeProps<T>["onDrop"]>[0] = {
-        dragNode: dragNode.current,
-        dropNode: {
-          dataRef: dropData,
-          parent: (dropNode.props as any).parent,
-          key: dropNode.props._key as string,
-          parentKey: dropNode.props.parentKey as string,
-        },
-        dropPosition,
-      };
-      propsDrop(currentDropData);
-    },
-    [propsDrop]
-  );
-
-  const renderTitle: TreeProps["renderTitle"] = useCallback(
-    (nodeData) => {
-      return (
-        <div
-          style={{ display: "inline-flex", width: "100%" }}
-          onContextMenu={(ev) =>
-            onContextMenu && onContextMenu(nodeData as any, ev)
-          }
-        >
-          {propsRenderTitle(nodeData as any)}
-        </div>
-      );
-    },
-    [onContextMenu, propsRenderTitle]
-  );
-
-  const onDragEnd = useCallback(() => {
-    dragNode.current = null;
-    propsDragEnd?.();
-  }, [propsDragEnd]);
-
-  const onSelect: TreeProps["onSelect"] = useCallback(
-    (selectedKeys) => {
-      propsSelect(selectedKeys[0]);
-    },
-    [propsSelect]
-  );
-
+  // THE FIX: Use a ref so the dnd-kit callbacks always have the absolute latest tree data,
+  // preventing the "only works once" stale closure bug!
+  const latestItemsRef = useRef(flattenedItems);
   useEffect(() => {
-    if (blockTreeRef) {
-      blockTreeRef.addEventListener("dragover", (e) => {
-        if (e.dataTransfer) {
-          e.dataTransfer.dropEffect = "move";
-        }
-      });
-    }
-  }, [blockTreeRef]);
+    latestItemsRef.current = flattenedItems;
+  }, [flattenedItems]);
 
-  return useMemo(
-    () => (
-      <div ref={setBlockTreeRef} onMouseLeave={props.onMouseLeave}>
-        <CacheTree
-          selectedKeys={selectedKeys}
-          expandedKeys={expandedKeys}
-          onExpand={onExpand}
-          draggable
-          size="small"
-          treeData={treeData}
-          blockNode
-          fieldNames={fileNames}
-          onDragEnd={onDragEnd}
-          onDragStart={onDragStart}
-          onDrop={onDrop}
-          allowDrop={onDragMove}
-          onSelect={onSelect}
-          renderTitle={renderTitle}
-        />
-      </div>
-    ),
-    [
-      treeData,
-      props.onMouseLeave,
-      expandedKeys,
-      selectedKeys,
-      onExpand,
-      onDragEnd,
-      onDragStart,
-      onDrop,
-      onDragMove,
-      onSelect,
-      renderTitle,
-    ]
+  const handleDragStart = (event: any) => {
+    // Determine the ID of the dragged item
+    const dragId = event?.active?.id || event?.operation?.source?.id;
+
+    // Instantly collapse the node so it picks up all its children visually!
+    if (dragId) {
+      setExpandedKeys((prev) => prev.filter((k) => k !== dragId));
+    }
+    onDragStart?.();
+  };
+
+  const handleDragEnd = (event: any) => {
+    onDragEnd?.();
+    if (event?.canceled) return;
+
+    // Standardize IDs across different @dnd-kit/react event payloads
+    const dragId = event?.active?.id || event?.operation?.source?.id;
+    const dropId = event?.over?.id || event?.operation?.target?.id;
+
+    if (!dragId || !dropId || dragId === dropId) return;
+
+    // Use the Ref to look up the exact items, making us immune to index shifting!
+    const items = latestItemsRef.current;
+    const dragIndex = items.findIndex((n) => n.id === dragId);
+    const dropIndex = items.findIndex((n) => n.id === dropId);
+
+    if (dragIndex === -1 || dropIndex === -1) return;
+
+    const dragNode = items[dragIndex];
+    const dropNode = items[dropIndex];
+
+    const dragType = (dragNode.item as any).type || "";
+    const dropType = (dropNode.item as any).type || "";
+
+    // Default to dropping as a sibling
+    let dropPosition = dropIndex > dragIndex ? 1 : -1;
+
+    const isPage = dropType === "page";
+    const isWrapper = dropType.includes("wrapper");
+    const isSection = dropType.includes("section");
+    const isColumn = dropType.includes("column");
+    const isGroup = dropType.includes("group");
+    const isHero = dropType.includes("hero");
+
+    const isDragWrapper = dragType.includes("wrapper");
+    const isDragSection = dragType.includes("section");
+    const isDragColumn = dragType.includes("column");
+
+    // Smart Schema Validation: Force internal drop (0) if the container naturally accepts the dragged element
+    if (
+      (isPage && isDragWrapper) ||
+      (isWrapper && isDragSection) ||
+      (isSection &&
+        (isDragColumn || dragType === "group" || dragType === "hero")) ||
+      (isColumn &&
+        !isDragSection &&
+        !isDragWrapper &&
+        !isDragColumn &&
+        dragType !== "page" &&
+        dragType !== "hero") ||
+      (isGroup &&
+        !isDragSection &&
+        !isDragWrapper &&
+        !isDragColumn &&
+        dragType !== "page") ||
+      (isHero &&
+        !isDragSection &&
+        !isDragWrapper &&
+        !isDragColumn &&
+        dragType !== "page") ||
+      isPage // You can't put anything "next" to a page, only inside it!
+    ) {
+      dropPosition = 0;
+    }
+
+    onDrop({
+      dragNode: {
+        dataRef: dragNode.item,
+        parent: dragNode.parent,
+        key: dragNode.id,
+        parentKey: dragNode.parentKey,
+      },
+      dropNode: {
+        dataRef: dropNode.item,
+        parent: dropNode.parent,
+        key: dropNode.id,
+        parentKey: dropNode.parentKey,
+      },
+      dropPosition,
+    });
+  };
+
+  return (
+    <Box
+      onMouseLeave={onMouseLeave}
+      sx={{ width: "100%", userSelect: "none", py: 1 }}
+    >
+      <DragDropProvider onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+        {flattenedItems.map((node, index) => (
+          <SortableTreeItem
+            key={node.id}
+            node={node}
+            index={index}
+            selectedKeys={selectedKeys}
+            onSelect={onSelect}
+            onToggleExpand={handleToggleExpand}
+            onContextMenu={onContextMenu}
+            onMouseEnter={onMouseEnter}
+            renderTitle={renderTitle}
+          />
+        ))}
+      </DragDropProvider>
+    </Box>
   );
-}
-
-const cacheTreeDebounceCallback = debounce(
-  (data: TreeProps, setCacheProps: (s: TreeProps) => void) => {
-    setCacheProps(data);
-  },
-  300
-);
-
-function CacheTree(props: TreeProps) {
-  const [cacheProps, setCacheProps] = useState(props);
-  const lastProps = useRef(props);
-
-  useEffect(() => {
-    if (lastProps.current.treeData !== props.treeData) {
-      lastProps.current = props;
-      cacheTreeDebounceCallback(props, setCacheProps);
-      return () => {
-        cacheTreeDebounceCallback.cancel();
-      };
-    } else {
-      lastProps.current = props;
-      setCacheProps(props);
-    }
-  }, [props]);
-
-  return useMemo(() => <Tree {...cacheProps} />, [cacheProps]);
 }

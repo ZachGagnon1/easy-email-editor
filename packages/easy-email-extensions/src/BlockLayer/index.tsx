@@ -92,7 +92,7 @@ export function BlockLayer(props: BlockLayerProps) {
             !isPage && "email-block"
           )}
         >
-          <Stack spacing={2}>
+          <Stack spacing={1} direction="row">
             <IconFont
               iconName={getIconNameByBlockType(data.type)}
               style={{ fontSize: 12, color: "#999" }}
@@ -182,7 +182,9 @@ export function BlockLayer(props: BlockLayerProps) {
     (params) => {
       const { dragNode, dropNode, dropPosition } = params;
       const dragBlock = BlockManager.getBlockByType(dragNode.dataRef.type);
-      if (!dragBlock) {return false;}
+      if (!dragBlock) {
+        return false;
+      }
       const dropIndex = getIndexByIdx(dropNode.key);
 
       if (dropPosition === 0) {
@@ -240,13 +242,17 @@ export function BlockLayer(props: BlockLayerProps) {
     );
 
   const selectedKeys = useMemo(() => {
-    if (!focusIdx) {return [];}
+    if (!focusIdx) {
+      return [];
+    }
 
     return [focusIdx];
   }, [focusIdx]);
 
   const expandedKeys = useMemo(() => {
-    if (!focusIdx) {return [];}
+    if (!focusIdx) {
+      return [];
+    }
     let currentIdx = getParentIdx(focusIdx);
     const keys: string[] = [];
     while (currentIdx) {
