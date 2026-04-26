@@ -1,127 +1,60 @@
-import { SYNC_SCROLL_ELEMENT_CLASS_NAME } from "@/constants";
-import { useDomScrollHeight } from "@/hooks/useDomScrollHeight";
-import { debounce } from "lodash";
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+// SyncScrollIframeComponent.tsx
+import React, { useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 
-interface Props {
+// Export a context so child components can access the iframe's document safely
+export const IframeDocumentContext = React.createContext<Document | null>(null);
+
+interface Props extends React.HTMLProps<HTMLIFrameElement> {
   children: React.ReactNode;
-  title?: string;
-  windowRef?: (e: Window) => void;
   isActive?: boolean;
-  style?: React.CSSProperties;
+  iframeWrapper?: React.FC<{ children: React.ReactNode; document?: Document }>;
 }
 
 export const SyncScrollIframeComponent = ({
   children,
   title,
-  windowRef,
   isActive,
+  iframeWrapper: Wrapper,
   style,
+  ...rest
 }: Props) => {
-  const [mountNode, setMountNode] = useState<HTMLElement | null>(null);
-  const [contentWindow, setContentWindow] = useState<Window | null>(null);
-  const { viewElementRef } = useDomScrollHeight();
-  const [ref, setRef] = useState<null | HTMLDivElement>(null);
+  const [iframeDocument, setIframeDocument] = useState<Document | null>(null);
 
-  const setFirstVisibleEle = useCallback(
-    debounce((root: Document) => {
-      if (!ref) return;
+  // React 19 Safe: Only initialize portal when iframe is fully loaded
+  const handleLoad = useCallback(
+    (evt: React.SyntheticEvent<HTMLIFrameElement>) => {
+      const iframe = evt.target as HTMLIFrameElement;
+      const doc = iframe.contentDocument;
+      const win = iframe.contentWindow;
 
-      const { top: containerTop } = ref.getBoundingClientRect();
-      const ele = root.elementFromPoint(0, 10);
-
-      const findSelectorNode = (ele: Element): Element | null => {
-        if (ele.getAttribute("data-selector")) {
-          return ele;
-        }
-        if (ele.parentNode instanceof Element) {
-          return findSelectorNode(ele.parentNode);
-        }
-        return null;
-      };
-      const selectorNode = ele && findSelectorNode(ele);
-      viewElementRef.current = null;
-      if (selectorNode) {
-        const { top: selectorEleTop } = selectorNode.getBoundingClientRect();
-        let selectorDiffTop = selectorEleTop - containerTop;
-
-        const selector = selectorNode.getAttribute("data-selector");
-
-        if (selector) {
-          viewElementRef.current = {
-            selector: selector || "",
-            top: selectorDiffTop,
-          };
-        }
+      if (doc && win) {
+        doc.body.style.backgroundColor = "transparent";
+        setIframeDocument(doc);
       }
-    }, 200),
-    [viewElementRef, ref]
-  );
-
-  const onLoad: React.ReactEventHandler<HTMLIFrameElement> = useCallback(
-    (evt) => {
-      const contentWindow = (evt.target as any)?.contentWindow;
-      if (!contentWindow) return;
-      windowRef?.(contentWindow);
-      const innerBody = contentWindow.document.body;
-      innerBody.style.backgroundColor = "transparent";
-      setMountNode(innerBody);
-      setContentWindow(contentWindow);
     },
-    [windowRef]
+    []
   );
 
-  useEffect(() => {
-    if (!isActive || !mountNode) return;
-
-    const viewElement = viewElementRef.current;
-
-    const scrollEle = mountNode.querySelector(
-      `.${SYNC_SCROLL_ELEMENT_CLASS_NAME}`
-    );
-    if (!scrollEle) return;
-
-    if (viewElement) {
-      const viewElementNode = mountNode.querySelector(
-        `[data-selector="${viewElement?.selector}"]`
-      );
-
-      if (viewElementNode && scrollEle) {
-        viewElementNode.scrollIntoView();
-
-        scrollEle.scrollTo(0, scrollEle.scrollTop - viewElement.top);
-      }
-    } else {
-      scrollEle.scrollTo(0, 0);
-    }
-  }, [viewElementRef, mountNode, isActive]);
-
-  useEffect(() => {
-    if (!contentWindow?.document.documentElement) return;
-    const onScroll = () => {
-      if (!isActive) return;
-      setFirstVisibleEle(contentWindow.document);
-    };
-    contentWindow.addEventListener("scroll", onScroll, true);
-    return () => {
-      contentWindow?.removeEventListener("scroll", onScroll, true);
-    };
-  }, [contentWindow, isActive, setFirstVisibleEle]);
-
-  return useMemo(() => {
-    return (
-      <iframe
-        ref={setRef}
-        title={title}
-        srcDoc={
-          '<!doctype html> <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"> <head></head> <body> </body> </html>'
-        }
-        style={style}
-        onLoad={onLoad}
-      >
-        <>{mountNode && createPortal(children, mountNode)}</>
-      </iframe>
-    );
-  }, [title, style, onLoad, mountNode, children]);
+  return (
+    <iframe
+      {...(rest as any)}
+      title={title}
+      onLoad={handleLoad}
+      style={style}
+      srcDoc='<!doctype html><html xmlns="http://www.w3.org/1999/xhtml"><head></head><body></body></html>'
+    >
+      {iframeDocument &&
+        createPortal(
+          <IframeDocumentContext.Provider value={iframeDocument}>
+            {Wrapper ? (
+              <Wrapper document={iframeDocument}>{children}</Wrapper>
+            ) : (
+              children
+            )}
+          </IframeDocumentContext.Provider>,
+          iframeDocument.body
+        )}
+    </iframe>
+  );
 };

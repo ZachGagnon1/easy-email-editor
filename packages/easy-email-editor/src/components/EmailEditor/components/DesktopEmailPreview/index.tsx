@@ -6,7 +6,7 @@ import { useEditorContext } from "@/hooks/useEditorContext";
 import { classnames } from "@/utils/classnames";
 import { SYNC_SCROLL_ELEMENT_CLASS_NAME } from "@/constants";
 import { createPortal } from "react-dom";
-import { SyncScrollIframeDom } from "@/components/UI/SyncScrollIframeDom";
+import { SyncScrollIframeComponent } from "@/components/UI/SyncScrollIframeComponent";
 
 export function DesktopEmailPreview() {
   const { activeTab } = useActiveTab();
@@ -34,7 +34,7 @@ export function DesktopEmailPreview() {
         height: "100%",
       }}
     >
-      <SyncScrollIframeDom
+      <SyncScrollIframeComponent
         isActive={isActive}
         style={{
           border: "none",
@@ -99,7 +99,7 @@ export function DesktopEmailPreview() {
             document.body
           )}
         </>
-      </SyncScrollIframeDom>
+      </SyncScrollIframeComponent>
     </div>
   );
 }

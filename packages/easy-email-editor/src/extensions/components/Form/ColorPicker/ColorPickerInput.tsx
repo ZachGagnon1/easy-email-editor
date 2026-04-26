@@ -1,23 +1,10 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import {
-  Box,
-  Button,
-  InputLabel,
-  Popover,
-  Stack,
-  TextField,
-} from "@mui/material";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { Box, Button, InputLabel, Popover, Stack, TextField } from "@mui/material";
 import { SketchPicker } from "react-color";
 import Color from "color";
-import { PresetColorsContext } from "@/extensions/AttributePanel/components/provider/PresetColorsProvider";
-import createCache from "@emotion/cache";
-import { CacheProvider } from "@emotion/react";
+import {
+  PresetColorsContext
+} from "@/extensions/AttributePanel/components/provider/PresetColorsProvider";
 
 export interface ColorPickerProps {
   onChange?: (val: string) => void;
@@ -111,18 +98,8 @@ export function ColorPicker(props: ColorPickerProps) {
   const triggerChild = childrenArray[0];
   const footerChild = childrenArray.length > 1 ? childrenArray[1] : null;
 
-  const iframeCache = useMemo(() => {
-    if (!anchorEl) {
-      return null;
-    }
-    return createCache({
-      key: "mui-color",
-      container: anchorEl.ownerDocument.head,
-    });
-  }, [anchorEl]);
-
   return (
-    <Stack spacing={0.5} sx={{ width: "100%" }}>
+    <Stack spacing={0.5}>
       {label && !triggerChild && (
         <InputLabel sx={{ fontSize: "12px", color: "text.secondary" }}>
           {label}
@@ -182,52 +159,48 @@ export function ColorPicker(props: ColorPickerProps) {
           </>
         )}
 
-        {iframeCache && (
-          <CacheProvider value={iframeCache}>
-            <Popover
-              open={isPopoverOpen}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-              transformOrigin={{ vertical: "top", horizontal: "left" }}
-              container={
-                container
-                  ? typeof container === "function"
-                    ? container()
-                    : container
-                  : anchorEl?.ownerDocument.body
-              }
-              disableAutoFocus
-              disableEnforceFocus
-              disableRestoreFocus
-              slotProps={{
-                paper: {
-                  sx: {
-                    backgroundColor: "#FFFFFF",
-                    minHeight: "fit-content",
-                    ".sketch-picker": {
-                      boxShadow: "none !important",
-                    },
-                  },
+        <Popover
+          open={isPopoverOpen}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          transformOrigin={{ vertical: "top", horizontal: "left" }}
+          container={
+            container
+              ? typeof container === "function"
+                ? container()
+                : container
+              : anchorEl?.ownerDocument.body
+          }
+          disableAutoFocus
+          disableEnforceFocus
+          disableRestoreFocus
+          slotProps={{
+            paper: {
+              sx: {
+                backgroundColor: "#FFFFFF",
+                minHeight: "fit-content",
+                ".sketch-picker": {
+                  boxShadow: "none !important",
                 },
-              }}
-            >
-              <Box
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <SketchPicker
-                  color={adapterColor}
-                  presetColors={presetColorList}
-                  disableAlpha
-                  onChange={(color) => setInternalColor(color.hex)}
-                  onChangeComplete={(color) => onColorChange(color.hex)}
-                />
-                {footerChild}
-              </Box>
-            </Popover>
-          </CacheProvider>
-        )}
+              },
+            },
+          }}
+        >
+          <Box
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <SketchPicker
+              color={adapterColor}
+              presetColors={presetColorList}
+              disableAlpha
+              onChange={(color) => setInternalColor(color.hex)}
+              onChangeComplete={(color) => onColorChange(color.hex)}
+            />
+            {footerChild}
+          </Box>
+        </Popover>
       </Box>
     </Stack>
   );

@@ -5,8 +5,6 @@ import { SearchField, SwitchField } from "@/extensions/components/Form";
 import { ToolItem } from "../ToolItem";
 import { EMAIL_BLOCK_CLASS_NAME } from "easy-email-core";
 import { Box, Popover, Stack } from "@mui/material";
-import { CacheProvider } from "@emotion/react";
-import createCache from "@emotion/cache";
 
 export interface LinkParams {
   link: string;
@@ -107,16 +105,6 @@ export function Link(props: Readonly<LinkProps>) {
     [activeNode, onChange, savedRange]
   );
 
-  const iframeCache = useMemo(() => {
-    if (!anchorEl) {
-      return null;
-    }
-    return createCache({
-      key: "mui-iframe",
-      container: anchorEl.ownerDocument.head,
-    });
-  }, [anchorEl]);
-
   return (
     <Form
       key={initialValues.link}
@@ -135,61 +123,57 @@ export function Link(props: Readonly<LinkProps>) {
               />
             </span>
 
-            {iframeCache && (
-              <CacheProvider value={iframeCache}>
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  container={anchorEl?.ownerDocument.body}
-                  disableAutoFocus
-                  disableEnforceFocus
-                  disableRestoreFocus
-                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                  transformOrigin={{ vertical: "top", horizontal: "center" }}
-                >
-                  <Box
-                    sx={{ p: 2, width: 320 }}
-                    onMouseDown={(e) => e.stopPropagation()}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Stack spacing={2}>
-                      <SearchField
-                        size="small"
-                        name="link"
-                        label="Link"
-                        labelHidden
-                        searchButton="Apply"
-                        placeholder="https://www.example.com"
-                        onSearch={(val) => {
-                          // Bypass the 300ms debounce, inject the string directly, and fire submit!
-                          form.change("link", val);
-                          setTimeout(() => form.submit(), 0);
-                        }}
-                      />
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              container={anchorEl?.ownerDocument.body}
+              disableAutoFocus
+              disableEnforceFocus
+              disableRestoreFocus
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              transformOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+              <Box
+                sx={{ p: 2, width: 320 }}
+                onMouseDown={(e) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Stack spacing={2}>
+                  <SearchField
+                    size="small"
+                    name="link"
+                    label="Link"
+                    labelHidden
+                    searchButton="Apply"
+                    placeholder="https://www.example.com"
+                    onSearch={(val) => {
+                      // Bypass the 300ms debounce, inject the string directly, and fire submit!
+                      form.change("link", val);
+                      setTimeout(() => form.submit(), 0);
+                    }}
+                  />
 
-                      <Stack
-                        direction="row"
-                        spacing={3}
-                        sx={{ alignItems: "center" }}
-                      >
-                        <SwitchField
-                          size="small"
-                          label="Target Blank"
-                          name="blank"
-                        />
-                        <SwitchField
-                          size="small"
-                          label="Underline"
-                          name="underline"
-                        />
-                      </Stack>
-                    </Stack>
-                  </Box>
-                </Popover>
-              </CacheProvider>
-            )}
+                  <Stack
+                    direction="row"
+                    spacing={3}
+                    sx={{ alignItems: "center" }}
+                  >
+                    <SwitchField
+                      size="small"
+                      label="Target Blank"
+                      name="blank"
+                    />
+                    <SwitchField
+                      size="small"
+                      label="Underline"
+                      name="underline"
+                    />
+                  </Stack>
+                </Stack>
+              </Box>
+            </Popover>
           </>
         );
       }}

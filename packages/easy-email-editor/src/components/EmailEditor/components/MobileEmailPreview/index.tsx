@@ -106,7 +106,7 @@ export function MobileEmailPreview() {
                   margin: "auto",
                 }}
               >
-                <>{reactNode}</>
+                {reactNode}
               </div>
             </SyncScrollIframeComponent>
           </div>

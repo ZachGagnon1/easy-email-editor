@@ -12,7 +12,8 @@ import {
 import { classnames } from "@/utils/classnames";
 import { ActiveTabKeys } from "@/components/Provider/BlocksProvider";
 import { useActiveTab } from "@/hooks/useActiveTab";
-import { SyncScrollIframeDom } from "@/components/UI/SyncScrollIframeDom";
+import { SyncScrollIframeComponent } from "@/components/UI/SyncScrollIframeComponent";
+import { IframeCacheProvider } from "@/components/Provider/IframeCacheProvider";
 
 export function EditEmailPreview() {
   useHotKeys();
@@ -33,9 +34,10 @@ export function EditEmailPreview() {
   }, [containerRef, setInitialized]);
 
   return (
-    <SyncScrollIframeDom
+    <SyncScrollIframeComponent
       isActive={activeTab === ActiveTabKeys.EDIT}
       id="VisualEditorEditMode"
+      iframeWrapper={IframeCacheProvider} // <-- Pass it cleanly here
       {...{
         [DATA_ATTRIBUTE_DROP_CONTAINER]: "true",
       }}
@@ -45,6 +47,7 @@ export function EditEmailPreview() {
         zIndex: 10,
         position: "relative",
         outline: "none",
+        border: "none",
       }}
     >
       <div
@@ -73,6 +76,6 @@ export function EditEmailPreview() {
         <MjmlDomRender />
       </div>
       <ShadowStyle />
-    </SyncScrollIframeDom>
+    </SyncScrollIframeComponent>
   );
 }

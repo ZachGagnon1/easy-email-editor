@@ -1,7 +1,6 @@
 import { Tooltip } from "@mui/material";
 import { classnames } from "@/extensions/utils/classnames";
 
-//TODO: check the style when the iframe is fixed up.
 export const ToolItem: React.FC<{
   title?: string;
   icon: React.ReactNode;

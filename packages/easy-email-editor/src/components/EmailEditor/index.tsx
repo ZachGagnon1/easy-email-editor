@@ -24,8 +24,9 @@ export const EmailEditor = () => {
   const iframeDocument = getIframeDocument();
 
   const fixedContainer = useMemo(() => {
-    if (!iframeDocument) return null;
-    return createPortal(<div id={FIXED_CONTAINER_ID} />, iframeDocument?.body);
+    if (!iframeDocument || !iframeDocument.body) return null;
+
+    return createPortal(<div id={FIXED_CONTAINER_ID} />, iframeDocument.body);
   }, [iframeDocument]);
 
   const onBeforeChangeTab = useCallback((currentTab: any, nextTab: any) => {
