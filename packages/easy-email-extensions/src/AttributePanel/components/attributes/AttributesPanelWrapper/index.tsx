@@ -1,8 +1,9 @@
-import { IconEye, IconEyeInvisible } from "@arco-design/web-react/icon";
 import React, { useCallback } from "react";
-import { Stack, TextStyle, useBlock } from "easy-email-editor";
+import { TextStyle, useBlock } from "easy-email-editor";
 import { BasicType, BlockManager } from "easy-email-core";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 export interface AttributesPanelWrapper {
   style?: React.CSSProperties;
@@ -39,18 +40,17 @@ export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = (
           padding: "12px 24px",
         }}
       >
-        <Stack vertical>
-          <Stack.Item fill>
-            <Stack wrap={false} distribution="equalSpacing" alignment="center">
-              <Stack spacing="extraTight" alignment="center">
-                <EyeIcon />
-                <TextStyle variation="strong" size="large">
-                  {`${block.name} `} {t("attributes")}
-                </TextStyle>
-              </Stack>
-              <Stack.Item>{props.extra}</Stack.Item>
-            </Stack>
-          </Stack.Item>
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            alignItems: "center",
+          }}
+        >
+          <EyeIcon />
+          <TextStyle variation="strong" size="large">
+            {`${block.name} `} {t("attributes")}
+          </TextStyle>
         </Stack>
       </div>
 
@@ -88,12 +88,12 @@ function EyeIcon() {
   }
 
   return focusBlock.data.hidden ? (
-    <IconEyeInvisible
+    <VisibilityIcon
       style={{ cursor: "pointer", fontSize: 18 }}
       onClick={onToggleVisible}
     />
   ) : (
-    <IconEye
+    <VisibilityOffIcon
       style={{ cursor: "pointer", fontSize: 18 }}
       onClick={onToggleVisible}
     />

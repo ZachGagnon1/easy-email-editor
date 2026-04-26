@@ -233,7 +233,6 @@ export function Tools(props: ToolsProps) {
             key={`${tool}-link`}
             currentRange={selectionRange}
             onChange={(values) => execCommand("createLink", values)}
-            getPopupContainer={getPopoverMountNode}
           />,
           <Unlink
             key={`${tool}-unlink`}
@@ -241,7 +240,7 @@ export function Tools(props: ToolsProps) {
             onChange={() => execCommand("")}
           />,
         ];
-      case "justify":
+      case AvailableTools.Justify:
         return [
           <ToolItem
             key={`${tool}-justify-left`}

@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
-import { getIframeDocument, IconFont, useFocusIdx } from "easy-email-editor";
-import { IconLink } from "@arco-design/web-react/icon";
+import React, { useMemo, useState } from "react";
+import { IconFont, useFocusIdx } from "easy-email-editor";
 import { SelectField, TextField } from "../../../components/Form";
-import { Button as ArcoButton, Popover } from "@arco-design/web-react";
 import { MergeTags } from "./MergeTags";
 import { useField } from "react-final-form";
-import { Stack } from "@mui/material";
+import { Box, IconButton, Popover, Stack } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
+import LinkIcon from "@mui/icons-material/Link";
 
 export function Link() {
   const { focusIdx } = useFocusIdx();
@@ -13,32 +13,65 @@ export function Link() {
     parse: (v) => v,
   });
 
-  // TODO: make sure this still looks good
+  // MUI Popover requires local state to anchor the popup to the button
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "merge-tags-popover" : undefined;
+
   return useMemo(() => {
     return (
       <Stack spacing={1} direction="row">
         <TextField
-          prefix={<IconLink />}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LinkIcon />
+                </InputAdornment>
+              ),
+            },
+          }}
           label={
-            <>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <span>{t("Href")}&nbsp;&nbsp;&nbsp;</span>
-              <Popover
-                triggerProps={{
-                  // @ts-ignore I am ignoring this type error here since this is expecting an
-                  // element but the function returns a document. This works fine and isn't an issue.
-                  getDocument: getIframeDocument,
-                }}
-                trigger="click"
-                content={
-                  <MergeTags value={input.value} onChange={input.onChange} />
-                }
+              <IconButton
+                aria-describedby={id}
+                onClick={handleClick}
+                size="small"
+                sx={{ p: 0.5 }}
               >
-                <ArcoButton
-                  type="text"
-                  icon={<IconFont iconName="icon-merge-tags" />}
-                />
+                <IconFont iconName="icon-merge-tags" />
+              </IconButton>
+
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+              >
+                {/* Added a Box with slight padding so the MergeTags don't hit the absolute edge */}
+                <Box sx={{ p: 1 }}>
+                  <MergeTags value={input.value} onChange={input.onChange} />
+                </Box>
               </Popover>
-            </>
+            </Box>
           }
           name={`${focusIdx}.attributes.href`}
         />
@@ -58,5 +91,5 @@ export function Link() {
         />
       </Stack>
     );
-  }, [focusIdx]);
+  }, [focusIdx, input.value, input.onChange, anchorEl, open, id]);
 }

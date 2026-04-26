@@ -9,7 +9,6 @@ export function BorderWidth() {
     return (
       <InputWithUnitField
         label={t("Width")}
-        quickchange
         name={`${focusIdx}.attributes.border-width`}
       />
     );

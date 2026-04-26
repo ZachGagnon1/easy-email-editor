@@ -1,9 +1,7 @@
-import { Tooltip } from "@arco-design/web-react";
+import { Tooltip } from "@mui/material";
 import { classnames } from "@extensions/utils/classnames";
-import React from "react";
-import { getIframeDocument } from "easy-email-editor";
-import { RICH_TEXT_TOOL_BAR } from "@extensions";
 
+//TODO: check the style when the iframe is fixed up.
 export const ToolItem: React.FC<{
   title?: string;
   icon: React.ReactNode;
@@ -25,14 +23,20 @@ export const ToolItem: React.FC<{
       </button>
     );
   }
+
   return (
     <Tooltip
-      mini
-      position="bottom"
-      content={props.title}
-      getPopupContainer={() =>
-        getIframeDocument()?.getElementById(RICH_TEXT_TOOL_BAR)!
-      }
+      title={props.title}
+      placement="bottom"
+      sx={{
+        fontSize: 12,
+        padding: "4px 8px",
+      }}
+      slotProps={{
+        popper: {
+          sx: { zIndex: 9999 },
+        },
+      }}
     >
       <button
         tabIndex={-1}

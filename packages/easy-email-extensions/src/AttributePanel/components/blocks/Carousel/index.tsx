@@ -41,7 +41,6 @@ export function Carousel() {
           <InputWithUnitField
             label={t("Thumbnail width")}
             name={`${focusIdx}.attributes.tb-width`}
-            quickchange
             inline
           />
 

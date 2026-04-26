@@ -1,8 +1,18 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Tree, TreeSelect } from "@arco-design/web-react";
 import { get, isObject } from "lodash";
 import { useBlock, useEditorProps, useFocusIdx } from "easy-email-editor";
 import { getContextMergeTags } from "@extensions/utils/getContextMergeTags";
+import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
+import { TreeItem } from "@mui/x-tree-view/TreeItem";
+import { Box, InputAdornment, Popover, TextField } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
+export interface TreeNode {
+  key: string;
+  value: string;
+  title: string;
+  children: TreeNode[];
+}
 
 export const MergeTags: React.FC<{
   onChange: (v: string) => void;
@@ -10,6 +20,8 @@ export const MergeTags: React.FC<{
   isSelect?: boolean;
 }> = React.memo((props) => {
   const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
   const { focusIdx } = useFocusIdx();
   const {
     mergeTags = {},
@@ -24,19 +36,15 @@ export const MergeTags: React.FC<{
   );
 
   const treeOptions = useMemo(() => {
-    const treeData: Array<{
-      key: any;
-      value: any;
-      title: string;
-      children: never[];
-    }> = [];
+    const treeData: TreeNode[] = [];
+
     const deep = (
       key: string,
       title: string,
       parent: { [key: string]: any; children?: any[] },
-      mapData: Array<any> = []
+      mapData: Array<TreeNode> = []
     ) => {
-      const currentMapData = {
+      const currentMapData: TreeNode = {
         key: key,
         value: key,
         title: title,
@@ -58,20 +66,24 @@ export const MergeTags: React.FC<{
     return treeData;
   }, [contextMergeTags]);
 
-  const onSelect = useCallback(
-    (key: string) => {
-      const value = get(contextMergeTags, key);
-      if (isObject(value)) {
-        setExpandedKeys((keys) => {
-          if (keys.includes(key)) {
-            return keys.filter((k) => k !== key);
-          } else {
-            return [...keys, key];
-          }
-        });
+  const handleItemSelection = useCallback(
+    (_, itemId: string | null) => {
+      if (!itemId) {
         return;
       }
-      return props.onChange(mergeTagGenerate(key));
+
+      const value = get(contextMergeTags, itemId);
+
+      // Ignore folder selections entirely (prevents keyboard Enter from selecting a folder)
+      if (isObject(value)) {
+        return;
+      }
+
+      // It's a leaf node! Apply the merge tag and close the popover if in Select mode
+      props.onChange(mergeTagGenerate(itemId));
+      if (props.isSelect) {
+        setAnchorEl(null);
+      }
     },
     [contextMergeTags, props, mergeTagGenerate]
   );
@@ -94,30 +106,101 @@ export const MergeTags: React.FC<{
     return <>{mergeTagContent}</>;
   }
 
+  const renderTree = (nodes: TreeNode[]) => {
+    return nodes.map((node) => {
+      const isFolder = Array.isArray(node.children) && node.children.length > 0;
+
+      return (
+        <TreeItem
+          key={node.key}
+          itemId={node.key}
+          label={
+            <Box
+              sx={{ width: "100%", py: 0.5 }}
+              onClick={(e) => {
+                // If they click a folder label, stop MUI from selecting it and manually toggle the expansion
+                if (isFolder) {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  setExpandedKeys((keys) => {
+                    if (keys.includes(node.key)) {
+                      return keys.filter((k) => k !== node.key);
+                    } else {
+                      return [...keys, node.key];
+                    }
+                  });
+                }
+              }}
+            >
+              {node.title}
+            </Box>
+          }
+        >
+          {isFolder ? renderTree(node.children) : null}
+        </TreeItem>
+      );
+    });
+  };
+
+  const TreeComponent = (
+    <SimpleTreeView
+      expandedItems={expandedKeys}
+      onExpandedItemsChange={(e, newExpandedItems) =>
+        setExpandedKeys(newExpandedItems)
+      }
+      onSelectedItemsChange={handleItemSelection}
+    >
+      {renderTree(treeOptions)}
+    </SimpleTreeView>
+  );
+
   return (
-    <div style={{ color: "#333" }}>
+    <Box sx={{ color: "#333", width: "100%" }}>
       {props.isSelect ? (
-        <TreeSelect
-          value={props.value}
-          size="small"
-          dropdownMenuStyle={{ maxHeight: 400, overflow: "auto" }}
-          placeholder={t("Please select")}
-          treeData={treeOptions}
-          onChange={(val) => onSelect(val)}
-        />
+        <>
+          {/* Mock "Select" Input */}
+          <TextField
+            value={props.value || ""}
+            size="small"
+            fullWidth
+            placeholder={t("Please select")}
+            onClick={(e) => setAnchorEl(e.currentTarget)}
+            slotProps={{
+              input: {
+                readOnly: true, // Prevent typing, acts like a pure dropdown
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <ArrowDropDownIcon />
+                  </InputAdornment>
+                ),
+                sx: { cursor: "pointer" },
+              },
+            }}
+          />
+          {/* Dropdown Menu carrying the Tree */}
+          <Popover
+            open={Boolean(anchorEl)}
+            anchorEl={anchorEl}
+            onClose={() => setAnchorEl(null)}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            transformOrigin={{ vertical: "top", horizontal: "left" }}
+            slotProps={{
+              paper: {
+                sx: {
+                  width: anchorEl?.clientWidth, // Match the width of the input exactly
+                  maxHeight: 400,
+                  overflow: "auto",
+                  p: 1,
+                },
+              },
+            }}
+          >
+            {TreeComponent}
+          </Popover>
+        </>
       ) : (
-        <Tree
-          expandedKeys={expandedKeys}
-          onExpand={setExpandedKeys}
-          selectedKeys={[]}
-          treeData={treeOptions}
-          onSelect={(vals: any[]) => onSelect(vals[0])}
-          style={{
-            maxHeight: 400,
-            overflow: "auto",
-          }}
-        />
+        <Box sx={{ maxHeight: 400, overflow: "auto" }}>{TreeComponent}</Box>
       )}
-    </div>
+    </Box>
   );
 });

@@ -3,10 +3,9 @@ import { InputWithUnitField } from "../../../components/Form";
 import { IconFont, TextStyle, useBlock, useFocusIdx } from "easy-email-editor";
 import { createBlockDataByType } from "easy-email-core";
 import { Form, useFormState } from "react-final-form";
-import { Button, Tooltip } from "@arco-design/web-react";
 import { get } from "lodash";
 import { pixelAdapter } from "../adapter";
-import { Stack } from "@mui/material";
+import { IconButton, Stack, Tooltip } from "@mui/material";
 
 export interface PaddingProps {
   title?: string;
@@ -72,6 +71,7 @@ export function Padding(props: PaddingProps = {}) {
     },
     [name, change, focusIdx, attributeName]
   );
+
   const onResetPadding = useCallback(() => {
     if (name) {
       change(name, "0px 0px 0px 0px");
@@ -100,12 +100,14 @@ export function Padding(props: PaddingProps = {}) {
               >
                 <TextStyle variation="strong">{title}</TextStyle>
                 {showResetAll && (
-                  <Tooltip content="Remove all padding">
-                    <Button
+                  <Tooltip title="Remove all padding" placement="top">
+                    <IconButton
                       onClick={onResetPadding}
-                      size="mini"
-                      icon={<IconFont iconName="icon-remove" size={12} />}
-                    />
+                      size="small"
+                      sx={{ p: 0.5 }} // Keeps it tight like Arco's "mini"
+                    >
+                      <IconFont iconName="icon-remove" size={12} />
+                    </IconButton>
                   </Tooltip>
                 )}
               </Stack>

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { TextField } from "../../../components/Form";
-import { useFocusIdx, Stack } from "easy-email-editor";
+import { Stack, useFocusIdx } from "easy-email-editor";
 import { UseFieldConfig } from "react-final-form";
 
 export function Height({
@@ -19,7 +19,6 @@ export function Height({
           <TextField
             label={t("Height")}
             name={`${focusIdx}.attributes.height`}
-            quickchange
             inline={inline}
             config={config}
           />

@@ -5,18 +5,22 @@ import {
   ImageUploaderField,
   InputWithUnitField,
   RadioGroupField,
-  TextField,
+  TextField
 } from "@extensions/components/Form";
 import { Align } from "@extensions/AttributePanel/components/attributes/Align";
 import { IconLink } from "@arco-design/web-react/icon";
 import { Color } from "@extensions/AttributePanel/components/attributes/Color";
-import { ContainerBackgroundColor } from "@extensions/AttributePanel/components/attributes/ContainerBackgroundColor";
+import {
+  ContainerBackgroundColor
+} from "@extensions/AttributePanel/components/attributes/ContainerBackgroundColor";
 import { FontFamily } from "@extensions/AttributePanel/components/attributes/FontFamily";
 import { FontSize } from "@extensions/AttributePanel/components/attributes/FontSize";
 import { FontStyle } from "@extensions/AttributePanel/components/attributes/FontStyle";
 import { FontWeight } from "@extensions/AttributePanel/components/attributes/FontWeight";
 
-import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
+import {
+  AttributesPanelWrapper
+} from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { TextDecoration } from "@extensions/AttributePanel/components/attributes/TextDecoration";
 import { LineHeight } from "@extensions/AttributePanel/components/attributes/LineHeight";
 import { useBlock, useEditorProps, useFocusIdx } from "easy-email-editor";
@@ -142,7 +146,6 @@ function SocialElement({
       <TextField
         label={t("Content")}
         name={`${focusIdx}.data.value.elements.[${index}].content`}
-        quickchange
       />
 
       <TextField
