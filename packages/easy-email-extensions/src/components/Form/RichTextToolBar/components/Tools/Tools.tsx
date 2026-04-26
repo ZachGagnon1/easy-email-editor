@@ -35,27 +35,37 @@ export function Tools(props: ToolsProps) {
 
   const execCommand = useCallback(
     (cmd: string, val?: any) => {
-      if (!selectionRange) {
-        console.error(t("No selectionRange"));
-        return;
-      }
-      if (!focusBlockNode?.contains(selectionRange?.commonAncestorContainer)) {
-        console.error(t("Not commonAncestorContainer"));
+      const iframeWindow = getIframeDocument()?.defaultView;
+      const liveSelection = iframeWindow?.getSelection();
+
+      const activeRange =
+        liveSelection && liveSelection.rangeCount > 0
+          ? liveSelection.getRangeAt(0)
+          : selectionRange;
+
+      if (!activeRange) {
+        console.error("No selectionRange");
         return;
       }
 
-      restoreRange(selectionRange);
+      if (!focusBlockNode?.contains(activeRange.commonAncestorContainer)) {
+        console.error("Not commonAncestorContainer");
+        return;
+      }
+
+      restoreRange(activeRange); // Use the live range!
       const uuid = (+new Date()).toString();
+
       if (cmd === "createLink") {
         const linkData = val as LinkParams;
         const target = linkData.blank ? "_blank" : "";
         let link: HTMLAnchorElement;
+
         if (linkData.linkNode) {
           link = linkData.linkNode;
         } else {
           getIframeDocument()?.execCommand(cmd, false, uuid);
-
-          link = getIframeDocument()?.body?.querySelector(`a[href="${uuid}"`)!;
+          link = getIframeDocument()?.body?.querySelector(`a[href="${uuid}"]`)!;
         }
 
         if (target) {
@@ -78,7 +88,7 @@ export function Tools(props: ToolsProps) {
         }
       } else if (cmd === "foreColor") {
         getIframeDocument()?.execCommand(cmd, false, val);
-        let linkNode: HTMLAnchorElement | null = getLinkNode(selectionRange);
+        const linkNode: HTMLAnchorElement | null = getLinkNode(activeRange); // Use activeRange!
         if (linkNode) {
           linkNode.style.color = "inherit";
         }
@@ -141,7 +151,9 @@ export function Tools(props: ToolsProps) {
   const tools = enabledTools.flatMap((tool) => {
     switch (tool) {
       case AvailableTools.MergeTags:
-        if (!mergeTags) return [];
+        if (!mergeTags) {
+          return [];
+        }
         return [
           <MergeTags
             key={tool}

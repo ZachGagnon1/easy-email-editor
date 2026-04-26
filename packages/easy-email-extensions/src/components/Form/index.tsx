@@ -1,55 +1,75 @@
-import {
-  InputNumber,
-  Input as ArcoInput,
-  Switch,
-  Slider,
-  SliderProps,
-  InputNumberProps,
-  SwitchProps,
-  TextAreaProps,
-  CheckboxGroupProps,
-  TreeSelect,
-  TreeSelectProps,
-} from "@arco-design/web-react";
-import { ImageUploaderProps, ImageUploader } from "./ImageUploader";
-import { UploadField as Uploader, UploadFieldProps } from "./UploadField";
+import { ImageUploader, ImageUploaderProps } from "./ImageUploader";
 import { Select, SelectProps } from "./Select";
 import { RadioGroup, RadioGroupProps } from "./RadioGroup";
 import enhancer from "./enhancer";
-import { Input, InputProps } from "./Input";
+import { TextInput, TextInputProps } from "./TextInput";
 import { InputWithUnit, InputWithUnitProps } from "./InputWithUnit";
-import { CheckBoxGroup } from "./CheckBoxGroup";
 import { EditTab, EditTabProps } from "./EditTab";
 import { EditGridTab, EditGridTabProps } from "./EditGridTab";
 import { InlineText, InlineTextProps } from "./InlineTextField";
-import { AutoCompleteProps, AutoComplete } from "./AutoComplete";
-import { InputSearchProps } from "@arco-design/web-react/es/Input";
+import { AutoComplete, AutoCompleteProps } from "./AutoComplete";
 import { ColorPickerField } from "./ColorPickerField";
+import { NumberInput } from "@extensions/components/Form/NumberInput";
+import { SwitchInput, SwitchInputProps } from "@extensions/components/Form/SwitchInput";
+import { TextAreaInput } from "@extensions/components/Form/TextAreaInput";
+import { SearchInput, SearchInputProps } from "./SearchInput";
 
 export { RichTextField } from "./RichTextField";
 
-export const TextField = enhancer<InputProps>(Input, (value) => value);
+// 1. Extract the base props and omit the ones we are overriding
+export interface NumberFieldAdapterProps
+  extends Omit<
+    React.ComponentProps<typeof NumberInput>,
+    "value" | "onValueChange" | "onChange"
+  > {
+  value?: string;
+  onChange?: (val: string) => void;
+  onBlur?: () => void;
+  name?: string;
+}
+
+// 2. Type the props without 'any'
+const NumberFieldAdapter = (props: NumberFieldAdapterProps) => {
+  const { onChange, value, ...rest } = props;
+
+  const numericValue =
+    value === "" || value === undefined || value === null
+      ? null
+      : Number(value);
+
+  console.log(value);
+
+  return (
+    <NumberInput
+      {...rest}
+      value={numericValue}
+      onValueChange={(val: number | null) => {
+        if (onChange) {
+          onChange(val === null || Number.isNaN(val) ? "" : String(val));
+        }
+      }}
+    />
+  );
+};
+
+export const TextField = enhancer<TextInputProps>(TextInput, (value) => value);
 
 export const InputWithUnitField = enhancer<InputWithUnitProps>(
   InputWithUnit,
   (value) => value
 );
 
-export const SearchField = enhancer<InputSearchProps>(
-  ArcoInput.Search,
+export const SearchField = enhancer<SearchInputProps>(
+  SearchInput,
   (val) => val
 );
 
-export const TextAreaField = enhancer<TextAreaProps>(
-  ArcoInput.TextArea,
+export const TextAreaField = enhancer<TextInputProps>(
+  TextAreaInput,
   (val) => val
 );
 
-export const NumberField = enhancer<InputNumberProps>(InputNumber, (e) => e);
-
-export const SliderField = enhancer<SliderProps>(Slider, (e) => e);
-
-export const UploadField = enhancer<UploadFieldProps>(Uploader, (val) => val);
+export const NumberField = enhancer(NumberFieldAdapter, (val) => val);
 
 export const ImageUploaderField = enhancer<ImageUploaderProps>(
   ImageUploader,
@@ -57,8 +77,6 @@ export const ImageUploaderField = enhancer<ImageUploaderProps>(
 );
 
 export const SelectField = enhancer<SelectProps>(Select, (e) => e);
-
-export const TreeSelectField = enhancer<TreeSelectProps>(TreeSelect, (e) => e);
 
 export const AutoCompleteField = enhancer<AutoCompleteProps>(
   AutoComplete,
@@ -70,12 +88,7 @@ export const RadioGroupField = enhancer<RadioGroupProps>(
   (value) => value
 );
 
-export const SwitchField = enhancer<SwitchProps>(Switch, (e) => e);
-
-export const CheckboxField = enhancer<CheckboxGroupProps<any>>(
-  CheckBoxGroup,
-  (e) => e
-);
+export const SwitchField = enhancer<SwitchInputProps>(SwitchInput, (e) => e);
 
 export const EditTabField = enhancer<EditTabProps>(EditTab, (e: any[]) => e);
 export const EditGridTabField = enhancer<EditGridTabProps>(

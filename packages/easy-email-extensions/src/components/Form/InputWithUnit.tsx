@@ -1,39 +1,128 @@
-import { InputProps as ArcoInputProps } from "@arco-design/web-react";
-import React from "react";
-import { Input } from "./Input";
+import React, { useMemo } from "react";
+import { Box, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { NumberInput } from "./NumberInput";
 
-export interface InputWithUnitProps extends Omit<ArcoInputProps, "onChange"> {
-  value: string;
+export interface InputWithUnitProps {
+  value?: string | number;
   onChange: (val: string) => void;
   unitOptions?: Array<{ value: string; label: string }> | "default" | "percent";
-  quickchange?: boolean;
+  label?: React.ReactNode;
+  size?: "small" | "medium";
+  error?: boolean;
+  helperText?: React.ReactNode;
+  [key: string]: any;
 }
 
-const defaultUnitOptions = [
-  {
-    value: "px",
-    label: "px",
-  },
-];
+const defaultUnitOptions = [{ value: "px", label: "px" }];
 
 const percentUnitOptions = [
-  {
-    value: "px",
-    label: "px",
-  },
-  {
-    value: "%",
-    label: "%",
-  },
+  { value: "px", label: "px" },
+  { value: "%", label: "%" },
 ];
 
-export function InputWithUnit(props: InputWithUnitProps) {
+export function InputWithUnit(props: Readonly<InputWithUnitProps>) {
   const {
     value = "",
-    onKeyDown: onPropsKeyDown,
+    label,
+    onChange,
     unitOptions: propsUnitOptions,
+    size = "small",
     ...restProps
   } = props;
 
-  return <Input value={value} {...restProps} quickchange />;
+  const options = useMemo(() => {
+    if (propsUnitOptions === "percent") {
+      return percentUnitOptions;
+    }
+    if (propsUnitOptions === "default") {
+      return defaultUnitOptions;
+    }
+    return propsUnitOptions ?? [];
+  }, [propsUnitOptions]);
+
+  const strValue = String(value);
+  const numMatch = strValue.match(/^-?\d*\.?\d+/);
+  const numValue = numMatch ? Number(numMatch[0]) : null;
+  const unitValue = numMatch ? strValue.replace(numMatch[0], "") : strValue;
+
+  const currentUnit = unitValue || (options.length > 0 ? options[0].value : "");
+
+  // 1. Updated to match Base UI's onValueChange signature
+  const handleNumberChange = (val: number | null) => {
+    if (val === null || Number.isNaN(val)) {
+      onChange("");
+    } else {
+      onChange(`${val}${currentUnit}`);
+    }
+  };
+
+  // 2. Strongly typed the MUI Select event
+  const handleUnitChange = (e: SelectChangeEvent<string>) => {
+    const newUnit = e.target.value;
+    if (numValue === null) {
+      onChange(newUnit);
+    } else {
+      onChange(`${numValue}${newUnit}`);
+    }
+  };
+
+  if (options.length === 0) {
+    return (
+      <NumberInput
+        {...restProps}
+        label={label}
+        size={size}
+        value={numValue}
+        onValueChange={handleNumberChange} // Swapped onChange for onValueChange
+      />
+    );
+  }
+
+  return (
+    <Box sx={{ display: "flex", alignItems: "flex-start", width: "100%" }}>
+      <NumberInput
+        {...restProps}
+        label={label}
+        size={size}
+        value={numValue}
+        onValueChange={handleNumberChange} // Swapped onChange for onValueChange
+        // sx={{
+        //   flex: 1,
+        //   "& .MuiOutlinedInput-root": {
+        //     borderTopRightRadius: 0,
+        //     borderBottomRightRadius: 0,
+        //   },
+        // }}
+      />
+      <Select
+        value={currentUnit}
+        onChange={handleUnitChange}
+        size={size}
+        sx={{
+          width: "70px",
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+          ml: "-1px",
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderLeftColor: "transparent",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderLeftColor: "transparent",
+          },
+          "&.Mui-focused": {
+            zIndex: 1,
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderLeftColor: "primary.main",
+            },
+          },
+        }}
+      >
+        {options.map((opt) => (
+          <MenuItem key={opt.value} value={opt.value}>
+            {opt.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </Box>
+  );
 }

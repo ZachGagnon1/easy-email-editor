@@ -26,15 +26,9 @@ export function Divider() {
 
       <CollapsableItem title={t("Border")}>
         <Stack spacing={2}>
-          <div style={{ width: 50 }}>
-            <BorderWidth />
-          </div>
-          <div style={{ width: 100 }}>
-            <BorderStyle />
-          </div>
-          <div style={{ width: 100 }}>
-            <BorderColor />
-          </div>
+          <BorderWidth />
+          <BorderStyle />
+          <BorderColor />
         </Stack>
       </CollapsableItem>
 

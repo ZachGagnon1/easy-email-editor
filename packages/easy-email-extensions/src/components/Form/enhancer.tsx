@@ -161,7 +161,6 @@ export default function enhancer<
               <Form.Item
                 style={{
                   ...style,
-                  margin: "0px",
                 }}
                 rules={required ? [{ required: true }] : undefined}
                 {...layoutStyle}

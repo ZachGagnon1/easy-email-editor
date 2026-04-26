@@ -1,11 +1,13 @@
-import { PopoverProps, Tooltip } from "@arco-design/web-react";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Form } from "react-final-form";
-import { getIframeDocument, IconFont, TextStyle } from "easy-email-editor";
+// Make sure getIframeDocument is imported!
+import { getIframeDocument, IconFont } from "easy-email-editor";
 import { SearchField, SwitchField } from "@extensions/components/Form";
 import { ToolItem } from "../ToolItem";
 import { EMAIL_BLOCK_CLASS_NAME } from "easy-email-core";
-import { Stack, Typography } from "@mui/material";
+import { Box, Popover, Stack } from "@mui/material";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
 
 export interface LinkParams {
   link: string;
@@ -14,7 +16,7 @@ export interface LinkParams {
   linkNode: HTMLAnchorElement | null;
 }
 
-export interface LinkProps extends PopoverProps {
+export interface LinkProps {
   currentRange: Range | null | undefined;
   onChange: (val: LinkParams) => void;
 }
@@ -35,104 +37,161 @@ function getAnchorElement(node: Node | null): HTMLAnchorElement | null {
 export function getLinkNode(
   currentRange: Range | null | undefined
 ): HTMLAnchorElement | null {
-  let linkNode: HTMLAnchorElement | null = null;
   if (!currentRange) {
     return null;
   }
-  linkNode = getAnchorElement(currentRange.startContainer);
-  return linkNode;
+  return getAnchorElement(currentRange.startContainer);
 }
 
-export function Link(props: LinkProps) {
-  const initialValues = useMemo((): LinkParams => {
+export function Link(props: Readonly<LinkProps>) {
+  const { currentRange, onChange } = props;
+
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const [activeNode, setActiveNode] = useState<HTMLAnchorElement | null>(null);
+  const [savedRange, setSavedRange] = useState<Range | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    // Clone the exact highlight range so the browser doesn't destroy it when focus shifts
+    if (currentRange) {
+      setSavedRange(currentRange.cloneRange());
+    } else {
+      setSavedRange(null);
+    }
+
+    setActiveNode(getLinkNode(currentRange));
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "link-popover" : undefined;
+
+  const linkNode = open ? activeNode : getLinkNode(currentRange);
+
+  const initialValues = useMemo(() => {
     let link = "";
     let blank = true;
     let underline = true;
-    const linkNode: HTMLAnchorElement | null = getLinkNode(props.currentRange);
     if (linkNode) {
-      link = linkNode.getAttribute("href") || "";
+      link = linkNode.getAttribute("href") ?? "";
       blank = linkNode.getAttribute("target") === "_blank";
       underline = linkNode.style.textDecoration === "underline";
     }
-    return {
-      link,
-      blank,
-      underline,
-      linkNode,
-    };
-  }, [props.currentRange]);
+    return { link, blank, underline };
+  }, [linkNode]);
 
   const onSubmit = useCallback(
-    (values: LinkParams) => {
-      props.onChange(values);
+    (values: Omit<LinkParams, "linkNode">) => {
+      if (savedRange) {
+        const iframeWindow = getIframeDocument()?.defaultView;
+
+        if (iframeWindow) {
+          iframeWindow.focus();
+
+          const selection = iframeWindow.getSelection();
+          if (selection) {
+            selection.removeAllRanges();
+            selection.addRange(savedRange);
+          }
+        }
+      }
+
+      onChange({ ...values, linkNode: activeNode });
+      handleClose();
     },
-    [props]
+    [activeNode, onChange, savedRange]
   );
+
+  const iframeCache = useMemo(() => {
+    if (!anchorEl) {
+      return null;
+    }
+    return createCache({
+      key: "mui-iframe",
+      container: anchorEl.ownerDocument.head,
+    });
+  }, [anchorEl]);
 
   return (
     <Form
       key={initialValues.link}
-      enableReinitialize
       initialValues={initialValues}
       onSubmit={onSubmit}
     >
-      {({ handleSubmit }) => {
+      {({ form }) => {
         return (
-          <Tooltip
-            {...props}
-            triggerProps={{
-              // @ts-ignore I am ignoring this type error here since this is expecting an
-              // element but the function returns a document. This works fine and isn't an issue.
-              getDocument: getIframeDocument,
-            }}
-            trigger="click"
-            color="#fff"
-            position="tl"
-            content={
-              <>
-                <SearchField
-                  size="small"
-                  name="link"
-                  label={t("Link")}
-                  labelHidden
-                  searchButton={t("Apply")}
-                  placeholder={t("https://www.example.com")}
-                  onSearch={() => handleSubmit()}
-                />
-                {/* TODO: fix this shit idk why it's not working but the text is invisible */}
-                <Stack direction="row">
-                  <Stack direction="row" spacing={1}>
-                    <Typography color="primary">{t("Target")}</Typography>
-                    <SwitchField
-                      size="small"
-                      label={t("Target")}
-                      labelHidden
-                      name="blank"
-                      checkedText={t("blank")}
-                      uncheckedText={t("self")}
-                      inline
-                    />
-                  </Stack>
-                  <TextStyle size="smallest">{t("Underline")}</TextStyle>
-                  <SwitchField
-                    size="small"
-                    label={t("Underline")}
-                    labelHidden
-                    name="underline"
-                    checkedText={t("off")}
-                    uncheckedText={t("on")}
-                    inline
-                  />
-                </Stack>
-              </>
-            }
-          >
-            <ToolItem
-              isActive={Boolean(initialValues.link)}
-              title={t("Link")}
-              icon={<IconFont iconName="icon-link" />}
-            />
-          </Tooltip>
+          <>
+            <span onMouseDown={(e) => e.preventDefault()}>
+              <ToolItem
+                onClick={handleClick}
+                isActive={Boolean(initialValues.link) || open}
+                title="Link"
+                icon={<IconFont iconName="icon-link" />}
+              />
+            </span>
+
+            {iframeCache && (
+              <CacheProvider value={iframeCache}>
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  container={anchorEl?.ownerDocument.body}
+                  disableAutoFocus
+                  disableEnforceFocus
+                  disableRestoreFocus
+                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                  transformOrigin={{ vertical: "top", horizontal: "center" }}
+                >
+                  <Box
+                    sx={{ p: 2, width: 320 }}
+                    onMouseDown={(e) => e.stopPropagation()}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Stack spacing={2}>
+                      <SearchField
+                        size="small"
+                        name="link"
+                        label="Link"
+                        labelHidden
+                        searchButton="Apply"
+                        placeholder="https://www.example.com"
+                        onSearch={(val) => {
+                          // Bypass the 300ms debounce, inject the string directly, and fire submit!
+                          form.change("link", val);
+                          setTimeout(() => form.submit(), 0);
+                        }}
+                      />
+
+                      <Stack
+                        direction="row"
+                        spacing={3}
+                        sx={{ alignItems: "center" }}
+                      >
+                        <SwitchField
+                          size="small"
+                          label="Target Blank"
+                          name="blank"
+                        />
+                        <SwitchField
+                          size="small"
+                          label="Underline"
+                          name="underline"
+                        />
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Popover>
+              </CacheProvider>
+            )}
+          </>
         );
       }}
     </Form>

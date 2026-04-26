@@ -1,35 +1,42 @@
-import {
-  Radio,
-  RadioGroupProps as ArcoRadioGroupProps,
-} from "@arco-design/web-react";
+import { FormControlLabel, Radio, RadioGroup as MuiRadioGroup, SxProps } from "@mui/material";
 import { merge } from "lodash";
 import React from "react";
-import { Stack } from "easy-email-editor";
 
-export interface RadioGroupProps extends ArcoRadioGroupProps {
+export interface RadioGroupProps {
   options: Array<{ value: string; label: React.ReactNode }>;
-  onChange?: (value: string) => void;
+  onChange: (value: string) => void;
   value?: string;
   type?: "radio" | "button";
   vertical?: boolean;
+  name?: string;
+  row?: boolean;
+  size?: "small" | "medium";
+  disabled?: boolean;
+  error?: boolean;
+  sx?: SxProps;
 }
 
-export function RadioGroup(props: RadioGroupProps) {
-  const { type, vertical, ...rest } = props;
+export function RadioGroup(props: Readonly<RadioGroupProps>) {
+  const { type, vertical, options, onChange, value, ...rest } = props;
+
+  const rowLayout = vertical ? false : rest.row ?? true;
+
   return (
-    <Radio.Group
+    <MuiRadioGroup
       {...rest}
-      style={merge({ width: "100%" }, rest.style)}
-      value={rest.value}
-      onChange={rest.onChange}
+      value={value}
+      onChange={(e, newValue) => onChange(newValue)}
+      row={rowLayout}
+      sx={merge({ width: "100%" }, rest.sx)}
     >
-      <Stack vertical={vertical} spacing="extraTight">
-        {rest.options.map((item, index) => (
-          <Radio key={index} value={item.value}>
-            {item.label}
-          </Radio>
-        ))}
-      </Stack>
-    </Radio.Group>
+      {options.map((item, index) => (
+        <FormControlLabel
+          key={item.value ?? index}
+          value={item.value}
+          control={<Radio color="primary" />}
+          label={item.label}
+        />
+      ))}
+    </MuiRadioGroup>
   );
 }
