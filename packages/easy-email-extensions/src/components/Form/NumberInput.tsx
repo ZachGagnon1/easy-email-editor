@@ -23,6 +23,7 @@ export interface NumberFieldProps extends BaseNumberField.Root.Props {
   size?: "small" | "medium";
   error?: boolean;
   helperText?: React.ReactNode;
+  noRightBorder?: boolean;
 }
 
 export function NumberInput({
@@ -104,7 +105,11 @@ export function NumberInput({
                 </BaseNumberField.Decrement>
               </InputAdornment>
             }
-            sx={{ pr: 0 }}
+            sx={{
+              pr: 0,
+              borderBottomRightRadius: other.noRightBorder ? "0px" : undefined,
+              borderTopRightRadius: other.noRightBorder ? "0px" : undefined,
+            }}
           />
         )}
       />

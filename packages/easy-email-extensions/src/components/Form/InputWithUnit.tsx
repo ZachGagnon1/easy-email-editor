@@ -86,13 +86,12 @@ export function InputWithUnit(props: Readonly<InputWithUnitProps>) {
         size={size}
         value={numValue}
         onValueChange={handleNumberChange} // Swapped onChange for onValueChange
-        // sx={{
-        //   flex: 1,
-        //   "& .MuiOutlinedInput-root": {
-        //     borderTopRightRadius: 0,
-        //     borderBottomRightRadius: 0,
-        //   },
-        // }}
+        style={{
+          flex: 1,
+          borderBottomRightRadius: "0px !important",
+          borderTopRightRadius: "0px !important",
+        }}
+        noRightBorder
       />
       <Select
         value={currentUnit}

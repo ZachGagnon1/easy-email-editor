@@ -1,7 +1,5 @@
-import { AttributesPanelWrapper } from "@extensions/AttributePanel";
-import { Button, Tooltip } from "@arco-design/web-react";
-import { IconFont, Stack } from "easy-email-editor";
 import React, { useState } from "react";
+import { AttributesPanelWrapper } from "@extensions/AttributePanel";
 import {
   Border,
   Color,
@@ -11,10 +9,12 @@ import {
   FontStyle,
   Padding,
   TextAlign,
-  Width,
+  Width
 } from "@extensions";
 import { HtmlEditor } from "../../UI/HtmlEditor";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { Box, IconButton, Stack, Tooltip } from "@mui/material";
+import CodeIcon from "@mui/icons-material/Code";
 
 export function Table() {
   const [visible, setVisible] = useState(false);
@@ -22,37 +22,53 @@ export function Table() {
   return (
     <AttributesPanelWrapper
       extra={
-        <Tooltip content={t("Edit")}>
-          <Button
+        <Tooltip title={t("Edit")} placement="top">
+          <IconButton
             onClick={() => setVisible(true)}
-            icon={<IconFont iconName="icon-html" />}
-          />
+            size="small"
+            sx={{ p: 0.5 }} // Keeps the icon neatly aligned within the header
+          >
+            <CodeIcon />
+          </IconButton>
         </Tooltip>
       }
     >
       <CollapsableItem title={t("Dimension")}>
-        <Stack>
-          <Width />
-          <Stack.Item />
-        </Stack>
-        <Stack vertical>
+        <Stack spacing={2}>
+          {/* direction="row" replaces the default horizontal easy-email-editor Stack */}
+          <Stack direction="row" spacing={2}>
+            <Box sx={{ flex: 1 }}>
+              <Width />
+            </Box>
+            {/* Acts as the empty Stack.Item spacer to keep Width at 50% */}
+            <Box sx={{ flex: 1 }} />
+          </Stack>
           <Padding />
         </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Decoration")}>
-        <Color />
-        <ContainerBackgroundColor />
-        <Border />
+        {/* Added a vertical stack to give these fields consistent breathing room */}
+        <Stack spacing={2}>
+          <Color />
+          <ContainerBackgroundColor />
+          <Border />
+        </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Typography")}>
-        <Stack>
-          <FontFamily />
-          <FontSize />
+        <Stack spacing={2}>
+          <Stack direction="row" spacing={2}>
+            <Box sx={{ flex: 1 }}>
+              <FontFamily />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <FontSize />
+            </Box>
+          </Stack>
+          <FontStyle />
+          <TextAlign />
         </Stack>
-        <FontStyle />
-        <TextAlign />
       </CollapsableItem>
 
       <HtmlEditor visible={visible} setVisible={setVisible} />

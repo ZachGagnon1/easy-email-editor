@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Align,
   AttributesPanelWrapper,
@@ -18,13 +18,12 @@ import {
   Padding,
   TextDecoration,
   TextField,
-  Width,
+  Width
 } from "@extensions";
-import { Button as ArcoButton, Popover } from "@arco-design/web-react";
 import { IconFont, useEditorProps, useFocusIdx } from "easy-email-editor";
 import { useField } from "react-final-form";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
-import { Stack } from "@mui/material";
+import { Box, IconButton, Popover, Stack } from "@mui/material";
 
 export function Button() {
   const { focusIdx } = useFocusIdx();
@@ -34,31 +33,62 @@ export function Button() {
 
   const { mergeTags } = useEditorProps();
 
+  // MUI Popover requires local state to anchor the popup to the button
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "merge-tags-popover" : undefined;
+
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Setting")}>
         <Stack spacing={2}>
           <TextField
             label={
-              <Stack spacing={2} direction={"row"}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <span>{t("Content")}</span>
                 {mergeTags && (
-                  <Popover
-                    trigger="click"
-                    content={
-                      <MergeTags
-                        value={input.value}
-                        onChange={input.onChange}
-                      />
-                    }
-                  >
-                    <ArcoButton
-                      type="text"
-                      icon={<IconFont iconName="icon-merge-tags" />}
-                    />
-                  </Popover>
+                  <>
+                    <IconButton
+                      aria-describedby={id}
+                      onClick={handleClick}
+                      size="small"
+                      sx={{ p: 0.5 }}
+                    >
+                      <IconFont iconName="icon-merge-tags" />
+                    </IconButton>
+                    <Popover
+                      id={id}
+                      open={open}
+                      anchorEl={anchorEl}
+                      onClose={handleClose}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                    >
+                      <Box sx={{ p: 1 }}>
+                        <MergeTags
+                          value={input.value}
+                          onChange={input.onChange}
+                        />
+                      </Box>
+                    </Popover>
+                  </>
                 )}
-              </Stack>
+              </Box>
             }
             name={`${focusIdx}.data.value.content`}
           />

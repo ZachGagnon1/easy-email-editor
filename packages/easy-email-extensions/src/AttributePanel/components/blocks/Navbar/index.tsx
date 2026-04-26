@@ -7,7 +7,6 @@ import {
 } from "@extensions/components/Form";
 import { Align } from "@extensions/AttributePanel/components/attributes/Align";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { IconLink } from "@arco-design/web-react/icon";
 import { NavbarLinkPadding } from "@extensions/AttributePanel/components/attributes/NavbarLinkPadding";
 import { useFocusIdx } from "easy-email-editor";
 import { INavbar } from "easy-email-core";
@@ -23,7 +22,8 @@ import {
 } from "@extensions";
 import { pixelAdapter } from "../../adapter";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
-import { Stack } from "@mui/material";
+import { InputAdornment, Stack } from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link";
 
 export function Navbar() {
   const { focusIdx } = useFocusIdx();
@@ -118,9 +118,17 @@ function NavbarLink({
         />
 
         <TextField
-          prefix={<IconLink />}
           label={<span>{t("Url")}</span>}
           name={`${focusIdx}.data.value.links.[${index}].href`}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LinkIcon />
+                </InputAdornment>
+              ),
+            },
+          }}
         />
 
         <SelectField
@@ -143,7 +151,6 @@ function NavbarLink({
           key={index}
           name={`${focusIdx}.data.value.links.[${index}].padding`}
         />
-        <div />
       </Stack>
     </div>
   );
