@@ -1,6 +1,6 @@
 import { colorAdapter } from "@extensions/AttributePanel/components/adapter";
 import React, { ComponentProps } from "react";
-import { ColorPicker, ColorPickerProps } from "../ColorPicker";
+import { ColorPicker, ColorPickerProps } from "../ColorPicker/ColorPickerInput";
 import enhancer from "../enhancer";
 
 const ColorPickerFieldSource = enhancer<ColorPickerProps>(
