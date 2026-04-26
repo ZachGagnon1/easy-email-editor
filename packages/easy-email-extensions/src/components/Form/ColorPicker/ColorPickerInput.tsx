@@ -203,9 +203,11 @@ export function ColorPicker(props: ColorPickerProps) {
               slotProps={{
                 paper: {
                   sx: {
-                    boxShadow: "none",
-                    backgroundColor: "transparent",
-                    overflow: "visible",
+                    backgroundColor: "#FFFFFF",
+                    minHeight: "fit-content",
+                    ".sketch-picker": {
+                      boxShadow: "none !important",
+                    },
                   },
                 },
               }}
