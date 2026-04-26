@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react"; // Replaced deprecated @vitejs/plugin-react-refresh
+import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
@@ -11,15 +11,10 @@ export default defineConfig({
     forwardConsole: true,
   },
   resolve: {
-    // Vite 8 built-in support for tsconfig path resolution
     tsconfigPaths: true,
     alias: {
       // Maintaining your specific overrides for package boundaries
       "easy-email-editor/lib/style.css": path.resolve(
-        __dirname,
-        "package.json"
-      ),
-      "easy-email-extensions/lib/style.css": path.resolve(
         __dirname,
         "package.json"
       ),
@@ -29,7 +24,6 @@ export default defineConfig({
         "./node_modules/react-final-form"
       ),
       "@demo": path.resolve(__dirname, "./src"),
-      "@extensions": path.resolve("../packages/easy-email-extensions/src"),
       "@core": path.resolve("../packages/easy-email-core/src"),
       "@arco-themes": path.resolve("./node_modules/@arco-themes"),
       "@": path.resolve("../packages/easy-email-editor/src"),
@@ -44,9 +38,6 @@ export default defineConfig({
       ),
       "easy-email-editor": path.resolve(
         "../packages/easy-email-editor/src/index.tsx"
-      ),
-      "easy-email-extensions": path.resolve(
-        "../packages/easy-email-extensions/src/index.tsx"
       ),
       "@arco-design/web-react/dist/css/arco.css": path.resolve(
         "./node_modules/@arco-design/web-react/dist/css/arco.css"

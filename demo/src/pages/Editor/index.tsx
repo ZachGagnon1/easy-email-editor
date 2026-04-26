@@ -3,13 +3,22 @@ import { cloneDeep } from "lodash";
 import mjml from "mjml-browser";
 
 import { saveAs } from "file-saver";
-import { EmailEditor, EmailEditorProvider, IEmailTemplate } from "easy-email-editor";
+import {
+  EmailEditor,
+  EmailEditorProvider,
+  ExtensionProps,
+  IEmailTemplate,
+  StandardLayout,
+} from "easy-email-editor";
 
-import { AdvancedType, BasicType, IBlockData, JsonToMjml } from "easy-email-core";
-import { ExtensionProps, StandardLayout } from "easy-email-extensions";
+import {
+  AdvancedType,
+  BasicType,
+  IBlockData,
+  JsonToMjml,
+} from "easy-email-core";
 
 import "easy-email-editor/lib/style.css";
-import "easy-email-extensions/lib/style.css";
 import blueTheme from "@arco-themes/react-easy-email-theme/css/arco.css?inline";
 
 import { useWindowSize } from "react-use";

@@ -45,4 +45,23 @@ export type {
   CollectedBlock,
 } from "./components/Provider/PropsProvider";
 
+export * from "./extensions/BlockLayer";
+export * from "./extensions/AttributePanel";
+export * from "./extensions/ShortcutToolbar";
+export * from "./extensions/SourceCodePanel";
+export * from "./extensions/InteractivePrompt";
+export * from "./extensions/StandardLayout";
+export * from "./extensions/MergeTagBadgePrompt";
+export * from "./extensions/components/Providers/ExtensionProvider";
+export * from "./extensions/constants";
+export * from "./extensions/components/Form";
+
+export { getContextMergeTags } from "./extensions/utils/getContextMergeTags";
+export {
+  getIconNameByBlockType,
+  setIconsMap,
+} from "./extensions/utils/getIconNameByBlockType";
+export { getBlockTitle } from "./extensions/utils/getBlockTitle";
+export { MjmlToJson } from "./extensions/utils/MjmlToJson";
+
 export * from "./constants";

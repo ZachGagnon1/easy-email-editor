@@ -22,9 +22,6 @@ export default defineConfig({
       "easy-email-editor": path.resolve(
         "../packages/easy-email-editor/src/index.tsx"
       ),
-      "easy-email-extensions": path.resolve(
-        "../packages/easy-email-extensions/src/index.tsx"
-      ),
     },
   },
   esbuild: {
