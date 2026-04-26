@@ -3,7 +3,7 @@ import Tooltip from "@mui/material/Tooltip";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 
 export function Help(
-  props: React.ComponentProps<typeof Tooltip> &
+  props: Omit<React.ComponentProps<typeof Tooltip>, "children"> &
     Partial<{ style: React.CSSProperties }> & {
       title: React.ReactNode;
     }

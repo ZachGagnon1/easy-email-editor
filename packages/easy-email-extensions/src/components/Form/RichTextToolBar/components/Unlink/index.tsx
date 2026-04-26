@@ -1,27 +1,23 @@
-import { PopoverProps } from "@arco-design/web-react";
 import React, { useCallback, useMemo } from "react";
 import { IconFont } from "easy-email-editor";
 import { ToolItem } from "../ToolItem";
 import { EMAIL_BLOCK_CLASS_NAME } from "easy-email-core";
 
-export interface LinkParams {
-  link: string;
-  blank: boolean;
-  underline: boolean;
-  linkNode: HTMLAnchorElement | null;
-}
-
-export interface LinkProps extends PopoverProps {
+export interface UnlinkProps {
   currentRange: Range | null | undefined;
   onChange: () => void;
 }
 
 function getAnchorElement(node: Node | null): HTMLAnchorElement | null {
-  if (!node) return null;
-  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME))
+  if (!node) {
     return null;
-  if ((node as Element).tagName?.toLocaleLowerCase() === "a")
+  }
+  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME)) {
+    return null;
+  }
+  if ((node as Element).tagName?.toLocaleLowerCase() === "a") {
     return node as HTMLAnchorElement;
+  }
   return getAnchorElement(node.parentNode);
 }
 
@@ -29,12 +25,14 @@ function getLinkNode(
   currentRange: Range | null | undefined
 ): HTMLAnchorElement | null {
   let linkNode: HTMLAnchorElement | null = null;
-  if (!currentRange) return null;
+  if (!currentRange) {
+    return null;
+  }
   linkNode = getAnchorElement(currentRange.commonAncestorContainer);
   return linkNode;
 }
 
-export function Unlink(props: LinkProps) {
+export function Unlink(props: Readonly<UnlinkProps>) {
   const { onChange } = props;
   const linkNode = useMemo(() => {
     return getLinkNode(props.currentRange);
