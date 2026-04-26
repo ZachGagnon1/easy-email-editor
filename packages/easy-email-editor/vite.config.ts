@@ -3,9 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
-  plugins: [
-    react(), // 1. Injected the React plugin for JSX/TSX compilation
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -20,7 +18,7 @@ export default defineConfig({
     cssMinify: "esbuild",
     manifest: false,
     sourcemap: true,
-    target: "esnext", // 2. Bumped from es2015 to esnext for modern Node/Browser support
+    target: "esnext",
     lib: {
       entry: path.resolve(__dirname, "src/index.tsx"),
       name: "easy-email-editor",
@@ -33,7 +31,7 @@ export default defineConfig({
         "react",
         "react-dom",
         "react-dom/server",
-        "react/jsx-runtime", // 3. Prevents React internals from being bundled into your library
+        "react/jsx-runtime",
         "mjml-browser",
         "react-final-form",
         "easy-email-core",
@@ -51,7 +49,6 @@ export default defineConfig({
     },
     preprocessorOptions: {
       scss: {
-        // 4. Mutes the legacy Dart Sass deprecation warnings from old styles
         silenceDeprecations: ["legacy-js-api", "import", "global-builtin"],
       },
     },

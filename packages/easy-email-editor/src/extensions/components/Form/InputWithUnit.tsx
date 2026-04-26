@@ -47,7 +47,6 @@ export function InputWithUnit(props: Readonly<InputWithUnitProps>) {
 
   const currentUnit = unitValue || (options.length > 0 ? options[0].value : "");
 
-  // 1. Updated to match Base UI's onValueChange signature
   const handleNumberChange = (val: number | null) => {
     if (val === null || Number.isNaN(val)) {
       onChange("");
@@ -56,7 +55,6 @@ export function InputWithUnit(props: Readonly<InputWithUnitProps>) {
     }
   };
 
-  // 2. Strongly typed the MUI Select event
   const handleUnitChange = (e: SelectChangeEvent<string>) => {
     const newUnit = e.target.value;
     if (numValue === null) {

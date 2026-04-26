@@ -10,17 +10,13 @@ import { InlineText, InlineTextProps } from "./InlineTextField";
 import { AutoComplete, AutoCompleteProps } from "./AutoComplete";
 
 import { NumberInput } from "@/extensions/components/Form/NumberInput";
-import {
-  SwitchInput,
-  SwitchInputProps,
-} from "@/extensions/components/Form/SwitchInput";
+import { SwitchInput, SwitchInputProps } from "@/extensions/components/Form/SwitchInput";
 import { TextAreaInput } from "@/extensions/components/Form/TextAreaInput";
 import { SearchInput, SearchInputProps } from "./SearchInput";
 
 export { RichTextField } from "./RichTextField";
 export { ColorPickerField } from "./ColorPickerField";
 
-// 1. Extract the base props and omit the ones we are overriding
 export interface NumberFieldAdapterProps
   extends Omit<
     React.ComponentProps<typeof NumberInput>,
@@ -32,7 +28,6 @@ export interface NumberFieldAdapterProps
   name?: string;
 }
 
-// 2. Type the props without 'any'
 const NumberFieldAdapter = (props: NumberFieldAdapterProps) => {
   const { onChange, value, ...rest } = props;
 

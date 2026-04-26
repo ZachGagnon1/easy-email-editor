@@ -2,23 +2,21 @@ import {
   BasicType,
   getNodeIdxFromClassName,
   getNodeTypeFromClassName,
-  MERGE_TAG_CLASS_NAME,
+  MERGE_TAG_CLASS_NAME
 } from "easy-email-core";
 import { camelCase } from "lodash";
 import React from "react";
-import { isTextBlock } from "./isTextBlock";
-import { MergeTagBadge } from "./MergeTagBadge";
+import { getContentEditableClassName, isTextBlock, MergeTagBadge } from "@";
 import {
   ContentEditableType,
   DATA_CONTENT_EDITABLE_IDX,
-  DATA_CONTENT_EDITABLE_TYPE,
+  DATA_CONTENT_EDITABLE_TYPE
 } from "@/constants";
 import { isButtonBlock } from "./isButtonBlock";
 import {
   getContentEditableIdxFromClassName,
-  getContentEditableTypeFromClassName,
+  getContentEditableTypeFromClassName
 } from "./contenteditable";
-import { getContentEditableClassName } from "./getContentEditableClassName";
 import { isNavbarBlock } from "./isNavbarBlock";
 import { isTableBlock } from "./isTableBlock";
 
@@ -111,7 +109,28 @@ const RenderReactNode = React.memo(function ({
       });
     }
 
-    const reactNode = createElement(tagName, {
+    // Bypass nested html and head tags completely
+    if (tagName === "html" || tagName === "head") {
+      return (
+        <React.Fragment key={index}>
+          {node.childNodes.length === 0
+            ? null
+            : [...node.childNodes].map((n, i) => (
+                <RenderReactNode
+                  selector={getChildSelector(selector, i)}
+                  key={i}
+                  node={n as any}
+                  index={i}
+                />
+              ))}
+        </React.Fragment>
+      );
+    }
+
+    // Convert body tags into divs to preserve styles safely
+    const targetTagName = tagName === "body" ? "div" : tagName;
+
+    const reactNode = createElement(targetTagName, {
       key: index,
       ...attributes,
       style: getStyle(node.getAttribute("style")),
@@ -245,10 +264,3 @@ function makeStandardContentEditable(
     });
   }
 }
-
-// Ending tags
-// Some of the mjml components are "ending tags". These are mostly the components that will contain text contents, like mj-text or mj-buttons. These components can contain not only text, but also any HTML content, which will be completely unprocessed and left as it is. This means you cannot use other MJML components inside them, but you can use any HTML tag, like <img> or <a>.
-
-// This has a little downside : The content is not modified at all, this means that the text won't be escaped, so if you use characters that are used to define html tags in your text, like < or >, you should use the encoded characters &lt; and &lt;. If you don't, sometimes the browser can be clever enough to understand that you're not really trying to open/close an html tag, and display the unescaped character as normal text, but this may cause problems in some cases. For instance, this will likely cause problems if you use the minify option, mj-html-attributes or an inline mj-style, because these require the html to be re-parsed internally. If you're just using the minify option, and really need to use the < > characters, i.e. for templating language, you can also avoid this problem by wrapping the troublesome content between two <!-- htmlmin:ignore --> tags.
-
-// Here is the list of all ending tags : - mj-accordion-text - mj-accordion-title - mj-button - mj-navbar-link - mj-raw - mj-social-element - mj-text - mj-table

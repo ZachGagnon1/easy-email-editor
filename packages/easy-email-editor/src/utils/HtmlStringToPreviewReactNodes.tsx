@@ -64,7 +64,28 @@ const RenderReactNode = React.memo(function ({
       });
     }
 
-    const reactNode = React.createElement(tagName, {
+    // Bypass nested html and head tags completely
+    if (tagName === "html" || tagName === "head") {
+      return (
+        <React.Fragment key={index}>
+          {node.childNodes.length === 0
+            ? null
+            : [...node.childNodes].map((n, i) => (
+                <RenderReactNode
+                  selector={getChildSelector(selector, i)}
+                  key={i}
+                  node={n as any}
+                  index={i}
+                />
+              ))}
+        </React.Fragment>
+      );
+    }
+
+    // Convert body tags into divs to preserve styles safely
+    const targetTagName = tagName === "body" ? "div" : tagName;
+
+    const reactNode = React.createElement(targetTagName, {
       key: index,
       ...attributes,
       style: getStyle(node.getAttribute("style")),
