@@ -5,29 +5,25 @@ import {
   ImageUploaderField,
   InputWithUnitField,
   RadioGroupField,
-  TextField
+  TextField,
 } from "@extensions/components/Form";
 import { Align } from "@extensions/AttributePanel/components/attributes/Align";
-import { IconLink } from "@arco-design/web-react/icon";
 import { Color } from "@extensions/AttributePanel/components/attributes/Color";
-import {
-  ContainerBackgroundColor
-} from "@extensions/AttributePanel/components/attributes/ContainerBackgroundColor";
+import { ContainerBackgroundColor } from "@extensions/AttributePanel/components/attributes/ContainerBackgroundColor";
 import { FontFamily } from "@extensions/AttributePanel/components/attributes/FontFamily";
 import { FontSize } from "@extensions/AttributePanel/components/attributes/FontSize";
 import { FontStyle } from "@extensions/AttributePanel/components/attributes/FontStyle";
 import { FontWeight } from "@extensions/AttributePanel/components/attributes/FontWeight";
 
-import {
-  AttributesPanelWrapper
-} from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
+import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { TextDecoration } from "@extensions/AttributePanel/components/attributes/TextDecoration";
 import { LineHeight } from "@extensions/AttributePanel/components/attributes/LineHeight";
 import { useBlock, useEditorProps, useFocusIdx } from "easy-email-editor";
 import { ISocial } from "easy-email-core";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
-import { Stack } from "@mui/material";
+import { InputAdornment, Stack } from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link";
 
 const options = [
   {
@@ -149,9 +145,17 @@ function SocialElement({
       />
 
       <TextField
-        prefix={<IconLink />}
         label={t("Link")}
         name={`${focusIdx}.data.value.elements.[${index}].href`}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <LinkIcon />
+              </InputAdornment>
+            ),
+          },
+        }}
       />
     </Stack>
   );

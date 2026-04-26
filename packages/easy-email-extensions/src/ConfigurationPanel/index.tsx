@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Tabs } from "@arco-design/web-react";
+import React, { useState } from "react";
 import { AttributePanel } from "@extensions/AttributePanel";
 import { SourceCodePanel } from "@extensions/SourceCodePanel";
 import { FullHeightOverlayScrollbars } from "@extensions/components/FullHeightOverlayScrollbars";
-import { IconLeft } from "@arco-design/web-react/icon";
-import styles from "./index.module.scss";
+import { Box } from "@mui/material";
+// Adjust import path to where you placed the components
+import {
+  EditorTab,
+  EditorTabPanel,
+  EditorTabs,
+} from "@extensions/components/EditorTabs/EditorTabs";
 
 export interface ConfigurationPanelProps {
   showSourceCode: boolean;
@@ -18,87 +22,47 @@ export interface ConfigurationPanelProps {
 export function ConfigurationPanel({
   showSourceCode,
   height,
-  onBack,
-  compact,
   jsonReadOnly,
   mjmlReadOnly,
 }: ConfigurationPanelProps) {
-  const [inited, setInited] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
 
-  useEffect(() => {
-    // Tabs 在 drawer 里面有bug
-    let timer = setTimeout(() => {
-      setInited(true);
-    }, 100);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
 
-  if (!inited) return null;
+  if (!showSourceCode) {
+    return <AttributePanel />;
+  }
 
   return (
-    <>
-      {showSourceCode ? (
-        <Tabs
-          className={styles.tabs}
-          renderTabHeader={(_, DefaultHeader) =>
-            !compact ? (
-              <div
-                className={styles.largeTabsHeader}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <div
-                  style={{ padding: 10, cursor: "pointer" }}
-                  onClick={onBack}
-                >
-                  <IconLeft fontSize={16} />
-                </div>
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <EditorTabs value={activeTab} onChange={handleTabChange}>
+        <EditorTab label={t("Configuration")} id="configuration-tab-0" />
+        <EditorTab label={t("Source code")} id="configuration-tab-1" />
+      </EditorTabs>
 
-                <DefaultHeader style={{ flex: 1 }} />
-              </div>
-            ) : (
-              <div
-                className={styles.largeTabsHeader}
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <DefaultHeader style={{ flex: 1 }} />
-              </div>
-            )
-          }
-        >
-          <Tabs.TabPane
-            title={
-              <div style={{ height: 40, lineHeight: "40px" }}>
-                {t("Configuration")}
-              </div>
-            }
-          >
-            <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
-              <AttributePanel />
-            </FullHeightOverlayScrollbars>
-          </Tabs.TabPane>
+      <EditorTabPanel value={activeTab} index={0} destroyOnHide>
+        <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
+          <AttributePanel />
+        </FullHeightOverlayScrollbars>
+      </EditorTabPanel>
 
-          <Tabs.TabPane
-            destroyOnHide
-            key="Source code"
-            title={
-              <div style={{ height: 40, lineHeight: "40px" }}>
-                {t("Source code")}
-              </div>
-            }
-          >
-            <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
-              <SourceCodePanel
-                jsonReadOnly={jsonReadOnly}
-                mjmlReadOnly={mjmlReadOnly}
-              />
-            </FullHeightOverlayScrollbars>
-          </Tabs.TabPane>
-        </Tabs>
-      ) : (
-        <AttributePanel />
-      )}
-    </>
+      <EditorTabPanel value={activeTab} index={1} destroyOnHide>
+        <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
+          <SourceCodePanel
+            jsonReadOnly={jsonReadOnly}
+            mjmlReadOnly={mjmlReadOnly}
+          />
+        </FullHeightOverlayScrollbars>
+      </EditorTabPanel>
+    </Box>
   );
 }

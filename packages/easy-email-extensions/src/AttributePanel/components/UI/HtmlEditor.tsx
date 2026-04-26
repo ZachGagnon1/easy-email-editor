@@ -1,14 +1,7 @@
-import { Button, Drawer } from "@arco-design/web-react";
 import React, { Suspense, useEffect, useMemo, useState } from "react";
-import {
-  Stack,
-  TextStyle,
-  useBlock,
-  useEditorContext,
-  useFocusIdx,
-} from "easy-email-editor";
-import { ShadowDom } from "@extensions/components/ShadowDom";
-import { BasicType, IText } from "easy-email-core";
+import { Box, Button, Drawer, Stack, Typography } from "@mui/material";
+import { useBlock, useEditorContext, useFocusIdx } from "easy-email-editor";
+import { BasicType } from "easy-email-core";
 
 const CodeMirrorEditorPromise = import(
   "../../../components/Form/CodemirrorEditor"
@@ -37,94 +30,122 @@ export const HtmlEditor: React.FC<{
   };
 
   const onSave = () => {
-    if (!focusBlock) return;
+    if (!focusBlock) {
+      return;
+    }
     focusBlock.data.value.content = content;
     setValueByIdx(focusIdx, { ...focusBlock });
     onClose();
   };
 
   const styles = useMemo(() => {
-    if (!focusBlock) return {};
-
-    const attributes = focusBlock.attributes as IText["attributes"];
+    if (!focusBlock) {
+      return {};
+    }
     return {
-      color: attributes.color || pageData.data.value["text-color"],
-      fontSize: attributes["font-size"] || pageData.data.value["font-size"],
-      fontFamily:
-        attributes["font-family"] || pageData.data.value["font-family"],
-      fontWeight:
-        attributes["font-weight"] || pageData.data.value["font-weight"],
-      backgroundColor: attributes["container-background-color"],
-      padding: attributes.padding,
+      backgroundColor: focusBlock.attributes["container-background-color"],
+      padding: focusBlock.attributes.padding,
+      color: focusBlock.attributes.color,
     };
-  }, [focusBlock, pageData.data.value]);
+  }, [focusBlock]);
 
   return (
     <Drawer
-      placement="left"
-      headerStyle={{ display: "block", lineHeight: "48px" }}
-      title={
-        <Stack distribution="equalSpacing">
-          <TextStyle variation="strong" size="large">
-            {t("Html")}
-          </TextStyle>
-          <Stack>
-            <Button type="primary" onClick={onSave}>
-              {t("Save")}
-            </Button>
-          </Stack>
-        </Stack>
-      }
-      closable={false}
-      escToExit={false}
-      width="100vw"
-      visible={visible}
-      footer={null}
-      bodyStyle={{ padding: 0, overflow: "hidden" }}
+      anchor="right"
+      open={visible}
+      // Prevents closing by clicking the backdrop or hitting ESC, mimicking your previous setup
+      onClose={(event, reason) => {
+        if (reason !== "backdropClick" && reason !== "escapeKeyDown") {
+          onClose();
+        }
+      }}
+      slotProps={{
+        paper: {
+          sx: { width: "100vw", overflow: "hidden" },
+        },
+      }}
     >
-      <div style={{ display: "flex", height: "100%" }}>
-        <div style={{ flex: 1, height: "100%" }}>
+      {/* Header Area */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          px: 3,
+          py: 2,
+          borderBottom: 1,
+          borderColor: "divider",
+          bgcolor: "background.paper",
+        }}
+      >
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          Html
+        </Typography>
+        <Stack direction="row" spacing={2}>
+          <Button onClick={onClose} color="inherit">
+            Cancel
+          </Button>
+          <Button onClick={onSave} variant="contained" color="primary">
+            Save
+          </Button>
+        </Stack>
+      </Box>
+
+      {/* Body Area */}
+      <Box sx={{ display: "flex", height: "calc(100vh - 73px)" }}>
+        {/* Left Side: Code Editor */}
+        <Box sx={{ flex: 1, height: "100%", bgcolor: "#263238" }}>
           <Suspense
             fallback={
-              <div
-                style={{
+              <Box
+                sx={{
                   height: "100%",
                   width: "100%",
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: "#263238",
                   justifyContent: "center",
-                  fontSize: 24,
+                  bgcolor: "#263238",
                   color: "#fff",
+                  fontSize: 24,
                 }}
               >
                 {t("Editor Loading...")}
-              </div>
+              </Box>
             }
           >
             <CodeMirrorEditor value={content} onChange={setContent} />
           </Suspense>
-        </div>
-        <div
-          style={{ flex: 1, height: "100%", overflow: "auto", marginRight: 10 }}
+        </Box>
+
+        {/* Right Side: Preview (ShadowDom Removed) */}
+        <Box
+          sx={{
+            flex: 1,
+            height: "100%",
+            overflow: "auto",
+            bgcolor: "grey.100", // Subtle background to make the email stand out
+            p: 2,
+          }}
         >
-          <ShadowDom
-            style={{
+          <Box
+            sx={{
               ...styles,
               width: pageData.attributes.width || "600px",
-              margin: "auto",
+              margin: "0 auto",
+              bgcolor: "background.paper", // Ensures the email content has a solid background
+              minHeight: "100%", // Ensures it looks like a page
             }}
           >
             {isTable ? (
-              <table>
+              <table style={{ width: "100%" }}>
                 <tbody dangerouslySetInnerHTML={{ __html: content }} />
               </table>
             ) : (
               <div dangerouslySetInnerHTML={{ __html: content }} />
             )}
-          </ShadowDom>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </Drawer>
   );
 };

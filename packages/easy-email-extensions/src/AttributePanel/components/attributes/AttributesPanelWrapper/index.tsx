@@ -51,6 +51,7 @@ export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = (
           <TextStyle variation="strong" size="large">
             {`${block.name} `} {t("attributes")}
           </TextStyle>
+          {props.extra}
         </Stack>
       </div>
 

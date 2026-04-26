@@ -11,14 +11,13 @@ import { Color } from "@extensions/AttributePanel/components/attributes/Color";
 import { Align } from "@extensions/AttributePanel/components/attributes/Align";
 import { LineHeight } from "@extensions/AttributePanel/components/attributes/LineHeight";
 import { LetterSpacing } from "@extensions/AttributePanel/components/attributes/LetterSpacing";
+import CodeIcon from "@mui/icons-material/Code";
 
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Button, Tooltip } from "@arco-design/web-react";
-import { IconFont } from "easy-email-editor";
 import { HtmlEditor } from "../../UI/HtmlEditor";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
-import { Stack } from "@mui/material";
+import { IconButton, Stack, Tooltip } from "@mui/material";
 
 export function Text() {
   const [visible, setVisible] = useState(false);
@@ -26,11 +25,14 @@ export function Text() {
   return (
     <AttributesPanelWrapper
       extra={
-        <Tooltip content={t("Html mode")}>
-          <Button
+        <Tooltip title={t("Html mode")} placement="top">
+          <IconButton
             onClick={() => setVisible(true)}
-            icon={<IconFont iconName="icon-html" />}
-          />
+            size="small"
+            sx={{ p: 0.5 }} // Keeps it tight and perfectly aligned with the header
+          >
+            <CodeIcon />
+          </IconButton>
         </Tooltip>
       }
     >

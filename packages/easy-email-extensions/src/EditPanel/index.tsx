@@ -1,20 +1,20 @@
-import { Box, Tab, Tabs } from "@mui/material";
-import { useEditorProps } from "easy-email-editor";
 import React from "react";
+import { Box } from "@mui/material";
+import { useEditorProps } from "easy-email-editor";
 import { Blocks } from "./Blocks";
 import { BlockLayer } from "@extensions/BlockLayer";
 import { FullHeightOverlayScrollbars } from "@extensions/components/FullHeightOverlayScrollbars";
 import { useExtensionProps } from "@extensions/components/Providers/ExtensionProvider";
+// Adjust import path to where you placed the components
+import {
+  EditorTab,
+  EditorTabPanel,
+  EditorTabs,
+} from "@extensions/components/EditorTabs/EditorTabs";
 
-interface EditPanelProps {
-  showSourceCode: boolean;
-  jsonReadOnly: boolean;
-  mjmlReadOnly: boolean;
-}
-
-export function EditPanel(props: Readonly<EditPanelProps>) {
+export function EditPanel() {
   const { height } = useEditorProps();
-  const { compact = true, showBlockLayer = true } = useExtensionProps();
+  const { showBlockLayer = true } = useExtensionProps();
   const [value, setValue] = React.useState("block");
 
   return (
@@ -24,33 +24,32 @@ export function EditPanel(props: Readonly<EditPanelProps>) {
         maxWidth: 360,
         display: "flex",
         flexDirection: "column",
+        height: "100%",
       }}
     >
-      <Tabs
+      <EditorTabs
         value={value}
         onChange={(_, newValue: string) => setValue(newValue)}
-        sx={{ borderBottom: 1, borderColor: "divider", px: 2 }}
-        textColor="inherit"
-        indicatorColor="primary"
       >
-        <Tab label={t("Block")} value="block" />
-        {showBlockLayer && <Tab label={t("Layer")} value="layer" />}
-      </Tabs>
+        <EditorTab label={t("Block")} value="block" />
+        {showBlockLayer && <EditorTab label={t("Layer")} value="layer" />}
+      </EditorTabs>
 
-      <Box sx={{ flex: 1, overflow: "hidden", minHeight: 0 }}>
-        {value === "block" && (
-          <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
-            <Blocks />
-          </FullHeightOverlayScrollbars>
-        )}
-        {showBlockLayer && value === "layer" && (
+      <EditorTabPanel value={value} index="block" destroyOnHide={false}>
+        <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
+          <Blocks />
+        </FullHeightOverlayScrollbars>
+      </EditorTabPanel>
+
+      {showBlockLayer && (
+        <EditorTabPanel value={value} index="layer" destroyOnHide={false}>
           <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
             <div style={{ padding: 20 }}>
               <BlockLayer />
             </div>
           </FullHeightOverlayScrollbars>
-        )}
-      </Box>
+        </EditorTabPanel>
+      )}
     </Box>
   );
 }

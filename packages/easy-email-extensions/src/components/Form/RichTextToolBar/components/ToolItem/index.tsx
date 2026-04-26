@@ -26,8 +26,8 @@ export const ToolItem: React.FC<{
 
   return (
     <Tooltip
-      title={props.title}
       placement="bottom"
+      title={props.title}
       sx={{
         fontSize: 12,
         padding: "4px 8px",
@@ -44,7 +44,6 @@ export const ToolItem: React.FC<{
           "easy-email-extensions-emailToolItem",
           props.isActive && "easy-email-extensions-emailToolItem-active"
         )}
-        title={props.title}
         onClick={props.onClick}
         style={props.style}
       >

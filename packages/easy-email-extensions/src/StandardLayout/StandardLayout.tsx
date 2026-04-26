@@ -6,7 +6,7 @@ import { EditPanel } from "../EditPanel";
 import { ConfigurationPanel } from "@extensions/ConfigurationPanel";
 import {
   ExtensionProps,
-  ExtensionProvider
+  ExtensionProvider,
 } from "@extensions/components/Providers/ExtensionProvider";
 import { AdvancedType } from "easy-email-core";
 import { Grid, Paper, useMediaQuery, useTheme } from "@mui/material";
@@ -136,11 +136,7 @@ export const StandardLayout: React.FC<Omit<ExtensionProps, "compact">> = (
               overflowY: "auto", // Allows independent scrolling if panel content gets long
             }}
           >
-            <EditPanel
-              showSourceCode={showSourceCode}
-              jsonReadOnly={jsonReadOnly}
-              mjmlReadOnly={mjmlReadOnly}
-            />
+            <EditPanel />
           </Grid>
 
           {/* MIDDLE PANEL: Email Canvas */}

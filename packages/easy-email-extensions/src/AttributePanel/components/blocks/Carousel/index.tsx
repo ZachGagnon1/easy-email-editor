@@ -8,14 +8,14 @@ import {
   SelectField,
   TextField,
 } from "@extensions/components/Form";
-import { IconLink } from "@arco-design/web-react/icon";
 import { useEditorProps, useFocusIdx } from "easy-email-editor";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { Align } from "@extensions/AttributePanel/components/attributes/Align";
 import { ICarousel } from "easy-email-core";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
-import { Stack } from "@mui/material";
+import { InputAdornment, Stack } from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link";
 
 const options = [
   {
@@ -136,9 +136,17 @@ function CarouselImage({
       />
 
       <TextField
-        prefix={<IconLink />}
         label={t("Url")}
         name={`${focusIdx}.data.value.images.[${index}].href`}
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <LinkIcon />
+              </InputAdornment>
+            ),
+          },
+        }}
       />
 
       <SelectField

@@ -3,13 +3,13 @@ import { Padding } from "@extensions/AttributePanel/components/attributes/Paddin
 import { Background } from "@extensions/AttributePanel/components/attributes/Background";
 import { Border } from "@extensions/AttributePanel/components/attributes/Border";
 import { AttributesPanelWrapper } from "@extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { Switch } from "@arco-design/web-react";
 import { useBlock, useFocusIdx } from "easy-email-editor";
 import { BasicType, BlockManager } from "easy-email-core";
 import { ClassName } from "@extensions";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
 import { TextField } from "@extensions/components/Form";
 import { Stack } from "@mui/material";
+import { SwitchInput } from "@extensions/components/Form/SwitchInput";
 
 export function Section() {
   const { focusBlock, setFocusBlock } = useBlock();
@@ -58,12 +58,7 @@ export function Section() {
           <label style={{ width: "100%", display: "flex" }}>
             <div style={{ flex: 1 }}>{t("Group")}</div>
           </label>
-          <Switch
-            checked={noWrap}
-            checkedText={t("True")}
-            uncheckedText={t("False")}
-            onChange={onChange}
-          />
+          <SwitchInput checked={noWrap} onChange={onChange} />
           <label style={{ width: "100%", display: "flex" }}>
             <div style={{ flex: 1 }}>{t("Full Width")}</div>
           </label>
