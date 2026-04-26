@@ -25,7 +25,6 @@ export function AccordionText() {
           <TextAreaField
             label={t("Content")}
             name={`${focusIdx}.data.value.content`}
-            autoSize={{ minRows: 5 }}
           />
 
           <Color />

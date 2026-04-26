@@ -83,7 +83,6 @@ export function Page({ hideSubTitle, hideSubject }: PageProps) {
           />
 
           <TextAreaField
-            autoSize
             label={t("User style")}
             name={`${focusIdx}.data.value.user-style.content`}
           />

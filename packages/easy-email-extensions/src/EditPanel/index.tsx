@@ -4,7 +4,6 @@ import React from "react";
 import { Blocks } from "./Blocks";
 import { BlockLayer } from "@extensions/BlockLayer";
 import { FullHeightOverlayScrollbars } from "@extensions/components/FullHeightOverlayScrollbars";
-import { ConfigurationDrawer } from "./ConfigurationDrawer";
 import { useExtensionProps } from "@extensions/components/Providers/ExtensionProvider";
 
 interface EditPanelProps {
@@ -14,8 +13,6 @@ interface EditPanelProps {
 }
 
 export function EditPanel(props: Readonly<EditPanelProps>) {
-  const { showSourceCode, jsonReadOnly, mjmlReadOnly } = props;
-
   const { height } = useEditorProps();
   const { compact = true, showBlockLayer = true } = useExtensionProps();
   const [value, setValue] = React.useState("block");
@@ -54,15 +51,6 @@ export function EditPanel(props: Readonly<EditPanelProps>) {
           </FullHeightOverlayScrollbars>
         )}
       </Box>
-      {!compact && (
-        <ConfigurationDrawer
-          height={height}
-          showSourceCode={showSourceCode}
-          compact={Boolean(compact)}
-          jsonReadOnly={jsonReadOnly}
-          mjmlReadOnly={mjmlReadOnly}
-        />
-      )}
     </Box>
   );
 }

@@ -2,7 +2,8 @@ import { Box, Grid, Typography } from "@mui/material";
 import { AdvancedType, BlockManager, IBlockData } from "easy-email-core";
 import { BlockAvatarWrapper, IconFont } from "easy-email-editor";
 import React, { useState } from "react";
-import { IconCaretRight, IconCaretUp } from "@arco-design/web-react/icon";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getIconNameByBlockType } from "@extensions/utils/getIconNameByBlockType";
 import styles from "./index.module.scss";
 import { useExtensionProps } from "@extensions/components/Providers/ExtensionProvider";
@@ -21,7 +22,7 @@ export function Blocks() {
                 {cat.blocks.map((item) => (
                   <LayoutItem
                     key={item.title}
-                    title={item.title || ""}
+                    title={item.title ?? ""}
                     columns={item.payload}
                   />
                 ))}
@@ -47,10 +48,10 @@ export function Blocks() {
             key={cat.displayType ?? "" + index}
             title={cat.label}
           >
-            <Grid container sx={{ ml: 1 }}>
+            <Grid container sx={{ justifyContent: "center", ml: 1 }}>
               {cat.blocks.map((item, index) => {
                 return (
-                  <Grid key={index} size={4}>
+                  <Grid key={index}>
                     <BlockItem key={index} {...item} />
                   </Grid>
                 );
@@ -86,6 +87,10 @@ function BlockItem({
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            width: "75px",
+            height: "75px",
+            padding: "10px",
+            textAlign: "center",
           }}
         >
           <IconFont
@@ -93,7 +98,7 @@ function BlockItem({
             iconName={getIconNameByBlockType(type)}
           />
           <Typography variant="body2" sx={{ marginTop: 1 }}>
-            {title || block?.name}
+            {title ?? block?.name}
           </Typography>
         </Box>
       </BlockAvatarWrapper>
@@ -127,11 +132,9 @@ function LayoutItem({
         }}
       >
         <Typography variant="body2">{title}</Typography>
-        {columns.length > 1 && (
-          <Typography>
-            {!visible ? <IconCaretRight /> : <IconCaretUp />}
-          </Typography>
-        )}
+        <Typography>
+          {visible ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -171,7 +174,6 @@ function LayoutItem({
                 <Box
                   sx={{
                     border: "1px solid #e0e0e0",
-                    width: "100%",
                     padding: 1,
                     borderRadius: 1,
                   }}

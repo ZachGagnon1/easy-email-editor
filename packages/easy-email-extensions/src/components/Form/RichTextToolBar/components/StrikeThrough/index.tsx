@@ -1,25 +1,28 @@
-import { PopoverProps } from "@arco-design/web-react";
 import React, { useCallback, useMemo } from "react";
 import { IconFont } from "easy-email-editor";
 import { ToolItem } from "../ToolItem";
 import { EMAIL_BLOCK_CLASS_NAME } from "easy-email-core";
 import { useSelectionRange } from "@extensions/AttributePanel/hooks/useSelectionRange";
 
-export interface LinkProps extends PopoverProps {
+export interface StrikeThroughProps {
   currentRange: Range | null | undefined;
   onChange: () => void;
 }
 
 function getStrikeThroughNode(node: Node | null | undefined): Element | null {
-  if (!node) return null;
-  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME))
+  if (!node) {
     return null;
-  if ((node as Element).tagName?.toLocaleLowerCase() === "strike")
+  }
+  if ((node as Element).classList?.contains(EMAIL_BLOCK_CLASS_NAME)) {
+    return null;
+  }
+  if ((node as Element).tagName?.toLocaleLowerCase() === "strike") {
     return node as Element;
+  }
   return getStrikeThroughNode(node.parentNode);
 }
 
-export function StrikeThrough(props: LinkProps) {
+export function StrikeThrough(props: Readonly<StrikeThroughProps>) {
   const { onChange } = props;
   const { setRangeByElement } = useSelectionRange();
   const node = useMemo(() => {

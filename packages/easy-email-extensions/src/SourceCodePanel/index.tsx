@@ -1,4 +1,3 @@
-import { Input, Message } from "@arco-design/web-react";
 import {
   BasicType,
   BlockManager,
@@ -14,10 +13,10 @@ import {
   useFocusIdx,
 } from "easy-email-editor";
 import { cloneDeep } from "lodash";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MjmlToJson } from "@extensions/utils/MjmlToJson";
-import styles from "./index.module.scss";
 import { CollapsableItem } from "@extensions/components/Collapse/CollapsableItem";
+import { TextAreaInput } from "@extensions/components/Form/TextAreaInput";
 
 export function SourceCodePanel({
   jsonReadOnly,
@@ -29,16 +28,13 @@ export function SourceCodePanel({
   const { setValueByIdx, focusBlock, values } = useBlock();
   const { focusIdx } = useFocusIdx();
 
+  const [codeError, setCodeError] = useState<string>();
+  const [mjmlError, setMjmlError] = useState<string>();
+
   const [mjmlText, setMjmlText] = useState("");
+  const [codeText, setCodeText] = useState("");
   const { pageData } = useEditorContext();
   const { mergeTags } = useEditorProps();
-
-  const code = useMemo(() => {
-    if (!focusBlock) {
-      return "";
-    }
-    return JSON.stringify(focusBlock, null, 2) || "";
-  }, [focusBlock]);
 
   const onChangeCode = useCallback(
     (event: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -62,12 +58,17 @@ export function SourceCodePanel({
           }
           setValueByIdx(focusIdx, parseValue);
         } catch (error: any) {
-          Message.error(error?.message || error);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          setCodeError((error?.message || error) as string);
         }
       }
     },
     [focusIdx, setValueByIdx]
   );
+
+  const onChangeCodeText = useCallback((value: string) => {
+    setCodeText(value);
+  }, []);
 
   const onMjmlChange = useCallback(
     (event: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -87,7 +88,7 @@ export function SourceCodePanel({
 
           setValueByIdx(focusIdx, parseValue);
         } catch (error) {
-          Message.error(t("Invalid content"));
+          setMjmlError(t("Invalid content"));
         }
       }
     },
@@ -99,7 +100,7 @@ export function SourceCodePanel({
   }, []);
 
   useEffect(() => {
-    focusBlock &&
+    if (focusBlock) {
       setMjmlText(
         JsonToMjml({
           idx: focusIdx,
@@ -109,33 +110,47 @@ export function SourceCodePanel({
           dataSource: cloneDeep(mergeTags),
         })
       );
+    }
   }, [focusBlock, focusIdx, pageData, mergeTags]);
+
+  useEffect(() => {
+    if (!focusBlock) {
+      setCodeText("");
+    }
+
+    setCodeText(JSON.stringify(focusBlock, null, 2) || "");
+  }, [focusBlock]);
 
   if (!focusBlock) {
     return null;
   }
 
+  console.log(codeError, mjmlError);
+
   return (
     <>
       <CollapsableItem title={t("Json source")}>
-        <Input.TextArea
-          key={code}
-          defaultValue={code}
-          autoSize={{ maxRows: 25 }}
+        <TextAreaInput
+          key={codeText}
+          value={codeText}
+          maxRows={25}
+          onChange={onChangeCodeText}
           onBlur={onChangeCode}
-          readOnly={jsonReadOnly}
-          className={styles.customTextArea}
+          disabled={jsonReadOnly}
+          error={Boolean(codeError)}
+          helperText={codeError}
         />
       </CollapsableItem>
       <CollapsableItem title={t("MJML source")}>
-        <Input.TextArea
-          key={code}
+        <TextAreaInput
+          key={mjmlText}
           value={mjmlText}
-          autoSize={{ maxRows: 25 }}
+          maxRows={25}
           onChange={onChangeMjmlText}
           onBlur={onMjmlChange}
-          readOnly={mjmlReadOnly}
-          className={styles.customTextArea}
+          disabled={mjmlReadOnly}
+          error={Boolean(mjmlError)}
+          helperText={mjmlError}
         />
       </CollapsableItem>
     </>
