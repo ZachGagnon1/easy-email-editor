@@ -1,8 +1,8 @@
-import { render } from "react-dom";
 import React from "react";
 import App from "./App";
 import * as Sentry from "@sentry/browser";
 import { BrowserTracing } from "@sentry/tracing";
+import { createRoot } from "react-dom/client";
 
 if (process.env.NODE_ENV === "production") {
   Sentry.init({
@@ -12,4 +12,4 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-render(<App />, document.getElementById("root")!);
+createRoot(document.getElementById("root") as HTMLElement).render(<App />);

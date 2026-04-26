@@ -1,46 +1,23 @@
-/* eslint-disable react/jsx-wrap-multilines */
-import React, { useCallback, useEffect, useMemo } from "react";
-import { useDispatch } from "react-redux";
-import template from "@demo/store/template";
-import { useAppSelector } from "@demo/hooks/useAppSelector";
-import { useLoading } from "@demo/hooks/useLoading";
-import {
-  Button,
-  ConfigProvider,
-  Dropdown,
-  Menu,
-  PageHeader,
-} from "@arco-design/web-react";
-import { useQuery } from "@demo/hooks/useQuery";
-import { useHistory } from "react-router-dom";
+import React, { useCallback } from "react";
+import { Button, ConfigProvider, Dropdown, Menu, PageHeader } from "@arco-design/web-react";
 import { cloneDeep } from "lodash";
-import { Loading } from "@demo/components/loading";
 import mjml from "mjml-browser";
-import services from "@demo/services";
+
 import { saveAs } from "file-saver";
-import {
-  EmailEditor,
-  EmailEditorProvider,
-  IEmailTemplate,
-} from "easy-email-editor";
+import { EmailEditor, EmailEditorProvider, IEmailTemplate } from "easy-email-editor";
 
-import { Stack } from "@demo/components/Stack";
 import { pushEvent } from "@demo/utils/pushEvent";
-import { UserStorage } from "@demo/utils/user-storage";
 
-import { AdvancedType, IBlockData, JsonToMjml } from "easy-email-core";
+import { AdvancedType, BasicType, IBlockData, JsonToMjml } from "easy-email-core";
 import { ExtensionProps, StandardLayout } from "easy-email-extensions";
-import { AutoSaveAndRestoreEmail } from "@demo/components/AutoSaveAndRestoreEmail";
 
 import "easy-email-editor/lib/style.css";
 import "easy-email-extensions/lib/style.css";
 import blueTheme from "@arco-themes/react-easy-email-theme/css/arco.css?inline";
-
-import { Uploader } from "@demo/utils/Uploader";
 import enUS from "@arco-design/web-react/es/locale/en-US";
 
-import { useShowCommercialEditor } from "@demo/hooks/useShowCommercialEditor";
 import { useWindowSize } from "react-use";
+import { TEMPLATE_DATA } from "@demo/pages/Editor/Arturia - Newsletter";
 
 const defaultCategories: ExtensionProps["categories"] = [
   {
@@ -73,6 +50,24 @@ const defaultCategories: ExtensionProps["categories"] = [
       },
       {
         type: AdvancedType.TABLE,
+      },
+      {
+        type: AdvancedType.GROUP,
+      },
+      {
+        type: AdvancedType.NAVBAR,
+      },
+      {
+        type: AdvancedType.SECTION,
+      },
+      {
+        type: AdvancedType.CAROUSEL,
+      },
+      {
+        type: AdvancedType.TABLE,
+      },
+      {
+        type: BasicType.TABLE,
       },
     ],
   },
@@ -108,38 +103,8 @@ const defaultCategories: ExtensionProps["categories"] = [
 ];
 
 export default function Editor() {
-  const { featureEnabled } = useShowCommercialEditor();
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const templateData = useAppSelector("template");
   const { width } = useWindowSize();
   const compact = width > 1600;
-  const { id, userId } = useQuery();
-  const loading = useLoading(template.loadings.fetchById);
-
-  useEffect(() => {
-    if (id) {
-      if (!userId) {
-        UserStorage.getAccount().then((account) => {
-          dispatch(
-            template.actions.fetchById({ id: +id, userId: account.user_id })
-          );
-        });
-      } else {
-        dispatch(template.actions.fetchById({ id: +id, userId: +userId }));
-      }
-    } else {
-      dispatch(template.actions.fetchDefaultTemplate(undefined));
-    }
-
-    return () => {
-      dispatch(template.actions.set(null));
-    };
-  }, [dispatch, id, userId]);
-
-  const onUploadImage = async (blob: Blob) => {
-    return services.common.uploadByQiniu(blob);
-  };
 
   const onExportMJML = (values: IEmailTemplate) => {
     const mjmlString = JsonToMjml({
@@ -175,29 +140,25 @@ export default function Editor() {
     );
   };
 
-  const initialValues: IEmailTemplate | null = useMemo(() => {
-    if (!templateData) return null;
-    const sourceData = cloneDeep(templateData.content) as IBlockData;
-    return {
-      ...templateData,
-      content: sourceData, // replace standard block
-    };
-  }, [templateData]);
+  if (!TEMPLATE_DATA) return null;
+
+  const sourceData = cloneDeep(
+    JSON.parse(TEMPLATE_DATA.content.content)
+  ) as IBlockData;
+
+  const initialValues = {
+    ...TEMPLATE_DATA,
+    content: sourceData, // replace standard block
+  };
+
+  console.log(TEMPLATE_DATA);
 
   const onSubmit = useCallback(
     async (values: IEmailTemplate) => {
       console.log(values);
     },
-    [dispatch, history, id, initialValues]
+    [initialValues]
   );
-
-  if (!templateData && loading) {
-    return (
-      <Loading loading={loading}>
-        <div style={{ height: "100vh" }} />
-      </Loading>
-    );
-  }
 
   if (!initialValues) return null;
 
@@ -206,14 +167,32 @@ export default function Editor() {
       <div>
         <style>{blueTheme}</style>
         <EmailEditorProvider
-          height={featureEnabled ? "calc(100vh - 108px)" : "calc(100vh - 68px)"}
+          enabledLogic={true}
+          height={"calc(100vh - 108px)"}
           data={initialValues}
-          onUploadImage={onUploadImage}
+          onUploadImage={(file) => {
+            console.log(file);
+            return Promise.resolve(file.text());
+          }}
           onSubmit={onSubmit}
           dashed={false}
           compact={compact}
           mergeTags={{
             test: "test",
+            test2: [
+              {
+                label: "test2",
+                value: "test2",
+              },
+              {
+                label: "test3",
+                value: "test3",
+              },
+            ],
+            test4: {
+              label: "test4",
+              value: "test4",
+            },
           }}
           fontList={[
             { label: "Arial", value: "Arial" },
@@ -255,45 +234,35 @@ export default function Editor() {
                   style={{ background: "var(--color-bg-2)" }}
                   backIcon
                   title="Edit"
-                  onBack={() => history.push("/")}
                   extra={
-                    <Stack alignment="center">
-                      <Dropdown
-                        droplist={
-                          <Menu>
-                            <Menu.Item
-                              key="Export MJML"
-                              onClick={() => onExportMJML(values)}
-                            >
-                              Export MJML
-                            </Menu.Item>
-                            <Menu.Item
-                              key="Export HTML"
-                              onClick={() => onExportHTML(values)}
-                            >
-                              Export HTML
-                            </Menu.Item>
-                            <Menu.Item
-                              key="Export JSON"
-                              onClick={() => onExportJSON(values)}
-                            >
-                              Export JSON
-                            </Menu.Item>
-                          </Menu>
-                        }
-                      >
-                        <Button>
-                          <strong>Export</strong>
-                        </Button>
-                      </Dropdown>
-                      <Button
-                        type="primary"
-                        target="_blank"
-                        href="https://demo.easyemail.pro?utm_source=easyemail"
-                      >
-                        Try commercial version
+                    <Dropdown
+                      droplist={
+                        <Menu>
+                          <Menu.Item
+                            key="Export MJML"
+                            onClick={() => onExportMJML(values)}
+                          >
+                            Export MJML
+                          </Menu.Item>
+                          <Menu.Item
+                            key="Export HTML"
+                            onClick={() => onExportHTML(values)}
+                          >
+                            Export HTML
+                          </Menu.Item>
+                          <Menu.Item
+                            key="Export JSON"
+                            onClick={() => onExportJSON(values)}
+                          >
+                            Export JSON
+                          </Menu.Item>
+                        </Menu>
+                      }
+                    >
+                      <Button>
+                        <strong>Export</strong>
                       </Button>
-                    </Stack>
+                    </Dropdown>
                   }
                 />
 
@@ -301,11 +270,10 @@ export default function Editor() {
                   categories={defaultCategories}
                   showSourceCode={true}
                   mjmlReadOnly={false}
-                  showBlockLayer={false}
+                  showBlockLayer={true}
                 >
                   <EmailEditor />
                 </StandardLayout>
-                <AutoSaveAndRestoreEmail />
               </>
             );
           }}
