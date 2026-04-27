@@ -1,9 +1,15 @@
-import { Modal } from "@arco-design/web-react";
-import { Stack, useBlock, useEditorProps } from "easy-email-editor";
 import React from "react";
 import { Form } from "react-final-form";
 import { v4 as uuidv4 } from "uuid";
-import { ImageUploaderField, TextAreaField, TextField } from "../Form";
+import { Stack, useBlock, useEditorProps } from "easy-email-editor";
+import { ImageUploaderField, TextAreaField, TextField } from "@";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 export const AddToCollection: React.FC<{
   visible: boolean;
@@ -35,36 +41,57 @@ export const AddToCollection: React.FC<{
       onSubmit={onSubmit}
     >
       {({ handleSubmit }) => (
-        <Modal
-          maskClosable={false}
-          style={{ zIndex: 2000 }}
-          visible={visible}
-          title={t("Add to collection")}
-          onOk={() => handleSubmit()}
-          onCancel={() => setVisible(false)}
+        <Dialog
+          open={visible}
+          // Matches Arco's maskClosable={false}
+          onClose={(_, reason) => {
+            if (reason !== "backdropClick") {
+              setVisible(false);
+            }
+          }}
+          sx={{ zIndex: 2000 }}
+          fullWidth
+          maxWidth="xs" // Keeps the modal at a reasonable width
         >
-          <Stack vertical>
-            <Stack.Item />
-            <TextField
-              label={t("Title")}
-              name="label"
-              validate={(val: string) => {
-                if (!val) return t("Title required!");
-                return undefined;
-              }}
-            />
-            <TextAreaField label={t("Description")} name="helpText" />
-            <ImageUploaderField
-              label={t("Thumbnail")}
-              name={"thumbnail"}
-              uploadHandler={onUploadImage}
-              validate={(val: string) => {
-                if (!val) return t("Thumbnail required!");
-                return undefined;
-              }}
-            />
-          </Stack>
-        </Modal>
+          <DialogTitle>{t("Add to collection")}</DialogTitle>
+
+          <DialogContent>
+            <Stack vertical>
+              <Stack.Item />
+              <TextField
+                label={t("Title")}
+                name="label"
+                validate={(val: string) => {
+                  if (!val) return t("Title required!");
+                  return undefined;
+                }}
+              />
+              <TextAreaField label={t("Description")} name="helpText" />
+              <ImageUploaderField
+                label={t("Thumbnail")}
+                name={"thumbnail"}
+                uploadHandler={onUploadImage}
+                validate={(val: string) => {
+                  if (!val) return t("Thumbnail required!");
+                  return undefined;
+                }}
+              />
+            </Stack>
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={() => setVisible(false)} color="inherit">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => handleSubmit()}
+              variant="contained"
+              disableElevation
+            >
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       )}
     </Form>
   );

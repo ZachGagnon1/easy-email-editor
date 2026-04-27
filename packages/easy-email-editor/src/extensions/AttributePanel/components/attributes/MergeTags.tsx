@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { get, isObject } from "lodash";
+import { get, isArray, isObject } from "lodash";
 import { useBlock, useEditorProps, useFocusIdx } from "easy-email-editor";
 import { getContextMergeTags } from "@/extensions/utils/getContextMergeTags";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
@@ -75,7 +75,7 @@ export const MergeTags: React.FC<{
       const value = get(contextMergeTags, itemId);
 
       // Ignore folder selections entirely (prevents keyboard Enter from selecting a folder)
-      if (isObject(value)) {
+      if (!value || isObject(value) || isArray(value)) {
         return;
       }
 
@@ -143,15 +143,25 @@ export const MergeTags: React.FC<{
   };
 
   const TreeComponent = (
-    <SimpleTreeView
-      expandedItems={expandedKeys}
-      onExpandedItemsChange={(e, newExpandedItems) =>
-        setExpandedKeys(newExpandedItems)
-      }
-      onSelectedItemsChange={handleItemSelection}
+    <Box
+      onMouseDown={(e) => {
+        // CRITICAL FIX: Prevent the tree from stealing focus from the iframe!
+        // Only do this if it's NOT the select input, so we don't break standard dropdowns.
+        if (!props.isSelect) {
+          e.preventDefault();
+        }
+      }}
     >
-      {renderTree(treeOptions)}
-    </SimpleTreeView>
+      <SimpleTreeView
+        expandedItems={expandedKeys}
+        onExpandedItemsChange={(e, newExpandedItems) =>
+          setExpandedKeys(newExpandedItems)
+        }
+        onSelectedItemsChange={handleItemSelection}
+      >
+        {renderTree(treeOptions)}
+      </SimpleTreeView>
+    </Box>
   );
 
   return (
@@ -184,12 +194,11 @@ export const MergeTags: React.FC<{
             onClose={() => setAnchorEl(null)}
             anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
             transformOrigin={{ vertical: "top", horizontal: "left" }}
+            sx={{ maxHeight: 400, maxWidth: 400, overflow: "auto" }}
             slotProps={{
               paper: {
                 sx: {
                   width: anchorEl?.clientWidth, // Match the width of the input exactly
-                  maxHeight: 400,
-                  overflow: "auto",
                   p: 1,
                 },
               },
