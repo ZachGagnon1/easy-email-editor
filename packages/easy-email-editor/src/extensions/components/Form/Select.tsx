@@ -5,7 +5,7 @@ import {
   Select as MuiSelect,
   SelectChangeEvent,
   SxProps,
-  Theme
+  Theme,
 } from "@mui/material";
 import React from "react";
 
@@ -33,7 +33,7 @@ export function Select({
   };
 
   return (
-    <FormControl fullWidth={fullWidth} sx={sx} disabled={disabled}>
+    <FormControl fullWidth={fullWidth} sx={sx} disabled={disabled} size="small">
       {label && <InputLabel>{label}</InputLabel>}
       <MuiSelect
         size="small"

@@ -2,7 +2,6 @@ import { Field, UseFieldConfig } from "react-final-form";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRefState } from "easy-email-editor";
 import { debounce } from "lodash";
-import { Form, FormItemProps } from "@arco-design/web-react";
 
 export interface EnhancerProps {
   name: string;
@@ -10,8 +9,7 @@ export interface EnhancerProps {
   validate?: (value: any) => string | undefined | Promise<string | undefined>;
   config?: UseFieldConfig<any, any>;
   changeOnBlur?: boolean;
-  formItem?: FormItemProps;
-  label?: FormItemProps["label"];
+  label?: React.ReactNode;
   inline?: boolean;
   equalSpacing?: boolean;
   required?: boolean;
@@ -23,6 +21,7 @@ export interface EnhancerProps {
 }
 
 const parse = (v: any) => v;
+
 export default function enhancer<
   P extends { onChange?: (...rest: any) => any }
 >(
@@ -40,13 +39,13 @@ export default function enhancer<
       changeOnBlur,
       inline,
       equalSpacing,
-      formItem,
       label,
       required,
       style,
       helpText,
       autoComplete,
       labelHidden,
+      config: configProp,
       ...rest
     } = props;
 
@@ -54,63 +53,14 @@ export default function enhancer<
 
     const config = useMemo(() => {
       return {
-        ...props.config,
+        ...configProp,
         validate: validate,
-        parse: props.config?.parse || parse,
+        parse: configProp?.parse || parse,
       };
-    }, [props.config, validate]);
+    }, [configProp, validate]);
 
     const [currentValue, setCurrentValue] = useState("");
     const currentValueRef = useRefState(currentValue);
-
-    const layoutStyle = useMemo((): FormItemProps => {
-      if (equalSpacing) {
-        return {
-          labelCol: {
-            span: 11,
-            style: {
-              textAlign: "left",
-              paddingRight: 0,
-            },
-          },
-          wrapperCol: {
-            span: 11,
-            offset: 1,
-            style: {
-              textAlign: "right",
-            },
-          },
-        };
-      }
-      if (inline) {
-        return {
-          labelCol: {
-            span: 7,
-            style: {
-              textAlign: "right",
-              paddingRight: 0,
-            },
-          },
-          wrapperCol: {
-            span: 16,
-            offset: 1,
-            style: {},
-          },
-        };
-      }
-
-      return {
-        labelCol: {
-          span: 24,
-          style: {
-            paddingRight: 0,
-          },
-        },
-        wrapperCol: {
-          span: 24,
-        },
-      };
-    }, [equalSpacing, inline]);
 
     return useMemo(() => {
       return (
@@ -119,16 +69,10 @@ export default function enhancer<
             // eslint-disable-next-line react-hooks/exhaustive-deps
 
             const debounceCallbackChange = useCallback(
-              debounce(
-                (val) => {
-                  onChange(val);
-                  onBlur();
-                },
-                debounceTime,
-                {
-                  // maxWait: 500,
-                }
-              ),
+              debounce((val) => {
+                onChange(val);
+                onBlur();
+              }, debounceTime),
               [onChange, onBlur]
             );
 
@@ -157,31 +101,28 @@ export default function enhancer<
               setCurrentValue(value);
             }, [value]);
 
+            const isError = Boolean(meta.touched && meta.error);
+            const currentHelperText = isError ? meta.error : helpText;
+
             return (
-              <Form.Item
-                style={{
-                  ...style,
-                }}
-                rules={required ? [{ required: true }] : undefined}
-                {...layoutStyle}
-                {...formItem}
-                label={labelHidden ? undefined : label || formItem?.label}
-                labelAlign="left"
-                validateStatus={
-                  meta.touched && meta.error ? "error" : undefined
-                }
-                help={meta.touched && meta.error ? meta.error : helpText}
-              >
-                <Component
-                  autoComplete={autoComplete}
-                  {...rest}
-                  name={name}
-                  checked={currentValue}
-                  value={currentValue}
-                  onChange={onFieldChange}
-                  onBlur={onFieldBlur}
-                />
-              </Form.Item>
+              <Component
+                autoComplete={autoComplete}
+                {...rest}
+                name={name}
+                checked={currentValue}
+                value={currentValue}
+                onChange={onFieldChange}
+                onBlur={onFieldBlur}
+                // --- Forwarded MUI Props ---
+                label={labelHidden ? undefined : label}
+                error={isError}
+                helperText={currentHelperText}
+                required={required}
+                style={style}
+                // Forward these so your custom MUI field components can handle grid layouts themselves
+                inline={inline}
+                equalSpacing={equalSpacing}
+              />
             );
           }}
         </Field>
@@ -193,16 +134,16 @@ export default function enhancer<
       currentValue,
       currentValueRef,
       debounceTime,
-      formItem,
       helpText,
       label,
       labelHidden,
-      layoutStyle,
       name,
       onChangeAdapter,
       required,
       rest,
       style,
+      inline,
+      equalSpacing,
     ]);
   };
 }
