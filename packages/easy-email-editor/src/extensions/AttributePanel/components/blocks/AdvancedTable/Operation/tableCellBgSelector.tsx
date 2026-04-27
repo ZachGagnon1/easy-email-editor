@@ -1,14 +1,14 @@
-import { Input } from "@arco-design/web-react";
-import React, { useEffect } from "react";
-import { render } from "react-dom";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Box, Button, MenuItem, Stack } from "@mui/material";
+// Adjust this import path to match your alias if needed
+import { ColorPicker } from "@/extensions/components/Form/ColorPicker/ColorPickerInput";
 
-interface CellBackgroundSelectorProps {
+export interface CellBackgroundSelectorProps {
   bgColorHandler: (color: string) => void;
-  rootDom: Element;
+  rootDom?: Element | null;
 }
 
-const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
+export const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
   bgColorHandler,
   rootDom,
 }) => {
@@ -18,57 +18,50 @@ const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
     if (!rootDom) {
       return;
     }
-    const observer = new ResizeObserver((e) => {
+    const observer = new ResizeObserver(() => {
       setColor("#ffffff");
     });
     observer.observe(rootDom);
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [rootDom]);
 
   return (
-    <div
+    <MenuItem
+      disableRipple
       onClick={(e) => e.stopPropagation()}
-      className="easy-email-table-operation-menu-bg-item"
+      sx={{
+        display: "block",
+        cursor: "default",
+        "&:hover": { backgroundColor: "transparent" }, // Prevent hover graying on input area
+        py: 1,
+        px: 2,
+      }}
     >
-      <div>Set Background Color</div>
-      <div>
-        <div className="easy-email-table-operation-menu-bg-item-color">
-          <div style={{ backgroundColor: color }}></div>
-          <input
-            type="color"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
-          />
-        </div>
-        <Input.Search
-          height={28}
-          searchButton="Set"
-          onSearch={() => bgColorHandler(color)}
-          value={color}
-          onKeyDown={(e) => e.stopPropagation()}
-          onChange={(e) => setColor(e)}
-        />
-      </div>
-    </div>
+      <Box sx={{ marginBottom: 1, fontSize: 13, color: "text.primary" }}>
+        Set Background Color
+      </Box>
+      <Stack direction="row" spacing={1} sx={{ alignItems: "flex-start" }}>
+        <Box sx={{ flex: 1, minWidth: 150 }}>
+          <ColorPicker value={color} onChange={setColor} showInput={true} />
+        </Box>
+        <Button
+          variant="contained"
+          onClick={(e) => {
+            e.stopPropagation();
+            bgColorHandler(color);
+          }}
+          disableElevation
+          sx={{
+            height: 40,
+            minWidth: "auto",
+            px: 2,
+          }}
+        >
+          Set
+        </Button>
+      </Stack>
+    </MenuItem>
   );
 };
-
-const getCellBackgroundSelectorRoot = (
-  bgColorHandler: CellBackgroundSelectorProps["bgColorHandler"],
-  rootDom: any
-) => {
-  const node = document.createElement("div");
-
-  render(
-    <CellBackgroundSelector
-      bgColorHandler={bgColorHandler}
-      rootDom={rootDom}
-    />,
-    node
-  );
-  return node;
-};
-
-export default getCellBackgroundSelectorRoot;

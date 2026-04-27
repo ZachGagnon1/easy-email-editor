@@ -1,20 +1,20 @@
-import TableOperationMenu from "./tableOperationMenu";
+import TableOperationMenu from "./TableOperationMenu";
 import {
   checkEventInBoundingRect,
   getBoundaryRectAndElement,
   getCurrentTable,
   getElementsBoundary,
   getTdBoundaryIndex,
-  setStyle,
+  setStyle
 } from "./util";
 import { AdvancedTableBlock } from "easy-email-core";
 import { getIframeDocument } from "easy-email-editor";
 
 interface IBorderTool {
-  top: Element;
-  bottom: Element;
-  left: Element;
-  right: Element;
+  top: HTMLElement;
+  bottom: HTMLElement;
+  left: HTMLElement;
+  right: HTMLElement;
 }
 
 class TableColumnTool {
@@ -23,10 +23,10 @@ class TableColumnTool {
   showBorderTool = false;
   startRect = {} as { width: number; height: number }; // start td rect
   startTdTop = 0; // update when click
-  startTdLeft = 0; //  update when click
+  startTdLeft = 0; // update when click
   endTdTop = 0; // will update by mouse move
   endTdLeft = 0; // will update by mouse move
-  width = 0; // selected section width,will update by mouse move
+  width = 0; // selected section width, will update by mouse move
   height = 0; // selected section height, will update by mouse move
 
   selectedLeftTopCell: Element | undefined = undefined;
@@ -53,37 +53,60 @@ class TableColumnTool {
   }
 
   initTool() {
-    this.root?.addEventListener("contextmenu", this.handleContextmenu);
-    this.root?.addEventListener("mousedown", this.handleMousedown.bind(this));
-    getIframeDocument()?.body.addEventListener("click", this.hideBorder, false);
-    document.body.addEventListener("contextmenu", this.hideTableMenu, false);
-    getIframeDocument()?.addEventListener("keydown", this.hideBorderByKeyDown);
+    this.root?.addEventListener(
+      "contextmenu",
+      this.handleContextmenu as EventListener
+    );
+    this.root?.addEventListener(
+      "mousedown",
+      this.handleMousedown.bind(this) as EventListener
+    );
+    getIframeDocument()?.body.addEventListener(
+      "click",
+      this.hideBorder as EventListener,
+      false
+    );
+    document.body.addEventListener(
+      "contextmenu",
+      this.hideTableMenu as EventListener,
+      false
+    );
+    getIframeDocument()?.addEventListener(
+      "keydown",
+      this.hideBorderByKeyDown as EventListener
+    );
   }
 
   destroy() {
     this.root?.removeEventListener(
       "mousedown",
-      this.handleMousedown.bind(this)
+      this.handleMousedown.bind(this) as EventListener
     );
-    this.root?.removeEventListener("contextmenu", this.handleContextmenu);
+    this.root?.removeEventListener(
+      "contextmenu",
+      this.handleContextmenu as EventListener
+    );
     getIframeDocument()?.body.removeEventListener(
       "click",
-      this.hideBorder,
+      this.hideBorder as EventListener,
       false
     );
-    document.body.removeEventListener("contextmenu", this.hideTableMenu, false);
+    document.body.removeEventListener(
+      "contextmenu",
+      this.hideTableMenu as EventListener,
+      false
+    );
     getIframeDocument()?.removeEventListener(
       "keydown",
-      this.hideBorderByKeyDown
+      this.hideBorderByKeyDown as EventListener
     );
 
     this.tableMenu?.destroy();
   }
 
-  hideBorder = (e: any) => {
-    console.log(e.target.tag, e.target.tagName);
-
-    if (e.target.tagName === "TD" || e.target.tagName === "TH") {
+  hideBorder = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.tagName === "TD" || target.tagName === "TH") {
       return;
     }
     this.visibleBorder(false);
@@ -93,8 +116,9 @@ class TableColumnTool {
     this.visibleBorder(false);
   };
 
-  hideTableMenu = (e?: any) => {
-    if (e?.target.id === "VisualEditorEditMode") {
+  hideTableMenu = (e?: MouseEvent) => {
+    const target = e?.target as HTMLElement;
+    if (target?.id === "VisualEditorEditMode") {
       return;
     }
     this.tableMenu?.hide();
@@ -104,9 +128,9 @@ class TableColumnTool {
     if (this.showBorderTool === show) {
       return;
     }
-    if (show) {
+    if (show && this.borderTool.top.parentElement) {
       setStyle(this.borderTool.top.parentElement, { display: "block" });
-    } else {
+    } else if (!show && this.borderTool.top.parentElement) {
       setStyle(this.borderTool.top.parentElement, { display: "none" });
     }
     this.showBorderTool = show;
@@ -126,44 +150,44 @@ class TableColumnTool {
     this.selectedBottomRightCell = result.bottomRightCell;
 
     setStyle(this.borderTool.top, {
-      "background-color": "rgb(65, 68, 77)",
+      backgroundColor: "rgb(65, 68, 77)",
       left: `${left}px`,
       top: `${top}px`,
       width: `${Math.abs(width)}px`,
       height: "2px",
       position: "absolute",
-      "z-index": 10,
+      zIndex: 10,
     });
     setStyle(this.borderTool.bottom, {
-      "background-color": "rgb(65, 68, 77)",
+      backgroundColor: "rgb(65, 68, 77)",
       left: `${left}px`,
       top: `${top + height}px`,
       width: `${Math.abs(width)}px`,
       height: "2px",
       position: "absolute",
-      "z-index": 10,
+      zIndex: 10,
     });
     setStyle(this.borderTool.left, {
-      "background-color": "rgb(65, 68, 77)",
+      backgroundColor: "rgb(65, 68, 77)",
       left: `${left}px`,
       top: `${top}px`,
       width: "2px",
       height: `${Math.abs(height)}px`,
       position: "absolute",
-      "z-index": 10,
+      zIndex: 10,
     });
     setStyle(this.borderTool.right, {
-      "background-color": "rgb(65, 68, 77)",
+      backgroundColor: "rgb(65, 68, 77)",
       left: `${left + width}px`,
       top: `${top}px`,
       width: "2px",
       height: `${Math.abs(height)}px`,
       position: "absolute",
-      "z-index": 10,
+      zIndex: 10,
     });
   };
 
-  handleContextmenu = (event: any) => {
+  handleContextmenu = (event: MouseEvent) => {
     if (this.showBorderTool) {
       const selectedBoundary = getElementsBoundary(
         this.selectedLeftTopCell as Element,
@@ -177,17 +201,24 @@ class TableColumnTool {
     this.hideTableMenu();
   };
 
-  handleMousedown(event: any) {
-    let target: Element = event.target;
-    if (event.button == 0) {
+  handleMousedown(event: MouseEvent) {
+    let target = event.target as Element | null;
+
+    if (event.button === 0) {
       // left button click
       while (target && target.parentNode) {
         if (
           target.nodeName === "TD" &&
           target.getAttribute("data-content_editable-type") === "rich_text"
         ) {
-          this.root?.addEventListener("mousemove", this.handleDrag);
-          this.root?.addEventListener("mouseup", this.handleMouseup);
+          this.root?.addEventListener(
+            "mousemove",
+            this.handleDrag as EventListener
+          );
+          this.root?.addEventListener(
+            "mouseup",
+            this.handleMouseup as EventListener
+          );
 
           this.dragging = true;
           this.startDom = target;
@@ -203,7 +234,8 @@ class TableColumnTool {
           return;
         }
       }
-    } else if (event.button == 2) {
+    } else if (event.button === 2) {
+      // Right button click (context menu trigger)
       if (this.showBorderTool) {
         const selectedBoundary = getElementsBoundary(
           this.selectedLeftTopCell as Element,
@@ -224,7 +256,9 @@ class TableColumnTool {
               this.selectedBottomRightCell as Element
             )
           );
-          this.tableMenu.showMenu(event);
+
+          // Explictly pass client coordinates into our new MUI wrapper
+          this.tableMenu.showMenu({ x: event.clientX, y: event.clientY });
 
           return;
         }
@@ -233,11 +267,11 @@ class TableColumnTool {
     this.visibleBorder(false);
   }
 
-  handleDrag = (e: any) => {
+  handleDrag = (e: MouseEvent) => {
     e.preventDefault();
 
     if (this.dragging) {
-      let target = e.target;
+      let target = e.target as Element | null;
 
       while (target && target.parentNode) {
         if (
@@ -252,18 +286,24 @@ class TableColumnTool {
           this.renderBorder();
           return;
         }
-        target = target.parentNode;
+        target = target.parentNode as Element;
       }
     }
   };
 
-  handleMouseup = (e: any) => {
+  handleMouseup = (e: MouseEvent) => {
     e.preventDefault();
 
     if (this.dragging) {
       this.dragging = false;
-      this.root?.removeEventListener("mousemove", this.handleDrag);
-      this.root?.removeEventListener("mouseup", this.handleMouseup);
+      this.root?.removeEventListener(
+        "mousemove",
+        this.handleDrag as EventListener
+      );
+      this.root?.removeEventListener(
+        "mouseup",
+        this.handleMouseup as EventListener
+      );
     }
   };
 }

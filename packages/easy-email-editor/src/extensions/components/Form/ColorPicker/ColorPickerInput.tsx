@@ -1,10 +1,21 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { Box, Button, InputLabel, Popover, Stack, TextField } from "@mui/material";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  Box,
+  Button,
+  InputLabel,
+  Popover,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { SketchPicker } from "react-color";
 import Color from "color";
-import {
-  PresetColorsContext
-} from "@/extensions/AttributePanel/components/provider/PresetColorsProvider";
+import { PresetColorsContext } from "@/extensions/AttributePanel/components/provider/PresetColorsProvider";
 
 export interface ColorPickerProps {
   onChange?: (val: string) => void;
@@ -175,6 +186,7 @@ export function ColorPicker(props: ColorPickerProps) {
           disableAutoFocus
           disableEnforceFocus
           disableRestoreFocus
+          sx={{ zIndex: 10000 }}
           slotProps={{
             paper: {
               sx: {
