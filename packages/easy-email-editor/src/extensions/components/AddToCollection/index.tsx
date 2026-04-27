@@ -1,15 +1,9 @@
 import React from "react";
 import { Form } from "react-final-form";
-import { v4 as uuidv4 } from "uuid";
 import { Stack, useBlock, useEditorProps } from "easy-email-editor";
 import { ImageUploaderField, TextAreaField, TextField } from "@";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { v4 as uuidv4 } from "uuid";
 
 export const AddToCollection: React.FC<{
   visible: boolean;
