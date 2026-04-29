@@ -3,13 +3,12 @@ import {
   AdvancedType,
   BlockAvatarWrapper,
   BlockManager,
+  getIconNameByBlockType,
   IBlockData,
-  IconFont,
 } from "@";
 import React, { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { getIconNameByBlockType } from "@/extensions/utils/getIconNameByBlockType";
 import { useExtensionProps } from "@/extensions/components/Providers/ExtensionProvider";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
 
@@ -100,10 +99,7 @@ function BlockItem({
             textAlign: "center",
           }}
         >
-          <IconFont
-            style={{ fontSize: 20 }}
-            iconName={getIconNameByBlockType(type)}
-          />
+          {getIconNameByBlockType(type)}
           <Typography variant="body2" sx={{ marginTop: 1 }}>
             {title ?? block?.name}
           </Typography>
