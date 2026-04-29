@@ -1,11 +1,15 @@
-import { Box, Grid, Typography } from "@mui/material";
-import { AdvancedType, BlockManager, IBlockData }  from "@";
-import { BlockAvatarWrapper, IconFont }  from "@";
+import { Box, Grid, Paper, Typography } from "@mui/material";
+import {
+  AdvancedType,
+  BlockAvatarWrapper,
+  BlockManager,
+  IBlockData,
+  IconFont,
+} from "@";
 import React, { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getIconNameByBlockType } from "@/extensions/utils/getIconNameByBlockType";
-import styles from "./index.module.scss";
 import { useExtensionProps } from "@/extensions/components/Providers/ExtensionProvider";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
 
@@ -48,11 +52,17 @@ export function Blocks() {
             key={cat.displayType ?? "" + index}
             title={cat.label}
           >
-            <Grid container sx={{ justifyContent: "center", ml: 1 }}>
+            <Grid container spacing={1} sx={{ justifyContent: "center" }}>
               {cat.blocks.map((item, index) => {
                 return (
                   <Grid key={index}>
-                    <BlockItem key={index} {...item} />
+                    <BlockItem
+                      {...(item as {
+                        type: string;
+                        payload?: any;
+                        title?: string | undefined;
+                      })}
+                    />
                   </Grid>
                 );
               })}
@@ -68,20 +78,17 @@ function BlockItem({
   type,
   payload,
   title,
-  filterType,
 }: {
   type: string;
   payload?: Partial<IBlockData>;
   title?: string;
-  filterType: string | undefined;
 }) {
   const block = BlockManager.getBlockByType(type);
 
   return (
-    <div className={styles.blockItem}>
+    <Paper sx={{ cursor: "grab !important" }}>
       <BlockAvatarWrapper type={type} payload={payload}>
         <Box
-          className={styles.blockItemContainer}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -102,7 +109,7 @@ function BlockItem({
           </Typography>
         </Box>
       </BlockAvatarWrapper>
-    </div>
+    </Paper>
   );
 }
 
@@ -122,7 +129,6 @@ function LayoutItem({
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          cursor: "pointer",
           "&:hover": {
             backgroundColor: "action.hover",
           },
@@ -168,6 +174,7 @@ function LayoutItem({
                 marginBottom: hide ? 0 : 2,
                 opacity: hide ? 0 : 1,
                 transition: "opacity 0.2s ease-in-out",
+                cursor: "grab !important",
               }}
             >
               <BlockAvatarWrapper type={AdvancedType.SECTION} payload={payload}>

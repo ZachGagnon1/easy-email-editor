@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
-import { TextStyle, useBlock }  from "@";
-import { BasicType, BlockManager }  from "@";
-import { Box, Stack } from "@mui/material";
+import { BasicType, BlockManager, useBlock } from "@";
+import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined";
 
@@ -15,17 +14,6 @@ export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = (
 ) => {
   const { focusBlock, setFocusBlock } = useBlock();
   const block = focusBlock && BlockManager.getBlockByType(focusBlock.type);
-
-  const onChangeHidden = useCallback(
-    (val: string | boolean) => {
-      if (!focusBlock) {
-        return;
-      }
-      focusBlock.data.hidden = val as any;
-      setFocusBlock({ ...focusBlock });
-    },
-    [focusBlock, setFocusBlock]
-  );
 
   if (!focusBlock || !block) {
     return null;
@@ -48,9 +36,9 @@ export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = (
           }}
         >
           <EyeIcon />
-          <TextStyle variation="strong" size="large">
-            {`${block.name} `} {t("attributes")}
-          </TextStyle>
+          <Typography variant={"h6"}>
+            {`${block.name} `} {t("Attributes")}
+          </Typography>
           {props.extra}
         </Stack>
       </div>
@@ -88,15 +76,14 @@ function EyeIcon() {
     return null;
   }
 
-  return focusBlock.data.hidden ? (
-    <VisibilityIcon
-      style={{ cursor: "pointer", fontSize: 18 }}
-      onClick={onToggleVisible}
-    />
-  ) : (
-    <VisibilityOffIcon
-      style={{ cursor: "pointer", fontSize: 18 }}
-      onClick={onToggleVisible}
-    />
+  return (
+    <Tooltip title={focusBlock.data.hidden ? t("Show") : t("Hide")}>
+      <IconButton
+        aria-label={focusBlock.data.hidden ? t("Show") : t("Hide")}
+        onClick={onToggleVisible}
+      >
+        {focusBlock.data.hidden ? <VisibilityIcon /> : <VisibilityOffIcon />}
+      </IconButton>
+    </Tooltip>
   );
 }

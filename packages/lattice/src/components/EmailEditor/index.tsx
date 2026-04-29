@@ -1,6 +1,4 @@
 import React, { useCallback, useMemo } from "react";
-import { Stack } from "../UI/Stack";
-import { ToolsPanel } from "./components/ToolsPanel";
 import { createPortal } from "react-dom";
 import { EASY_EMAIL_EDITOR_ID, FIXED_CONTAINER_ID } from "@/constants";
 import { useActiveTab } from "@/hooks/useActiveTab";
@@ -8,17 +6,20 @@ import { ActiveTabKeys } from "../Provider/BlocksProvider";
 import { DesktopEmailPreview } from "./components/DesktopEmailPreview";
 import { MobileEmailPreview } from "./components/MobileEmailPreview";
 import { EditEmailPreview } from "./components/EditEmailPreview";
-import { TabPane, Tabs } from "@/components/UI/Tabs";
+import { ToolsPanel } from "./components/ToolsPanel";
 import { useEditorProps } from "@/hooks/useEditorProps";
-import "./index.scss";
-import "@/assets/font/iconfont.css";
 import { EventManager, EventType } from "@/utils/EventManager";
 import { getIframeDocument } from "@/utils";
+
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+
 import EditIcon from "@mui/icons-material/Edit";
 import DesktopWindowsOutlinedIcon from "@mui/icons-material/DesktopWindowsOutlined";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 
-(window as any).global = window; // react-codemirror
+(window as any).global = window;
 
 export const EmailEditor = () => {
   const { height: containerHeight } = useEditorProps();
@@ -26,7 +27,7 @@ export const EmailEditor = () => {
   const iframeDocument = getIframeDocument();
 
   const fixedContainer = useMemo(() => {
-    if (!iframeDocument || !iframeDocument.body) return null;
+    if (!iframeDocument?.body) return null;
 
     return createPortal(<div id={FIXED_CONTAINER_ID} />, iframeDocument.body);
   }, [iframeDocument]);
@@ -45,64 +46,94 @@ export const EmailEditor = () => {
     [setActiveTab]
   );
 
+  // MUI uses a single onChange handler that passes the event and the new value.
+  const handleTabChange = useCallback(
+    async (event: React.SyntheticEvent, newValue: string) => {
+      const canChange = await onBeforeChangeTab(activeTab, newValue);
+
+      // Prevent changing if the event manager explicitly returns false
+      if (canChange !== false) {
+        onChangeTab(newValue);
+      }
+    },
+    [activeTab, onBeforeChangeTab, onChangeTab]
+  );
+
   return useMemo(
     () => (
-      <div
+      <Box
         id={EASY_EMAIL_EDITOR_ID}
-        style={{
+        sx={{
           display: "flex",
+          flexDirection: "column",
           flex: "1",
           overflow: "hidden",
-          justifyContent: "center",
           minWidth: 640,
           height: containerHeight,
+          width: "100%",
         }}
       >
-        <Tabs
-          activeTab={activeTab}
-          onBeforeChange={onBeforeChangeTab}
-          onChange={onChangeTab}
-          style={{ height: "100%", width: "100%" }}
-          tabBarExtraContent={<ToolsPanel />}
+        {/* Header containing Tabs and Extra Content */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: 1,
+            borderColor: "divider",
+            backgroundColor: "background.paper", // Optional: ensures solid background
+          }}
         >
-          <TabPane
-            style={{ height: "calc(100% - 50px)" }}
-            tab={
-              <Stack spacing="tight">
-                <EditIcon />
-              </Stack>
-            }
-            key={ActiveTabKeys.EDIT}
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            aria-label="email editor views"
           >
-            <EditEmailPreview />
-          </TabPane>
-          <TabPane
-            style={{ height: "calc(100% - 50px)" }}
-            tab={
-              <Stack spacing="tight">
-                <DesktopWindowsOutlinedIcon />
-              </Stack>
-            }
-            key={ActiveTabKeys.PC}
-          >
-            <DesktopEmailPreview />
-          </TabPane>
-          <TabPane
-            style={{ height: "calc(100% - 50px)" }}
-            aria-label="View Mobile Layout"
-            tab={
-              <Stack spacing="tight">
-                <PhoneAndroidIcon />
-              </Stack>
-            }
-            key={ActiveTabKeys.MOBILE}
-          >
-            <MobileEmailPreview />
-          </TabPane>
-        </Tabs>
+            <Tab
+              icon={<EditIcon />}
+              value={ActiveTabKeys.EDIT}
+              aria-label="Edit Layout"
+              sx={{ minWidth: "72px" }} // Keeps tabs compact like your Stack layout
+            />
+            <Tab
+              icon={<DesktopWindowsOutlinedIcon />}
+              value={ActiveTabKeys.PC}
+              aria-label="View PC Layout"
+              sx={{ minWidth: "72px" }}
+            />
+            <Tab
+              icon={<PhoneAndroidIcon />}
+              value={ActiveTabKeys.MOBILE}
+              aria-label="View Mobile Layout"
+              sx={{ minWidth: "72px" }}
+            />
+          </Tabs>
+
+          {/* ToolsPanel naturally sits on the right side due to space-between */}
+          <Box sx={{ pr: 2 }}>
+            <ToolsPanel />
+          </Box>
+        </Box>
+
+        {/* Content Panes */}
+        <Box
+          sx={{
+            flex: 1,
+            height: "calc(100% - 50px)",
+            position: "relative",
+            overflow: "hidden",
+            display: "flex", // Centers content if your inner components rely on it
+            justifyContent: "center",
+          }}
+        >
+          {activeTab === ActiveTabKeys.EDIT && <EditEmailPreview />}
+          {activeTab === ActiveTabKeys.PC && <DesktopEmailPreview />}
+          {activeTab === ActiveTabKeys.MOBILE && <MobileEmailPreview />}
+        </Box>
+
         <>{fixedContainer}</>
-      </div>
+      </Box>
     ),
-    [activeTab, containerHeight, fixedContainer, onBeforeChangeTab, onChangeTab]
+    [activeTab, containerHeight, fixedContainer, handleTabChange]
   );
 };

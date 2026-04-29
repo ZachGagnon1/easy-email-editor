@@ -98,6 +98,8 @@ export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = (
       data-type={type}
       style={
         {
+          cursor: "grab !important",
+          width: "stretch",
           pointerEvents: "auto",
           display: "inline-block",
           "&:active": {

@@ -1,17 +1,15 @@
 import React from "react";
-import {
-  getIframeDocument,
-  TextStyle,
-  useBlock,
-  useEditorContext,
-  useFocusIdx,
-}  from "@";
+import ReactDOM from "react-dom";
+import { getIframeDocument, useBlock, useEditorContext, useFocusIdx } from "@";
 import { RichTextField } from "../components/Form/RichTextField";
 import { PresetColorsProvider } from "./components/provider/PresetColorsProvider";
-import ReactDOM from "react-dom";
 import { BlockAttributeConfigurationManager } from "./utils/BlockAttributeConfigurationManager";
 import { SelectionRangeProvider } from "./components/provider/SelectionRangeProvider";
 import { TableOperation } from "./components/blocks/AdvancedTable/Operation";
+
+// MUI Components
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 export interface AttributePanelProps {}
 
@@ -34,16 +32,15 @@ export function AttributePanel() {
         {Com ? (
           <Com key={focusIdx} />
         ) : (
-          <div style={{ marginTop: 200, padding: "0 50px" }}>
-            <TextStyle size="extraLarge">
+          <Box sx={{ mt: "200px", px: "50px", textAlign: "center" }}>
+            <Typography variant="h6" color="text.secondary">
               {t("No matching components")}
-            </TextStyle>
-          </div>
+            </Typography>
+          </Box>
         )}
-
-        <div style={{ position: "absolute" }}>
+        <Box sx={{ position: "absolute" }}>
           <RichTextField idx={focusIdx} />
-        </div>
+        </Box>
         <TableOperation />
         <>
           {iframeDocument?.body &&

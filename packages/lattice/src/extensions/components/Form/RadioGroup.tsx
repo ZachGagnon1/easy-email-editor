@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { merge } from "lodash";
 import React from "react";
+import FormHelperText from "@mui/material/FormHelperText";
 
 export interface RadioGroupProps {
   options: Array<{ value: string; label: React.ReactNode }>;
@@ -21,6 +22,7 @@ export interface RadioGroupProps {
   disabled?: boolean;
   error?: boolean;
   label?: string;
+  helperText?: string;
   sx?: SxProps;
 }
 
@@ -34,13 +36,15 @@ export function RadioGroup(props: Readonly<RadioGroupProps>) {
     label,
     sx,
     disabled,
+    error,
+    helperText,
     ...rest
   } = props;
 
   const rowLayout = vertical ? false : rest.row ?? true;
 
   return (
-    <FormControl sx={sx} disabled={disabled}>
+    <FormControl sx={sx} disabled={disabled} error={error}>
       {label && <FormLabel>{label}</FormLabel>}
       <MuiRadioGroup
         {...rest}
@@ -58,6 +62,7 @@ export function RadioGroup(props: Readonly<RadioGroupProps>) {
           />
         ))}
       </MuiRadioGroup>
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   );
 }

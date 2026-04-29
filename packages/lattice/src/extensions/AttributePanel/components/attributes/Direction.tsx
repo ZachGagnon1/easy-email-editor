@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
-import { Stack, useFocusIdx } from "@";
-import { RadioGroupField } from "../../../components/Form";
+import { useFocusIdx } from "@";
+import { RadioGroupField } from "@/extensions";
 
 const options = [
   {
@@ -22,13 +22,11 @@ export function Direction() {
 
   return useMemo(() => {
     return (
-      <Stack>
-        <RadioGroupField
-          label={t("Direction")}
-          name={`${focusIdx}.attributes.direction`}
-          options={options}
-        />
-      </Stack>
+      <RadioGroupField
+        label={t("Direction")}
+        name={`${focusIdx}.attributes.direction`}
+        options={options}
+      />
     );
   }, [focusIdx]);
 }

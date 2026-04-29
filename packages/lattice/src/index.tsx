@@ -33,7 +33,6 @@ export { ActiveTabKeys } from "./components/Provider/BlocksProvider";
 export { IconFont } from "./components/IconFont";
 export { TextStyle } from "./components/UI/TextStyle";
 export { Stack } from "./components/UI/Stack";
-export { Tabs, TabPane } from "./components/UI/Tabs";
 
 export * from "./typings";
 export type { StackProps } from "./components/UI/Stack";

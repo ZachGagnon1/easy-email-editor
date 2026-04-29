@@ -3,8 +3,7 @@ import { Padding } from "@/extensions/AttributePanel/components/attributes/Paddi
 import { Background } from "@/extensions/AttributePanel/components/attributes/Background";
 import { Border } from "@/extensions/AttributePanel/components/attributes/Border";
 import { AttributesPanelWrapper } from "@/extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
-import { useBlock, useFocusIdx }  from "@";
-import { BasicType, BlockManager }  from "@";
+import { BasicType, BlockManager, useBlock, useFocusIdx } from "@";
 import { ClassName } from "@/extensions";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
 import { TextField } from "@/extensions/components/Form";
@@ -17,7 +16,7 @@ export function Section() {
   const noWrap = focusBlock?.data.value.noWrap;
 
   const onChange = useCallback(
-    (checked) => {
+    (checked: boolean) => {
       if (!focusBlock) {
         return;
       }
@@ -55,15 +54,15 @@ export function Section() {
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapsableItem title={t("Dimension")}>
         <Stack spacing={2}>
-          <label style={{ width: "100%", display: "flex" }}>
-            <div style={{ flex: 1 }}>{t("Group")}</div>
-          </label>
-          <SwitchInput checked={noWrap} onChange={onChange} />
-          <label style={{ width: "100%", display: "flex" }}>
-            <div style={{ flex: 1 }}>{t("Full Width")}</div>
-          </label>
-          <TextField name={`${focusIdx}.attributes.full-width`} />
-
+          <SwitchInput
+            label={t("Group")}
+            checked={noWrap}
+            onChange={onChange}
+          />
+          <TextField
+            label={t("Full Width")}
+            name={`${focusIdx}.attributes.full-width`}
+          />
           <Padding />
         </Stack>
       </CollapsableItem>

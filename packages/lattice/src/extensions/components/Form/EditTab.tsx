@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Box, IconButton, styled, Tab, Tabs } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import { classnames } from "@/extensions/utils/classnames";
-import styles from "./index.module.scss";
 
 export interface EditTabProps<T> {
   value?: Array<T>;
@@ -73,19 +71,17 @@ export function EditTab<T>(props: EditTabProps<T>) {
   };
 
   return (
-    <Box className={classnames(styles.editTab)}>
+    <Box>
       <StyledTabs
         value={activeTab}
         onChange={(_, newValue: number) => setActiveTab(newValue)}
         variant="scrollable"
         scrollButtons="auto"
-        className={styles.tabsHeader}
       >
         {tabValues.map((item, index) => (
           <StyledTab
             key={index}
             value={index}
-            className={styles.tabLabel}
             tabIndex={-1}
             sx={{
               borderTopLeftRadius: 8,
