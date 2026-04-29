@@ -13,15 +13,7 @@ export default defineConfig({
         __dirname,
         "./node_modules/react-final-form"
       ),
-      "easy-email-localization": path.resolve(
-        "../packages/easy-email-localization"
-      ),
-      "easy-email-core": path.resolve(
-        "../packages/easy-email-core/src/index.tsx"
-      ),
-      "easy-email-editor": path.resolve(
-        "../packages/easy-email-editor/src/index.tsx"
-      ),
+      lattice: path.resolve("../packages/lattice/src/index.tsx"),
     },
   },
   esbuild: {
@@ -39,7 +31,7 @@ export default defineConfig({
           if (id.includes("node_modules/html2canvas")) return "html2canvas";
           if (id.includes("node_modules/lodash")) return "lodash";
           if (id.includes("node_modules/mjml-browser")) return "mjml-browser";
-          if (id.includes("easy-email")) return "easy-email-editor";
+          if (id.includes("lattice")) return "lattice";
         },
         chunkFileNames(info) {
           const legacyChunks = [

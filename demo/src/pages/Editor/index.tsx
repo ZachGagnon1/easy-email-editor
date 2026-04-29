@@ -4,19 +4,16 @@ import mjml from "mjml-browser";
 
 import { saveAs } from "file-saver";
 import {
+  AdvancedType,
+  BasicType,
   EmailEditor,
   EmailEditorProvider,
   ExtensionProps,
-  IEmailTemplate,
-  StandardLayout,
-} from "easy-email-editor";
-
-import {
-  AdvancedType,
-  BasicType,
   IBlockData,
+  IEmailTemplate,
   JsonToMjml,
-} from "easy-email-core";
+  StandardLayout,
+} from "lattice";
 
 import "easy-email-editor/lib/style.css";
 import blueTheme from "@arco-themes/react-easy-email-theme/css/arco.css?inline";

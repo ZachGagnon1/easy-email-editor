@@ -1,5 +1,4 @@
-import { BlockManager } from "easy-email-core";
-import { BlockAttributeConfigurationManager } from "easy-email-extensions";
+import { BlockAttributeConfigurationManager, BlockManager } from "lattice";
 import { CustomBlocksType } from "./constants";
 import {
   Panel as ProductRecommendationPanel,
