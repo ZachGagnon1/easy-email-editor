@@ -1,15 +1,24 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-
-import { BlockManager, getNodeTypeFromClassName }  from "@";
 import { createPortal } from "react-dom";
+
+// MUI Components
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
 import {
+  BlockManager,
   getIframeDocument,
+  getNodeTypeFromClassName,
   useEditorContext,
   useFocusIdx,
   useHoverIdx,
-  useLazyState,
-}  from "@";
+  useLazyState
+} from "@";
 import { awaitForElement } from "@/extensions/utils/awaitForElement";
+import { IframeCacheProvider } from "@/components/Provider/IframeCacheProvider";
+
+// A lighter shade of the main toolbar blue (#1890ff)
+const HOVER_COLOR = "#40a9ff";
 
 export function HoverTooltip() {
   const { hoverIdx, direction, isDragging } = useHoverIdx();
@@ -66,26 +75,30 @@ export function HoverTooltip() {
   return (
     <>
       {createPortal(
-        <div
-          id="easy-email-extensions-InteractivePrompt-HoverTooltip"
-          style={{
-            position: "absolute",
-            height: "100%",
-            width: "100%",
-            top: 0,
-            left: 0,
-            zIndex: 2,
-            pointerEvents: "none",
-          }}
-        >
-          <TipNode
-            type={isDragging ? "drag" : "hover"}
-            lineWidth={1}
-            title={block.name}
-            direction={isTop && direction === "top" ? "noEnoughTop" : direction}
-            isDragging={isDragging}
-          />
-        </div>,
+        <IframeCacheProvider>
+          <Box
+            id="easy-email-extensions-InteractivePrompt-HoverTooltip"
+            sx={{
+              position: "absolute",
+              height: "100%",
+              width: "100%",
+              top: 0,
+              left: 0,
+              zIndex: 2,
+              pointerEvents: "none",
+            }}
+          >
+            <TipNode
+              type={isDragging ? "drag" : "hover"}
+              lineWidth={1}
+              title={block.name}
+              direction={
+                isTop && direction === "top" ? "noEnoughTop" : direction
+              }
+              isDragging={isDragging}
+            />
+          </Box>
+        </IframeCacheProvider>,
         blockNode
       )}
     </>
@@ -102,6 +115,7 @@ interface TipNodeProps {
 
 function TipNode(props: TipNodeProps) {
   const { direction, title, lineWidth, type } = props;
+
   const dragTitle = useMemo(() => {
     if (direction === "top" || direction === "noEnoughTop") {
       return `${t("Insert before")} ${title}`;
@@ -114,12 +128,11 @@ function TipNode(props: TipNodeProps) {
   }, [direction, title]);
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         position: "absolute",
         left: 0,
         top: 0,
-        fontSize: 14,
         zIndex: 1,
         color: "#000",
         width: "100%",
@@ -133,32 +146,27 @@ function TipNode(props: TipNodeProps) {
         .email-block {
           position: relative;
         }
-
       `}
       </style>
-      {/* outline */}
-      <div
-        style={{
+
+      {/* Outline */}
+      <Box
+        sx={{
           position: "absolute",
           left: 0,
           top: 0,
           width: "100%",
           height: "100%",
           outlineOffset: `-${lineWidth}px`,
-          outline: `${lineWidth}px solid var(--hover-color)`,
+          outline: `${lineWidth}px solid ${HOVER_COLOR}`,
         }}
       >
         {type === "hover" && (
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 0,
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: "var(--hover-color)",
+          <Box sx={{ position: "absolute", left: 0, top: 0 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                backgroundColor: HOVER_COLOR,
                 color: "#ffffff",
                 height: "22px",
                 lineHeight: "22px",
@@ -166,20 +174,19 @@ function TipNode(props: TipNodeProps) {
                 padding: "1px 5px",
                 boxSizing: "border-box",
                 whiteSpace: "nowrap",
-                fontFamily: "sans-serif",
                 transform: "translateY(-100%)",
               }}
             >
               {title}
-            </div>
-          </div>
+            </Typography>
+          </Box>
         )}
-      </div>
+      </Box>
 
-      {/* drag direction tip */}
+      {/* Drag direction tip */}
       {props.isDragging && (
-        <div
-          style={{
+        <Box
+          sx={{
             position: "absolute",
             top: 0,
             left: 0,
@@ -188,26 +195,25 @@ function TipNode(props: TipNodeProps) {
             ...directionImage[props.direction || "none"],
           }}
         >
-          <div
-            style={{
+          <Typography
+            variant="caption"
+            sx={{
               position: "absolute",
               color: "#ffffff",
-              backgroundColor: "var(--hover-color)",
+              backgroundColor: HOVER_COLOR,
               lineHeight: "22px",
               display: "inline-flex",
               maxWidth: "100%",
               textAlign: "center",
               whiteSpace: "nowrap",
-              padding: "1px 5px",
-
               ...positionStyleMap[props.direction || "none"],
             }}
           >
             {dragTitle}
-          </div>
-        </div>
+          </Typography>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
@@ -253,32 +259,16 @@ const positionStyleMap: Record<string, any> = {
 
 const directionImage: Record<string, any> = {
   top: {
-    backgroundImage: `linear-gradient(
-      to bottom,
-      var(--hover-color) 3px ,
-      transparent 3px
-    )`,
+    backgroundImage: `linear-gradient(to bottom, ${HOVER_COLOR} 3px, transparent 3px)`,
   },
   bottom: {
-    backgroundImage: `linear-gradient(
-      to top,
-      var(--hover-color) 3px ,
-      transparent 3px
-    )`,
+    backgroundImage: `linear-gradient(to top, ${HOVER_COLOR} 3px, transparent 3px)`,
   },
   left: {
-    backgroundImage: `linear-gradient(
-      to right,
-      var(--hover-color) 3px ,
-      transparent 3px
-    )`,
+    backgroundImage: `linear-gradient(to right, ${HOVER_COLOR} 3px, transparent 3px)`,
   },
   right: {
-    backgroundImage: `linear-gradient(
-      to left,
-      var(--hover-color) 3px ,
-      transparent 3px
-    )`,
+    backgroundImage: `linear-gradient(to left, ${HOVER_COLOR} 3px, transparent 3px)`,
   },
   none: {},
 };

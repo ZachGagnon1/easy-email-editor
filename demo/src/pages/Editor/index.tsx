@@ -16,7 +16,6 @@ import {
 } from "lattice";
 
 import "easy-email-editor/lib/style.css";
-import blueTheme from "@arco-themes/react-easy-email-theme/css/arco.css?inline";
 
 import { useWindowSize } from "react-use";
 import { TEMPLATE_DATA } from "@demo/pages/Editor/Arturia - Newsletter";
@@ -162,8 +161,6 @@ export default function Editor() {
 
   return (
     <div>
-      {/* TODO get rid of this when arco-design is no more */}
-      <style>{blueTheme}</style>
       <EmailEditorProvider
         enabledLogic={true}
         height={"calc(100vh - 108px)"}
@@ -225,7 +222,7 @@ export default function Editor() {
           { label: "Verdana", value: "Verdana" },
         ]}
       >
-        {({ values }, { submit, restart }) => {
+        {({ values }) => {
           return (
             <>
               <div

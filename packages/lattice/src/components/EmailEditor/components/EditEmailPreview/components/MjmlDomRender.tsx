@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import mjml from "mjml-browser";
-import { getPageIdx, IPage, JsonToMjml }  from "@";
+import { getPageIdx, IPage, JsonToMjml } from "@";
 import { cloneDeep, isEqual } from "lodash";
 import { useEditorContext } from "@/hooks/useEditorContext";
 import { useEditorProps } from "@/hooks/useEditorProps";
@@ -8,7 +8,6 @@ import { getIframeDocument } from "@/utils";
 import { DATA_RENDER_COUNT, FIXED_CONTAINER_ID } from "@/constants";
 import { HtmlStringToReactNodes } from "@/utils/HtmlStringToReactNodes";
 import { createPortal } from "react-dom";
-import blueTheme from "@arco-themes/react-easy-email-theme/css/arco.css?inline";
 
 let count = 0;
 
@@ -17,26 +16,12 @@ export function MjmlDomRender() {
   const [pageData, setPageData] = useState<IPage | null>(null);
   const [isTextFocus, setIsTextFocus] = useState(false);
 
-  const { pageData: content, initialized } = useEditorContext();
+  const { pageData: content } = useEditorContext();
   const { dashed, mergeTags, enabledMergeTagsBadge } = useEditorProps();
 
   const isTextFocusing =
     getIframeDocument()?.activeElement?.getAttribute("contenteditable") ===
     "true";
-
-  useEffect(() => {
-    if (!initialized) return;
-
-    // Since the Iframe does not inherit the styles from the parent document,
-    // we need to manually add the blue theme to the iframe.
-    const style = getIframeDocument()?.createElement("style");
-
-    if (style) {
-      style.textContent = blueTheme;
-
-      getIframeDocument()?.head.appendChild(style);
-    }
-  }, [initialized]);
 
   useEffect(() => {
     if (!isTextFocus && !isEqual(content, pageData)) {
@@ -70,7 +55,7 @@ export function MjmlDomRender() {
   useEffect(() => {
     const root = getIframeDocument();
     if (!root) return;
-    const onClick = (e: Event) => {
+    const onClick = (_e: Event) => {
       const isFocusing =
         getIframeDocument()?.activeElement?.getAttribute("contenteditable") ===
         "true";

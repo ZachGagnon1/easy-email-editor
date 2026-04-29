@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 
 import {
   BasicType,
@@ -7,9 +8,12 @@ import {
   useFocusBlockLayout,
   useFocusIdx,
 } from "@";
-import { createPortal } from "react-dom";
 import { Toolbar } from "./Toolbar";
-import DragHandleIcon from "@mui/icons-material/DragHandle";
+import DragHandleIcon from "@mui/icons-material/DragHandle"; // MUI Components
+import Box from "@mui/material/Box";
+import { IframeCacheProvider } from "@/components/Provider/IframeCacheProvider";
+
+const SELECTED_COLOR = "#1890ff";
 
 export function FocusTooltip() {
   const { focusBlock } = useBlock();
@@ -22,94 +26,113 @@ export function FocusTooltip() {
   return (
     <>
       {createPortal(
-        <div
-          id="easy-email-extensions-InteractivePrompt-FocusTooltip"
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            pointerEvents: "none",
-            left: 0,
-            top: 0,
-            zIndex: 1,
-          }}
-        >
-          <style>
-            {`
+        <IframeCacheProvider>
+          <Box
+            id="easy-email-extensions-InteractivePrompt-FocusTooltip"
+            sx={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              pointerEvents: "none",
+              left: 0,
+              top: 0,
+              zIndex: 1,
+            }}
+          >
+            <style>
+              {`
                 .email-block {
                   position: relative;
                 }
+              `}
+            </style>
 
-            `}
-          </style>
-          <div
-            style={{
-              position: "absolute",
-              zIndex: 9999,
-              right: 0,
-              top: "50%",
-              display: isPage ? "none" : undefined,
-            }}
-          >
-            <BlockAvatarWrapper
-              idx={focusIdx}
-              type={focusBlock.type}
-              action="move"
+            {/* Drag Handle Container */}
+            <Box
+              sx={{
+                position: "absolute",
+                zIndex: 9999,
+                right: 0,
+                top: "50%",
+                // Fix: 50% on the X-axis pushes it exactly halfway outside the border
+                transform: "translate(50%, -50%)",
+                display: isPage ? "none" : "flex",
+                pointerEvents: "auto", // Ensure the whole container captures clicks/drags
+              }}
+              style={{
+                cursor: "grab !important",
+              }}
             >
-              {/* TODO: Figure out why the cursor: "grab" isn't working and the color of the icon sucks */}
-              <div
-                style={
-                  {
-                    position: "absolute",
-                    backgroundColor: "var(--selected-color)",
-                    color: "#ffffff",
-                    height: "28px",
-                    width: "28px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transform: "translate(-50%, -50%)",
-                    borderRadius: "50%",
-                    cursor: "grab",
-                    pointerEvents: "auto",
-                    WebkitUserDrag: "element",
-                  } as any
-                }
+              <BlockAvatarWrapper
+                idx={focusIdx}
+                type={focusBlock.type}
+                action="move"
               >
-                <DragHandleIcon fill="#fffff" sx={{ color: "#fffff" }} />
-              </div>
-            </BlockAvatarWrapper>
-          </div>
+                <div
+                  style={
+                    {
+                      backgroundColor: SELECTED_COLOR,
+                      color: "#ffffff",
+                      height: "28px",
+                      width: "28px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "50%",
+                      cursor: "grab !important",
+                      pointerEvents: "auto",
+                      WebkitUserDrag: "element",
+                      "&:active": {
+                        cursor: "grabbing !important",
+                      },
+                    } as any
+                  }
+                >
+                  <DragHandleIcon
+                    sx={{
+                      cursor: "grab !important",
+                      color: "#ffffff",
+                      fontSize: 20,
+                      "&:active": {
+                        cursor: "grabbing !important",
+                      },
+                    }}
+                  />
+                </div>
+              </BlockAvatarWrapper>
+            </Box>
 
-          {/* outline */}
-          <div
-            style={{
-              position: "absolute",
-              fontSize: 14,
-              zIndex: 2,
-              left: 0,
-              top: 0,
-              width: "100%",
-              height: "100%",
-              outlineOffset: "-2px",
-              outline: "2px solid var(--selected-color)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              fontSize: 14,
-              zIndex: 3,
-              left: 0,
-              top: 0,
-              width: "0%",
-              height: "100%",
-            }}
-          >
-            <Toolbar />
-          </div>
-        </div>,
+            {/* Outline */}
+            <Box
+              sx={{
+                position: "absolute",
+                fontSize: 14,
+                zIndex: 2,
+                left: 0,
+                top: 0,
+                width: "100%",
+                height: "100%",
+                outlineOffset: "-2px",
+                outline: `2px solid ${SELECTED_COLOR}`,
+              }}
+            />
 
+            {/* Toolbar Container */}
+            <Box
+              sx={{
+                position: "absolute",
+                fontSize: 14,
+                zIndex: 3,
+                left: 0,
+                top: 0,
+                width: "0%",
+                height: "100%",
+              }}
+            >
+              <Toolbar />
+            </Box>
+          </Box>
+        </IframeCacheProvider>,
         focusBlockNode
       )}
     </>

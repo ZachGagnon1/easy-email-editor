@@ -40,7 +40,6 @@
     ]
   },
   "dependencies": {
-    "@arco-themes/react-easy-email-theme": "^0.0.3",
     "@base-ui/react": "^1.4.1",
     "@dnd-kit/react": "^0.4.0",
     "@emotion/cache": "^11.14.0",
@@ -79,7 +78,7 @@
     "@types/react-color": "^3.0.13",
     "@types/react-dom": "^18.3.7",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
-    "@typescript-eslint/parser": "^8.59.0",
+    "@typescript-eslint/parser": "^8.59.1",
     "esbuild": "^0.28.0",
     "eslint": "9.26.0",
     "eslint-config-prettier": "^10.1.8",
