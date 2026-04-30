@@ -1,10 +1,8 @@
 {
-  "name": "easy-email",
+  "name": "lattice-editor",
   "scripts": {
     "install-all": "lerna exec -- pnpm install && cd demo && pnpm install",
     "vercel-install": "lerna exec -- pnpm install && cd demo && pnpm install",
-    "build": "pnpm run build:core && pnpm run build:editor",
-    "build:core": "cd packages/easy-email-core && pnpm run build",
     "build:editor": "cd packages/lattice && pnpm run build",
     "dev": "cd demo && pnpm run dev",
     "demo": "cd demo && pnpm run build",

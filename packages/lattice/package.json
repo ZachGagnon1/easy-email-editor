@@ -1,5 +1,5 @@
 {
-  "name": "lattice",
+  "name": "lattice-editor",
   "license": "MIT",
   "description": "Lattice is a feature-rich, open-source SaaS email editor based on React and MJML.",
   "version": "1.0.0-beta.1",
