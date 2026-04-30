@@ -4,6 +4,9 @@ on:
   release:
     types: [ published ] # Triggers when you create a new GitHub Release
 
+permissions:
+  id-token: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -19,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: '24'
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
 
@@ -47,5 +50,3 @@ jobs:
         run: |
           cd packages/lattice
           pnpm publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
