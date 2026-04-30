@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
+  base: "/lattice",
   resolve: {
     // Vite 8 built-in support for tsconfig path resolution
     tsconfigPaths: true,
@@ -15,10 +16,6 @@ export default defineConfig({
       ),
       lattice: path.resolve("../packages/lattice/src/index.tsx"),
     },
-  },
-  esbuild: {
-    // Maintains Arco Design style injection consistent with your base config
-    jsxInject: 'import "@arco-design/web-react/dist/css/arco.css";',
   },
   build: {
     minify: "terser", // Vite 8 uses lightningcss by default, but terser is safer for complex monorepos

@@ -12,7 +12,6 @@ import {
   LatticeEditor
 } from "lattice";
 import { TEMPLATE_DATA } from "@demo/pages/Editor/Arturia - Newsletter";
-import "easy-email-editor/lib/style.css";
 
 export default function Editor() {
   const { width } = useWindowSize();

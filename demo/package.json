@@ -1,15 +1,15 @@
 {
-  "name": "easy-email-demo",
+  "name": "lattice-demo",
   "license": "MIT",
-  "description": "Email editor demo",
+  "description": "Lattice demo",
   "version": "2.2.1",
   "author": "m-Ryan",
   "repository": {
     "type": "git",
-    "url": "git@github.com:zalify/easy-email.git"
+    "url": "git@github.com:ZachGagnon1/Lattice.git"
   },
   "keywords": [
-    "easy email editor demo"
+    "lattice demo"
   ],
   "files": [
     "lib"

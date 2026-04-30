@@ -35,7 +35,6 @@ export function Table() {
     >
       <CollapsableItem title={t("Dimension")}>
         <Stack spacing={2}>
-          {/* direction="row" replaces the default horizontal easy-email-editor Stack */}
           <Stack direction="row" spacing={2}>
             <Box sx={{ flex: 1 }}>
               <Width />

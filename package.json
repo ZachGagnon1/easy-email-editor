@@ -8,11 +8,6 @@
     "build:editor": "cd packages/lattice && pnpm run build",
     "dev": "cd demo && pnpm run dev",
     "demo": "cd demo && pnpm run build",
-    "demo2": "cd nextjs-demo && pnpm run build",
-    "test": "pnpm run test:core && pnpm run test:extensions",
-    "test:core": "cd packages/easy-email-core && pnpm run test",
-    "test:extensions": "cd packages/easy-email-extensions && pnpm run test",
-    "translate": "ts-node scripts/translate.ts",
     "lint": "lerna exec -- pnpm run format",
     "format": "pnpm exec prettier . --write"
   },

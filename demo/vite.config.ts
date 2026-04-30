@@ -13,31 +13,18 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
     alias: {
-      // Maintaining your specific overrides for package boundaries
-      "easy-email-editor/lib/style.css": path.resolve(
-        __dirname,
-        "package.json"
-      ),
       react: path.resolve("./node_modules/react"),
       "react-final-form": path.resolve(
         __dirname,
         "./node_modules/react-final-form"
       ),
       "@demo": path.resolve(__dirname, "./src"),
-      "@arco-themes": path.resolve("./node_modules/@arco-themes"),
       "@": path.resolve("../packages/lattice/src"),
       lattice: path.resolve("../packages/lattice/src/index.tsx"),
-      "@arco-design/web-react/dist/css/arco.css": path.resolve(
-        "./node_modules/@arco-design/web-react/dist/css/arco.css"
-      ),
     },
   },
   // Note: define: {} is standard, but Vite 8 handles env vars more robustly
   define: {},
-  esbuild: {
-    // Arco design style injection
-    jsxInject: 'import "@arco-design/web-react/dist/css/arco.css";',
-  },
   build: {
     // In Vite 8, lightningcss is the default for high-performance minification
     // If you still want Terser, ensure 'terser' is installed in your devDependencies
