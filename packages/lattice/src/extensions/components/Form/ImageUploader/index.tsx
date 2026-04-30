@@ -10,7 +10,7 @@ import {
   MenuItem,
   Popover,
   Stack,
-  Tooltip,
+  Tooltip
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
@@ -18,16 +18,13 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 
 import styles from "./index.module.scss";
-import {
-  Uploader,
-  UploaderServer,
-} from "@/extensions/AttributePanel/utils/Uploader";
+import { Uploader, UploaderServer } from "@/extensions/AttributePanel/utils/Uploader";
 import { classnames } from "@/extensions/AttributePanel/utils/classnames";
 import { previewLoadImage } from "@/extensions/AttributePanel/utils/previewLoadImage";
 import { MergeTags } from "@/extensions";
 import { useEditorProps } from "@";
 import { TextInput } from "@/extensions/components/Form/TextInput";
-import StyleIcon from "@mui/icons-material/Style";
+import DataObjectIcon from "@mui/icons-material/DataObject";
 
 export interface ImageUploaderProps {
   onChange: (val: string) => void;
@@ -227,7 +224,7 @@ export function ImageUploader(props: ImageUploaderProps) {
                   },
                 }}
               >
-                <StyleIcon />
+                <DataObjectIcon />
               </Button>
               <Popover
                 open={Boolean(anchorElMerge)}

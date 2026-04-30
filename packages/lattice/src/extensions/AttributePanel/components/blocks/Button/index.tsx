@@ -18,13 +18,13 @@ import {
   Padding,
   TextDecoration,
   TextField,
-  Width
+  Width,
 } from "@/extensions";
 import { useEditorProps, useFocusIdx } from "@";
 import { useField } from "react-final-form";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
 import { Box, IconButton, Popover, Stack } from "@mui/material";
-import StyleIcon from "@mui/icons-material/Style";
+import DataObjectIcon from "@mui/icons-material/DataObject";
 
 export function Button() {
   const { focusIdx } = useFocusIdx();
@@ -64,7 +64,7 @@ export function Button() {
                       size="small"
                       sx={{ p: 0.5 }}
                     >
-                      <StyleIcon />
+                      <DataObjectIcon />
                     </IconButton>
                     <Popover
                       id={id}

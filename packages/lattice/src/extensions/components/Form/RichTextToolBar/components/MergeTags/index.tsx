@@ -3,7 +3,7 @@ import { Box, Popover } from "@mui/material";
 import { MergeTags as MergeTagsOptions } from "@/extensions/AttributePanel";
 import { ToolItem } from "../ToolItem";
 import { getIframeDocument } from "@";
-import StyleIcon from "@mui/icons-material/Style";
+import DataObjectIcon from "@mui/icons-material/DataObject";
 
 export interface MergeTagsProps {
   execCommand: (cmd: string, value: any) => void;
@@ -63,7 +63,7 @@ export function MergeTags(props: MergeTagsProps) {
       >
         <ToolItem
           title={t("Merge tag")}
-          icon={<StyleIcon />}
+          icon={<DataObjectIcon />}
           onClick={handleOpen}
           isActive={isOpen}
         />

@@ -6,7 +6,7 @@ import { useField } from "react-final-form";
 import { Box, IconButton, Popover, Stack } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import LinkIcon from "@mui/icons-material/Link";
-import StyleIcon from "@mui/icons-material/Style";
+import DataObjectIcon from "@mui/icons-material/DataObject";
 
 export function Link() {
   const { focusIdx } = useFocusIdx();
@@ -50,7 +50,7 @@ export function Link() {
                 size="small"
                 sx={{ p: 0.5 }}
               >
-                <StyleIcon />
+                <DataObjectIcon />
               </IconButton>
 
               <Popover

@@ -44,7 +44,6 @@ export function MobileEmailPreview() {
         style={{
           position: "relative",
           margin: "auto",
-          padding: "6px 6.8px 2px 6.8px",
         }}
       >
         <div
@@ -54,7 +53,6 @@ export function MobileEmailPreview() {
             width: "100%",
             height: "100%",
             position: "absolute",
-            padding: "6px 6.8px 2px 6.8px",
             backgroundImage: `url(${iphoneFrame})`,
             backgroundSize: "100% 100%",
             zIndex: 10,

@@ -32,6 +32,7 @@ export function DesktopEmailPreview() {
     <div
       style={{
         height: "100%",
+        width: "stretch",
       }}
     >
       <SyncScrollIframeComponent
