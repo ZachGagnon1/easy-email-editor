@@ -43,6 +43,7 @@ jobs:
 
       - name: Build Lattice package
         run: |
+          cp readme.md packages/lattice/readme.md
           cd packages/lattice
           pnpm run build
 
