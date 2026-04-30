@@ -7,6 +7,7 @@ import { IEmailTemplate } from "@/typings";
 import { FormSpy } from "react-final-form";
 import { AdvancedType, BasicType } from "@/core/constants";
 import { ExtensionProps } from "@/extensions";
+import { useDebouncedCallback } from "use-debounce";
 
 export interface LatticeEditorConfig {
   showSourceCode?: boolean;
@@ -64,6 +65,14 @@ export function LatticeEditor(props: LatticeEditorProps) {
     })) as ExtensionProps["categories"];
   }, [components, onUploadImage]);
 
+  var onValueChange = (values: IEmailTemplate) => {
+    if (onChange) {
+      onChange(values);
+    }
+  };
+
+  const debouncedOnChange = useDebouncedCallback(onValueChange, 200);
+
   return (
     <EmailEditorProvider
       data={data}
@@ -79,7 +88,9 @@ export function LatticeEditor(props: LatticeEditorProps) {
           {onChange && (
             <FormSpy
               subscription={{ values: true }}
-              onChange={(state) => onChange(state.values as IEmailTemplate)}
+              onChange={(state) =>
+                debouncedOnChange(state.values as IEmailTemplate)
+              }
             />
           )}
           <StandardLayout
