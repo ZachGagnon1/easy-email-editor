@@ -46,12 +46,7 @@
     "@codemirror/view": "^6.41.1",
     "@dnd-kit/react": "^0.4.0",
     "@emotion/cache": "^11.14.0",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@fontsource/roboto": "^5.2.10",
-    "@mui/icons-material": "^9.0.0",
-    "@mui/material": "^9.0.0",
-    "@mui/x-tree-view": "^9.0.4",
     "@uiw/codemirror-theme-material": "^4.25.9",
     "@uiw/react-codemirror": "^4.25.9",
     "@vitejs/plugin-react": "^6.0.1",
@@ -105,7 +100,13 @@
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "@mui/material": "^9.0.0",
+    "@mui/icons-material": "^9.0.0",
+    "@mui/x-tree-view": "^9.0.4",
+    "@base-ui/react": "^1.4.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1"
   },
   "gitHead": "2a08e8af15766344de708d891c1c8ea31bb77646"
 }

@@ -1,0 +1,51 @@
+name: Publish Lattice to NPM
+
+on:
+  release:
+    types: [ published ] # Triggers when you create a new GitHub Release
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # --- NEW STEP FOR DYNAMIC VERSIONING ---
+      - name: Update package.json version based on GitHub Tag
+        run: |
+          # The github tag looks like "v1.0.1". This strips the "v" to get "1.0.1"
+          VERSION=${GITHUB_REF_NAME#v}
+          echo "Applying version $VERSION to package.json..."
+          
+          cd packages/lattice
+          # Uses npm to safely bump the version in the file without creating a git commit
+          npm version $VERSION --no-git-tag-version --allow-same-version
+      # ---------------------------------------
+
+      - name: Build Lattice package
+        run: |
+          cd packages/lattice
+          pnpm run build
+
+      - name: Publish to NPM
+        run: |
+          cd packages/lattice
+          pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

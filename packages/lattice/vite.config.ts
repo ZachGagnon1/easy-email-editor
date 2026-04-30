@@ -32,6 +32,10 @@ export default defineConfig({
         "react/jsx-runtime",
         "mjml-browser",
         "react-final-form",
+        // Add regexes to externalize all MUI, Emotion, and Base UI packages
+        /^@mui\/.*/,
+        /^@emotion\/.*/,
+        /^@base-ui\/.*/,
       ],
       output: {},
     },
