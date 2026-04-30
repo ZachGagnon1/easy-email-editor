@@ -1,24 +1,15 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
-    "types": [
-      "vite/client",
-      "node"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vite/client", "node"],
     "allowJs": true,
     "skipLibCheck": true,
-    /* 1. Fixed Deprecation */
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    /* 2. Removed alwaysStrict */
 
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": false,
@@ -28,7 +19,6 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "sourceMap": true,
-    /* 3 & 4. Removed baseUrl, added rootDir explicitly */
     "rootDir": "./src",
     "outDir": "lib",
     "declaration": true,
@@ -36,23 +26,11 @@
     "emitDeclarationOnly": true,
     // Ensure only types are emitted by tsc
     "paths": {
-      /* 5. Removed the cross-package aliases that caused the `..` error */
-      "@": [
-        "./src"
-      ],
-      "@/*": [
-        "./src/*"
-      ],
-      "react": [
-        "./node_modules/@types/react"
-      ]
+      "@": ["./src"],
+      "@/*": ["./src/*"],
+      "react": ["./node_modules/@types/react"]
     }
   },
-  "include": [
-    "./src"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/utils/__tests__"
-  ]
+  "include": ["./src"],
+  "exclude": ["node_modules", "src/utils/__tests__"]
 }

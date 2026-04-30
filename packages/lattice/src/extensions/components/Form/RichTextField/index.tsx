@@ -4,11 +4,12 @@ import {
   DATA_CONTENT_EDITABLE_IDX,
   DATA_CONTENT_EDITABLE_TYPE,
   FIXED_CONTAINER_ID,
+  getIframeDocument,
   MergeTagBadge,
   RICH_TEXT_BAR_ID,
   useEditorProps,
-  getIframeDocument,
-}  from "@";
+  useFocusBlockLayout,
+} from "@";
 import React, { useCallback, useEffect, useState } from "react";
 import { InlineText, InlineTextProps } from "../InlineTextField";
 import { RichTextToolBar } from "../RichTextToolBar";
@@ -23,6 +24,9 @@ export const RichTextField = (
     CONTENT_EDITABLE_CLASS_NAME
   );
 
+  const { focusBlockNode } = useFocusBlockLayout(); // 2. Consume the hook
+
+  // Listener for clicks OUTSIDE the iframe (on the parent window)
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       if (getIframeDocument()?.contains(e.target as Node)) {
@@ -35,12 +39,14 @@ export const RichTextField = (
       setContentEditableName("");
     };
 
-    getIframeDocument()?.addEventListener("click", onClick);
+    // Attach to the parent document, not the iframe
+    document.addEventListener("click", onClick);
     return () => {
-      getIframeDocument()?.removeEventListener("click", onClick);
+      document.removeEventListener("click", onClick);
     };
   }, []);
 
+  // Listener for clicks INSIDE the iframe
   useEffect(() => {
     const root = getIframeDocument();
     if (!root) return;
@@ -71,7 +77,7 @@ export const RichTextField = (
     return () => {
       root.removeEventListener("click", onClick);
     };
-  }, []);
+  }, [focusBlockNode]); // 3. Add focusBlockNode dependency so it resets on preview switch
 
   if (!contentEditableName) return null;
 
