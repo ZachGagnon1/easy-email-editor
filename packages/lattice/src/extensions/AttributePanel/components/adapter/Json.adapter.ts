@@ -7,7 +7,7 @@ export const JsonAdapter = {
   parse(val: string) {
     if (!val) return undefined;
     try {
-      return JSON.parse(JSON.stringify(eval("(" + val + ")")));
+      return JSON.parse(JSON.stringify(window.eval("(" + val + ")")));
     } catch (error) {}
     return val;
   },

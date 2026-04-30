@@ -221,7 +221,6 @@ export function Tools(props: ToolsProps) {
             key={tool}
             selectionRange={selectionRange}
             execCommand={execCommand}
-            getPopoverMountNode={getPopoverMountNode}
           />,
         ];
       case AvailableTools.IconBgColor:
@@ -230,7 +229,6 @@ export function Tools(props: ToolsProps) {
             key={tool}
             selectionRange={selectionRange}
             execCommand={execCommand}
-            getPopoverMountNode={getPopoverMountNode}
           />,
         ];
       case AvailableTools.Link:

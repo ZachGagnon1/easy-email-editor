@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { get, isArray, isObject } from "lodash";
-import { useBlock, useEditorProps, useFocusIdx }  from "@";
+import { useBlock, useEditorProps, useFocusIdx } from "@";
 import { getContextMergeTags } from "@/extensions/utils/getContextMergeTags";
 import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { TreeItem } from "@mui/x-tree-view/TreeItem";
@@ -67,7 +67,7 @@ export const MergeTags: React.FC<{
   }, [contextMergeTags]);
 
   const handleItemSelection = useCallback(
-    (_, itemId: string | null) => {
+    (_: any, itemId: string | null) => {
       if (!itemId) {
         return;
       }

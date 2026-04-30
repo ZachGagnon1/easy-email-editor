@@ -5,21 +5,24 @@ import {
   ImageUploaderField,
   InputWithUnitField,
   RadioGroupField,
-  TextField,
+  TextField
 } from "@/extensions/components/Form";
 import { Align } from "@/extensions/AttributePanel/components/attributes/Align";
 import { Color } from "@/extensions/AttributePanel/components/attributes/Color";
-import { ContainerBackgroundColor } from "@/extensions/AttributePanel/components/attributes/ContainerBackgroundColor";
+import {
+  ContainerBackgroundColor
+} from "@/extensions/AttributePanel/components/attributes/ContainerBackgroundColor";
 import { FontFamily } from "@/extensions/AttributePanel/components/attributes/FontFamily";
 import { FontSize } from "@/extensions/AttributePanel/components/attributes/FontSize";
 import { FontStyle } from "@/extensions/AttributePanel/components/attributes/FontStyle";
 import { FontWeight } from "@/extensions/AttributePanel/components/attributes/FontWeight";
 
-import { AttributesPanelWrapper } from "@/extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
+import {
+  AttributesPanelWrapper
+} from "@/extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { TextDecoration } from "@/extensions/AttributePanel/components/attributes/TextDecoration";
 import { LineHeight } from "@/extensions/AttributePanel/components/attributes/LineHeight";
-import { useBlock, useEditorProps, useFocusIdx }  from "@";
-import { ISocial }  from "@";
+import { ISocial, useBlock, useEditorProps, useFocusIdx } from "@";
 import { ClassName } from "@/extensions";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
 import { InputAdornment, Stack } from "@mui/material";
@@ -75,7 +78,6 @@ export function Social() {
 
       <CollapsableItem title={t("Social item")} defaultExpanded={false}>
         <EditGridTabField
-          tabPosition="top"
           name={`${focusIdx}.data.value.elements`}
           label=""
           labelHidden

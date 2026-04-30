@@ -1,25 +1,20 @@
 import React from "react";
 import { ToolItem } from "../../ToolItem";
-import {
-  ColorCommandWrapper
-} from "@/extensions/components/Form/RichTextToolBar/components/ColorChanger/ColorCommandWrapper";
+import { ColorCommandWrapper } from "@/extensions/components/Form/RichTextToolBar/components/ColorChanger/ColorCommandWrapper";
 import FontDownloadIcon from "@mui/icons-material/FontDownload";
 
 export function IconBgColor({
   selectionRange,
   execCommand,
-  getPopoverMountNode,
 }: Readonly<{
   selectionRange: Range | null;
   execCommand: (cmd: string, val?: any) => void;
-  getPopoverMountNode: () => HTMLElement;
 }>) {
   return (
     <ColorCommandWrapper
       command="hiliteColor"
       selectionRange={selectionRange}
       execCommand={execCommand}
-      getPopoverMountNode={getPopoverMountNode}
       styleKey="backgroundColor"
     >
       {(color) => (

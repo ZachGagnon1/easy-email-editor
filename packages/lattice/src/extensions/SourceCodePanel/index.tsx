@@ -60,7 +60,7 @@ export function SourceCodePanel({
     if (jsonReadOnly) return;
     try {
       const parseValue = JSON.parse(
-        JSON.stringify(eval("(" + codeText + ")"))
+        JSON.stringify(window.eval("(" + codeText + ")"))
       ) as IBlockData;
 
       const block = BlockManager.getBlockByType(parseValue.type);

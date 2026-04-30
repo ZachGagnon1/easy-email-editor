@@ -1,6 +1,7 @@
 import React from "react";
-import { Tabs, Tab, Box, TabsProps, TabProps } from "@mui/material";
+import { Box, Tab, TabProps, Tabs, TabsProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { StyledComponent } from "@emotion/styled";
 
 // Unified Tab Container
 export const EditorTabs = styled((props: TabsProps) => (
@@ -9,7 +10,7 @@ export const EditorTabs = styled((props: TabsProps) => (
   minHeight: 48,
   borderBottom: `1px solid ${theme.palette.divider}`,
   padding: theme.spacing(0, 2), // Gives a nice horizontal breathing room
-}));
+})) as StyledComponent<TabsProps>;
 
 // Unified Tab Item
 export const EditorTab = styled((props: TabProps) => (
@@ -23,7 +24,7 @@ export const EditorTab = styled((props: TabProps) => (
   "&:last-child": {
     marginRight: 0,
   },
-}));
+})) as StyledComponent<TabProps>;
 
 // Universal Tab Panel (Handles both hidden and destroyOnHide states)
 export interface EditorTabPanelProps {

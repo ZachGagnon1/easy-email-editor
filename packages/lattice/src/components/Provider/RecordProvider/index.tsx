@@ -33,13 +33,13 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = (
   const indexRef = useRefState(index);
 
   const statusRef = useRef<RecordStatus>(undefined);
-  const currentData = useRef<IEmailTemplate>();
+  const currentData = useRef<IEmailTemplate>(null);
 
   if (index >= 0 && data.length > 0) {
     currentData.current = data[index];
   }
 
-  const form = useForm();
+  const form = useForm("RecordProvider");
 
   const value = useMemo(() => {
     return {

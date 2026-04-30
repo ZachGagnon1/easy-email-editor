@@ -8,8 +8,7 @@ import {
 import { Align } from "@/extensions/AttributePanel/components/attributes/Align";
 import { AttributesPanelWrapper } from "@/extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { NavbarLinkPadding } from "@/extensions/AttributePanel/components/attributes/NavbarLinkPadding";
-import { useFocusIdx }  from "@";
-import { INavbar }  from "@";
+import { INavbar, useFocusIdx } from "@";
 import {
   ClassName,
   FontFamily,
@@ -36,7 +35,6 @@ export function Navbar() {
       <CollapsableItem title={t("Navbar links")}>
         <Stack spacing={2}>
           <EditTabField
-            tabPosition="top"
             name={`${focusIdx}.data.value.links`}
             label={t("Links")}
             labelHidden

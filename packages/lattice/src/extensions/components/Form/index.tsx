@@ -10,7 +10,10 @@ import { InlineText, InlineTextProps } from "./InlineTextField";
 import { AutoComplete, AutoCompleteProps } from "./AutoComplete";
 
 import { NumberInput } from "@/extensions/components/Form/NumberInput";
-import { SwitchInput, SwitchInputProps } from "@/extensions/components/Form/SwitchInput";
+import {
+  SwitchInput,
+  SwitchInputProps,
+} from "@/extensions/components/Form/SwitchInput";
 import { TextAreaInput } from "@/extensions/components/Form/TextAreaInput";
 import { SearchInput, SearchInputProps } from "./SearchInput";
 
@@ -26,6 +29,9 @@ export interface NumberFieldAdapterProps
   onChange?: (val: string) => void;
   onBlur?: () => void;
   name?: string;
+  max?: number;
+  min?: number;
+  step?: number;
 }
 
 const NumberFieldAdapter = (props: NumberFieldAdapterProps) => {
@@ -35,8 +41,6 @@ const NumberFieldAdapter = (props: NumberFieldAdapterProps) => {
     value === "" || value === undefined || value === null
       ? null
       : Number(value);
-
-  console.log(value);
 
   return (
     <NumberInput
@@ -68,7 +72,10 @@ export const TextAreaField = enhancer<TextInputProps>(
   (val) => val
 );
 
-export const NumberField = enhancer(NumberFieldAdapter, (val) => val);
+export const NumberField = enhancer<NumberFieldAdapterProps>(
+  NumberFieldAdapter,
+  (val) => val
+);
 
 export const ImageUploaderField = enhancer<ImageUploaderProps>(
   ImageUploader,
@@ -89,8 +96,11 @@ export const RadioGroupField = enhancer<RadioGroupProps>(
 
 export const SwitchField = enhancer<SwitchInputProps>(SwitchInput, (e) => e);
 
-export const EditTabField = enhancer<EditTabProps>(EditTab, (e: any[]) => e);
-export const EditGridTabField = enhancer<EditGridTabProps>(
+export const EditTabField = enhancer<EditTabProps<any>>(
+  EditTab,
+  (e: any[]) => e
+);
+export const EditGridTabField = enhancer<EditGridTabProps<any>>(
   EditGridTab,
   (e: any[]) => e
 );

@@ -52,7 +52,6 @@ export function Carousel() {
       </CollapsableItem>
       <CollapsableItem title={t("Images")}>
         <EditTabField
-          tabPosition="top"
           name={`${focusIdx}.data.value.images`}
           label=""
           labelHidden
