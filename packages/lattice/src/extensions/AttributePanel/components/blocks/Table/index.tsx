@@ -9,7 +9,7 @@ import {
   FontStyle,
   Padding,
   TextAlign,
-  Width,
+  Width
 } from "@/extensions";
 import { HtmlEditor } from "../../UI/HtmlEditor";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
@@ -57,14 +57,8 @@ export function Table() {
 
       <CollapsableItem title={t("Typography")}>
         <Stack spacing={2}>
-          <Stack direction="row" spacing={2}>
-            <Box sx={{ flex: 1 }}>
-              <FontFamily />
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <FontSize />
-            </Box>
-          </Stack>
+          <FontFamily />
+          <FontSize />
           <FontStyle />
           <TextAlign />
         </Stack>

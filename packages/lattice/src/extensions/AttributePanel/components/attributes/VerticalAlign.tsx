@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useFocusIdx, Stack }  from "@";
+import { useFocusIdx } from "@";
 import { SelectField } from "../../../components/Form";
 
 const options = [
@@ -32,14 +32,11 @@ export function VerticalAlign({
 
   return useMemo(() => {
     return (
-      <Stack>
-        <SelectField
-          style={{ width: 120 }}
-          label={t("Vertical align")}
-          name={`${focusIdx}.attributes.${attributeName}`}
-          options={options}
-        />
-      </Stack>
+      <SelectField
+        label={t("Vertical align")}
+        name={`${focusIdx}.attributes.${attributeName}`}
+        options={options}
+      />
     );
   }, [attributeName, focusIdx]);
 }

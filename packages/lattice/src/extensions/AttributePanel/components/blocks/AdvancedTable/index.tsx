@@ -54,15 +54,17 @@ export function AdvancedTable() {
       </CollapsableItem>
 
       <CollapsableItem title={t("Typography")}>
-        <FontFamily />
-        <FontSize />
-        <InputWithUnitField
-          label={t("Line height")}
-          unitOptions="percent"
-          name={`${focusIdx}.attributes.line-height`}
-        />
-        <FontStyle />
-        <TextAlign />
+        <Stack spacing={2}>
+          <FontFamily />
+          <FontSize />
+          <InputWithUnitField
+            label={t("Line height")}
+            unitOptions="percent"
+            name={`${focusIdx}.attributes.line-height`}
+          />
+          <FontStyle />
+          <TextAlign />
+        </Stack>
       </CollapsableItem>
     </AttributesPanelWrapper>
   );
