@@ -1,9 +1,9 @@
-import React, { Children, isValidElement, ReactNode } from "react";
+import React, { Children, isValidElement } from "react";
 
 // Wraps `element` in `Component`, if it is not already an instance of
 // `Component`. If `props` is passed, those will be added as props on the
 // wrapped component. If `element` is null, the component is not wrapped.
-export function wrapWithComponent<P extends any>(
+export function wrapWithComponent<P>(
   element: React.ReactNode | null | undefined,
   Component: React.FC<P>,
   props: P
@@ -12,10 +12,14 @@ export function wrapWithComponent<P extends any>(
     return null;
   }
 
+  const { key, ...restProps } = props as any;
+
   return isElementOfType(element, Component) ? (
     element
   ) : (
-    <Component {...(props as any)}>{element}</Component>
+    <Component key={key} {...restProps}>
+      {element}
+    </Component>
   );
 }
 
@@ -47,6 +51,7 @@ export function isElementOfType<P>(
   const { type: defaultType } = element;
   // Type override allows components to bypass default wrapping behavior. Ex: Stack, ResourceList...
   // See https://github.com/Shopify/app-extension-libs/issues/996#issuecomment-710437088
+  // @ts-ignore
   const overrideType = element.props?.__type__;
   const type = overrideType || defaultType;
   const Components = Array.isArray(Component) ? Component : [Component];
@@ -65,25 +70,6 @@ export function elementChildren<T extends React.ReactElement>(
   return Children.toArray(children).filter(
     (child) => isValidElement(child) && predicate(child as T)
   ) as T[];
-}
-
-interface ConditionalWrapperProps {
-  children: any;
-  condition: boolean;
-  wrapper: (children: any) => any;
-}
-
-export function ConditionalWrapper({
-  condition,
-  wrapper,
-  children,
-}: ConditionalWrapperProps): ReactNode {
-  return condition ? wrapper(children) : children;
-}
-
-interface ConditionalRenderProps {
-  condition: boolean;
-  children: any;
 }
 
 function hotReloadComponentCheck(
