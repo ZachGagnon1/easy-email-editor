@@ -6,6 +6,8 @@ Lattice is a powerful, flexible email editor component.
 Originally a fork of **easy-email-editor**, Lattice has been modernized to be fully compatible across all browsers and provides first-class support for **React 19**.
 Lattice uses [MJML](https://mjml.io/) under the hood which is a markup language designed to represent email templates.
 
+[***Demo***](https://zachgagnon1.github.io/Lattice/)
+
 ## Development
 
 ```sh
