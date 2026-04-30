@@ -41,11 +41,11 @@ export function LatticeEditor(props: LatticeEditorProps) {
   } = props;
 
   const {
-    showSourceCode = true,
+    showSourceCode = false,
     mjmlReadOnly = false,
     showBlockLayer = true,
     dashed = false,
-    compact = true,
+    compact = false,
   } = config;
 
   const activeComponents = useMemo(() => {
