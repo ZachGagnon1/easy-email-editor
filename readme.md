@@ -83,6 +83,9 @@ The LatticeEditor component accepts a config object that gives you fine-grained 
 *   **onUploadImage**: If you do _not_ provide an onUploadImage prop, Lattice will automatically strip out all "Image" blocks (Basic and Advanced) from the available components list so users don't try to use blocks they can't upload files to.
 
 
+### Additional Notes
+*   If you want the same customizability as **easy-email-editor** most of the features should be available but since there is no more multi package layout you will need to change your imports to `lattice`
+
 License
 -------
 
