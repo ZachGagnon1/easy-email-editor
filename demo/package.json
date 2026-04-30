@@ -2,8 +2,8 @@
   "name": "lattice-demo",
   "license": "MIT",
   "description": "Lattice demo",
-  "version": "2.2.1",
-  "author": "m-Ryan",
+  "version": "1.0.0-beta.1",
+  "author": "ZachGagnon1",
   "repository": {
     "type": "git",
     "url": "git@github.com:ZachGagnon1/Lattice.git"
