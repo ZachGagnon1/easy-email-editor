@@ -25,7 +25,7 @@ export function exportToHtml(template: IEmailTemplate): string {
  * Converts the email template state into a JSON string.
  */
 export function exportToJson(template: IEmailTemplate): string {
-  return JSON.stringify(template, null, 2);
+  return JSON.stringify(template.content, null, 2);
 }
 
 /**

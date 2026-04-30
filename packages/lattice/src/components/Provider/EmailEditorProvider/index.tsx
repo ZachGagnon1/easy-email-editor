@@ -13,7 +13,7 @@ import { FocusBlockLayoutProvider } from "../FocusBlockLayoutProvider";
 import { PreviewEmailProvider } from "../PreviewEmailProvider";
 import { LanguageProvider } from "../LanguageProvider";
 import { overrideErrorLog, restoreErrorLog } from "@/utils/logger";
-import { isEqual } from "lodash"; // 1. Import isEqual for deep comparison
+import { isEqual } from "lodash";
 
 export interface EmailEditorProviderProps<T extends IEmailTemplate = any>
   extends Omit<PropsProviderProps, "children"> {
@@ -34,14 +34,12 @@ export const EmailEditorProvider = <T extends any>(
 ) => {
   const { data, children, onSubmit = () => {}, validationSchema } = props;
 
-  // 2. Use state to hold the initial values so they don't regenerate arbitrarily
   const [initialValues, setInitialValues] = useState(() => ({
     subject: data.subject,
     subTitle: data.subTitle,
     content: data.content,
   }));
 
-  // 3. Deeply compare incoming data to prevent react-final-form from resetting state on resize
   const prevDataRef = useRef(data);
   useEffect(() => {
     if (!isEqual(prevDataRef.current, data)) {

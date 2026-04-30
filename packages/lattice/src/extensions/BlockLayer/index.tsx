@@ -15,7 +15,7 @@ import {
   useEditorContext,
   useFocusIdx,
   useHoverIdx,
-  useRefState
+  useRefState,
 } from "@";
 import styles from "./index.module.scss";
 import { cloneDeep, get, isBoolean, isEqual, isString } from "lodash";
@@ -23,7 +23,10 @@ import { EyeIcon } from "./components/EyeIcon";
 import { BlockTree, BlockTreeProps } from "./components/BlockTree";
 import { ContextMenu } from "./components/ContextMenu";
 import { classnames } from "@/extensions/utils/classnames";
-import { getDirectionFormDropPosition, useAvatarWrapperDrop } from "./hooks/useAvatarWrapperDrop";
+import {
+  getDirectionFormDropPosition,
+  useAvatarWrapperDrop,
+} from "./hooks/useAvatarWrapperDrop";
 import { getIconNameByBlockType } from "../utils/getIconNameByBlockType";
 import { getBlockTitle } from "@/extensions/utils/getBlockTitle";
 import { Stack } from "@mui/material";
@@ -118,7 +121,7 @@ export function BlockLayer(props: BlockLayerProps) {
     ) => {
       item.id = id;
       item.parent = parent;
-      item.children.map((child, index) =>
+      item.children?.map((child, index) =>
         loop(child, getChildIdx(id, index), item)
       );
     };
