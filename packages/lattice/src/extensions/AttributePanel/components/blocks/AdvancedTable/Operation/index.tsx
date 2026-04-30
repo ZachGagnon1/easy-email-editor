@@ -2,12 +2,7 @@ import { cloneDeep } from "lodash";
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import TableColumnTool from "./tableTool";
-import {
-  DATA_RENDER_COUNT,
-  getIframeDocument,
-  useBlock,
-  useFocusIdx,
-}  from "@";
+import { DATA_RENDER_COUNT, getIframeDocument, useBlock, useFocusIdx } from "@";
 
 export function TableOperation() {
   const iframeDocument = getIframeDocument();
@@ -18,7 +13,7 @@ export function TableOperation() {
   const bottomRef = useRef(null);
   const leftRef = useRef(null);
   const rightRef = useRef(null);
-  const tool = useRef<TableColumnTool>();
+  const tool = useRef<TableColumnTool>(null);
 
   useEffect(() => {
     const borderTool: any = {
@@ -49,14 +44,26 @@ export function TableOperation() {
   return (
     <>
       {element &&
+        iframeDocument?.body &&
         createPortal(
-          <div>
-            <div ref={topRef} />
-            <div ref={bottomRef} />
-            <div ref={leftRef} />
-            <div ref={rightRef} />
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              pointerEvents: "none", // Prevent the wrapper from blocking table interactions
+              zIndex: 9999, // Give the whole layer the priority
+            }}
+          >
+            <div ref={topRef} style={{ pointerEvents: "none" }} />
+            <div ref={bottomRef} style={{ pointerEvents: "none" }} />
+            <div ref={leftRef} style={{ pointerEvents: "none" }} />
+            <div ref={rightRef} style={{ pointerEvents: "none" }} />
           </div>,
-          element
+          // Change the portal target from `element` to `iframeDocument.body`
+          iframeDocument.body
         )}
     </>
   );

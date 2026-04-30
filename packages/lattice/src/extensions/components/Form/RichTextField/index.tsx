@@ -77,7 +77,19 @@ export const RichTextField = (
     return () => {
       root.removeEventListener("click", onClick);
     };
-  }, [focusBlockNode]); // 3. Add focusBlockNode dependency so it resets on preview switch
+  }, [focusBlockNode]);
+
+  // Clean up toolbar visibility if the focus block changes
+  // (e.g., when the block is deleted or a parent is selected via toolbar buttons)
+  useEffect(() => {
+    const activeElement = getIframeDocument()?.activeElement;
+    const idxName = activeElement?.getAttribute(DATA_CONTENT_EDITABLE_IDX);
+
+    // If the active element is no longer a valid rich text node, hide the toolbar
+    if (!idxName) {
+      setContentEditableName("");
+    }
+  }, [focusBlockNode]);
 
   if (!contentEditableName) return null;
 
@@ -102,7 +114,6 @@ function FieldWrapper(
 ) {
   const { input, contentEditableType, ...rest } = props;
   const { mergeTagGenerate, enabledMergeTagsBadge } = useEditorProps();
-  const [value, setValue] = useState(input.value);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceCallbackChange = useCallback(

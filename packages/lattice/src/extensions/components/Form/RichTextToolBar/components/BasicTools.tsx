@@ -1,18 +1,12 @@
-import {
-  getIframeDocument,
-  getParentIdx,
-  useBlock,
-  useEditorProps,
-  useFocusIdx,
-} from "@";
+import { getIframeDocument, getParentIdx, useBlock, useEditorProps, useFocusIdx } from "@";
 import { useAddToCollection } from "@/extensions/hooks/useAddToCollection";
 import React from "react";
 import { ToolItem } from "./ToolItem";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { Stack } from "@mui/material";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 export function BasicTools() {
   const { copyBlock, removeBlock } = useBlock();
@@ -70,7 +64,7 @@ export function BasicTools() {
       <ToolItem
         onClick={handleSelectParent}
         title={t("Select parent block")}
-        icon={<ArrowBackIcon />}
+        icon={<ArrowUpwardIcon />}
       />
       <ToolItem
         onClick={handleCopy}

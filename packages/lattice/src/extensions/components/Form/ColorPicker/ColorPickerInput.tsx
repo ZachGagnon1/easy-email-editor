@@ -1,21 +1,10 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import {
-  Box,
-  Button,
-  InputLabel,
-  Popover,
-  Stack,
-  TextField,
-} from "@mui/material";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { Box, Button, InputLabel, Popover, Stack, TextField } from "@mui/material";
 import { SketchPicker } from "react-color";
 import Color from "color";
-import { PresetColorsContext } from "@/extensions/AttributePanel/components/provider/PresetColorsProvider";
+import {
+  PresetColorsContext
+} from "@/extensions/AttributePanel/components/provider/PresetColorsProvider";
 
 export interface ColorPickerProps {
   onChange?: (val: string) => void;
@@ -59,6 +48,39 @@ export function ColorPicker(props: ColorPickerProps) {
       setInternalColor(value);
     }
   }, [value, isPopoverOpen]);
+
+  // react-color sets global mousemove/mouseup listeners on the parent `window`.
+  // Because our Popover renders inside an iframe, the main window never receives these events.
+  // This forwards the mouse events from the iframe window to the parent window.
+  useEffect(() => {
+    if (!isPopoverOpen || !anchorEl) return;
+
+    const iframeWindow = anchorEl.ownerDocument.defaultView;
+
+    // If we are not in an iframe, no need to forward
+    if (!iframeWindow || iframeWindow === window) return;
+
+    const forwardEvent = (e: MouseEvent) => {
+      const clonedEvent = new MouseEvent(e.type, {
+        bubbles: true,
+        cancelable: true,
+        clientX: e.clientX,
+        clientY: e.clientY,
+        screenX: e.screenX,
+        screenY: e.screenY,
+        buttons: e.buttons,
+      });
+      window.dispatchEvent(clonedEvent);
+    };
+
+    iframeWindow.addEventListener("mousemove", forwardEvent);
+    iframeWindow.addEventListener("mouseup", forwardEvent);
+
+    return () => {
+      iframeWindow.removeEventListener("mousemove", forwardEvent);
+      iframeWindow.removeEventListener("mouseup", forwardEvent);
+    };
+  }, [isPopoverOpen, anchorEl]);
 
   const handleOpen = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();

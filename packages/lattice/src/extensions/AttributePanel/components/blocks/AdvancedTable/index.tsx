@@ -1,56 +1,56 @@
 import { AttributesPanelWrapper } from "@/extensions/AttributePanel";
-import { Stack, useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 import React from "react";
 import {
   Color,
+  ColorPickerField,
   ContainerBackgroundColor,
   FontFamily,
   FontSize,
   FontStyle,
-  Padding,
-  TextAlign,
-  Width,
-  ColorPickerField,
   InputWithUnitField,
   NumberField,
+  Padding,
+  TextAlign,
   TextField,
+  Width,
 } from "@/extensions";
 import { pixelAdapter } from "../../adapter";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
+import { Stack } from "@mui/material";
 
 export function AdvancedTable() {
   const { focusIdx } = useFocusIdx();
   return (
     <AttributesPanelWrapper>
       <CollapsableItem title={t("Dimension")}>
-        <Stack>
+        <Stack spacing={2}>
           <Width />
-          <Stack.Item />
-        </Stack>
-        <Stack vertical>
           <Padding />
+          <NumberField
+            label="Cell padding (px)"
+            name={`${focusIdx}.attributes.cellPadding`}
+            config={pixelAdapter}
+            max={20}
+            min={0}
+            step={1}
+          />
         </Stack>
-        <NumberField
-          label="Cell padding (px)"
-          name={`${focusIdx}.attributes.cellPadding`}
-          config={pixelAdapter}
-          max={20}
-          min={0}
-          step={1}
-        />
       </CollapsableItem>
 
       <CollapsableItem title={t("Decoration")}>
-        <Color />
-        <ContainerBackgroundColor />
-        <TextField
-          label="Table border"
-          name={`${focusIdx}.attributes.border`}
-        />
-        <ColorPickerField
-          label="Cell border color"
-          name={`${focusIdx}.attributes.cellBorderColor`}
-        />
+        <Stack spacing={2}>
+          <Color />
+          <ContainerBackgroundColor />
+          <TextField
+            label="Table border"
+            name={`${focusIdx}.attributes.border`}
+          />
+          <ColorPickerField
+            label="Cell border color"
+            name={`${focusIdx}.attributes.cellBorderColor`}
+          />
+        </Stack>
       </CollapsableItem>
 
       <CollapsableItem title={t("Typography")}>

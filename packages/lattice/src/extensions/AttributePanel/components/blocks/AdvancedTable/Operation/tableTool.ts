@@ -5,10 +5,9 @@ import {
   getCurrentTable,
   getElementsBoundary,
   getTdBoundaryIndex,
-  setStyle
+  setStyle,
 } from "./util";
-import { AdvancedTableBlock }  from "@";
-import { getIframeDocument }  from "@";
+import { AdvancedTableBlock, getIframeDocument } from "@";
 
 interface IBorderTool {
   top: HTMLElement;
@@ -149,41 +148,42 @@ class TableColumnTool {
     this.selectedLeftTopCell = result.leftTopCell;
     this.selectedBottomRightCell = result.bottomRightCell;
 
-    setStyle(this.borderTool.top, {
+    // Use a much higher z-index to guarantee it sits above the table content
+    // Add pointerEvents: 'none' so the borders don't swallow mouse events
+    const borderStyles = {
       backgroundColor: "rgb(65, 68, 77)",
+      position: "absolute",
+      zIndex: 9999,
+      pointerEvents: "none",
+    };
+
+    setStyle(this.borderTool.top, {
+      ...borderStyles,
       left: `${left}px`,
       top: `${top}px`,
       width: `${Math.abs(width)}px`,
       height: "2px",
-      position: "absolute",
-      zIndex: 10,
     });
     setStyle(this.borderTool.bottom, {
-      backgroundColor: "rgb(65, 68, 77)",
+      ...borderStyles,
       left: `${left}px`,
       top: `${top + height}px`,
       width: `${Math.abs(width)}px`,
       height: "2px",
-      position: "absolute",
-      zIndex: 10,
     });
     setStyle(this.borderTool.left, {
-      backgroundColor: "rgb(65, 68, 77)",
+      ...borderStyles,
       left: `${left}px`,
       top: `${top}px`,
       width: "2px",
       height: `${Math.abs(height)}px`,
-      position: "absolute",
-      zIndex: 10,
     });
     setStyle(this.borderTool.right, {
-      backgroundColor: "rgb(65, 68, 77)",
+      ...borderStyles,
       left: `${left + width}px`,
       top: `${top}px`,
       width: "2px",
       height: `${Math.abs(height)}px`,
-      position: "absolute",
-      zIndex: 10,
     });
   };
 
@@ -193,15 +193,40 @@ class TableColumnTool {
         this.selectedLeftTopCell as Element,
         this.selectedBottomRightCell as Element
       );
+
+      // check event position, then show table operation menu
       if (checkEventInBoundingRect(selectedBoundary, event)) {
         event.preventDefault();
+
+        if (!this.tableMenu) {
+          this.tableMenu = new TableOperationMenu();
+        }
+
+        this.tableMenu.setTableData(this.tableData as any);
+        this.tableMenu.changeTableData = this.changeTableData;
+
+        this.tableMenu.setTableIndexBoundary(
+          getTdBoundaryIndex(
+            this.selectedLeftTopCell as Element,
+            this.selectedBottomRightCell as Element
+          )
+        );
+
+        this.tableMenu.showMenu({ x: event.clientX, y: event.clientY });
         return;
       }
     }
+
+    // If the user right-clicked OUTSIDE the selected boundary, hide everything
     this.hideTableMenu();
+    this.visibleBorder(false);
   };
 
   handleMousedown(event: MouseEvent) {
+    // Escape early on right-clicks so we don't accidentally hide the
+    // border before the contextmenu event has a chance to fire!
+    if (event.button === 2) return;
+
     let target = event.target as Element | null;
 
     if (event.button === 0) {
@@ -234,36 +259,8 @@ class TableColumnTool {
           return;
         }
       }
-    } else if (event.button === 2) {
-      // Right button click (context menu trigger)
-      if (this.showBorderTool) {
-        const selectedBoundary = getElementsBoundary(
-          this.selectedLeftTopCell as Element,
-          this.selectedBottomRightCell as Element
-        );
-        // check event position, then show table operation menu
-        if (checkEventInBoundingRect(selectedBoundary, event)) {
-          if (!this.tableMenu) {
-            this.tableMenu = new TableOperationMenu();
-          }
-
-          this.tableMenu.setTableData(this.tableData as any);
-          this.tableMenu.changeTableData = this.changeTableData;
-
-          this.tableMenu.setTableIndexBoundary(
-            getTdBoundaryIndex(
-              this.selectedLeftTopCell as Element,
-              this.selectedBottomRightCell as Element
-            )
-          );
-
-          // Explictly pass client coordinates into our new MUI wrapper
-          this.tableMenu.showMenu({ x: event.clientX, y: event.clientY });
-
-          return;
-        }
-      }
     }
+
     this.visibleBorder(false);
   }
 
