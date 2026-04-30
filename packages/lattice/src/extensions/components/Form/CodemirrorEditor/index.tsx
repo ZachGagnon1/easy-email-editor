@@ -1,31 +1,42 @@
-import React from "react";
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/material.css";
-import "codemirror/theme/neat.css";
-import "codemirror/mode/xml/xml.js";
-import { Controlled as CodeMirror } from "react-codemirror2";
+import React, { useMemo } from "react";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { xml } from "@codemirror/lang-xml";
+import { material } from "@uiw/codemirror-theme-material";
+import { EditorView } from "@codemirror/view";
 
-import styles from "./index.module.scss";
+export default function CodemirrorEditor(
+  props: Readonly<{
+    value: string;
+    onChange(val: string): void;
+    mode?: "xml" | "javascript";
+    maxHeight?: string;
+  }>
+) {
+  const { value, onChange, mode = "xml", maxHeight = "350px" } = props;
 
-export default function CodemirrorEditor(props: {
-  value: string;
-  onChange(val: string): void;
-}) {
-  const { value, onChange } = props;
+  const extensions = useMemo(() => {
+    const langExtension =
+      mode === "javascript"
+        ? javascript({ jsx: false, typescript: false })
+        : xml();
+
+    return [langExtension, EditorView.lineWrapping];
+  }, [mode]);
+
   return (
     <CodeMirror
-      className={styles.container}
       value={value}
-      onBeforeChange={(editor, data, value) => onChange(value)}
-      options={{
-        mode: "xml",
-        theme: "material",
+      maxHeight={maxHeight}
+      theme={material}
+      extensions={extensions}
+      onChange={(val) => onChange(val)}
+      basicSetup={{
         lineNumbers: true,
-        autofocus: true,
-        styleActiveLine: true,
-        smartIndent: true,
-        lineWrapping: true,
+        autocompletion: true,
         foldGutter: true,
+        highlightActiveLine: true,
+        tabSize: 2,
       }}
     />
   );

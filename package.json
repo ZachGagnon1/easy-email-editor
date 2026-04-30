@@ -23,7 +23,7 @@
     "file-saver": "^2.0.5",
     "lerna": "^9.0.7",
     "liquidjs": "10.25.7",
-    "posthog-js": "^1.372.3"
+    "posthog-js": "^1.372.5"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
