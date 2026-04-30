@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import pkg from "./package.json";
 
 export default defineConfig({
   plugins: [react()],
@@ -26,17 +27,11 @@ export default defineConfig({
     rollupOptions: {
       plugins: [],
       external: [
-        "react",
-        "react-dom",
-        "react-dom/server",
+        ...Object.keys(pkg.dependencies || {}),
+        ...Object.keys(pkg.peerDependencies || {}),
         "react/jsx-runtime",
-        "mjml-browser",
-        "react-final-form",
-        // Add regexes to externalize all MUI, Emotion, and Base UI packages
-        /^@mui\/.*/,
-        /^@emotion\/.*/,
-        /^@base-ui\/.*/,
-      ],
+        "react-dom/server",
+      ].map((dep) => new RegExp(`^${dep}(/.*)?`)),
       output: {},
     },
     outDir: "lib",
