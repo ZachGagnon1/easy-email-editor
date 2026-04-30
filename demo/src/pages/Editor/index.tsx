@@ -12,7 +12,7 @@ import {
   IBlockData,
   IEmailTemplate,
   JsonToMjml,
-  StandardLayout,
+  StandardLayout
 } from "lattice";
 
 import "easy-email-editor/lib/style.css";

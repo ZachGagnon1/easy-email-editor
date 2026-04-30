@@ -1,7 +1,11 @@
 import React from "react";
-import { BlockAvatarWrapper, IconFont }  from "@";
+import {
+  BlockAvatarWrapper,
+  BlockManager,
+  IBlockData,
+  RecursivePartial,
+} from "@";
 import { getIconNameByBlockType } from "@/extensions";
-import { BlockManager, IBlockData, RecursivePartial }  from "@";
 import { IconButton, Tooltip } from "@mui/material";
 
 export interface DragIconProps<T extends IBlockData> {
@@ -23,15 +27,7 @@ export function DragIcon<T extends IBlockData = any>(props: DragIconProps<T>) {
             "&:active": { cursor: "grabbing" },
           }}
         >
-          <IconFont
-            iconName={getIconNameByBlockType(props.type)}
-            style={{
-              fontSize: 16,
-              textAlign: "center",
-              color: props.color,
-              cursor: "inherit", // Inherits from the IconButton wrapper
-            }}
-          />
+          {getIconNameByBlockType(props.type)}
         </IconButton>
       </Tooltip>
     </BlockAvatarWrapper>
