@@ -69,3 +69,7 @@ export { getBlockTitle } from "./extensions/utils/getBlockTitle";
 export { MjmlToJson } from "./extensions/utils/MjmlToJson";
 
 export * from "./constants";
+
+export { LatticeEditor } from "./components/LatticeEditor";
+export * from "./components/LatticeEditor/defaults";
+export * from "./utils/export";
