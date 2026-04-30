@@ -47,7 +47,6 @@ jobs:
         # Navigates to the demo folder and runs the build script defined in demo/package.json
         run: |
           cd demo
-          pnpm install
           pnpm run build
 
       - name: Setup Pages
