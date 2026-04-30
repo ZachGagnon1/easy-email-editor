@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
-  base: "/lattice",
+  base: "/Lattice/",
   resolve: {
     // Vite 8 built-in support for tsconfig path resolution
     tsconfigPaths: true,
