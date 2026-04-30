@@ -65,7 +65,7 @@ export function LatticeEditor(props: LatticeEditorProps) {
     })) as ExtensionProps["categories"];
   }, [components, onUploadImage]);
 
-  var onValueChange = (values: IEmailTemplate) => {
+  const onValueChange = (values: IEmailTemplate) => {
     if (onChange) {
       onChange(values);
     }
