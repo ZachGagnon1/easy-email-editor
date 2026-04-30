@@ -41,7 +41,7 @@ jobs:
 
       - name: Install dependencies
         # Assuming you install from the root as shown in your readme
-        run: pnpm install-all || pnpm install
+        run: pnpm install
 
       - name: Build demo
         # Navigates to the demo folder and runs the build script defined in demo/package.json
