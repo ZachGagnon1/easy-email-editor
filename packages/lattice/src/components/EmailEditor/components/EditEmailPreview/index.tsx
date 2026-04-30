@@ -6,7 +6,6 @@ import { ShadowStyle } from "./components/ShadowStyle";
 import { useEditorContext } from "@/hooks/useEditorContext";
 import {
   DATA_ATTRIBUTE_DROP_CONTAINER,
-  PLUGINS_CONTAINER_ID,
   SYNC_SCROLL_ELEMENT_CLASS_NAME,
 } from "@/constants";
 import { classnames } from "@/utils/classnames";
@@ -50,12 +49,6 @@ export function EditEmailPreview() {
         border: "none",
       }}
     >
-      <div
-        id={PLUGINS_CONTAINER_ID}
-        style={{
-          position: "relative",
-        }}
-      />
       <div
         className={classnames(
           "shadow-container",

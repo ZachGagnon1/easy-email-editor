@@ -1,6 +1,6 @@
 import { camelCase } from "lodash";
 import React from "react";
-import { getNodeTypeFromClassName }  from "@";
+import { getNodeTypeFromClassName } from "@";
 
 const domParser = new DOMParser();
 
@@ -85,14 +85,27 @@ const RenderReactNode = React.memo(function ({
     // Convert body tags into divs to preserve styles safely
     const targetTagName = tagName === "body" ? "div" : tagName;
 
+    const cleanChildNodes = [...node.childNodes].filter((n) => {
+      if (n.nodeType === Node.TEXT_NODE && n.textContent?.trim() === "") {
+        if (
+          ["table", "tbody", "thead", "tfoot", "tr", "colgroup"].includes(
+            targetTagName
+          )
+        ) {
+          return false;
+        }
+      }
+      return true;
+    });
+
     const reactNode = React.createElement(targetTagName, {
       key: index,
       ...attributes,
       style: getStyle(node.getAttribute("style")),
       children:
-        node.childNodes.length === 0
+        cleanChildNodes.length === 0
           ? null
-          : [...node.childNodes].map((n, i) => (
+          : cleanChildNodes.map((n, i) => (
               <RenderReactNode
                 selector={getChildSelector(selector, i)}
                 key={i}

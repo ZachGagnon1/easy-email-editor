@@ -1,12 +1,14 @@
+import { camelCase } from "lodash";
+import React, { ReactNode } from "react";
 import {
   BasicType,
+  getContentEditableClassName,
   getNodeIdxFromClassName,
   getNodeTypeFromClassName,
-  MERGE_TAG_CLASS_NAME
-}  from "@";
-import { camelCase } from "lodash";
-import React from "react";
-import { getContentEditableClassName, isTextBlock, MergeTagBadge } from "@";
+  isTextBlock,
+  MERGE_TAG_CLASS_NAME,
+  MergeTagBadge
+} from "@";
 import {
   ContentEditableType,
   DATA_CONTENT_EDITABLE_IDX,
@@ -130,14 +132,27 @@ const RenderReactNode = React.memo(function ({
     // Convert body tags into divs to preserve styles safely
     const targetTagName = tagName === "body" ? "div" : tagName;
 
+    const cleanChildNodes = [...node.childNodes].filter((n) => {
+      if (n.nodeType === Node.TEXT_NODE && n.textContent?.trim() === "") {
+        if (
+          ["table", "tbody", "thead", "tfoot", "tr", "colgroup"].includes(
+            targetTagName
+          )
+        ) {
+          return false;
+        }
+      }
+      return true;
+    });
+
     const reactNode = createElement(targetTagName, {
       key: index,
       ...attributes,
       style: getStyle(node.getAttribute("style")),
       children:
-        node.childNodes.length === 0
+        cleanChildNodes.length === 0
           ? null
-          : [...node.childNodes].map((n, i) => (
+          : cleanChildNodes.map((n, i) => (
               <RenderReactNode
                 selector={getChildSelector(selector, i)}
                 key={i}
@@ -167,7 +182,7 @@ function createElement(
   type: string,
   props?: React.ClassAttributes<Element> & {
     style?: {} | undefined;
-    children?: JSX.Element[] | null;
+    children?: ReactNode[] | null;
     key: string | number;
     tabIndex?: string;
     class?: string;

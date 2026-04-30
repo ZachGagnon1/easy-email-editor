@@ -1,7 +1,7 @@
 import { IEmailTemplate } from "@/typings";
-import { Form, useForm, useFormState, useField } from "react-final-form";
+import { Form, useField, useForm, useFormState } from "react-final-form";
 import arrayMutators from "final-form-arrays";
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BlocksProvider } from "..//BlocksProvider";
 import { HoverIdxProvider } from "../HoverIdxProvider";
 import { PropsProvider, PropsProviderProps } from "../PropsProvider";
@@ -13,6 +13,7 @@ import { FocusBlockLayoutProvider } from "../FocusBlockLayoutProvider";
 import { PreviewEmailProvider } from "../PreviewEmailProvider";
 import { LanguageProvider } from "../LanguageProvider";
 import { overrideErrorLog, restoreErrorLog } from "@/utils/logger";
+import { isEqual } from "lodash"; // 1. Import isEqual for deep comparison
 
 export interface EmailEditorProviderProps<T extends IEmailTemplate = any>
   extends Omit<PropsProviderProps, "children"> {
@@ -33,12 +34,24 @@ export const EmailEditorProvider = <T extends any>(
 ) => {
   const { data, children, onSubmit = () => {}, validationSchema } = props;
 
-  const initialValues = useMemo(() => {
-    return {
-      subject: data.subject,
-      subTitle: data.subTitle,
-      content: data.content,
-    };
+  // 2. Use state to hold the initial values so they don't regenerate arbitrarily
+  const [initialValues, setInitialValues] = useState(() => ({
+    subject: data.subject,
+    subTitle: data.subTitle,
+    content: data.content,
+  }));
+
+  // 3. Deeply compare incoming data to prevent react-final-form from resetting state on resize
+  const prevDataRef = useRef(data);
+  useEffect(() => {
+    if (!isEqual(prevDataRef.current, data)) {
+      setInitialValues({
+        subject: data.subject,
+        subTitle: data.subTitle,
+        content: data.content,
+      });
+      prevDataRef.current = data;
+    }
   }, [data]);
 
   useEffect(() => {
@@ -54,7 +67,7 @@ export const EmailEditorProvider = <T extends any>(
     <Form<IEmailTemplate>
       initialValues={initialValues}
       onSubmit={onSubmit}
-      enableReinitialize
+      enableReinitialize // This is now safely protected by our deep equality check above!
       validate={validationSchema}
       mutators={{ ...arrayMutators, setFieldTouched: setFieldTouched as any }}
       subscription={{ submitting: true, pristine: true }}
@@ -96,7 +109,6 @@ function FormWrapper({
 }
 
 // final-form bug https://github.com/final-form/final-form/issues/169
-
 const RegisterFields = React.memo(() => {
   const { touched } = useFormState<IEmailTemplate>();
   const [touchedMap, setTouchedMap] = useState<{ [key: string]: boolean }>({});

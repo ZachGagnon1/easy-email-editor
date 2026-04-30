@@ -4,7 +4,7 @@ import {
   getIframeDocument,
   RICH_TEXT_BAR_ID,
   useEditorContext,
-  useFocusBlockLayout,
+  useFocusBlockLayout
 } from "@";
 import { Tools } from "./components/Tools";
 import styleText from "./shadow-dom.scss?inline";
@@ -63,7 +63,7 @@ export function RichTextToolBar(props: { onChange: (s: string) => void }) {
             top: topPosition,
             left: "50%", // Perfect center to the whole email width
             transform: "translateX(-50%)",
-            padding: "4px 8px",
+            padding: "4px 15px",
             boxSizing: "border-box",
             zIndex: 100,
             whiteSpace: "nowrap",

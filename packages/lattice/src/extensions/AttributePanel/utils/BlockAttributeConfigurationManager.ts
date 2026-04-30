@@ -14,7 +14,7 @@ export class BlockAttributeConfigurationManager {
 
   public static get<T extends ObjectComponent>(
     name: keyof T
-  ): () => JSX.Element | null {
+  ): () => ReactNode | null {
     return (this.map as any)[name];
   }
 

@@ -1,4 +1,5 @@
-import { IBlockData }  from "@";
+import { IBlockData } from "@";
+import { ReactNode } from "react";
 
 export interface BlockMarketCategory {
   name: string;
@@ -9,7 +10,7 @@ export interface BlockMarketCategory {
     description?: React.ReactNode;
     thumbnail?: string;
     payload?: IBlockData;
-    component: () => JSX.Element | null;
+    component: () => ReactNode | null;
   }[];
 }
 
@@ -60,7 +61,7 @@ export class BlockMarketManager {
       type: string;
       title: string;
       description?: React.ReactNode;
-      component: () => JSX.Element | null;
+      component: () => ReactNode | null;
     }[]
   ) {
     const index = this.category.findIndex((item) => item.name === name);
