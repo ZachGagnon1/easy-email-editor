@@ -8,15 +8,17 @@ import {
   useBlock,
   useEditorContext,
   useEditorProps,
-  useFocusIdx,
+  useFocusIdx
 } from "@";
 import { cloneDeep } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
 import { MjmlToJson } from "@/extensions";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
-import CodemirrorEditor from "@/extensions/components/Form/CodemirrorEditor";
 
 import { Box, Button, Stack } from "@mui/material";
+
+const CodeMirrorEditorPromise = import("../components/Form/CodemirrorEditor");
+const CodeMirrorEditor = React.lazy(() => CodeMirrorEditorPromise);
 
 // Note: Ensure `t` is imported or available in your scope if you use i18n
 declare const t: (key: string) => string;
@@ -142,7 +144,7 @@ export function SourceCodePanel({
               dirtyMode === "mjml" || jsonReadOnly ? "none" : "auto",
           }}
         >
-          <CodemirrorEditor
+          <CodeMirrorEditor
             mode="javascript"
             value={codeText}
             onChange={onChangeCodeText}
@@ -185,7 +187,7 @@ export function SourceCodePanel({
               dirtyMode === "json" || mjmlReadOnly ? "none" : "auto",
           }}
         >
-          <CodemirrorEditor
+          <CodeMirrorEditor
             mode="xml"
             value={mjmlText}
             onChange={onChangeMjmlText}
