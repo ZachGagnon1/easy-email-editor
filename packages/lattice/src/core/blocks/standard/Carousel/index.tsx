@@ -81,7 +81,7 @@ export const Carousel = createBlock<ICarousel>({
         const imageAttributeStr = Object.keys(image)
           .filter(
             (key) =>
-              key !== "content" && image[key as keyof typeof image] !== ""
+              key !== "content" && image[key as keyof typeof image] !== "",
           ) // filter att=""
           .map((key) => `${key}="${image[key as keyof typeof image]}"`)
           .join(" ");

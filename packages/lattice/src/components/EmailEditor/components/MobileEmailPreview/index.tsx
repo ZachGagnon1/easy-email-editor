@@ -96,7 +96,7 @@ export function MobileEmailPreview() {
               <div
                 className={classnames(
                   "preview-container",
-                  SYNC_SCROLL_ELEMENT_CLASS_NAME
+                  SYNC_SCROLL_ELEMENT_CLASS_NAME,
                 )}
                 style={{
                   height: "100%",

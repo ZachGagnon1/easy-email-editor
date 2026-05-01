@@ -37,13 +37,13 @@ export function useAvatarWrapperDrop() {
     if (!blockLayerRef) return;
     blockLayerRef
       .querySelectorAll(
-        ".arco-tree-node-title-gap-top, .arco-tree-node-title-gap-bottom, .arco-tree-node-title-highlight"
+        ".arco-tree-node-title-gap-top, .arco-tree-node-title-gap-bottom, .arco-tree-node-title-highlight",
       )
       .forEach((item) => {
         item.classList.remove(
           "arco-tree-node-title-gap-top",
           "arco-tree-node-title-gap-bottom",
-          "arco-tree-node-title-highlight"
+          "arco-tree-node-title-highlight",
         );
       });
   }, [blockLayerRef]);
@@ -66,7 +66,7 @@ export function useAvatarWrapperDrop() {
         if (
           BlockManager.getAutoCompletePath(
             dragBlock.type,
-            dropNode.dataRef.type
+            dropNode.dataRef.type,
           ) &&
           dropNode.dataRef.children.length === 0
         ) {
@@ -99,7 +99,7 @@ export function useAvatarWrapperDrop() {
       setHoverIdx("");
       return false;
     },
-    [setDirection, setHoverIdx, valuesRef]
+    [setDirection, setHoverIdx, valuesRef],
   );
 
   useEffect(() => {
@@ -153,7 +153,7 @@ export function useAvatarWrapperDrop() {
         if (isBoolean(dropResult) || !dropResult) return;
 
         const node = document.querySelector(
-          `[data-tree-idx="${dropResult.key}"]`
+          `[data-tree-idx="${dropResult.key}"]`,
         )?.parentNode?.parentNode;
         if (node instanceof HTMLElement) {
           removeHightLightClassName();

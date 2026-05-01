@@ -7,8 +7,8 @@ import path from "path";
 const overwriteData = fs.readJsonSync(
   path.join(
     process.cwd(),
-    "packages/easy-email-localization/locales/overwrite.json"
-  )
+    "packages/easy-email-localization/locales/overwrite.json",
+  ),
 );
 
 const config = dotenv.config();
@@ -37,13 +37,13 @@ async function main() {
 
     fs.writeFileSync(
       `packages/easy-email-localization/locales/${lan}.json`,
-      JSON.stringify(combineData, null, 2)
+      JSON.stringify(combineData, null, 2),
     );
   });
 
   fs.writeFileSync(
     `packages/easy-email-localization/locales/locales.json`,
-    JSON.stringify(merge(translateWords, overwriteData), null, 2)
+    JSON.stringify(merge(translateWords, overwriteData), null, 2),
   );
 }
 main();

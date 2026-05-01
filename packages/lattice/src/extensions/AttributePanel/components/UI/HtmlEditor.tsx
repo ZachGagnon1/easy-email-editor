@@ -3,9 +3,8 @@ import { Box, Button, Drawer, Stack, Typography } from "@mui/material";
 import { useBlock, useEditorContext, useFocusIdx } from "@";
 import { BasicType } from "@";
 
-const CodeMirrorEditorPromise = import(
-  "../../../components/Form/CodemirrorEditor"
-);
+const CodeMirrorEditorPromise =
+  import("../../../components/Form/CodemirrorEditor");
 const CodeMirrorEditor = React.lazy(() => CodeMirrorEditorPromise);
 
 export const HtmlEditor: React.FC<{

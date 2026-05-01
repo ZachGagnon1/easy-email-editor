@@ -41,7 +41,7 @@ export class MergeTagBadge {
     container.querySelectorAll(".easy-email-merge-tag").forEach((item: any) => {
       item.parentNode?.replaceChild(
         document.createTextNode(generateMergeTag(item.value)),
-        item
+        item,
       );
     });
 

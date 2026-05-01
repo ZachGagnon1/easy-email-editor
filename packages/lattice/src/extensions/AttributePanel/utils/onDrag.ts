@@ -1,7 +1,7 @@
 import { debounce } from "lodash";
 
 export const isMouseEvent = (
-  event: MouseEvent | TouchEvent
+  event: MouseEvent | TouchEvent,
 ): event is MouseEvent => !!(event.type.indexOf("mouse") !== -1);
 
 /**

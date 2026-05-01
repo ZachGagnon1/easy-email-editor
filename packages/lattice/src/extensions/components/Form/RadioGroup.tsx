@@ -41,7 +41,7 @@ export function RadioGroup(props: Readonly<RadioGroupProps>) {
     ...rest
   } = props;
 
-  const rowLayout = vertical ? false : rest.row ?? true;
+  const rowLayout = vertical ? false : (rest.row ?? true);
 
   return (
     <FormControl sx={sx} disabled={disabled} error={error}>

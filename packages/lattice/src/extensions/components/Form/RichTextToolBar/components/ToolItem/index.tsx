@@ -41,7 +41,7 @@ export const ToolItem: React.FC<{
         tabIndex={-1}
         className={classnames(
           "easy-email-extensions-emailToolItem",
-          props.isActive && "easy-email-extensions-emailToolItem-active"
+          props.isActive && "easy-email-extensions-emailToolItem-active",
         )}
         onClick={props.onClick}
         style={props.style}

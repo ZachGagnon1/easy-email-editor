@@ -17,11 +17,11 @@ import { Field, FieldInputProps } from "react-final-form";
 import { debounce } from "lodash";
 
 export const RichTextField = (
-  props: Omit<InlineTextProps, "onChange" | "mutators">
+  props: Omit<InlineTextProps, "onChange" | "mutators">,
 ) => {
   const [contentEditableName, setContentEditableName] = useState("");
   const [contentEditableType, setContentEditableType] = useState<string | null>(
-    CONTENT_EDITABLE_CLASS_NAME
+    CONTENT_EDITABLE_CLASS_NAME,
   );
 
   const { focusBlockNode } = useFocusBlockLayout(); // 2. Consume the hook
@@ -110,7 +110,7 @@ function FieldWrapper(
   props: Omit<InlineTextProps, "onChange"> & {
     input: FieldInputProps<any, HTMLElement>;
     contentEditableType: string | null;
-  }
+  },
 ) {
   const { input, contentEditableType, ...rest } = props;
   const { mergeTagGenerate, enabledMergeTagsBadge } = useEditorProps();
@@ -126,7 +126,7 @@ function FieldWrapper(
 
       input.onBlur();
     }, 200),
-    [input]
+    [input],
   );
 
   return (

@@ -16,14 +16,14 @@ export interface IBlock<T extends IBlockData = IBlockData> {
     renderPortal?: (
       props: Omit<Parameters<IBlock<T>["render"]>[0], "renderPortal"> & {
         refEle: HTMLElement;
-      }
+      },
     ) => React.ReactNode;
   }) => React.ReactNode;
 }
 
 export interface IBlockData<
   Attr extends Record<string, string> = any,
-  Data extends { [key: string]: any } = any
+  Data extends { [key: string]: any } = any,
 > {
   title?: string;
   type: string;
@@ -43,6 +43,6 @@ export type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
     : T[P] extends object
-    ? RecursivePartial<T[P]>
-    : T[P];
+      ? RecursivePartial<T[P]>
+      : T[P];
 };

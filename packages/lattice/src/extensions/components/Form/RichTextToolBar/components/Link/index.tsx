@@ -32,7 +32,7 @@ function getAnchorElement(node: Node | null): HTMLAnchorElement | null {
 }
 
 export function getLinkNode(
-  currentRange: Range | null | undefined
+  currentRange: Range | null | undefined,
 ): HTMLAnchorElement | null {
   if (!currentRange) {
     return null;
@@ -102,7 +102,7 @@ export function Link(props: Readonly<LinkProps>) {
       onChange({ ...values, linkNode: activeNode });
       handleClose();
     },
-    [activeNode, onChange, savedRange]
+    [activeNode, onChange, savedRange],
   );
 
   return (

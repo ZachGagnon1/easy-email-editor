@@ -3,7 +3,7 @@ import { BlockManager, IBlockData, BasicType } from "@";
 const tempEle = document.createElement("div");
 export function getBlockTitle(
   blockData: IBlockData,
-  isFromContent = true
+  isFromContent = true,
 ): string {
   if (blockData.title) return blockData.title;
 

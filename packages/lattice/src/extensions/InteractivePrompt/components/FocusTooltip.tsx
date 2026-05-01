@@ -133,7 +133,7 @@ export function FocusTooltip() {
             </Box>
           </Box>
         </IframeCacheProvider>,
-        focusBlockNode
+        focusBlockNode,
       )}
     </>
   );

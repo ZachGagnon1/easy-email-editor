@@ -70,10 +70,10 @@ export function generateAdvancedTableBlock(option: {
                 e.colSpan || 1
               }" style="${styles.join(";")}; background-color:${
                 e.backgroundColor
-              };">${e.content}</td>`
+              };">${e.content}</td>`,
           );
           return `<tr style="text-align:${textAlign};font-style:${fontStyle};">${_trString.join(
-            "\n"
+            "\n",
           )}</tr>`;
         })
         .join("\n");

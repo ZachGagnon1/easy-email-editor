@@ -56,7 +56,7 @@ export const BlocksPanel: React.FC<{
 
   const handleCategoryTabChange = (
     _event: React.SyntheticEvent,
-    newValue: number
+    newValue: number,
   ) => {
     setActiveCategoryTab(newValue);
   };
@@ -158,7 +158,7 @@ export const BlocksPanel: React.FC<{
                 </Box>
               </Box>
             </Paper>,
-            ele
+            ele,
           )}
       </div>
     ),
@@ -170,7 +170,7 @@ export const BlocksPanel: React.FC<{
       toggleVisible,
       visible,
       activeCategoryTab,
-    ]
+    ],
   );
 };
 
@@ -182,7 +182,7 @@ const BlockPanelItem: React.FC<{
 
   const handleBlockTabChange = (
     _event: React.SyntheticEvent,
-    newValue: number
+    newValue: number,
   ) => {
     setActiveBlockTab(newValue);
   };

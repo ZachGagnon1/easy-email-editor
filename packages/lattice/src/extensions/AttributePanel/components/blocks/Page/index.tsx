@@ -40,7 +40,7 @@ export function Page({ hideSubTitle, hideSubject }: PageProps) {
           <InputWithUnitField
             label={t("Breakpoint")}
             helpText={t(
-              "Allows you to control on which breakpoint the layout should go desktop/mobile."
+              "Allows you to control on which breakpoint the layout should go desktop/mobile.",
             )}
             name={`${focusIdx}.data.value.breakpoint`}
           />

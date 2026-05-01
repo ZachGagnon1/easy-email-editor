@@ -31,7 +31,7 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
         const text = e.clipboardData?.getData("text/plain") ?? "";
         iframeDocument?.execCommand("insertHTML", false, text);
         const contentEditableType = target.getAttribute(
-          DATA_CONTENT_EDITABLE_TYPE
+          DATA_CONTENT_EDITABLE_TYPE,
         );
         if (contentEditableType === ContentEditableType.RichText) {
           onChange(target.innerHTML || "");
@@ -46,7 +46,7 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
 
       if (target.getAttribute("contenteditable")) {
         const contentEditableType = target.getAttribute(
-          DATA_CONTENT_EDITABLE_TYPE
+          DATA_CONTENT_EDITABLE_TYPE,
         );
         if (contentEditableType === ContentEditableType.RichText) {
           onChange(target.innerHTML || "");

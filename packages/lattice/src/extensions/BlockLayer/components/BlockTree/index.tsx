@@ -54,7 +54,7 @@ function flattenTree<T extends TreeNode<T>>(
   items: T[],
   expandedKeys: string[],
   depth = 0,
-  parent: T | null = null
+  parent: T | null = null,
 ): FlattenedItem<T>[] {
   return items.reduce<FlattenedItem<T>[]>((acc, item) => {
     const isExpanded = expandedKeys.includes(item.id);
@@ -238,20 +238,20 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
   useEffect(() => {
     if (props.expandedKeys) {
       setExpandedKeys((keys) =>
-        Array.from(new Set([...keys, ...props.expandedKeys!]))
+        Array.from(new Set([...keys, ...props.expandedKeys!])),
       );
     }
   }, [props.expandedKeys]);
 
   const handleToggleExpand = useCallback((id: string) => {
     setExpandedKeys((prev) =>
-      prev.includes(id) ? prev.filter((key) => key !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((key) => key !== id) : [...prev, id],
     );
   }, []);
 
   const flattenedItems = useMemo(
     () => flattenTree(treeData, expandedKeys),
-    [treeData, expandedKeys]
+    [treeData, expandedKeys],
   );
 
   // THE FIX: Use a ref so the dnd-kit callbacks always have the absolute latest tree data,

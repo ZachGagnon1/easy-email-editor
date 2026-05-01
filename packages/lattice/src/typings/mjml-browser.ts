@@ -5,7 +5,7 @@ declare module "mjml-browser" {
       // beautify and minify were removed in MJML 5
       keepComments?: boolean;
       validationLevel?: "strict" | "soft" | "skip";
-    }
+    },
   ) => Promise<{
     // Change the return type to a Promise
     json: MjmlBlockItem;

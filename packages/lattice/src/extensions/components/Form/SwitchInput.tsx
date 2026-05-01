@@ -7,8 +7,10 @@ import {
 } from "@mui/material";
 import FormHelperText from "@mui/material/FormHelperText";
 
-export interface SwitchInputProps
-  extends Omit<MuiSwitchProps, "onChange" | "value"> {
+export interface SwitchInputProps extends Omit<
+  MuiSwitchProps,
+  "onChange" | "value"
+> {
   value?: boolean;
   checked?: boolean;
   onChange?: (val: boolean) => void;

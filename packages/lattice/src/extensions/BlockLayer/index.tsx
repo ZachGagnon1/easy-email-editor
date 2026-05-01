@@ -71,7 +71,7 @@ export function BlockLayer(props: BlockLayerProps) {
         setValueByIdx(id, blockData);
       }
     },
-    [setValueByIdx, valueRef]
+    [setValueByIdx, valueRef],
   );
 
   const renderTitle = useCallback(
@@ -86,7 +86,7 @@ export function BlockLayer(props: BlockLayerProps) {
           className={classnames(
             styles.title,
             !isPage && getNodeIdxClassName(data.id),
-            !isPage && "email-block"
+            !isPage && "email-block",
           )}
         >
           <Stack spacing={1} direction="row" sx={{ alignItems: "center" }}>
@@ -109,7 +109,7 @@ export function BlockLayer(props: BlockLayerProps) {
         </div>
       );
     },
-    [onToggleVisible, propsRenderTitle]
+    [onToggleVisible, propsRenderTitle],
   );
 
   const treeData = useMemo(() => {
@@ -117,12 +117,12 @@ export function BlockLayer(props: BlockLayerProps) {
     const loop = (
       item: IBlockDataWithId,
       id: string,
-      parent: IBlockDataWithId | null
+      parent: IBlockDataWithId | null,
     ) => {
       item.id = id;
       item.parent = parent;
       item.children?.map((child, index) =>
-        loop(child, getChildIdx(id, index), item)
+        loop(child, getChildIdx(id, index), item),
       );
     };
 
@@ -138,7 +138,7 @@ export function BlockLayer(props: BlockLayerProps) {
         scrollBlockEleIntoView({ idx: selectedId });
       }, 50);
     },
-    [setFocusIdx]
+    [setFocusIdx],
   );
 
   const onContextMenu = useCallback(
@@ -146,7 +146,7 @@ export function BlockLayer(props: BlockLayerProps) {
       ev.preventDefault();
       setContextMenuData({ blockData, left: ev.clientX, top: ev.clientY });
     },
-    []
+    [],
   );
 
   const onCloseContextMenu = useCallback(() => {
@@ -157,7 +157,7 @@ export function BlockLayer(props: BlockLayerProps) {
     (id: string) => {
       setHoverIdx(id);
     },
-    [setHoverIdx]
+    [setHoverIdx],
   );
 
   const onMouseLeave = useCallback(() => {
@@ -199,12 +199,12 @@ export function BlockLayer(props: BlockLayerProps) {
           dragNode.key,
           getChildIdx(
             dropNode.parentKey,
-            dropPosition > 0 ? dropIndex + 1 : dropIndex
-          )
+            dropPosition > 0 ? dropIndex + 1 : dropIndex,
+          ),
         );
       }
     },
-    [moveBlock]
+    [moveBlock],
   );
 
   const blockTreeAllowDrop: BlockTreeProps<IBlockDataWithId>["allowDrop"] =
@@ -219,7 +219,7 @@ export function BlockLayer(props: BlockLayerProps) {
           lastDropResult = dropResult;
           if (!isBoolean(dropResult) && dropResult) {
             const node = document.querySelector(
-              `[data-tree-idx="${dropResult.key}"]`
+              `[data-tree-idx="${dropResult.key}"]`,
             )?.parentNode?.parentNode;
             if (node instanceof HTMLElement) {
               removeHightLightClassName();
@@ -232,7 +232,7 @@ export function BlockLayer(props: BlockLayerProps) {
           return dropResult;
         };
       })(),
-      [allowDrop, removeHightLightClassName, setDirection, setHoverIdx]
+      [allowDrop, removeHightLightClassName, setDirection, setHoverIdx],
     );
 
   const selectedKeys = useMemo(() => {

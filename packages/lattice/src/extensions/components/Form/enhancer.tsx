@@ -21,14 +21,14 @@ export interface EnhancerProps {
 const parse = (v: any) => v;
 
 export default function enhancer<
-  P extends { onChange?: (...rest: any) => any }
+  P extends { onChange?: (...rest: any) => any },
 >(
   Component: React.FC<any>,
   changeAdapter: (args: Parameters<NonNullable<P["onChange"]>>) => any,
-  option?: { debounceTime: number }
+  option?: { debounceTime: number },
 ) {
   return (
-    props: EnhancerProps & Omit<P, "value" | "onChange" | "mutators">
+    props: EnhancerProps & Omit<P, "value" | "onChange" | "mutators">,
   ) => {
     const {
       name,
@@ -69,7 +69,7 @@ export default function enhancer<
                 onChange(val);
                 onBlur();
               }, debounceTime),
-              [onChange, onBlur]
+              [onChange, onBlur],
             );
 
             const onFieldChange: P["onChange"] = useCallback(
@@ -83,7 +83,7 @@ export default function enhancer<
                   debounceCallbackChange(newVal);
                 }
               },
-              [debounceCallbackChange]
+              [debounceCallbackChange],
             );
 
             const onFieldBlur = useCallback(() => {

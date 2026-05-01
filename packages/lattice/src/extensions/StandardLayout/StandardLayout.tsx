@@ -11,7 +11,7 @@ import {
 import { Grid, Paper, useMediaQuery, useTheme } from "@mui/material";
 
 export const StandardLayout: React.FC<Omit<ExtensionProps, "compact">> = (
-  props
+  props,
 ) => {
   const { height: containerHeight } = useEditorProps();
   const {

@@ -10,7 +10,7 @@ export function useLazyState<T>(state: T, debounceTime: number) {
       debounce((s) => {
         setLazyState(s);
       }, debounceTime),
-      []
+      [],
     );
 
   useEffect(() => {

@@ -36,7 +36,7 @@ export function TableOperation() {
         change(`${focusIdx}.data.value.tableSource`, cloneDeep(data));
       };
       tool.current.tableData = cloneDeep(
-        focusBlock?.data?.value?.tableSource || []
+        focusBlock?.data?.value?.tableSource || [],
       );
     }
   }, [focusIdx, focusBlock, change]);
@@ -63,7 +63,7 @@ export function TableOperation() {
             <div ref={rightRef} style={{ pointerEvents: "none" }} />
           </div>,
           // Change the portal target from `element` to `iframeDocument.body`
-          iframeDocument.body
+          iframeDocument.body,
         )}
     </>
   );

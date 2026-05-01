@@ -89,7 +89,7 @@ export default class TableOperationMenu {
 
   addRow(insertIndex: number, colCount: number) {
     const newRow = Array.from({ length: colCount }).map(
-      () => ({ content: "-" } as any)
+      () => ({ content: "-" }) as any,
     );
     this.tableData.splice(insertIndex, 0, newRow);
     this.changeTableData?.(this.tableData);
@@ -103,7 +103,7 @@ export default class TableOperationMenu {
   setTableIndexBoundary(tableIndexBoundary: IBoundingPosition) {
     this.tableIndexBoundary = getCorrectTableIndexBoundary(
       tableIndexBoundary,
-      this.tableData
+      this.tableData,
     );
   }
 
@@ -178,7 +178,7 @@ export default class TableOperationMenu {
             })}
           </MenuList>
         </Paper>
-      </IframeCacheProvider>
+      </IframeCacheProvider>,
     );
   }
 }

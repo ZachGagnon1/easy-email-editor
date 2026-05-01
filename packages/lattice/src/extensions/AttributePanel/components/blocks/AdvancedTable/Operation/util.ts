@@ -25,28 +25,28 @@ const getBoundaryFromRects = (startRect: any, endRect: any) => {
     startRect.left,
     endRect.left,
     startRect.left + startRect.width,
-    endRect.left + endRect.width
+    endRect.left + endRect.width,
   );
 
   let right = Math.max(
     startRect.left,
     endRect.left,
     startRect.left + startRect.width,
-    endRect.left + endRect.width
+    endRect.left + endRect.width,
   );
 
   let top = Math.min(
     startRect.top,
     endRect.top,
     startRect.top + startRect.height,
-    endRect.top + endRect.height
+    endRect.top + endRect.height,
   );
 
   let bottom = Math.max(
     startRect.top,
     endRect.top,
     startRect.top + startRect.height,
-    endRect.top + endRect.height
+    endRect.top + endRect.height,
   );
 
   let width = right - left;
@@ -163,7 +163,7 @@ export const getCurrentTable = (target: Element) => {
 
 export const getElementsBoundary = (
   el1: Element,
-  el2: Element
+  el2: Element,
 ): IBoundingPosition => {
   const rect1 = el1.getBoundingClientRect();
   const rect2 = el2.getBoundingClientRect();
@@ -178,7 +178,7 @@ export const getElementsBoundary = (
 
 export const checkEventInBoundingRect = (
   rect: IBoundingPosition,
-  { x, y }: { x: number; y: number }
+  { x, y }: { x: number; y: number },
 ) => {
   return x >= rect.left && x <= rect.right && y <= rect.bottom && y >= rect.top;
 };
@@ -198,7 +198,7 @@ const getCellIndex = (cellElement: Element) => {
 
 export const getTdBoundaryIndex = (
   leftTopCell: Element,
-  bottomRightCell: Element
+  bottomRightCell: Element,
 ) => {
   const idx1 = getCellIndex(leftTopCell);
   const idx2 = getCellIndex(bottomRightCell);
@@ -213,7 +213,7 @@ export const getTdBoundaryIndex = (
 
 export const getCorrectTableIndexBoundary = (
   tableIndexBoundary: IBoundingPosition,
-  tableData: IOperationData[][]
+  tableData: IOperationData[][],
 ) => {
   let { left, right, top, bottom } = tableIndexBoundary;
   // set top, bottom index
@@ -229,13 +229,13 @@ export const getCorrectTableIndexBoundary = (
   Array.from({ length: maxTdCount }).forEach((_, tdIndex) => {
     tableData.forEach((tr, trIndex) => {
       const mergedCell = mergedCells.find(
-        (e) => e[0] === trIndex && e[1] === tdIndex
+        (e) => e[0] === trIndex && e[1] === tdIndex,
       );
       if (mergedCell) {
         return;
       }
       const mergedTds = mergedCells.filter(
-        (e) => e[0] === trIndex && e[1] < tdIndex
+        (e) => e[0] === trIndex && e[1] < tdIndex,
       );
       const _tdIndex = tdIndex - mergedTds.length;
       const td = tr[_tdIndex];
@@ -270,7 +270,7 @@ export const getCorrectTableIndexBoundary = (
 };
 
 export const getMaxTdCount = (
-  tableData: AdvancedTableBlock["data"]["value"]["tableSource"]
+  tableData: AdvancedTableBlock["data"]["value"]["tableSource"],
 ) => {
   let tdCount = 1;
   tableData.forEach((tr) => {

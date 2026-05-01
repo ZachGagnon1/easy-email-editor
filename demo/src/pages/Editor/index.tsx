@@ -69,7 +69,7 @@ export default function Editor() {
               downloadFile(
                 exportToJson(template),
                 "email.json",
-                "application/json"
+                "application/json",
               )
             }
           >

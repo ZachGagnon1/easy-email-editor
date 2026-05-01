@@ -48,7 +48,7 @@ export function MergeTags(props: MergeTagsProps) {
       execCommand("insertHTML", val);
       handleClose();
     },
-    [execCommand]
+    [execCommand],
   );
 
   const isOpen = Boolean(anchorEl);

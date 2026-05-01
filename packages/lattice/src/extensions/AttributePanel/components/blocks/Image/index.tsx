@@ -42,7 +42,7 @@ export function Image() {
             labelHidden
             name={`${focusIdx}.attributes.src`}
             helpText={t(
-              "The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally."
+              "The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.",
             )}
             uploadHandler={onUploadImage}
           />

@@ -23,7 +23,7 @@ const removeAllActiveBadge = () => {
     });
 
   const popoverNode = getIframeDocument()?.querySelectorAll(
-    ".easy-email-merge-tag-popover"
+    ".easy-email-merge-tag-popover",
   );
   if (popoverNode) {
   }
@@ -48,7 +48,7 @@ export function MergeTagBadgePrompt() {
 
       setRangeByElement(ele);
     },
-    [setRangeByElement]
+    [setRangeByElement],
   );
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export function MergeTagBadgePrompt() {
     (ev) => {
       setText(ev.target.value);
     },
-    []
+    [],
   );
 
   const onSave = useCallback(() => {
@@ -156,7 +156,7 @@ export function MergeTagBadgePrompt() {
               <div className={"easy-email-merge-tag-popover-desc"}>
                 <p>
                   {t(
-                    'If a personalized text value isn"t available, then a default value is shown.'
+                    'If a personalized text value isn"t available, then a default value is shown.',
                   )}
                 </p>
                 <div className="easy-email-merge-tag-popover-desc-label">
@@ -178,7 +178,7 @@ export function MergeTagBadgePrompt() {
               </div>
             </div>
           </div>,
-          textContainer
+          textContainer,
         )}
     </>
   );

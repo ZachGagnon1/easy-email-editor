@@ -18,7 +18,7 @@ export function TextInput(props: TextInputProps) {
     (val: string) => {
       propsOnChange?.(val);
     },
-    [propsOnChange]
+    [propsOnChange],
   );
 
   return (

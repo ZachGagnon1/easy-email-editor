@@ -35,7 +35,7 @@ export const SelectionRangeProvider: React.FC<{
     return () => {
       getIframeDocument()?.removeEventListener(
         "selectionchange",
-        onSelectionChange
+        onSelectionChange,
       );
     };
   }, []);

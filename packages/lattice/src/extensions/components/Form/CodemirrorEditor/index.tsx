@@ -11,7 +11,7 @@ export default function CodemirrorEditor(
     onChange(val: string): void;
     mode?: "xml" | "javascript";
     maxHeight?: string;
-  }>
+  }>,
 ) {
   const { value, onChange, mode = "xml", maxHeight = "350px" } = props;
 

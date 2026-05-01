@@ -49,7 +49,7 @@ export function SourceCodePanel({
       setCodeText(value);
       if (!dirtyMode) setDirtyMode("json");
     },
-    [dirtyMode]
+    [dirtyMode],
   );
 
   const onChangeMjmlText = useCallback(
@@ -57,14 +57,14 @@ export function SourceCodePanel({
       setMjmlText(value);
       if (!dirtyMode) setDirtyMode("mjml");
     },
-    [dirtyMode]
+    [dirtyMode],
   );
 
   const onSaveJson = useCallback(() => {
     if (jsonReadOnly) return;
     try {
       const parseValue = JSON.parse(
-        JSON.stringify(window.eval("(" + codeText + ")"))
+        JSON.stringify(window.eval("(" + codeText + ")")),
       ) as IBlockData;
 
       const block = BlockManager.getBlockByType(parseValue.type);
@@ -119,7 +119,7 @@ export function SourceCodePanel({
           mode: "production",
           dataSource: cloneDeep(mergeTags),
           beautify: true,
-        })
+        }),
       );
       setCodeText(JSON.stringify(focusBlock, null, 2) || "");
     }

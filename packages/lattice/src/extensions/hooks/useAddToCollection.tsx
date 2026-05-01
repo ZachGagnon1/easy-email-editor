@@ -7,7 +7,7 @@ export function useAddToCollection() {
     () => (
       <AddToCollection visible={modalVisible} setVisible={setModalVisible} />
     ),
-    [modalVisible]
+    [modalVisible],
   );
 
   return {

@@ -20,11 +20,10 @@ import { SearchInput, SearchInputProps } from "./SearchInput";
 export { RichTextField } from "./RichTextField";
 export { ColorPickerField } from "./ColorPickerField";
 
-export interface NumberFieldAdapterProps
-  extends Omit<
-    React.ComponentProps<typeof NumberInput>,
-    "value" | "onValueChange" | "onChange"
-  > {
+export interface NumberFieldAdapterProps extends Omit<
+  React.ComponentProps<typeof NumberInput>,
+  "value" | "onValueChange" | "onChange"
+> {
   value?: string;
   onChange?: (val: string) => void;
   onBlur?: () => void;
@@ -59,55 +58,55 @@ export const TextField = enhancer<TextInputProps>(TextInput, (value) => value);
 
 export const InputWithUnitField = enhancer<InputWithUnitProps>(
   InputWithUnit,
-  (value) => value
+  (value) => value,
 );
 
 export const SearchField = enhancer<SearchInputProps>(
   SearchInput,
-  (val) => val
+  (val) => val,
 );
 
 export const TextAreaField = enhancer<TextInputProps>(
   TextAreaInput,
-  (val) => val
+  (val) => val,
 );
 
 export const NumberField = enhancer<NumberFieldAdapterProps>(
   NumberFieldAdapter,
-  (val) => val
+  (val) => val,
 );
 
 export const ImageUploaderField = enhancer<ImageUploaderProps>(
   ImageUploader,
-  (url) => url
+  (url) => url,
 );
 
 export const SelectField = enhancer<SelectProps>(Select, (e) => e);
 
 export const AutoCompleteField = enhancer<AutoCompleteProps>(
   AutoComplete,
-  (e) => e
+  (e) => e,
 );
 
 export const RadioGroupField = enhancer<RadioGroupProps>(
   RadioGroup,
-  (value) => value
+  (value) => value,
 );
 
 export const SwitchField = enhancer<SwitchInputProps>(SwitchInput, (e) => e);
 
 export const EditTabField = enhancer<EditTabProps<any>>(
   EditTab,
-  (e: any[]) => e
+  (e: any[]) => e,
 );
 export const EditGridTabField = enhancer<EditGridTabProps<any>>(
   EditGridTab,
-  (e: any[]) => e
+  (e: any[]) => e,
 );
 
 export const InlineTextField = enhancer<InlineTextProps>(
   InlineText,
-  (value) => value
+  (value) => value,
 );
 
 export { enhancer };

@@ -13,7 +13,7 @@ export class BlockAttributeConfigurationManager {
   }
 
   public static get<T extends ObjectComponent>(
-    name: keyof T
+    name: keyof T,
   ): () => ReactNode | null {
     return (this.map as any)[name];
   }

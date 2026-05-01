@@ -35,7 +35,7 @@ export const BlocksContext = React.createContext<{
 });
 
 export const BlocksProvider: React.FC<{ children?: React.ReactNode }> = (
-  props
+  props,
 ) => {
   const [focusIdx, setFocusIdx] = useState(getPageIdx());
   const [dragEnabled, setDragEnabled] = useState(false);

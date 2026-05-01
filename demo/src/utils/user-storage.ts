@@ -35,7 +35,7 @@ export class UserStorage {
         },
         {
           baseURL: "https://www.maocanhua.cn",
-        }
+        },
       );
 
       account = data;

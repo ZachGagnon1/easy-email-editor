@@ -11,8 +11,10 @@ export interface AutoCompleteOption {
   label: string | number;
 }
 
-export interface AutoCompleteProps
-  extends Omit<TextFieldProps, "onChange" | "value" | "classes"> {
+export interface AutoCompleteProps extends Omit<
+  TextFieldProps,
+  "onChange" | "value" | "classes"
+> {
   value?: string | number;
   options: AutoCompleteOption[];
   onChange: (val: string) => void;
@@ -52,7 +54,7 @@ export function AutoComplete(props: Readonly<AutoCompleteProps>) {
       onChange={(
         _event: React.SyntheticEvent,
         newValue: string | AutoCompleteOption | null,
-        reason: AutocompleteChangeReason
+        reason: AutocompleteChangeReason,
       ) => {
         if (typeof newValue === "string") {
           onChange(newValue);
@@ -65,7 +67,7 @@ export function AutoComplete(props: Readonly<AutoCompleteProps>) {
       onInputChange={(
         _event: React.SyntheticEvent,
         newInputValue: string,
-        reason: AutocompleteInputChangeReason
+        reason: AutocompleteInputChangeReason,
       ) => {
         // reason === "input" ensures we only update when the user is physically typing.
         // It ignores "reset" events triggered internally by selecting an option.
@@ -84,7 +86,7 @@ export function AutoComplete(props: Readonly<AutoCompleteProps>) {
       }}
       isOptionEqualToValue={(
         option: AutoCompleteOption,
-        val: string | AutoCompleteOption
+        val: string | AutoCompleteOption,
       ) => {
         const valString = typeof val === "string" ? val : String(val.value);
         return String(option.value) === valString;

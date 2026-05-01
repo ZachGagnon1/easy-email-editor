@@ -7,7 +7,8 @@
     "dev": "cd demo && pnpm run dev",
     "demo": "cd demo && pnpm run build",
     "lint": "lerna exec -- pnpm run format",
-    "format": "pnpm exec prettier . --write"
+    "format": "pnpm exec prettier . --write",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,scss}\""
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",

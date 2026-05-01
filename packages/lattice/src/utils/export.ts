@@ -35,7 +35,7 @@ export function exportToJson(template: IEmailTemplate): string {
 export function downloadFile(
   content: string,
   filename: string,
-  mimeType: string
+  mimeType: string,
 ) {
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);

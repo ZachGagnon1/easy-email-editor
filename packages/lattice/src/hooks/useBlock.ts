@@ -68,7 +68,7 @@ export function useBlock() {
       if (autoComplete) {
         const autoCompletePaths = BlockManager.getAutoCompletePath(
           type,
-          parent.type
+          parent.type,
         );
         if (autoCompletePaths) {
           autoCompletePaths.forEach((item) => {
@@ -96,7 +96,7 @@ export function useBlock() {
         console.error(
           `${block.type} cannot be used inside ${
             parentBlock.type
-          }, only inside: ${block.validParentType.join(", ")}`
+          }, only inside: ${block.validParentType.join(", ")}`,
         );
         return;
       }
@@ -110,7 +110,7 @@ export function useBlock() {
       });
       console.timeEnd();
     },
-    [autoComplete, change, getState, setFocusIdx]
+    [autoComplete, change, getState, setFocusIdx],
   );
 
   const moveBlock = useCallback(
@@ -132,7 +132,7 @@ export function useBlock() {
       if (autoComplete) {
         const autoCompletePaths = BlockManager.getAutoCompletePath(
           source.type,
-          destinationParent.type
+          destinationParent.type,
         );
         if (autoCompletePaths) {
           autoCompletePaths.forEach((item) => {
@@ -153,7 +153,7 @@ export function useBlock() {
         nextFocusIdx =
           destinationParentIdx +
           `.children.[${destinationParent.children.findIndex(
-            (item: IBlockData) => item === removed
+            (item: IBlockData) => item === removed,
           )}]`;
       } else {
         destinationParent.children.splice(positionIndex, 0, removed);
@@ -170,7 +170,7 @@ export function useBlock() {
         idx: nextFocusIdx,
       });
     },
-    [autoComplete, change, getState, setFocusIdx]
+    [autoComplete, change, getState, setFocusIdx],
   );
 
   const copyBlock = useCallback(
@@ -194,7 +194,7 @@ export function useBlock() {
 
       setFocusIdx(nextFocusIdx);
     },
-    [change, getState, setFocusIdx]
+    [change, getState, setFocusIdx],
   );
 
   const removeBlock = useCallback(
@@ -224,7 +224,7 @@ export function useBlock() {
       change(parentIdx, parent);
       setFocusIdx(nextFocusIdx);
     },
-    [change, getState, setFocusIdx]
+    [change, getState, setFocusIdx],
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -234,14 +234,14 @@ export function useBlock() {
         ...newVal,
       });
     }),
-    [change]
+    [change],
   );
 
   const isExistBlock = useCallback(
     (idx: string) => {
       return Boolean(get(values, idx));
     },
-    [values]
+    [values],
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -249,7 +249,7 @@ export function useBlock() {
     debounce((val) => {
       change(focusIdx, { ...val });
     }),
-    [focusBlock, focusIdx, change]
+    [focusBlock, focusIdx, change],
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -259,7 +259,7 @@ export function useBlock() {
       focusBlock.data.value = val;
       change(focusIdx, { ...focusBlock });
     }),
-    [focusBlock, focusIdx]
+    [focusBlock, focusIdx],
   );
 
   return {

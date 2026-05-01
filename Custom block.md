@@ -20,7 +20,7 @@ But we can also encapsulate it and call it Custom Section block.
     <Column>
       <Text>hello</Text>
     </Column>
-  </Section>
+  </Section>,
 );
 ```
 
@@ -91,7 +91,7 @@ import { Button } from "easy-email-editor";
 const render = (
   data: ICustomButton,
   idx: string,
-  context: IPage
+  context: IPage,
 ): IBlockData => {
   const attributes = data.attributes;
   const { buttonText } = data.data.value;

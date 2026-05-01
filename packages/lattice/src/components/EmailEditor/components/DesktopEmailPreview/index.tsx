@@ -63,7 +63,7 @@ export function DesktopEmailPreview() {
           <div
             className={classnames(
               "preview-container",
-              SYNC_SCROLL_ELEMENT_CLASS_NAME
+              SYNC_SCROLL_ELEMENT_CLASS_NAME,
             )}
             style={{
               height: "100%",
@@ -86,7 +86,7 @@ export function DesktopEmailPreview() {
                   item: {
                     href: string;
                   },
-                  index: number
+                  index: number,
                 ) => (
                   <link
                     key={index}
@@ -94,10 +94,10 @@ export function DesktopEmailPreview() {
                     rel="stylesheet"
                     type="text/css"
                   />
-                )
+                ),
               )}
             </>,
-            document.body
+            document.body,
           )}
         </>
       </SyncScrollIframeComponent>

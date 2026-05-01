@@ -47,7 +47,7 @@ export function Section() {
       }
       setFocusBlock({ ...focusBlock });
     },
-    [focusBlock, setFocusBlock]
+    [focusBlock, setFocusBlock],
   );
 
   return (
