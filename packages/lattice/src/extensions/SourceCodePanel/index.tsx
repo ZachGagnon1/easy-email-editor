@@ -8,7 +8,7 @@ import {
   useBlock,
   useEditorContext,
   useEditorProps,
-  useFocusIdx
+  useFocusIdx,
 } from "@";
 import { cloneDeep } from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
