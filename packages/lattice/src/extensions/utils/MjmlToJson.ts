@@ -1,15 +1,15 @@
-import { BlockManager, IPage, BasicType, IBlockData } from "@";
+import { BasicType, BlockManager, IBlockData, IPage } from "@";
 import { identity, isString, pickBy } from "lodash";
 import { parseXMLtoBlock } from "./parseXMLtoBlock";
 
-export function MjmlToJson(data: MjmlBlockItem | string): IPage {
-  if (isString(data)) return parseXMLtoBlock(data);
+export async function MjmlToJson(data: MjmlBlockItem | string): Promise<IPage> {
+  if (isString(data)) return await parseXMLtoBlock(data);
 
   const transform = (item: IChildrenItem): IBlockData => {
     const attributes = item.attributes as any;
 
     switch (item.tagName) {
-      case "mjml":
+      case "mjml": {
         const body = item.children?.find((item) => item.tagName === "mj-body")!;
         const head = item.children?.find((item) => item.tagName === "mj-head");
         const metaData = getMetaDataFromMjml(head);
@@ -72,8 +72,9 @@ export function MjmlToJson(data: MjmlBlockItem | string): IPage {
             },
           },
         });
+      }
 
-      default:
+      default: {
         const tag = item.tagName.replace("mj-", "").toLowerCase();
 
         const block = BlockManager.getBlockByType(tag as any);
@@ -135,10 +136,11 @@ export function MjmlToJson(data: MjmlBlockItem | string): IPage {
         formatPadding(blockData.attributes, "padding");
         formatPadding(blockData.attributes, "inner-padding");
         return blockData;
+      }
     }
   };
 
-  return transform(data);
+  return transform(data) as IPage; // Cast ensures the signature matches Promise<IPage>
 }
 
 export function getMetaDataFromMjml(data?: IChildrenItem): {

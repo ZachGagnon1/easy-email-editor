@@ -44,7 +44,11 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = (
   }, [mergeTags, previewInjectData]);
 
   useEffect(() => {
-    const breakpoint = parseInt(lazyPageData.data.value.breakpoint || "0");
+    let isMounted = true;
+
+    const breakpoint = Number.parseInt(
+      lazyPageData.data.value.breakpoint || "0"
+    );
     let adjustBreakPoint = breakpoint;
     if (breakpoint > 360) {
       adjustBreakPoint = Math.max(mobileWidth + 1, breakpoint);
@@ -59,37 +63,50 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = (
         },
       },
     };
-    let parseHtml = mjml(
-      JsonToMjml({
-        data: cloneData,
-        mode: "production",
-        context: cloneData,
-        dataSource: cloneDeep(injectData),
-        keepClassName: true,
-      })
-    ).html;
-    if (onBeforePreview) {
-      try {
-        const result = onBeforePreview(parseHtml, injectData);
-        if (isString(result)) {
-          parseHtml = result;
-          setHtml(parseHtml);
-        } else {
-          result.then((resHtml) => {
-            parseHtml = resHtml;
-            setHtml(parseHtml);
-          });
-        }
 
-        setErrMsg("");
-      } catch (error: any) {
-        setErrMsg(error?.message || error);
-      }
-    } else {
-      setHtml(parseHtml);
-    }
+    const mjmlString = JsonToMjml({
+      data: cloneData,
+      mode: "production",
+      context: cloneData,
+      dataSource: cloneDeep(injectData),
+      keepClassName: true,
+    });
+
+    // Handle the async mjml compilation
+    mjml(mjmlString)
+      .then((result) => {
+        if (!isMounted) return;
+
+        let parseHtml = result.html;
+
+        if (onBeforePreview) {
+          try {
+            const previewResult = onBeforePreview(parseHtml, injectData);
+            if (isString(previewResult)) {
+              parseHtml = previewResult;
+              setHtml(parseHtml);
+            } else {
+              previewResult.then((resHtml) => {
+                if (isMounted) setHtml(resHtml);
+              });
+            }
+
+            setErrMsg("");
+          } catch (error: any) {
+            setErrMsg(error?.message || error);
+          }
+        } else {
+          setHtml(parseHtml);
+        }
+      })
+      .catch((error) => {
+        if (isMounted) {
+          setErrMsg(error?.message || "MJML compilation failed");
+        }
+      });
 
     return () => {
+      isMounted = false;
       setHtml("");
     };
   }, [injectData, onBeforePreview, lazyPageData, mobileWidth]);

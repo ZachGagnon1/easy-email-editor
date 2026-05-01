@@ -16,16 +16,18 @@ import { MjmlToJson } from "@/extensions";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
 import CodemirrorEditor from "@/extensions/components/Form/CodemirrorEditor";
 
-// 1. Import MUI components
 import { Box, Button, Stack } from "@mui/material";
+
+// Note: Ensure `t` is imported or available in your scope if you use i18n
+declare const t: (key: string) => string;
 
 export function SourceCodePanel({
   jsonReadOnly,
   mjmlReadOnly,
-}: {
+}: Readonly<{
   jsonReadOnly: boolean;
   mjmlReadOnly: boolean;
-}) {
+}>) {
   const { setValueByIdx, focusBlock, values } = useBlock();
   const { focusIdx } = useFocusIdx();
 
@@ -67,8 +69,7 @@ export function SourceCodePanel({
       if (!block) throw new Error(t("Invalid content"));
 
       if (
-        !parseValue.data ||
-        !parseValue.data.value ||
+        !parseValue.data?.value ||
         !parseValue.attributes ||
         !Array.isArray(parseValue.children)
       ) {
@@ -83,10 +84,10 @@ export function SourceCodePanel({
     }
   }, [codeText, focusIdx, jsonReadOnly, setValueByIdx]);
 
-  const onSaveMjml = useCallback(() => {
+  const onSaveMjml = useCallback(async () => {
     if (mjmlReadOnly) return;
     try {
-      const parseValue = MjmlToJson(mjmlText);
+      const parseValue = await MjmlToJson(mjmlText);
       if (parseValue.type !== BasicType.PAGE) {
         const parentBlock = getParentByIdx(values, focusIdx)!;
         const parseBlock = BlockManager.getBlockByType(parseValue.type);
@@ -115,6 +116,7 @@ export function SourceCodePanel({
           context: pageData,
           mode: "production",
           dataSource: cloneDeep(mergeTags),
+          beautify: true,
         })
       );
       setCodeText(JSON.stringify(focusBlock, null, 2) || "");
