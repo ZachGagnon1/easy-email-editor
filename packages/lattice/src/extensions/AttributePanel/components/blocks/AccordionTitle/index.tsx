@@ -9,7 +9,7 @@ import {
   Padding,
   TextAreaField,
 } from "@/extensions";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";
 import { Stack } from "@mui/material";
 

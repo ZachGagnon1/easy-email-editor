@@ -8,7 +8,7 @@ import {
   getValueByIdx,
   BlockManager,
   createBlockDataByType,
-}  from "@";
+} from "@";
 import { cloneDeep, debounce, get } from "lodash";
 import { useCallback, useContext } from "react";
 

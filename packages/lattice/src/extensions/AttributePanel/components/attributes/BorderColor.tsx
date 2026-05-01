@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { ColorPickerField } from "../../../components/Form";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 
 export function BorderColor() {
   const { focusIdx } = useFocusIdx();

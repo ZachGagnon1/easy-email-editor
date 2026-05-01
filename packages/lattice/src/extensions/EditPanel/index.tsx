@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { useEditorProps }  from "@";
+import { useEditorProps } from "@";
 import { Blocks } from "./Blocks";
 import { BlockLayer } from "@/extensions/BlockLayer";
 import { FullHeightOverlayScrollbars } from "@/extensions/components/FullHeightOverlayScrollbars";

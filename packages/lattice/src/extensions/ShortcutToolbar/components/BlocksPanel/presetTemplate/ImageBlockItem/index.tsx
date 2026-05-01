@@ -1,6 +1,6 @@
 import React from "react";
-import { AdvancedType, IImage, RecursivePartial }  from "@";
-import { Stack }  from "@";
+import { AdvancedType, IImage, RecursivePartial } from "@";
+import { Stack } from "@";
 
 import { BlockMaskWrapper } from "@/extensions/ShortcutToolbar/components/BlockMaskWrapper";
 import { getImg } from "@/extensions/ShortcutToolbar/utils/getImg";

@@ -1,5 +1,5 @@
 import React from "react";
-import { useEditorProps, useFocusIdx }  from "@";
+import { useEditorProps, useFocusIdx } from "@";
 import { AttributesPanelWrapper } from "@/extensions/AttributePanel/components/attributes/AttributesPanelWrapper";
 import { BackgroundColor } from "@/extensions/AttributePanel/components/attributes/BackgroundColor";
 import { FontFamily } from "@/extensions/AttributePanel/components/attributes/FontFamily";

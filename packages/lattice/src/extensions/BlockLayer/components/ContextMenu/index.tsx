@@ -17,7 +17,7 @@ import {
   scrollBlockEleIntoView,
   TextStyle,
   useBlock,
-  useEditorProps
+  useEditorProps,
 } from "@";
 import { useAddToCollection } from "@/extensions/hooks/useAddToCollection";
 

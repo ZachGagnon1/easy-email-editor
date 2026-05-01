@@ -9,7 +9,7 @@ import {
   FontStyle,
   Padding,
   TextAlign,
-  Width
+  Width,
 } from "@/extensions";
 import { HtmlEditor } from "../../UI/HtmlEditor";
 import { CollapsableItem } from "@/extensions/components/Collapse/CollapsableItem";

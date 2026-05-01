@@ -2,16 +2,16 @@ declare module "mjml-browser" {
   const transform: (
     vml: string,
     options?: {
-      beautify?: boolean;
-      minify?: boolean;
+      // beautify and minify were removed in MJML 5
       keepComments?: boolean;
-      validationLevel: "strict" | "soft" | "skip";
+      validationLevel?: "strict" | "soft" | "skip";
     }
-  ) => {
+  ) => Promise<{
+    // Change the return type to a Promise
     json: MjmlBlockItem;
     html: string;
     errors: string[];
-  };
+  }>;
   export default transform;
 }
 

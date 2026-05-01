@@ -9,7 +9,7 @@ import {
   exportToJson,
   exportToMjml,
   IEmailTemplate,
-  LatticeEditor
+  LatticeEditor,
 } from "lattice";
 import { TEMPLATE_DATA } from "@demo/pages/Editor/Arturia - Newsletter";
 

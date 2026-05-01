@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { useHoverIdx }  from "@";
+import { useHoverIdx } from "@";
 
 import type { BlockMarketCategory } from "../../utils/BlockMarketManager";
 import { BlockMarketManager } from "../../utils/BlockMarketManager";

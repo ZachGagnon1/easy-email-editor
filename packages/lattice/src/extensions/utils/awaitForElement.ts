@@ -1,4 +1,4 @@
-import { getBlockNodeByIdx }  from "@";
+import { getBlockNodeByIdx } from "@";
 
 export function awaitForElement<T extends HTMLElement>(idx: string) {
   let promiseObj: { cancel: () => void; promise: Promise<T> } = {

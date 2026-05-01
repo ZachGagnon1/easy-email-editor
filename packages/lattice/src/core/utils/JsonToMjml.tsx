@@ -29,7 +29,7 @@ export function JsonToMjml(options: JsonToMjmlOption): string {
   if (!block) {
     throw new Error(`Block ${data.type} not found`);
   }
-  const mjmlString = unescape(
+  let mjmlString = unescape(
     renderToStaticMarkup(
       <EmailRenderProvider
         dataSource={options.dataSource}
@@ -41,7 +41,19 @@ export function JsonToMjml(options: JsonToMjmlOption): string {
     )
   );
   if (beautify) {
-    return html(mjmlString, { indent_size: 2 });
+    mjmlString = mjmlString.replaceAll("><", ">\n<");
+
+    return html(mjmlString, {
+      indent_size: 2,
+      indent_inner_html: true,
+
+      wrap_attributes: "force-expand-multiline",
+      wrap_line_length: 80,
+
+      inline: [],
+      unformatted: [],
+      extra_liners: [],
+    });
   }
   return mjmlString;
 }

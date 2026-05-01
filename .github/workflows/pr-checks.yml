@@ -1,0 +1,38 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  validate:
+    name: Build & Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛑 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10 # Adjust to match your local pnpm version if needed
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24' # Node 20 complies with MJML 5 CI constraints
+          cache: 'pnpm'
+
+      - name: 📥 Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 💅 Check Formatting (Prettier)
+        # Validates formatting without attempting to overwrite files in CI
+        run: pnpm exec prettier --check "**/*.{ts,tsx,js,jsx,json,md,scss}"
+
+      - name: 🏗️ Build Packages
+        # Executes the build script recursively across your workspace
+        run: pnpm run --recursive build

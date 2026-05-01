@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 import { TextAreaField } from "@/extensions/components/Form";
 import { AttributesPanelWrapper } from "@/extensions";
 import { IconButton, Tooltip } from "@mui/material";

@@ -3,7 +3,7 @@ import {
   ContentEditableType,
   getIframeDocument,
   DATA_CONTENT_EDITABLE_TYPE,
-}  from "@";
+} from "@";
 import { useField, useForm } from "react-final-form";
 
 export interface InlineTextProps {

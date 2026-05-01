@@ -6,7 +6,7 @@ import { EditPanel } from "../EditPanel";
 import { ConfigurationPanel } from "@/extensions/ConfigurationPanel";
 import {
   ExtensionProps,
-  ExtensionProvider
+  ExtensionProvider,
 } from "@/extensions/components/Providers/ExtensionProvider";
 import { Grid, Paper, useMediaQuery, useTheme } from "@mui/material";
 

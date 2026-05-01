@@ -1,6 +1,6 @@
 import React from "react";
-import { AdvancedType }  from "@";
-import { Stack }  from "@";
+import { AdvancedType } from "@";
+import { Stack } from "@";
 import { BlockMaskWrapper } from "@/extensions/ShortcutToolbar/components/BlockMaskWrapper";
 import { getImg } from "@/extensions/ShortcutToolbar/utils/getImg";
 import { Picture } from "@/extensions/ShortcutToolbar/components/Picture";

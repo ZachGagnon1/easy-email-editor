@@ -1,4 +1,4 @@
-import { IBlockData }  from "@";
+import { IBlockData } from "@";
 import React, { useMemo } from "react";
 
 export interface CollectedBlock {

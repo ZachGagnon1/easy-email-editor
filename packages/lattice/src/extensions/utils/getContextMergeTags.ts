@@ -1,4 +1,4 @@
-import { IBlockData, BlockManager, getParentIdx }  from "@";
+import { IBlockData, BlockManager, getParentIdx } from "@";
 import { get, cloneDeep } from "lodash";
 
 export function getContextMergeTags(

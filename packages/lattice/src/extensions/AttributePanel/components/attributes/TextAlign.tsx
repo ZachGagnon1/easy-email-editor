@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useFocusIdx, Stack }  from "@";
+import { useFocusIdx, Stack } from "@";
 import { RadioGroupField } from "../../../components/Form";
 
 const options = [

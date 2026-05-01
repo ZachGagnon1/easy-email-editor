@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { InputWithUnitField, TextField } from "../../../components/Form";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 import { Stack } from "@mui/material";
 
 export function Border() {

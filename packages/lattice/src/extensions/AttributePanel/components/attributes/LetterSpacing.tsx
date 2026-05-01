@@ -1,6 +1,6 @@
 import React from "react";
 import { InputWithUnitField } from "../../../components/Form";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 
 export function LetterSpacing({ name }: { name?: string }) {
   const { focusIdx } = useFocusIdx();

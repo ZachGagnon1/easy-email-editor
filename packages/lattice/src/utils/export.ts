@@ -16,9 +16,10 @@ export function exportToMjml(template: IEmailTemplate): string {
 /**
  * Converts the email template state into production-ready HTML.
  */
-export function exportToHtml(template: IEmailTemplate): string {
+export async function exportToHtml(template: IEmailTemplate): Promise<string> {
   const mjmlString = exportToMjml(template);
-  return mjml(mjmlString).html;
+  const result = await mjml(mjmlString);
+  return result.html;
 }
 
 /**

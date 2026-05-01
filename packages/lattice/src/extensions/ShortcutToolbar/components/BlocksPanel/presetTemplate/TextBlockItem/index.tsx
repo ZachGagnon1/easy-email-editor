@@ -1,6 +1,6 @@
 import React from "react";
-import { Stack }  from "@";
-import { AdvancedType }  from "@";
+import { Stack } from "@";
+import { AdvancedType } from "@";
 
 import { BlockMaskWrapper } from "@/extensions/ShortcutToolbar/components/BlockMaskWrapper";
 

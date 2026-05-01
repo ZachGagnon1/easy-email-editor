@@ -1,6 +1,6 @@
 import React from "react";
-import { AdvancedType }  from "@";
-import { Stack, TextStyle }  from "@";
+import { AdvancedType } from "@";
+import { Stack, TextStyle } from "@";
 
 import { TextBlockItem } from "./TextBlockItem";
 import { ImageBlockItem } from "./ImageBlockItem";

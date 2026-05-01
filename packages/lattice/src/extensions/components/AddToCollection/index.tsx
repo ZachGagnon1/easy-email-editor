@@ -1,8 +1,14 @@
 import React from "react";
 import { Form } from "react-final-form";
-import { Stack, useBlock, useEditorProps }  from "@";
+import { Stack, useBlock, useEditorProps } from "@";
 import { ImageUploaderField, TextAreaField, TextField } from "@";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 
 export const AddToCollection: React.FC<{

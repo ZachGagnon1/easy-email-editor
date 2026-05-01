@@ -1,4 +1,4 @@
-import { useEditorContext, useEditorProps }  from "@";
+import { useEditorContext, useEditorProps } from "@";
 import React, { useMemo } from "react";
 
 export function useFontFamily() {

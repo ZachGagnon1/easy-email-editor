@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { InputWithUnitField } from "@/extensions";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 import { UseFieldConfig } from "react-final-form";
 
 export function Height({

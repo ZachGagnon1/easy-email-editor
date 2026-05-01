@@ -6,7 +6,7 @@ import {
   isTextBlock,
   useBlock,
   useEditorProps,
-  useFocusIdx
+  useFocusIdx,
 } from "@";
 import { useAddToCollection } from "@/extensions/hooks/useAddToCollection";
 import { getBlockTitle } from "@/extensions/utils/getBlockTitle";

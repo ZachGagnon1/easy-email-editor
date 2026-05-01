@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 import { TextField } from "../../../components/Form";
 
 export function ClassName() {

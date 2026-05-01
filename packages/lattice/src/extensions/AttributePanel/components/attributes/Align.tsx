@@ -1,5 +1,5 @@
 import React from "react";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 import { RadioGroupField } from "../../../components/Form";
 
 const options = [
