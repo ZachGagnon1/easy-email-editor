@@ -18,6 +18,7 @@ export function MjmlDomRender() {
 
   const { pageData: content } = useEditorContext();
   const { dashed, mergeTags, enabledMergeTagsBadge } = useEditorProps();
+  const [html, setHtml] = useState<string>("");
 
   const isTextFocusing =
     getIframeDocument()?.activeElement?.getAttribute("contenteditable") ===
@@ -70,18 +71,37 @@ export function MjmlDomRender() {
     };
   }, []);
 
-  const html = useMemo(() => {
-    if (!pageData) return "";
+  useEffect(() => {
+    if (!pageData) {
+      setHtml("");
+      return;
+    }
 
-    return mjml(
-      JsonToMjml({
-        data: pageData,
-        idx: getPageIdx(),
-        context: pageData,
-        mode: "testing",
-        dataSource: cloneDeep(mergeTags),
+    // Prevents state updates if the component unmounts before compilation finishes
+    let isMounted = true;
+
+    const mjmlString = JsonToMjml({
+      data: pageData,
+      idx: getPageIdx(),
+      context: pageData,
+      mode: "testing",
+      dataSource: cloneDeep(mergeTags),
+    });
+
+    // Call mjml and wait for the Promise to resolve
+    mjml(mjmlString)
+      .then((result) => {
+        if (isMounted) {
+          setHtml(result.html);
+        }
       })
-    ).html;
+      .catch((error) => {
+        console.error("MJML compilation failed:", error);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, [mergeTags, pageData]);
 
   return useMemo(() => {
