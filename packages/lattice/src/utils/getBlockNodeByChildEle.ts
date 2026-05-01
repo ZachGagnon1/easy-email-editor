@@ -1,5 +1,5 @@
 export const getBlockNodeByChildEle = (
-  target?: Element | null
+  target?: Element | null,
 ): HTMLElement | null => {
   if (!target) return null;
 

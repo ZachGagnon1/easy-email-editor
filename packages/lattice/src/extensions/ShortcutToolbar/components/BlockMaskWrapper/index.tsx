@@ -28,7 +28,7 @@ export const BlockMaskWrapper: React.FC<{
         ev.stopPropagation();
       }
     },
-    []
+    [],
   );
 
   useEffect(() => {

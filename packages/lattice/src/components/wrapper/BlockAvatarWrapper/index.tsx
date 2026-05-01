@@ -14,7 +14,7 @@ export type BlockAvatarWrapperProps = {
 };
 
 export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = (
-  props
+  props,
 ) => {
   const { type, children, payload, action = "add", idx } = props;
   const { addBlock, moveBlock } = useBlock();
@@ -38,7 +38,7 @@ export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = (
 
       setIsDragging(true);
     },
-    [action, idx, payload, setDataTransfer, setIsDragging, type]
+    [action, idx, payload, setDataTransfer, setIsDragging, type],
   );
 
   const onDragEnd = useCallback(() => {
@@ -62,7 +62,7 @@ export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = (
     ) {
       moveBlock(
         dataTransfer.sourceIdx,
-        getChildIdx(dataTransfer.parentIdx, dataTransfer.positionIndex)
+        getChildIdx(dataTransfer.parentIdx, dataTransfer.positionIndex),
       );
     }
   }, [

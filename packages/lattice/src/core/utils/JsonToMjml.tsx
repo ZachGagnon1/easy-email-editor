@@ -37,8 +37,8 @@ export function JsonToMjml(options: JsonToMjmlOption): string {
         context={options.context}
       >
         {block.render(options)}
-      </EmailRenderProvider>
-    )
+      </EmailRenderProvider>,
+    ),
   );
   if (beautify) {
     mjmlString = mjmlString.replaceAll("><", ">\n<");

@@ -38,7 +38,7 @@ export const HoverIdxContext = React.createContext<{
 });
 
 export const HoverIdxProvider: React.FC<{ children?: React.ReactNode }> = (
-  props
+  props,
 ) => {
   const [hoverIdx, setHoverIdx] = useState("");
   const [isDragging, setIsDragging] = useState(false);

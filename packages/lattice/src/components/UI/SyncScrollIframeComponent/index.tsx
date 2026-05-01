@@ -33,7 +33,7 @@ export const SyncScrollIframeComponent = ({
         setIframeDocument(doc);
       }
     },
-    []
+    [],
   );
 
   return (
@@ -53,7 +53,7 @@ export const SyncScrollIframeComponent = ({
               children
             )}
           </IframeDocumentContext.Provider>,
-          iframeDocument.body
+          iframeDocument.body,
         )}
     </iframe>
   );

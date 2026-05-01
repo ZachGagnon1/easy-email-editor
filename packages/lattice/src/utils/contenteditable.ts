@@ -5,10 +5,10 @@ export function getContentEditableType(type: string) {
 }
 
 export function getContentEditableTypeFromClassName(
-  classList: DOMTokenList | string
+  classList: DOMTokenList | string,
 ) {
   const arr = Array.from(
-    isString(classList) ? classList.split(" ") : classList
+    isString(classList) ? classList.split(" ") : classList,
   );
   return (
     arr
@@ -22,10 +22,10 @@ export function getContentEditableIdx(idx: string) {
 }
 
 export function getContentEditableIdxFromClassName(
-  classList: DOMTokenList | string
+  classList: DOMTokenList | string,
 ) {
   const arr = Array.from(
-    isString(classList) ? classList.split(" ") : classList
+    isString(classList) ? classList.split(" ") : classList,
   );
   return (
     arr

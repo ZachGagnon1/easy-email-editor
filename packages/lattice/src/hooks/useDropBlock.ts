@@ -141,7 +141,7 @@ export function useDropBlock() {
       const onCheckDragLeave = (ev: DragEvent) => {
         const dropEleList = [
           ...document.querySelectorAll(
-            `[${DATA_ATTRIBUTE_DROP_CONTAINER}="true"]`
+            `[${DATA_ATTRIBUTE_DROP_CONTAINER}="true"]`,
           ),
         ];
         const target = ev.target as HTMLElement;
@@ -220,6 +220,6 @@ export function useDropBlock() {
     () => ({
       setRef,
     }),
-    [setRef]
+    [setRef],
   );
 }

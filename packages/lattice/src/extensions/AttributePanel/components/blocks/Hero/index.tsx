@@ -56,7 +56,7 @@ export function Hero() {
             label={t("src")}
             name={`${focusIdx}.attributes.background-url`}
             helpText={t(
-              "The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally."
+              "The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.",
             )}
             uploadHandler={onUploadImage}
           />

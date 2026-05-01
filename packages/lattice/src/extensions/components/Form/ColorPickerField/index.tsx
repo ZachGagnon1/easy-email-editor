@@ -8,11 +8,11 @@ const ColorPickerFieldSource = enhancer<ColorPickerProps>(
   (e) => e,
   {
     debounceTime: 1,
-  }
+  },
 );
 
 export const ColorPickerField = (
-  props: ComponentProps<typeof ColorPickerFieldSource>
+  props: ComponentProps<typeof ColorPickerFieldSource>,
 ) => {
   return <ColorPickerFieldSource config={colorAdapter} {...props} />;
 };

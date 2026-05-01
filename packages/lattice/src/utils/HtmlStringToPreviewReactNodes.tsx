@@ -89,7 +89,7 @@ const RenderReactNode = React.memo(function ({
       if (n.nodeType === Node.TEXT_NODE && n.textContent?.trim() === "") {
         if (
           ["table", "tbody", "thead", "tfoot", "tr", "colgroup"].includes(
-            targetTagName
+            targetTagName,
           )
         ) {
           return false;

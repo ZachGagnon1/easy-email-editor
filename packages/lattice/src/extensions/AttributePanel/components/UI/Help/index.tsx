@@ -6,7 +6,7 @@ export function Help(
   props: Omit<React.ComponentProps<typeof Tooltip>, "children"> &
     Partial<{ style: React.CSSProperties }> & {
       title: React.ReactNode;
-    }
+    },
 ) {
   const { title, ...otherProps } = props;
   return (

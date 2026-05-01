@@ -1,8 +1,10 @@
 import React from "react";
 import { TextField, Button, Box, TextFieldProps } from "@mui/material";
 
-export interface SearchInputProps
-  extends Omit<TextFieldProps, "onChange" | "value"> {
+export interface SearchInputProps extends Omit<
+  TextFieldProps,
+  "onChange" | "value"
+> {
   value?: string;
   onChange?: (val: string) => void;
   onSearch?: (val: string) => void;

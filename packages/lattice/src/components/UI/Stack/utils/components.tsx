@@ -6,7 +6,7 @@ import React, { Children, isValidElement } from "react";
 export function wrapWithComponent<P>(
   element: React.ReactNode | null | undefined,
   Component: React.FC<P>,
-  props: P
+  props: P,
 ): React.ReactNode {
   if (element == null) {
     return null;
@@ -31,14 +31,14 @@ const isComponent =
     ? hotReloadComponentCheck
     : (
         AComponent: React.ComponentType<any>,
-        AnotherComponent: React.ComponentType<any>
+        AnotherComponent: React.ComponentType<any>,
       ) => AComponent === AnotherComponent;
 
 // Checks whether `element` is a React element of type `Component` (or one of
 // the passed components, if `Component` is an array of React components).
 export function isElementOfType<P>(
   element: React.ReactNode | null | undefined,
-  Component: React.ComponentType<P> | React.ComponentType<P>[]
+  Component: React.ComponentType<P> | React.ComponentType<P>[],
 ): boolean {
   if (
     element == null ||
@@ -57,7 +57,7 @@ export function isElementOfType<P>(
   const Components = Array.isArray(Component) ? Component : [Component];
 
   return Components.some(
-    (AComponent) => typeof type !== "string" && isComponent(AComponent, type)
+    (AComponent) => typeof type !== "string" && isComponent(AComponent, type),
   );
 }
 
@@ -65,16 +65,16 @@ export function isElementOfType<P>(
 // filtered by passing `predicate`.
 export function elementChildren<T extends React.ReactElement>(
   children: React.ReactNode,
-  predicate: (element: T) => boolean = () => true
+  predicate: (element: T) => boolean = () => true,
 ): T[] {
   return Children.toArray(children).filter(
-    (child) => isValidElement(child) && predicate(child as T)
+    (child) => isValidElement(child) && predicate(child as T),
   ) as T[];
 }
 
 function hotReloadComponentCheck(
   AComponent: React.ComponentType<any>,
-  AnotherComponent: React.ComponentType<any>
+  AnotherComponent: React.ComponentType<any>,
 ) {
   const componentName = AComponent.name;
   const anotherComponentName = (AnotherComponent as React.FC<any>).displayName;

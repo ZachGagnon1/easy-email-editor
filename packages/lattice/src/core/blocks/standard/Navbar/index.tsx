@@ -96,7 +96,7 @@ export const Navbar: IBlock<INavbar> = createBlock({
       .map((link, index) => {
         const linkAttributeStr = Object.keys(link)
           .filter(
-            (key) => key !== "content" && link[key as keyof typeof link] !== ""
+            (key) => key !== "content" && link[key as keyof typeof link] !== "",
           ) // filter att=""
           .map((key) => `${key}="${link[key as keyof typeof link]}"`)
           .join(" ");

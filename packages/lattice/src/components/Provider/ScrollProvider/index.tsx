@@ -16,7 +16,7 @@ export const ScrollContext = React.createContext<{
 });
 
 export const ScrollProvider: React.FC<{ children?: React.ReactNode }> = (
-  props
+  props,
 ) => {
   const scrollHeight = useRef(0);
   const viewElementRef = useRef<null | { selector: string; top: number }>(null);

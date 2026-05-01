@@ -21,13 +21,13 @@ export class BlockManager {
   }
 
   public static getBlockByType<T extends IBlockData>(
-    type: string
+    type: string,
   ): IBlock<T> | undefined {
     return this.blocksMap[type] as IBlock<any> as IBlock<T>;
   }
 
   public static getBlocksByType(
-    types: Array<string>
+    types: Array<string>,
   ): Array<IBlock | undefined> {
     return types.map((item) => {
       const block = Object.values(this.blocksMap).find((child) => {
@@ -47,7 +47,7 @@ export class BlockManager {
 
   static getAutoCompletePath(
     type: string,
-    targetType: string
+    targetType: string,
   ): Array<string> | null {
     const block = this.getBlockByType(type);
     if (!block) {
@@ -57,7 +57,7 @@ export class BlockManager {
       return [];
     }
     const paths = this.getAutoCompleteFullPath()[type as any].find((item) =>
-      item.filter((_, index) => index !== 0).includes(targetType)
+      item.filter((_, index) => index !== 0).includes(targetType),
     );
 
     if (!paths) return null;
@@ -71,7 +71,7 @@ export class BlockManager {
     const renderFullPath = (
       type: string,
       pathObj: Array<string[]>,
-      prevPaths: string[]
+      prevPaths: string[],
     ): any => {
       const block = this.getBlockByType(type);
       if (!block) {

@@ -91,7 +91,7 @@ export function getInsertPosition(params: Params) {
     context,
     idx,
     parentData.parent.type,
-    directionPosition
+    directionPosition,
   );
 
   return insertData;
@@ -101,7 +101,7 @@ function getInsetParentAndIndex(
   context: { content: IPage },
   idx: string,
   type: string,
-  directionPosition: DirectionPosition
+  directionPosition: DirectionPosition,
 ): {
   parentIdx: string;
   insertIndex: number;
@@ -116,7 +116,7 @@ function getInsetParentAndIndex(
     if (parent && parent.type === type) {
       const { direction, valid, isEdge } = getValidDirection(
         parent.type,
-        directionPosition
+        directionPosition,
       );
 
       if (!valid) return null;
@@ -204,7 +204,7 @@ function getInsetParentAndIndex(
 
 function getValidDirection(
   targetType: string,
-  directionPosition: DirectionPosition
+  directionPosition: DirectionPosition,
 ): { valid: boolean; direction: string; isEdge: boolean } {
   const isVertical = verticalBlocks.includes(targetType);
 

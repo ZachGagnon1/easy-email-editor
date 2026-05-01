@@ -97,7 +97,7 @@ export const Page = createBlock<IPage>({
           (style) =>
             `<mj-style ${style.inline ? 'inline="inline"' : ""}>${
               style.content
-            }</mj-style>`
+            }</mj-style>`,
         )
         .join("\n") || "";
 
@@ -126,7 +126,7 @@ export const Page = createBlock<IPage>({
                 ?.filter(Boolean)
                 .map(
                   (item) =>
-                    `<mj-font name="${item.name}" href="${item.href}" />`
+                    `<mj-font name="${item.name}" href="${item.href}" />`,
                 )}
             <mj-attributes>
               ${value.headAttributes}
@@ -134,7 +134,7 @@ export const Page = createBlock<IPage>({
                 value["font-family"]
                   ? `<mj-all font-family="${value["font-family"].replace(
                       /"/gm,
-                      ""
+                      "",
                     )}" />`
                   : ""
               }

@@ -6,7 +6,7 @@ import { getIframeDocument } from "@";
 
 export function useSelectionRange() {
   const { selectionRange, setSelectionRange } = useContext(
-    SelectionRangeContext
+    SelectionRangeContext,
   );
 
   const iframe = getIframeDocument();
@@ -21,7 +21,7 @@ export function useSelectionRange() {
 
       selection?.addRange(newRange);
     },
-    [iframe]
+    [iframe],
   );
 
   const setRangeByElement = useCallback(
@@ -34,7 +34,7 @@ export function useSelectionRange() {
       setSelectionRange(newRange);
       selection?.addRange(newRange);
     },
-    [setSelectionRange, iframe]
+    [setSelectionRange, iframe],
   );
 
   return {

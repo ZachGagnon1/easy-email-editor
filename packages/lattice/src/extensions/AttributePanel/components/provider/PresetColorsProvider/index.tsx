@@ -30,7 +30,7 @@ export const PresetColorsProvider: React.FC<{
 }> = (props) => {
   const [currentColors, setCurrentColors] = useLocalStorage<string[]>(
     CURRENT_COLORS_KEY,
-    defaultPresetColor
+    defaultPresetColor,
   );
   const currentColorsRef = useRefState(currentColors);
 
@@ -49,7 +49,7 @@ export const PresetColorsProvider: React.FC<{
         setCurrentColors(newColors);
       }
     }, 500),
-    [currentColorsRef, setCurrentColors]
+    [currentColorsRef, setCurrentColors],
   );
 
   const value = useMemo(() => {

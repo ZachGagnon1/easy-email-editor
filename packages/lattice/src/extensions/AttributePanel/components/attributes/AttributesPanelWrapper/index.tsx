@@ -10,7 +10,7 @@ export interface AttributesPanelWrapper {
   children: React.ReactNode | React.ReactElement;
 }
 export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = (
-  props
+  props,
 ) => {
   const { focusBlock, setFocusBlock } = useBlock();
   const block = focusBlock && BlockManager.getBlockByType(focusBlock.type);
@@ -65,7 +65,7 @@ function EyeIcon() {
         },
       });
     },
-    [focusBlock, setFocusBlock]
+    [focusBlock, setFocusBlock],
   );
 
   if (!focusBlock) {

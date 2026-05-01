@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 
 function generateIterationTemplate(
   option: NonNullable<AdvancedBlock["data"]["value"]["iteration"]>,
-  content: React.ReactElement
+  content: React.ReactElement,
 ) {
   return (
     <>
@@ -32,7 +32,7 @@ function generateIterationTemplate(
 
 function generateConditionTemplate(
   option: NonNullable<AdvancedBlock["data"]["value"]["condition"]>,
-  content: React.ReactElement
+  content: React.ReactElement,
 ) {
   const { symbol, groups } = option;
 
@@ -110,7 +110,7 @@ export class TemplateEngineManager {
   }
 
   public static generateTagTemplate<
-    T extends keyof (typeof TemplateEngineManager)["tags"]
+    T extends keyof (typeof TemplateEngineManager)["tags"],
   >(name: T): (typeof TemplateEngineManager)["tags"][T] {
     return this.tags[name];
   }

@@ -30,7 +30,7 @@ export function generateAdvancedLayoutBlock<T extends AdvancedBlock>(option: {
       const previewClassName =
         mode === "testing"
           ? classnames(
-              index === 0 && idx && getPreviewClassName(idx, data.type)
+              index === 0 && idx && getPreviewClassName(idx, data.type),
             )
           : "";
 
@@ -43,7 +43,7 @@ export function generateAdvancedLayoutBlock<T extends AdvancedBlock>(option: {
               ...blockData.attributes,
               "css-class": classnames(
                 data.attributes["css-class"],
-                previewClassName
+                previewClassName,
               ),
             },
           }}

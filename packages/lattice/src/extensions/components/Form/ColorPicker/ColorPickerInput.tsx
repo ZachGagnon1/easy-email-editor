@@ -115,7 +115,7 @@ export function ColorPicker(props: ColorPickerProps) {
       onChange?.(newColor);
       addCurrentColor(newColor);
     },
-    [addCurrentColor, onChange]
+    [addCurrentColor, onChange],
   );
 
   const adapterColor = useMemo(() => {

@@ -34,7 +34,7 @@ export interface HtmlStringToReactNodesOptions {
 
 export function HtmlStringToReactNodes(
   content: string,
-  option: HtmlStringToReactNodesOptions
+  option: HtmlStringToReactNodesOptions,
 ) {
   let doc = domParser.parseFromString(content, "text/html"); // The average time is about 1.4 ms
   [...doc.getElementsByTagName("a")].forEach((node) => {
@@ -136,7 +136,7 @@ const RenderReactNode = React.memo(function ({
       if (n.nodeType === Node.TEXT_NODE && n.textContent?.trim() === "") {
         if (
           ["table", "tbody", "thead", "tfoot", "tr", "colgroup"].includes(
-            targetTagName
+            targetTagName,
           )
         ) {
           return false;
@@ -189,7 +189,7 @@ function createElement(
     role?: string;
     src?: string;
     dangerouslySetInnerHTML?: any;
-  }
+  },
 ) {
   if (props?.class && props.class.includes("email-block")) {
     const blockType = getNodeTypeFromClassName(props.class);
@@ -214,7 +214,7 @@ function makeBlockNodeContentEditable(node: ChildNode) {
       editNode.setAttribute("contentEditable", "true");
       editNode.setAttribute(
         DATA_CONTENT_EDITABLE_TYPE,
-        ContentEditableType.RichText
+        ContentEditableType.RichText,
       );
       editNode.setAttribute(DATA_CONTENT_EDITABLE_IDX, idx);
     }
@@ -224,7 +224,7 @@ function makeBlockNodeContentEditable(node: ChildNode) {
       editNode.setAttribute("contentEditable", "true");
       editNode.setAttribute(
         DATA_CONTENT_EDITABLE_TYPE,
-        ContentEditableType.Text
+        ContentEditableType.Text,
       );
       editNode.setAttribute(DATA_CONTENT_EDITABLE_IDX, idx);
     }
@@ -239,12 +239,12 @@ function makeBlockNodeContentEditable(node: ChildNode) {
       tdNodes.forEach((tdNode, tdIndex) => {
         const _idx = idx.replace(
           "data.value.content",
-          `data.value.tableSource.${trIndex}.${tdIndex}.content`
+          `data.value.tableSource.${trIndex}.${tdIndex}.content`,
         );
         tdNode.setAttribute("contentEditable", "true");
         tdNode.setAttribute(
           DATA_CONTENT_EDITABLE_TYPE,
-          ContentEditableType.RichText
+          ContentEditableType.RichText,
         );
         tdNode.setAttribute(DATA_CONTENT_EDITABLE_IDX, _idx);
       });
@@ -257,7 +257,7 @@ function makeBlockNodeContentEditable(node: ChildNode) {
 function makeStandardContentEditable(
   node: HTMLElement,
   blockType: string,
-  idx: string
+  idx: string,
 ) {
   if (
     isTextBlock(blockType) ||
@@ -265,7 +265,7 @@ function makeStandardContentEditable(
     isTableBlock(blockType)
   ) {
     node.classList.add(
-      ...getContentEditableClassName(blockType, `${idx}.data.value.content`)
+      ...getContentEditableClassName(blockType, `${idx}.data.value.content`),
     );
   }
   if (isNavbarBlock(blockType)) {
@@ -273,8 +273,8 @@ function makeStandardContentEditable(
       anchor.classList.add(
         ...getContentEditableClassName(
           blockType,
-          `${idx}.data.value.links.${index}.content`
-        )
+          `${idx}.data.value.links.${index}.content`,
+        ),
       );
     });
   }

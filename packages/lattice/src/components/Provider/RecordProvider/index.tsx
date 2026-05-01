@@ -25,7 +25,7 @@ export const RecordContext = React.createContext<{
 });
 
 export const RecordProvider: React.FC<{ children?: React.ReactNode }> = (
-  props
+  props,
 ) => {
   const formState = useFormState<IEmailTemplate>();
   const [data, setData] = useState<Array<IEmailTemplate>>([]);
@@ -48,7 +48,7 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = (
         const nextIndex = Math.min(
           MAX_RECORD_SIZE - 1,
           index + 1,
-          data.length - 1
+          data.length - 1,
         );
         statusRef.current = "redo";
         setIndex(nextIndex);
@@ -89,7 +89,7 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = (
         const list = oldData.slice(0, indexRef.current + 1);
 
         const newData = [...list, cloneDeep(formState.values)].slice(
-          -MAX_RECORD_SIZE
+          -MAX_RECORD_SIZE,
         );
 
         return newData;

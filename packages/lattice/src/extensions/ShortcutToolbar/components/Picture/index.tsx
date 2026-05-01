@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-interface IPictureProps
-  extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLImageElement>,
-    HTMLElement
-  > {
+interface IPictureProps extends React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLImageElement>,
+  HTMLElement
+> {
   src: string;
   className?: string;
 }

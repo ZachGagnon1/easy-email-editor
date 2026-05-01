@@ -27,7 +27,7 @@ export function Padding(props: PaddingProps = {}) {
 
   const defaultConfig = useMemo(
     () => (type ? createBlockDataByType(type) : undefined),
-    [type]
+    [type],
   );
 
   const paddingValue: string | undefined = useMemo(() => {
@@ -69,7 +69,7 @@ export function Padding(props: PaddingProps = {}) {
         change(focusIdx + `.attributes[${attributeName}]`, val);
       }
     },
-    [name, change, focusIdx, attributeName]
+    [name, change, focusIdx, attributeName],
   );
 
   const onResetPadding = useCallback(() => {
@@ -163,7 +163,7 @@ export function Padding(props: PaddingProps = {}) {
 }
 
 const PaddingChangeWrapper: React.FC<{ onChange: (val: string) => void }> = (
-  props
+  props,
 ) => {
   const {
     values: { top, right, bottom, left },

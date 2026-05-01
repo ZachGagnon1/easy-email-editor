@@ -16,13 +16,13 @@ export async function emailToImage(content: IBlockData) {
     {
       beautify: true,
       validationLevel: "soft",
-    }
+    },
   ).html;
   document.body.appendChild(container);
 
   const blob = await new Promise<any>((resolve) => {
     html2canvas(container, { useCORS: true }).then((canvas) =>
-      canvas.toBlob(resolve, "png", 0.1)
+      canvas.toBlob(resolve, "png", 0.1),
     );
   });
 

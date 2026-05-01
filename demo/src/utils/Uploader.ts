@@ -74,7 +74,7 @@ export class Uploader {
         } finally {
           this.handler.progress.map((fn) => fn(uploadList));
         }
-      })
+      }),
     );
 
     // 上传完成
@@ -103,7 +103,7 @@ export class Uploader {
 
   public on<K extends keyof UploaderEventMap>(
     event: K,
-    fn: UploaderEventMap[K]
+    fn: UploaderEventMap[K],
   ) {
     // UploaderEventMapHandle[K] === UploaderEventMap[K][]
     const handler = this.handler[event] as UploaderEventMap[K][];
@@ -112,11 +112,11 @@ export class Uploader {
 
   public off<K extends keyof UploaderEventMap>(
     event: K,
-    fn: UploaderEventMap[K]
+    fn: UploaderEventMap[K],
   ) {
     const handles = this.handler[event] as UploaderEventMap[K][];
     this.handler[event] = handles.filter(
-      (item) => item !== fn
+      (item) => item !== fn,
     ) as UploaderEventMapHandle[K];
   }
 
@@ -124,7 +124,7 @@ export class Uploader {
     Array.from(document.querySelectorAll(".uploader-form-input")).forEach(
       (el) => {
         el && document.body.removeChild(el);
-      }
+      },
     );
     const el = document.createElement("input");
     el.className = "uploader-form-input";

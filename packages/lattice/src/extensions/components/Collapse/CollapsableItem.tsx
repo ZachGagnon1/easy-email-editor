@@ -17,7 +17,7 @@ interface CollapsableItemProps {
 }
 
 export function CollapsableItem(
-  props: PropsWithChildren<CollapsableItemProps>
+  props: PropsWithChildren<CollapsableItemProps>,
 ) {
   const [expanded, setExpanded] = useState(props.defaultExpanded ?? true);
 

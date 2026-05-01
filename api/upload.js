@@ -7,7 +7,7 @@ module.exports = async (request, response) => {
       timestamp: timestamp,
       folder: `easy-email-demo`,
     },
-    process.env.CLOUDINARY_API_SECRET
+    process.env.CLOUDINARY_API_SECRET,
   );
 
   response.status(200).send({

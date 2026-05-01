@@ -37,7 +37,7 @@ class TableColumnTool {
 
   tableMenu?: TableOperationMenu;
   changeTableData?: (
-    e: AdvancedTableBlock["data"]["value"]["tableSource"]
+    e: AdvancedTableBlock["data"]["value"]["tableSource"],
   ) => void;
   tableData: AdvancedTableBlock["data"]["value"]["tableSource"] = [];
 
@@ -54,50 +54,50 @@ class TableColumnTool {
   initTool() {
     this.root?.addEventListener(
       "contextmenu",
-      this.handleContextmenu as EventListener
+      this.handleContextmenu as EventListener,
     );
     this.root?.addEventListener(
       "mousedown",
-      this.handleMousedown.bind(this) as EventListener
+      this.handleMousedown.bind(this) as EventListener,
     );
     getIframeDocument()?.body.addEventListener(
       "click",
       this.hideBorder as EventListener,
-      false
+      false,
     );
     document.body.addEventListener(
       "contextmenu",
       this.hideTableMenu as EventListener,
-      false
+      false,
     );
     getIframeDocument()?.addEventListener(
       "keydown",
-      this.hideBorderByKeyDown as EventListener
+      this.hideBorderByKeyDown as EventListener,
     );
   }
 
   destroy() {
     this.root?.removeEventListener(
       "mousedown",
-      this.handleMousedown.bind(this) as EventListener
+      this.handleMousedown.bind(this) as EventListener,
     );
     this.root?.removeEventListener(
       "contextmenu",
-      this.handleContextmenu as EventListener
+      this.handleContextmenu as EventListener,
     );
     getIframeDocument()?.body.removeEventListener(
       "click",
       this.hideBorder as EventListener,
-      false
+      false,
     );
     document.body.removeEventListener(
       "contextmenu",
       this.hideTableMenu as EventListener,
-      false
+      false,
     );
     getIframeDocument()?.removeEventListener(
       "keydown",
-      this.hideBorderByKeyDown as EventListener
+      this.hideBorderByKeyDown as EventListener,
     );
 
     this.tableMenu?.destroy();
@@ -139,7 +139,7 @@ class TableColumnTool {
     this.visibleBorder(true);
     const result = getBoundaryRectAndElement(
       this.startDom as Element,
-      this.endDom as Element
+      this.endDom as Element,
     );
     if (!result) {
       return;
@@ -191,7 +191,7 @@ class TableColumnTool {
     if (this.showBorderTool) {
       const selectedBoundary = getElementsBoundary(
         this.selectedLeftTopCell as Element,
-        this.selectedBottomRightCell as Element
+        this.selectedBottomRightCell as Element,
       );
 
       // check event position, then show table operation menu
@@ -208,8 +208,8 @@ class TableColumnTool {
         this.tableMenu.setTableIndexBoundary(
           getTdBoundaryIndex(
             this.selectedLeftTopCell as Element,
-            this.selectedBottomRightCell as Element
-          )
+            this.selectedBottomRightCell as Element,
+          ),
         );
 
         this.tableMenu.showMenu({ x: event.clientX, y: event.clientY });
@@ -238,11 +238,11 @@ class TableColumnTool {
         ) {
           this.root?.addEventListener(
             "mousemove",
-            this.handleDrag as EventListener
+            this.handleDrag as EventListener,
           );
           this.root?.addEventListener(
             "mouseup",
-            this.handleMouseup as EventListener
+            this.handleMouseup as EventListener,
           );
 
           this.dragging = true;
@@ -295,11 +295,11 @@ class TableColumnTool {
       this.dragging = false;
       this.root?.removeEventListener(
         "mousemove",
-        this.handleDrag as EventListener
+        this.handleDrag as EventListener,
       );
       this.root?.removeEventListener(
         "mouseup",
-        this.handleMouseup as EventListener
+        this.handleMouseup as EventListener,
       );
     }
   };

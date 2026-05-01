@@ -114,14 +114,14 @@ export const Social: IBlock<ISocial> = createBlock({
         const elementAttributeStr = Object.keys(element)
           .filter(
             (key) =>
-              key !== "content" && element[key as keyof typeof element] !== ""
+              key !== "content" && element[key as keyof typeof element] !== "",
           ) // filter att=""
           .map((key) => `${key}="${element[key as keyof typeof element]}"`)
           .join(" ");
         return `
           <mj-social-element ${elementAttributeStr}>${
-          element.content ?? ""
-        }</mj-social-element>
+            element.content ?? ""
+          }</mj-social-element>
           `;
       })
       .join("\n");

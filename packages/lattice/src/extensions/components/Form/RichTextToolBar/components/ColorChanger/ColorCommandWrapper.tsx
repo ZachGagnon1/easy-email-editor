@@ -39,7 +39,7 @@ export function ColorCommandWrapper({
         foundColor = getComputedStyle(range.commonAncestorContainer)[styleKey];
       } else if (range.commonAncestorContainer.parentNode) {
         foundColor = getComputedStyle(
-          range.commonAncestorContainer.parentNode as HTMLElement
+          range.commonAncestorContainer.parentNode as HTMLElement,
         )[styleKey];
       }
 
@@ -118,7 +118,7 @@ export function ColorCommandWrapper({
 
       setIsOpen(false);
     },
-    [command, execCommand]
+    [command, execCommand],
   );
 
   return (

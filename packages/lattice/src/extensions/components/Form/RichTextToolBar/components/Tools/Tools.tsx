@@ -115,7 +115,7 @@ export function Tools(props: ToolsProps) {
       restoreRange,
       selectionRange,
       setRangeByElement,
-    ]
+    ],
   );
 
   const execCommandWithRange = useCallback(
@@ -131,7 +131,7 @@ export function Tools(props: ToolsProps) {
         props.onChange(html);
       }
     },
-    [props.onChange]
+    [props.onChange],
   );
 
   const getPopoverMountNode = () =>

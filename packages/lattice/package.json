@@ -27,8 +27,8 @@
     "dev": "vite",
     "typings": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "build": "rimraf lib && npm run typings && vite build --config vite.config.ts",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,scss}",
-    "format:fix": ""
+    "format": "eslint --fix  --ext .tsx,.ts,.tsx src/",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,scss}"
   },
   "husky": {
     "hooks": {

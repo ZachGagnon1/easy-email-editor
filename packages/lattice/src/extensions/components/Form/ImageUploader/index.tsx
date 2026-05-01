@@ -51,7 +51,7 @@ export function ImageUploader(props: ImageUploaderProps) {
   const [anchorElAuto, setAnchorElAuto] = useState<null | HTMLElement>(null);
 
   const uploadHandlerRef = useRef<UploaderServer | null | undefined>(
-    props.uploadHandler
+    props.uploadHandler,
   );
 
   const onChange = props.onChange;
@@ -62,7 +62,7 @@ export function ImageUploader(props: ImageUploaderProps) {
       setErrorMsg(null);
       onChange(val);
     },
-    [onChange]
+    [onChange],
   );
 
   const onUpload = useCallback(() => {
@@ -126,7 +126,7 @@ export function ImageUploader(props: ImageUploaderProps) {
         }
       }
     },
-    [props]
+    [props],
   );
 
   const onRemove = useCallback(() => {

@@ -54,7 +54,7 @@ export function AttributePanel() {
               }
               `}
               </style>,
-              iframeDocument?.body as any
+              iframeDocument?.body as any,
             )}
         </>
       </PresetColorsProvider>

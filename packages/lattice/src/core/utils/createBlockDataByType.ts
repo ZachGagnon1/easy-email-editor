@@ -3,7 +3,7 @@ import { BlockManager } from "./BlockManager";
 
 export function createBlockDataByType<T extends IBlockData>(
   type: string,
-  payload?: RecursivePartial<T>
+  payload?: RecursivePartial<T>,
 ): IBlockData {
   const component = BlockManager.getBlockByType(type);
   if (component) {

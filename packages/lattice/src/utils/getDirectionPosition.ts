@@ -17,7 +17,7 @@ export function getDirectionPosition(
     clientY: number;
     clientX: number;
   },
-  deviation = 10
+  deviation = 10,
 ): DirectionPosition {
   const target = ev.target as HTMLElement;
   const blockNode = getBlockNodeByChildEle(target);

@@ -86,6 +86,6 @@ export function RichTextToolBar(props: { onChange: (s: string) => void }) {
         </div>
       </>
     </IframeCacheProvider>,
-    portalTarget
+    portalTarget,
   );
 }

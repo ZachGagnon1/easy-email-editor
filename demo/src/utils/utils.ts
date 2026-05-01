@@ -52,14 +52,14 @@ export async function getImageFile(url: string) {
   canvas.style.height = "0px";
   ctx.drawImage(pic, 0, 0);
   const blob = await new Promise<Blob>((resolve) =>
-    canvas.toBlob((blob) => resolve(blob!))
+    canvas.toBlob((blob) => resolve(blob!)),
   );
   canvas.parentNode!.removeChild(canvas);
   return blob;
 }
 
 export function previewLoadImageList(
-  list: string[]
+  list: string[],
 ): Promise<HTMLImageElement[]> {
   return Promise.all(
     list.map((item) => {
@@ -70,7 +70,7 @@ export function previewLoadImageList(
         img.onload = () => resolve(img);
         img.onerror = () => resolve(img);
       });
-    })
+    }),
   );
 }
 
@@ -82,15 +82,15 @@ export function randomRange(min: number, max: number, isInt = true) {
 }
 
 export const isMouseEvent = (
-  event: MouseEvent | TouchEvent
+  event: MouseEvent | TouchEvent,
 ): event is MouseEvent => !!(event.type.indexOf("mouse") !== -1);
 
 export const isReactMouseEvent = (
-  event: React.TouchEvent | React.MouseEvent
+  event: React.TouchEvent | React.MouseEvent,
 ): event is React.MouseEvent => !!(event.type.indexOf("mouse") !== -1);
 
 export const isElement = (
-  event: HTMLElement | ChildNode
+  event: HTMLElement | ChildNode,
 ): event is HTMLElement => !!(event as HTMLElement).tagName;
 
 export type FilterType<T, K> = {

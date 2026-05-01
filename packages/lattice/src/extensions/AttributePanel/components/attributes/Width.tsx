@@ -27,12 +27,12 @@ export function Width({
         return /(\d)*%/.test(val)
           ? undefined
           : t(
-              "Column inside a group must have a width in percentage, not in pixel"
+              "Column inside a group must have a width in percentage, not in pixel",
             );
       }
       return undefined;
     },
-    [focusBlock?.type, parentType]
+    [focusBlock?.type, parentType],
   );
 
   return (

@@ -62,7 +62,7 @@ export interface PropsProviderProps {
     html: string,
     mergeTags:
       | PropsProviderProps["previewInjectData"]
-      | PropsProviderProps["mergeTags"]
+      | PropsProviderProps["mergeTags"],
   ) => string | Promise<string>;
   enabledLogic?: boolean;
   locale?: Record<string, string>;
@@ -70,7 +70,7 @@ export interface PropsProviderProps {
   toolbar?: {
     tools?: AvailableTools[];
     suffix?: (
-      execCommand: (cmd: string, value?: any) => void
+      execCommand: (cmd: string, value?: any) => void,
     ) => React.ReactNode;
   };
 }

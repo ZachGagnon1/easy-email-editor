@@ -20,7 +20,7 @@ function isContentEditFocus() {
     }
   } else if (
     ["input", "textarea"].includes(
-      getIframeDocument()?.activeElement?.tagName.toLocaleLowerCase() || ""
+      getIframeDocument()?.activeElement?.tagName.toLocaleLowerCase() || "",
     ) ||
     getIframeDocument()?.activeElement?.getAttribute("contenteditable") ===
       "true"

@@ -16,7 +16,7 @@ export default defineConfig({
       react: path.resolve("./node_modules/react"),
       "react-final-form": path.resolve(
         __dirname,
-        "./node_modules/react-final-form"
+        "./node_modules/react-final-form",
       ),
       "@demo": path.resolve(__dirname, "./src"),
       "@": path.resolve("../packages/lattice/src"),
@@ -63,7 +63,7 @@ export default defineConfig({
       transformIndexHtml(html) {
         return html.replace(
           "</head>",
-          `<meta name="updated-time" content="${new Date().toUTCString()}" />\n</head>`
+          `<meta name="updated-time" content="${new Date().toUTCString()}" />\n</head>`,
         );
       },
     },

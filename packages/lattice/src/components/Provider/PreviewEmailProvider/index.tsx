@@ -22,7 +22,7 @@ export const PreviewEmailContext = React.createContext<{
 });
 
 export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = (
-  props
+  props,
 ) => {
   const { current: iframe } = useRef(document.createElement("iframe"));
   const contentWindowRef = useRef<Window | null>(null);
@@ -47,7 +47,7 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = (
     let isMounted = true;
 
     const breakpoint = Number.parseInt(
-      lazyPageData.data.value.breakpoint || "0"
+      lazyPageData.data.value.breakpoint || "0",
     );
     let adjustBreakPoint = breakpoint;
     if (breakpoint > 360) {

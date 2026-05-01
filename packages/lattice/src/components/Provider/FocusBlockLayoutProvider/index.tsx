@@ -15,7 +15,7 @@ export const FocusBlockLayoutProvider: React.FC<{
   children?: React.ReactNode;
 }> = (props) => {
   const [focusBlockNode, setFocusBlockNode] = useState<HTMLElement | null>(
-    null
+    null,
   );
   const { initialized } = useEditorContext();
   const { focusIdx } = useFocusIdx();

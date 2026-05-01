@@ -15,6 +15,6 @@ export function useDataTransfer() {
       dataTransfer,
       setDataTransfer: setDataTransferDebounce,
     }),
-    [dataTransfer, setDataTransferDebounce]
+    [dataTransfer, setDataTransferDebounce],
   );
 }

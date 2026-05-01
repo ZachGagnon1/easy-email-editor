@@ -22,5 +22,5 @@ export interface JsonToMjmlOptionDev {
 export type JsonToMjmlOption = JsonToMjmlOptionDev | JsonToMjmlOptionProduction;
 
 export const isProductionMode = (
-  option: JsonToMjmlOption
+  option: JsonToMjmlOption,
 ): option is JsonToMjmlOptionProduction => option.mode === "production";

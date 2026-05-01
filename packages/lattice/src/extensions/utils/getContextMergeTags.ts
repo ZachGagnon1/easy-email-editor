@@ -4,11 +4,11 @@ import { get, cloneDeep } from "lodash";
 export function getContextMergeTags(
   mergeTags: { [key: string]: any },
   context: { [key: string]: any },
-  idx: string
+  idx: string,
 ) {
   const loop = (
     currentIdx: string,
-    combineMergeTags: { [key: string]: any }
+    combineMergeTags: { [key: string]: any },
   ): { [key: string]: any } => {
     const parentBlockData = get(context, currentIdx) as IBlockData | undefined;
     if (!parentBlockData) return combineMergeTags;
@@ -32,10 +32,10 @@ export function getContextMergeTags(
                   item,
                   currentBlockData.data.value.dataSource[item].replace(
                     /{{([^}}]+)}}/g,
-                    "$1"
-                  )
+                    "$1",
+                  ),
                 );
-              }
+              },
             );
 
           loopFormatKey(currentParentIdx);

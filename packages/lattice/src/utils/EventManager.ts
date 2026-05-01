@@ -8,7 +8,7 @@ export class EventManager {
     callback: (payload: {
       currentTab: ActiveTabKeys;
       nextTab: ActiveTabKeys;
-    }) => boolean
+    }) => boolean,
   ): void;
   public static on(type: EventType, handler: (...args: any[]) => any) {
     const event = this.events[type];
@@ -25,7 +25,7 @@ export class EventManager {
 
   public static exec(
     type: EventType.ACTIVE_TAB_CHANGE,
-    payload: { currentTab: ActiveTabKeys; nextTab: ActiveTabKeys }
+    payload: { currentTab: ActiveTabKeys; nextTab: ActiveTabKeys },
   ): boolean;
   public static exec(type: EventType, ...args: any[]): boolean {
     const event = this.events[type];

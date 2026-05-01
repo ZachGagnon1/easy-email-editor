@@ -32,7 +32,7 @@ export const MergeTags: React.FC<{
 
   const contextMergeTags = useMemo(
     () => getContextMergeTags(mergeTags, values, focusIdx),
-    [mergeTags, values, focusIdx]
+    [mergeTags, values, focusIdx],
   );
 
   const treeOptions = useMemo(() => {
@@ -42,7 +42,7 @@ export const MergeTags: React.FC<{
       key: string,
       title: string,
       parent: { [key: string]: any; children?: any[] },
-      mapData: Array<TreeNode> = []
+      mapData: Array<TreeNode> = [],
     ) => {
       const currentMapData: TreeNode = {
         key: key,
@@ -55,13 +55,18 @@ export const MergeTags: React.FC<{
       const current = parent[title];
       if (current && typeof current === "object") {
         Object.keys(current).map((childKey) =>
-          deep(key + "." + childKey, childKey, current, currentMapData.children)
+          deep(
+            key + "." + childKey,
+            childKey,
+            current,
+            currentMapData.children,
+          ),
         );
       }
     };
 
     Object.keys(contextMergeTags).map((key) =>
-      deep(key, key, contextMergeTags, treeData)
+      deep(key, key, contextMergeTags, treeData),
     );
     return treeData;
   }, [contextMergeTags]);
@@ -85,7 +90,7 @@ export const MergeTags: React.FC<{
         setAnchorEl(null);
       }
     },
-    [contextMergeTags, props, mergeTagGenerate]
+    [contextMergeTags, props, mergeTagGenerate],
   );
 
   const mergeTagContent = useMemo(
@@ -99,7 +104,7 @@ export const MergeTags: React.FC<{
       ) : (
         <></>
       ),
-    [renderMergeTagContent, props.onChange, props.isSelect, props.value]
+    [renderMergeTagContent, props.onChange, props.isSelect, props.value],
   );
 
   if (renderMergeTagContent) {

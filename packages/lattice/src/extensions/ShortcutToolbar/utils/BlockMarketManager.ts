@@ -26,7 +26,7 @@ export class BlockMarketManager {
 
   public static unsubscribe(fn: (category: BlockMarketCategory[]) => void) {
     return (this.subscriptHandles = this.subscriptHandles.filter(
-      (item) => item === fn
+      (item) => item === fn,
     ));
   }
 
@@ -62,7 +62,7 @@ export class BlockMarketManager {
       title: string;
       description?: React.ReactNode;
       component: () => ReactNode | null;
-    }[]
+    }[],
   ) {
     const index = this.category.findIndex((item) => item.name === name);
     if (index !== -1) {

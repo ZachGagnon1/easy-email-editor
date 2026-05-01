@@ -64,7 +64,7 @@ export function HoverTooltip() {
   const block = useMemo(() => {
     return blockNode
       ? BlockManager.getBlockByType(
-          getNodeTypeFromClassName(blockNode.classList)!
+          getNodeTypeFromClassName(blockNode.classList)!,
         )
       : null;
   }, [blockNode]);
@@ -99,7 +99,7 @@ export function HoverTooltip() {
             />
           </Box>
         </IframeCacheProvider>,
-        blockNode
+        blockNode,
       )}
     </>
   );

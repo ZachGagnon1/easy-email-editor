@@ -15,12 +15,13 @@ import { LanguageProvider } from "../LanguageProvider";
 import { overrideErrorLog, restoreErrorLog } from "@/utils/logger";
 import { isEqual } from "lodash";
 
-export interface EmailEditorProviderProps<T extends IEmailTemplate = any>
-  extends Omit<PropsProviderProps, "children"> {
+export interface EmailEditorProviderProps<
+  T extends IEmailTemplate = any,
+> extends Omit<PropsProviderProps, "children"> {
   data: T;
   children: (
     props: FormState<T>,
-    helper: FormApi<IEmailTemplate, Partial<IEmailTemplate>>
+    helper: FormApi<IEmailTemplate, Partial<IEmailTemplate>>,
   ) => React.ReactNode;
   onSubmit?: Config<IEmailTemplate, Partial<IEmailTemplate>>["onSubmit"];
   validationSchema?: Config<
@@ -30,7 +31,7 @@ export interface EmailEditorProviderProps<T extends IEmailTemplate = any>
 }
 
 export const EmailEditorProvider = <T extends any>(
-  props: EmailEditorProviderProps & T
+  props: EmailEditorProviderProps & T,
 ) => {
   const { data, children, onSubmit = () => {}, validationSchema } = props;
 

@@ -20,7 +20,7 @@ export function generateAdvancedBlock<T extends AdvancedBlock>(option: {
   validParentType: string[];
 }) {
   const baseBlock = Object.values(standardBlocks).find(
-    (b) => b.type === (option.baseType as any as keyof typeof standardBlocks)
+    (b) => b.type === (option.baseType as any as keyof typeof standardBlocks),
   );
   if (!baseBlock) {
     throw new Error(`Can not find ${option.baseType}`);
@@ -74,14 +74,14 @@ export function generateAdvancedBlock<T extends AdvancedBlock>(option: {
       if (condition && condition.enabled) {
         children = TemplateEngineManager.generateTagTemplate("condition")(
           condition,
-          children
+          children,
         );
       }
 
       if (iteration && iteration.enabled) {
         children = TemplateEngineManager.generateTagTemplate("iteration")(
           iteration,
-          children
+          children,
         );
       }
 

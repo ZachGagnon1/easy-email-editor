@@ -156,7 +156,7 @@ const MENU_CONFIG: Record<
       const _this = this as unknown as ITableOperationMenu;
       const { top, left, bottom, right } = _this.tableIndexBoundary;
       const leftTopItem = _this.tableData[top].find(
-        (e) => e.left === left
+        (e) => e.left === left,
       ) as IOperationData;
       leftTopItem.rowSpan = bottom - top + 1;
       leftTopItem.colSpan = right - left + 1;
@@ -179,7 +179,7 @@ const MENU_CONFIG: Record<
           if (deletedIndex.length > 0) {
             tr.splice(
               deletedIndex[0],
-              deletedIndex[deletedIndex.length - 1] - deletedIndex[0] + 1
+              deletedIndex[deletedIndex.length - 1] - deletedIndex[0] + 1,
             );
           }
         }
@@ -224,7 +224,7 @@ const MENU_CONFIG: Record<
         if (deleteIds.length) {
           tr.splice(
             deleteIds[0],
-            deleteIds[deleteIds.length - 1] - deleteIds[0] + 1
+            deleteIds[deleteIds.length - 1] - deleteIds[0] + 1,
           );
         }
       });
@@ -262,7 +262,7 @@ const MENU_CONFIG: Record<
             const nextRow = _this.tableData[bottom + 1];
             if (nextRow) {
               const index = Array.from({ length: _this.maxTdCount }).findIndex(
-                (_, index) => index === nextRowCell.left
+                (_, index) => index === nextRowCell.left,
               );
               if (index > -1) {
                 nextRow.splice(index, 0, nextRowCell);

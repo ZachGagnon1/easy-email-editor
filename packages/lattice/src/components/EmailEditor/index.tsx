@@ -43,7 +43,7 @@ export const EmailEditor = () => {
     (nextTab: string) => {
       setActiveTab(nextTab as any);
     },
-    [setActiveTab]
+    [setActiveTab],
   );
 
   // MUI uses a single onChange handler that passes the event and the new value.
@@ -56,7 +56,7 @@ export const EmailEditor = () => {
         onChangeTab(newValue);
       }
     },
-    [activeTab, onBeforeChangeTab, onChangeTab]
+    [activeTab, onBeforeChangeTab, onChangeTab],
   );
 
   return useMemo(
@@ -134,6 +134,6 @@ export const EmailEditor = () => {
         <>{fixedContainer}</>
       </Box>
     ),
-    [activeTab, containerHeight, fixedContainer, handleTabChange]
+    [activeTab, containerHeight, fixedContainer, handleTabChange],
   );
 };

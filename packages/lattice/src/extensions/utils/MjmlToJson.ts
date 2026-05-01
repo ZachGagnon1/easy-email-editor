@@ -50,13 +50,13 @@ export async function MjmlToJson(data: MjmlBlockItem | string): Promise<IPage> {
                 (item) =>
                   `<${item.tagName} ${Object.keys(item.attributes)
                     .map((key) => `${key}="${item.attributes[key]}"`)
-                    .join(" ")} />`
-              )
+                    .join(" ")} />`,
+              ),
           ),
         ].join("\n");
 
         const breakpoint = head?.children?.find(
-          (item) => item.tagName === "mj-breakpoint"
+          (item) => item.tagName === "mj-breakpoint",
         );
 
         return BlockManager.getBlockByType<IPage>(BasicType.PAGE)!.create({
@@ -155,7 +155,7 @@ export function getMetaDataFromMjml(data?: IChildrenItem): {
       if (!item) return obj;
       const name = item.attributes["attribute-name"];
       const isMultipleAttributes = Boolean(
-        item.attributes["multiple-attributes"]
+        item.attributes["multiple-attributes"],
       );
       obj[name] = isMultipleAttributes
         ? pickBy(
@@ -165,7 +165,7 @@ export function getMetaDataFromMjml(data?: IChildrenItem): {
               "multiple-attributes": undefined,
               class: undefined,
             },
-            identity
+            identity,
           )
         : item.attributes[name];
       return obj;
@@ -176,7 +176,7 @@ export function getMetaDataFromMjml(data?: IChildrenItem): {
 
 function formatPadding(
   attributes: IBlockData["attributes"],
-  attributeName: "padding" | "inner-padding"
+  attributeName: "padding" | "inner-padding",
 ) {
   const ele = document.createElement("div");
   Object.keys(attributes).forEach((key: string) => {

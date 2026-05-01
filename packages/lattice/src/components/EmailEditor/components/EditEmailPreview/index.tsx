@@ -52,7 +52,7 @@ export function EditEmailPreview() {
       <div
         className={classnames(
           "shadow-container",
-          SYNC_SCROLL_ELEMENT_CLASS_NAME
+          SYNC_SCROLL_ELEMENT_CLASS_NAME,
         )}
         style={{
           height: "100%",

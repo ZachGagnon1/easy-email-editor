@@ -7,7 +7,7 @@ import { getNodeIdxClassName, getNodeTypeClassName } from "@/core/utils";
 import { classnames } from "@/utils/classnames";
 
 export function getAdapterAttributesString(
-  params: Parameters<IBlock["render"]>[0]
+  params: Parameters<IBlock["render"]>[0],
 ) {
   const { data, idx } = params;
   const isTest = params.mode === "testing";
@@ -19,14 +19,14 @@ export function getAdapterAttributesString(
       attributes["css-class"],
       EMAIL_BLOCK_CLASS_NAME,
       getNodeIdxClassName(idx),
-      getNodeTypeClassName(data.type)
+      getNodeTypeClassName(data.type),
     );
   }
 
   if (keepClassName) {
     attributes["css-class"] = classnames(
       attributes["css-class"],
-      getNodeTypeClassName(data.type)
+      getNodeTypeClassName(data.type),
     );
   }
 

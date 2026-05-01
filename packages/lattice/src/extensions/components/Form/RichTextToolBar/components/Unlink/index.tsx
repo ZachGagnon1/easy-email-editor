@@ -22,7 +22,7 @@ function getAnchorElement(node: Node | null): HTMLAnchorElement | null {
 }
 
 function getLinkNode(
-  currentRange: Range | null | undefined
+  currentRange: Range | null | undefined,
 ): HTMLAnchorElement | null {
   let linkNode: HTMLAnchorElement | null = null;
   if (!currentRange) {

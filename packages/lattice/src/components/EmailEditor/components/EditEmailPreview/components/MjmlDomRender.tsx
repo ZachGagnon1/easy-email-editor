@@ -124,7 +124,7 @@ export function MjmlDomRender() {
             HtmlStringToReactNodes(html, {
               enabledMergeTagsBadge: Boolean(enabledMergeTagsBadge),
             }),
-            ref.current
+            ref.current,
           )}
       </div>
     );
