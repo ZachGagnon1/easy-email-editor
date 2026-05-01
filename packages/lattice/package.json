@@ -101,7 +101,7 @@
     "sass": "^1.99.0",
     "tsc-alias": "^1.8.17",
     "typescript": "^6.0.3",
-    "vite": "8.0.5"
+    "vite": "8.0.10"
   },
   "peerDependencies": {
     "@base-ui/react": "^1.4.1",
