@@ -3,7 +3,7 @@ import {
   Box,
   FormControlLabel,
   Switch as MuiSwitch,
-  SwitchProps as MuiSwitchProps
+  SwitchProps as MuiSwitchProps,
 } from "@mui/material";
 import FormHelperText from "@mui/material/FormHelperText";
 

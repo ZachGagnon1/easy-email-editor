@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 import { SelectField } from "../../../components/Form";
 
 export const borderStyleOptions = [

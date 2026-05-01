@@ -1,4 +1,4 @@
-import { BlockManager, IPage, BasicType, IBlockData }  from "@";
+import { BlockManager, IPage, BasicType, IBlockData } from "@";
 import { identity, isString, pickBy } from "lodash";
 import { parseXMLtoBlock } from "./parseXMLtoBlock";
 

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useCallback, useContext } from "react";
 import { SelectionRangeContext } from "@/extensions/AttributePanel/components/provider/SelectionRangeProvider";
-import { getIframeDocument }  from "@";
+import { getIframeDocument } from "@";
 
 export function useSelectionRange() {
   const { selectionRange, setSelectionRange } = useContext(

@@ -1,6 +1,6 @@
 import React from "react";
-import { Stack, TextStyle }  from "@";
-import { AdvancedType, IDivider, RecursivePartial }  from "@";
+import { Stack, TextStyle } from "@";
+import { AdvancedType, IDivider, RecursivePartial } from "@";
 import { BlockMaskWrapper } from "@/extensions/ShortcutToolbar/components/BlockMaskWrapper";
 
 const dividerList = [

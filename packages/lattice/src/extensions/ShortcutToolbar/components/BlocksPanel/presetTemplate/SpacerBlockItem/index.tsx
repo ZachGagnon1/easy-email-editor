@@ -1,6 +1,6 @@
 import React from "react";
-import { Stack, TextStyle }  from "@";
-import { AdvancedType, ISpacer, RecursivePartial }  from "@";
+import { Stack, TextStyle } from "@";
+import { AdvancedType, ISpacer, RecursivePartial } from "@";
 
 import { BlockMaskWrapper } from "@/extensions/ShortcutToolbar/components/BlockMaskWrapper";
 

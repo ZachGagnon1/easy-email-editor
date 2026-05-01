@@ -10,7 +10,7 @@ import {
   MenuItem,
   Popover,
   Stack,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
@@ -18,7 +18,10 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 
 import styles from "./index.module.scss";
-import { Uploader, UploaderServer } from "@/extensions/AttributePanel/utils/Uploader";
+import {
+  Uploader,
+  UploaderServer,
+} from "@/extensions/AttributePanel/utils/Uploader";
 import { classnames } from "@/extensions/AttributePanel/utils/classnames";
 import { previewLoadImage } from "@/extensions/AttributePanel/utils/previewLoadImage";
 import { MergeTags } from "@/extensions";

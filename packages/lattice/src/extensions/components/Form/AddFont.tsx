@@ -1,9 +1,9 @@
 import { FieldArray } from "react-final-form-arrays";
 import React from "react";
 import { TextField } from ".";
-import { useBlock, useFocusIdx }  from "@";
+import { useBlock, useFocusIdx } from "@";
 import { Help } from "@/extensions/AttributePanel/components/UI/Help";
-import { IPage }  from "@";
+import { IPage } from "@";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";

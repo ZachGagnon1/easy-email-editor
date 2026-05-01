@@ -1,4 +1,4 @@
-import { getNodeIdxClassName }  from "@";
+import { getNodeIdxClassName } from "@";
 import { getBlockNodes } from "./getBlockNodes";
 
 export const getBlockNodeByIdx = (idx: string): HTMLElement | null => {

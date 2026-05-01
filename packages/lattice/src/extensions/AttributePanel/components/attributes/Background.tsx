@@ -4,7 +4,7 @@ import {
   SelectField,
   TextField,
 } from "../../../components/Form";
-import { useEditorProps, useFocusIdx }  from "@";
+import { useEditorProps, useFocusIdx } from "@";
 import { BackgroundColor } from "./BackgroundColor";
 import { Stack } from "@mui/material";
 

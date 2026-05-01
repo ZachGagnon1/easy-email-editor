@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { useMemo } from "react";
-import { Stack }  from "@";
+import { Stack } from "@";
 import { Padding } from "./Padding";
 
 export function NavbarLinkPadding({ name }: { name: string }) {

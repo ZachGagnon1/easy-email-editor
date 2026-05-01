@@ -1,6 +1,6 @@
-import { DATA_CONTENT_EDITABLE_IDX }  from "@";
+import { DATA_CONTENT_EDITABLE_IDX } from "@";
 import { IBoundaryRect, IBoundingPosition, IOperationData } from "./type";
-import { AdvancedTableBlock }  from "@";
+import { AdvancedTableBlock } from "@";
 
 const getEditorElementClientRect = (target: any) => {
   let left = target.offsetLeft;

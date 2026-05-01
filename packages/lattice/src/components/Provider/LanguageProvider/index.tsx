@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { I18nManager, t }  from "@";
+import { I18nManager, t } from "@";
 
 export const LanguageProvider: React.FC<{
   children?: React.ReactNode;

@@ -1,10 +1,5 @@
 import mjml from "mjml-browser";
-import {
-  IBlockData,
-  BlockType,
-  BasicType,
-  BlockManager,
-}  from "@";
+import { IBlockData, BlockType, BasicType, BlockManager } from "@";
 import { MjmlToJson } from "./MjmlToJson";
 
 const domParser = new DOMParser();

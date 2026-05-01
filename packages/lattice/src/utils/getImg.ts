@@ -1,4 +1,4 @@
-import { ImageManager }  from "@";
+import { ImageManager } from "@";
 
 const defaultImagesMap = {
   IMAGE_59:

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { RICH_TEXT_TOOL_BAR } from "@/extensions/constants";
-import { getIframeDocument }  from "@";
+import { getIframeDocument } from "@";
 import React, { useEffect, useMemo, useState } from "react";
 
 export const SelectionRangeContext = React.createContext<{

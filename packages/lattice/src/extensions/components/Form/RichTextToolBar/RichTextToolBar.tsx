@@ -4,7 +4,7 @@ import {
   getIframeDocument,
   RICH_TEXT_BAR_ID,
   useEditorContext,
-  useFocusBlockLayout
+  useFocusBlockLayout,
 } from "@";
 import { Tools } from "./components/Tools";
 import styleText from "./shadow-dom.scss?inline";

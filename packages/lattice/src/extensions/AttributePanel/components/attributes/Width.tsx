@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { InputWithUnitField } from "../../../components/Form";
-import { useFocusIdx, useBlock }  from "@";
-import { BasicType, getParentByIdx }  from "@";
+import { useFocusIdx, useBlock } from "@";
+import { BasicType, getParentByIdx } from "@";
 import { InputWithUnitProps } from "@/extensions/components/Form/InputWithUnit";
 import { UseFieldConfig } from "react-final-form";
 

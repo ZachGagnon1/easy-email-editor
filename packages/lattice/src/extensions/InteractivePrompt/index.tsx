@@ -1,4 +1,4 @@
-import { ActiveTabKeys, useActiveTab }  from "@";
+import { ActiveTabKeys, useActiveTab } from "@";
 import React from "react";
 import { FocusTooltip } from "./components/FocusTooltip";
 import { HoverTooltip } from "./components/HoverTooltip";

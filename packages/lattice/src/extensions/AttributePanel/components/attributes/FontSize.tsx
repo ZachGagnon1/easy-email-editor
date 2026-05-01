@@ -1,5 +1,5 @@
 import React from "react";
-import { useFocusIdx }  from "@";
+import { useFocusIdx } from "@";
 import { InputWithUnitField } from "../../../components/Form";
 import { pixelAdapter } from "../adapter";
 

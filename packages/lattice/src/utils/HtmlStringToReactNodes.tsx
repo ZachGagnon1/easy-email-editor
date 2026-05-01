@@ -7,17 +7,17 @@ import {
   getNodeTypeFromClassName,
   isTextBlock,
   MERGE_TAG_CLASS_NAME,
-  MergeTagBadge
+  MergeTagBadge,
 } from "@";
 import {
   ContentEditableType,
   DATA_CONTENT_EDITABLE_IDX,
-  DATA_CONTENT_EDITABLE_TYPE
+  DATA_CONTENT_EDITABLE_TYPE,
 } from "@/constants";
 import { isButtonBlock } from "./isButtonBlock";
 import {
   getContentEditableIdxFromClassName,
-  getContentEditableTypeFromClassName
+  getContentEditableTypeFromClassName,
 } from "./contenteditable";
 import { isNavbarBlock } from "./isNavbarBlock";
 import { isTableBlock } from "./isTableBlock";

@@ -1,4 +1,4 @@
-import { IAdvancedTableData }  from "@";
+import { IAdvancedTableData } from "@";
 
 export interface IOperationData extends IAdvancedTableData {
   top: number;

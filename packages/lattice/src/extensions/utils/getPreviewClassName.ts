@@ -1,5 +1,5 @@
 import { classnames } from "@/extensions/AttributePanel/utils/classnames";
-import { getNodeIdxClassName, getNodeTypeClassName }  from "@";
+import { getNodeIdxClassName, getNodeTypeClassName } from "@";
 
 export function getPreviewClassName(idx: string | null, type: string) {
   return classnames(

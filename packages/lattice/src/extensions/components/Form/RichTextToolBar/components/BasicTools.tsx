@@ -1,4 +1,10 @@
-import { getIframeDocument, getParentIdx, useBlock, useEditorProps, useFocusIdx } from "@";
+import {
+  getIframeDocument,
+  getParentIdx,
+  useBlock,
+  useEditorProps,
+  useFocusIdx,
+} from "@";
 import { useAddToCollection } from "@/extensions/hooks/useAddToCollection";
 import React from "react";
 import { ToolItem } from "./ToolItem";

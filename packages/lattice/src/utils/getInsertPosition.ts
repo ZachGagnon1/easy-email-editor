@@ -6,7 +6,7 @@ import {
   getParentIdx,
   getSameParent,
   IBlockData,
-  IPage
+  IPage,
 } from "@";
 
 import { AdvancedType, BasicType } from "@/core/constants";

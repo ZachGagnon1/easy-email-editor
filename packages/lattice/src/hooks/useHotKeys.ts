@@ -4,7 +4,7 @@ import { useBlock } from "./useBlock";
 import { getIframeDocument } from "@/utils";
 import { useFocusIdx } from "./useFocusIdx";
 import { useEditorContext } from "./useEditorContext";
-import { getNodeIdxFromClassName }  from "@";
+import { getNodeIdxFromClassName } from "@";
 import { getBlockNodeByChildEle } from "@/utils/getBlockNodeByChildEle";
 import { getEditorRoot } from "@/utils/getEditorRoot";
 
