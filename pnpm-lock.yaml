@@ -67,8 +67,8 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5
       final-form:
-        specifier: ^4.20.10
-        version: 4.20.10
+        specifier: ^5.0.0
+        version: 5.0.0
       fs-extra:
         specifier: ^10.1.0
         version: 10.1.0
@@ -91,8 +91,8 @@ importers:
         specifier: 19.2.5
         version: 19.2.5(react@19.2.5)
       react-final-form:
-        specifier: ^6.5.9
-        version: 6.5.9(final-form@4.20.10)(react@19.2.5)
+        specifier: ^7.0.0
+        version: 7.0.0(final-form@5.0.0)(react@19.2.5)
       react-use:
         specifier: ^17.6.0
         version: 17.6.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -188,14 +188,14 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3
       final-form:
-        specifier: ^4.20.10
-        version: 4.20.10
+        specifier: ^5.0.0
+        version: 5.0.0
       final-form-arrays:
-        specifier: ^3.1.0
-        version: 3.1.0(final-form@4.20.10)
+        specifier: ^4.0.0
+        version: 4.0.0(final-form@5.0.0)
       final-form-set-field-touched:
         specifier: ^1.0.1
-        version: 1.0.1(final-form@4.20.10)
+        version: 1.0.1(final-form@5.0.0)
       he:
         specifier: ^1.2.0
         version: 1.2.0
@@ -221,11 +221,11 @@ importers:
         specifier: ^2.19.3
         version: 2.19.3(react@19.2.5)
       react-final-form-arrays:
-        specifier: ^3.1.4
-        version: 3.1.4(final-form-arrays@3.1.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@6.5.9(final-form@4.20.10)(react@19.2.5))(react@19.2.5)
+        specifier: ^4.0.0
+        version: 4.0.0(final-form-arrays@4.0.0(final-form@5.0.0))(final-form@5.0.0)(react-final-form@7.0.0(final-form@5.0.0)(react@19.2.5))(react@19.2.5)
       react-is:
-        specifier: 18.2.0
-        version: 18.2.0
+        specifier: 19.2.5
+        version: 19.2.5
       react-use:
         specifier: ^17.6.0
         version: 17.6.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -306,8 +306,8 @@ importers:
         specifier: ^19.2.5
         version: 19.2.5(react@19.2.5)
       react-final-form:
-        specifier: ^6.5.9
-        version: 6.5.9(final-form@4.20.10)(react@19.2.5)
+        specifier: ^7.0.0
+        version: 7.0.0(final-form@5.0.0)(react@19.2.5)
       rimraf:
         specifier: ^6.1.3
         version: 6.1.3
@@ -3075,10 +3075,10 @@ packages:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
 
-  final-form-arrays@3.1.0:
-    resolution: {integrity: sha512-TWBvun+AopgBLw9zfTFHBllnKMVNEwCEyDawphPuBGGqNsuhGzhT7yewHys64KFFwzIs6KEteGLpKOwvTQEscQ==}
+  final-form-arrays@4.0.0:
+    resolution: {integrity: sha512-ya1mbjTmEcmZ8ettYHp/eB4UpfuSjpLJ+grpaQsgxqi1P0wrm+syr/7qLbbslxNLSDA1zoSUthWVCB1O6B9fqg==}
     peerDependencies:
-      final-form: ^4.20.8
+      final-form: ^5.0.0
 
   final-form-set-field-touched@1.0.1:
     resolution: {integrity: sha512-yvE5AAs9U3OgJQ9YF8NhSF0I0mJEECvOpkaXNqovloxji5Q6gOZ0DCIAyLAKHluGSpsXKUGORyBm8Hq0beZIqQ==}
@@ -3087,6 +3087,10 @@ packages:
 
   final-form@4.20.10:
     resolution: {integrity: sha512-TL48Pi1oNHeMOHrKv1bCJUrWZDcD3DIG6AGYVNOnyZPr7Bd/pStN0pL+lfzF5BNoj/FclaoiaLenk4XUIFVYng==}
+    engines: {node: '>=8'}
+
+  final-form@5.0.0:
+    resolution: {integrity: sha512-HByosvP7x3N4bWTCPoBeUeoMatadewRifxaH3qhCQI2DBwFNO0m5wxETLVUXNGWz2yokdSCMdJEvtjfZoXnqDA==}
     engines: {node: '>=8'}
 
   finalhandler@2.1.1:
@@ -4688,25 +4692,22 @@ packages:
     peerDependencies:
       react: ^19.2.5
 
-  react-final-form-arrays@3.1.4:
-    resolution: {integrity: sha512-siVFAolUAe29rMR6u8VwepoysUcUdh6MLV2OWnCtKpsPRUdT9VUgECjAPaVMAH2GROZNiVB9On1H9MMrm9gdpg==}
+  react-final-form-arrays@4.0.0:
+    resolution: {integrity: sha512-mC/FcaQY0NdVLmpwjJGFY8V77BzFqiI2QBJRDHwWRNkLqOCYB9v5WVhcjbj5NfXMqDl7GmG2iCCndNX+S9teHw==}
     peerDependencies:
-      final-form: ^4.15.0
-      final-form-arrays: '>=1.0.4'
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-final-form: ^6.2.1
+      final-form: ^5.0.0
+      final-form-arrays: ^4.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-final-form: ^7.0.0
 
-  react-final-form@6.5.9:
-    resolution: {integrity: sha512-x3XYvozolECp3nIjly+4QqxdjSSWfcnpGEL5K8OBT6xmGrq5kBqbA6+/tOqoom9NwqIPPbxPNsOViFlbKgowbA==}
+  react-final-form@7.0.0:
+    resolution: {integrity: sha512-aEeAWbSsCLVXa4GBkJtjjyhPyX4L/Pgp5P/jXZwdz0YYcK6Zs/0PkgB+qWMSyIsbbGGE7m9yYlSpui5E5Gx26A==}
     peerDependencies:
-      final-form: ^4.20.4
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      final-form: ^5.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-
-  react-is@18.2.0:
-    resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
 
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
@@ -8674,15 +8675,19 @@ snapshots:
     dependencies:
       to-regex-range: 5.0.1
 
-  final-form-arrays@3.1.0(final-form@4.20.10):
+  final-form-arrays@4.0.0(final-form@5.0.0):
     dependencies:
-      final-form: 4.20.10
+      final-form: 5.0.0
 
-  final-form-set-field-touched@1.0.1(final-form@4.20.10):
+  final-form-set-field-touched@1.0.1(final-form@5.0.0):
     dependencies:
-      final-form: 4.20.10
+      final-form: 5.0.0
 
   final-form@4.20.10:
+    dependencies:
+      '@babel/runtime': 7.29.2
+
+  final-form@5.0.0:
     dependencies:
       '@babel/runtime': 7.29.2
 
@@ -10560,23 +10565,21 @@ snapshots:
       react: 19.2.5
       scheduler: 0.27.0
 
-  react-final-form-arrays@3.1.4(final-form-arrays@3.1.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@6.5.9(final-form@4.20.10)(react@19.2.5))(react@19.2.5):
+  react-final-form-arrays@4.0.0(final-form-arrays@4.0.0(final-form@5.0.0))(final-form@5.0.0)(react-final-form@7.0.0(final-form@5.0.0)(react@19.2.5))(react@19.2.5):
     dependencies:
       '@babel/runtime': 7.29.2
-      final-form: 4.20.10
-      final-form-arrays: 3.1.0(final-form@4.20.10)
+      final-form: 5.0.0
+      final-form-arrays: 4.0.0(final-form@5.0.0)
       react: 19.2.5
-      react-final-form: 6.5.9(final-form@4.20.10)(react@19.2.5)
+      react-final-form: 7.0.0(final-form@5.0.0)(react@19.2.5)
 
-  react-final-form@6.5.9(final-form@4.20.10)(react@19.2.5):
+  react-final-form@7.0.0(final-form@5.0.0)(react@19.2.5):
     dependencies:
       '@babel/runtime': 7.29.2
-      final-form: 4.20.10
+      final-form: 5.0.0
       react: 19.2.5
 
   react-is@16.13.1: {}
-
-  react-is@18.2.0: {}
 
   react-is@18.3.1: {}
 
