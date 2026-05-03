@@ -87,6 +87,7 @@ The LatticeEditor component accepts a config object that gives you fine-grained 
 
 - If you want the same customizability as **easy-email-editor** most of the features should be available but since there is no more multi package layout you will need to change your imports to `lattice`
 - The Editor uses MUI components under the hood. This means that the style is fully customizable with MUI's theming capabilities. (Some things still use legacy css and also have built in styles)
+- It is possible to convert Unlayer templates using the `unlayerToLattice` function, it is quite basic but should cover a lot of the common cases.
 
 ## License
 
