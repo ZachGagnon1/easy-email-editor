@@ -94,28 +94,36 @@ export function EditTab<T>(props: EditTabProps<T>) {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <span>{`${label || "Tab"} ${index + 1}`}</span>
                 {tabValues.length > 1 && (
-                  <IconButton
-                    size="small"
+                  <Box
+                    component="span"
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevents tab from being selected when clicking close
+                      e.stopPropagation(); // Prevents tab from being selected
+                      e.preventDefault();
                       onDeleteTab(index);
                     }}
                     sx={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       width: 20,
                       height: 20,
                       ml: 0.5,
+                      borderRadius: "50%",
+                      cursor: "pointer",
                       "&:hover": {
                         color: "error.main",
+                        backgroundColor: "rgba(0, 0, 0, 0.04)", // subtle hover effect
                       },
                     }}
                   >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
+                    <CloseIcon sx={{ fontSize: "1rem" }} />
+                  </Box>
                 )}
               </Box>
             }
           />
         ))}
+        {/* Note: This IconButton is fine because it is outside the Tabs! */}
         <IconButton
           onClick={onAddTab}
           sx={{
