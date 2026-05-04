@@ -56,7 +56,7 @@
     "codemirror": "^6.0.2",
     "color": "^5.0.3",
     "final-form": "^4.20.10",
-    "final-form-arrays": "^3.1.0",
+    "final-form-arrays": "^4.0.0",
     "final-form-set-field-touched": "^1.0.1",
     "he": "^1.2.0",
     "is-hotkey": "^0.2.0",
