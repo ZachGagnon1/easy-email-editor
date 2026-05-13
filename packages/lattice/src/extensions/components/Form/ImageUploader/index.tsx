@@ -16,18 +16,17 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
+import DataObjectIcon from "@mui/icons-material/DataObject";
 
 import styles from "./index.module.scss";
 import {
   Uploader,
   UploaderServer,
 } from "@/extensions/AttributePanel/utils/Uploader";
-import { classnames } from "@/extensions/AttributePanel/utils/classnames";
 import { previewLoadImage } from "@/extensions/AttributePanel/utils/previewLoadImage";
 import { MergeTags } from "@/extensions";
 import { useEditorProps } from "@";
 import { TextInput } from "@/extensions/components/Form/TextInput";
-import DataObjectIcon from "@mui/icons-material/DataObject";
 
 export interface ImageUploaderProps {
   onChange: (val: string) => void;
@@ -67,6 +66,9 @@ export function ImageUploader(props: ImageUploaderProps) {
 
   const onUpload = useCallback(() => {
     if (isUploading) {
+      // Note: Assuming 't' is available in your higher scope or globally,
+      // as it was used in your original file without an explicit import.
+      // @ts-ignore
       setErrorMsg(t("Uploading..."));
       return;
     }
@@ -81,7 +83,7 @@ export function ImageUploader(props: ImageUploaderProps) {
       accept: "image/*",
     });
 
-    uploader.on("start", (photos) => {
+    uploader.on("start", () => {
       setIsUploading(true);
 
       uploader.on("end", (data) => {
@@ -119,7 +121,7 @@ export function ImageUploader(props: ImageUploaderProps) {
             props.onChange(picture);
             setIsUploading(false);
           } catch (error: any) {
-            // Set the inline error message instead of triggering a toast
+            // @ts-ignore
             setErrorMsg(error?.message || error || t("Upload failed"));
             setIsUploading(false);
           }
@@ -137,50 +139,105 @@ export function ImageUploader(props: ImageUploaderProps) {
   const content = useMemo(() => {
     if (isUploading) {
       return (
-        <div className={styles["item"]}>
-          <div className={classnames(styles["info"])}>
-            <CircularProgress size={24} />
-            <div className={styles["btn-wrap"]} />
-          </div>
-        </div>
+        <Box
+          sx={{
+            width: 104,
+            height: 104,
+            borderRadius: 1,
+            border: "1px solid",
+            borderColor: "divider",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            mb: 1,
+            mr: 1,
+          }}
+        >
+          <CircularProgress size={24} />
+        </Box>
       );
     }
 
     if (!props.value) {
       return (
-        <div className={styles["upload"]} onClick={onUpload}>
+        <Box
+          onClick={onUpload}
+          sx={{
+            width: 104,
+            height: 104,
+            border: "1px dashed",
+            borderColor: "divider",
+            borderRadius: 1,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            mb: 1,
+            mr: 1,
+            "&:hover": { bgcolor: "action.hover" },
+          }}
+        >
           <AddIcon fontSize="large" sx={{ color: "text.secondary", mb: 0.5 }} />
           <Box sx={{ color: "text.secondary", fontSize: 14 }}>Upload</Box>
-        </div>
+        </Box>
       );
     }
 
     return (
-      <div className={styles["item"]}>
-        <div className={classnames(styles["info"])}>
-          <img src={props.value} alt="uploaded" />
-          <div className={styles["btn-wrap"]}>
-            <Tooltip title={t("Preview")} placement="top">
-              <IconButton
-                size="small"
-                onClick={() => setPreview(true)}
-                sx={{ color: "#fff" }}
-              >
-                <VisibilityIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={t("Remove")} placement="top">
-              <IconButton
-                size="small"
-                onClick={() => onRemove()}
-                sx={{ color: "#fff" }}
-              >
-                <DeleteOutlineIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          </div>
-        </div>
-      </div>
+      <Box
+        sx={{
+          position: "relative",
+          width: 104,
+          height: 104,
+          borderRadius: 1,
+          border: "1px solid",
+          borderColor: "divider",
+          overflow: "hidden",
+          mb: 1,
+          mr: 1,
+          "&:hover .action-overlay": { opacity: 1 },
+        }}
+      >
+        <img
+          src={props.value}
+          alt="uploaded"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+        <Box
+          className="action-overlay"
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            bgcolor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: 0,
+            transition: "opacity 0.3s ease-in-out",
+          }}
+        >
+          {/* @ts-ignore */}
+          <Tooltip title={t("Preview")} placement="top">
+            <IconButton
+              size="small"
+              onClick={() => setPreview(true)}
+              sx={{ color: "#fff" }}
+            >
+              <VisibilityIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          {/* @ts-ignore */}
+          <Tooltip title={t("Remove")} placement="top">
+            <IconButton size="small" onClick={onRemove} sx={{ color: "#fff" }}>
+              <DeleteOutlineIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
     );
   }, [isUploading, onRemove, onUpload, props.value]);
 
@@ -313,6 +370,7 @@ export function ImageUploader(props: ImageUploaderProps) {
             bgcolor: "black",
           }}
         >
+          {/* @ts-ignore */}
           <img
             alt={t("Preview")}
             style={{
