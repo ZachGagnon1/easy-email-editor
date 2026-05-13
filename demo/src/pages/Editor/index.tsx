@@ -9,7 +9,7 @@ import {
   exportToMjml,
   IEmailTemplate,
   LatticeEditor,
-  unlayerToLattice,
+  unlayerToLattice
 } from "lattice";
 import { TEMPLATE_DATA } from "@demo/pages/Editor/Arturia - Newsletter";
 // Import the converter we created! Adjust the path to wherever you saved it.
@@ -30,6 +30,35 @@ export default function Editor() {
   const handleExportHTML = async () => {
     const html = await exportToHtml(template);
     downloadFile(html, "lattice-email.html", "text/html");
+  };
+
+  const mockImageUpload = (file: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        const result = reader.result;
+        if (typeof result === "string") {
+          resolve(result); // Returns the Base64 Data URI
+        } else {
+          reject(
+            new Error(
+              "File reader failed to output a valid string representation.",
+            ),
+          );
+        }
+      };
+
+      reader.onerror = () => {
+        reject(
+          new Error(
+            "Encountered a critical error while reading the file into memory.",
+          ),
+        );
+      };
+
+      reader.readAsDataURL(file);
+    });
   };
 
   // --- Handler to parse JSON and update the Editor ---
@@ -117,7 +146,7 @@ export default function Editor() {
       <LatticeEditor
         data={template}
         onChange={setTemplate} // Automatically syncs state!
-        onUploadImage={(file) => Promise.resolve(file.text())}
+        onUploadImage={mockImageUpload}
         config={{
           compact,
           showSourceCode: true,
